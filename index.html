@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Australian English Vowel Practice</title>
+    <title>Australian English Vowel Trainer</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,300 +14,316 @@
             padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
         }
 
         .container {
             background: white;
-            border-radius: 15px;
+            border-radius: 16px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
+            max-width: 720px;
             width: 100%;
-            padding: 40px;
+            padding: 32px;
+            margin-top: 20px;
         }
 
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            text-align: center;
-        }
+        h1 { color: #333; text-align: center; font-size: 24px; }
+        .subtitle { color: #666; text-align: center; margin: 8px 0 24px; font-size: 14px; }
 
-        .subtitle {
-            color: #666;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
+        .screen { display: none; }
+        .screen.active { display: block; }
 
-        .practice-section {
-            margin-bottom: 30px;
-        }
-
-        .vowel-info {
-            background: #f5f5f5;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 4px solid #667eea;
-        }
-
-        .vowel-symbol {
-            font-size: 24px;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 8px;
-            font-family: 'Courier New', monospace;
-        }
-
-        .vowel-example {
-            color: #555;
-            margin: 5px 0;
-            font-size: 14px;
-        }
-
-        .controls {
+        /* ---------- Selection screen ---------- */
+        .select-toolbar {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
             flex-wrap: wrap;
+            gap: 10px;
         }
-
-        button {
-            padding: 12px 24px;
+        .select-toolbar .links button {
+            background: none;
             border: none;
-            border-radius: 8px;
-            font-size: 14px;
+            color: #667eea;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            font-size: 14px;
+            padding: 4px 8px;
         }
-
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #d0d0d0;
-        }
-
-        .btn-secondary.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .input-section {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .input-section.active {
-            display: block;
-        }
-
-        .input-label {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        #typingInput {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            font-family: 'Courier New', monospace;
-            transition: border-color 0.3s ease;
-        }
-
-        #typingInput:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        #drawingCanvas {
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            cursor: crosshair;
-            display: block;
-            background: white;
-            margin-bottom: 10px;
-        }
-
-        .canvas-controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .feedback {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            display: none;
-        }
-
-        .feedback.show {
-            display: block;
-        }
-
-        .feedback.correct {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .feedback.incorrect {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .score-display {
-            text-align: center;
-            font-size: 18px;
-            font-weight: 600;
+        .select-toolbar .links button:hover { text-decoration: underline; }
+        .count-pill {
+            background: #eef1ff;
             color: #667eea;
-            margin-top: 10px;
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 600;
         }
 
-        .vowel-list {
+        .group-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 18px 0 10px;
+        }
+
+        .vowel-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             gap: 10px;
-            margin-top: 20px;
         }
-
-        .vowel-item {
-            padding: 10px;
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+        .vowel-chip {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px 10px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.15s ease;
+            user-select: none;
         }
-
-        .vowel-item:hover {
+        .vowel-chip:hover { border-color: #b9c2ff; background: #f7f8ff; }
+        .vowel-chip.selected {
             border-color: #667eea;
-            background: #f0f4ff;
-        }
-
-        .vowel-item.selected {
             background: #667eea;
             color: white;
-            border-color: #667eea;
+        }
+        .vowel-chip .ipa {
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 20px;
+            display: block;
+        }
+        .vowel-chip .kw { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+
+        /* ---------- Buttons ---------- */
+        button.btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-primary { background: #667eea; color: white; }
+        .btn-primary:hover:not(:disabled) { background: #5568d3; transform: translateY(-1px); }
+        .btn-primary:disabled { background: #c5c5c5; cursor: not-allowed; }
+        .btn-ghost { background: #eef0f5; color: #444; }
+        .btn-ghost:hover { background: #e2e5ec; }
+        .btn-success { background: #2e9e5b; color: white; }
+        .btn-success:hover { background: #278a4f; }
+        .btn-warn { background: #e8973a; color: white; }
+        .btn-warn:hover { background: #d4842b; }
+
+        .start-bar { margin-top: 28px; text-align: center; }
+        .start-bar .btn { width: 100%; max-width: 320px; }
+
+        /* ---------- Flashcard screen ---------- */
+        .progress-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+        .progress-track {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
         }
 
-        .phonetic {
+        .card {
+            border: 2px solid #eee;
+            border-radius: 14px;
+            padding: 28px;
+            text-align: center;
+        }
+        .listen-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 18px 32px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .listen-btn:hover { background: #5568d3; transform: scale(1.03); }
+        .listen-btn.playing { animation: pulse 0.8s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .replay-hint { font-size: 13px; color: #999; margin-top: 10px; }
+
+        /* input modes */
+        .mode-toggle {
+            display: inline-flex;
+            background: #eef0f5;
+            border-radius: 10px;
+            padding: 4px;
+            margin: 24px 0 16px;
+        }
+        .mode-toggle button {
+            border: none;
+            background: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            color: #666;
+        }
+        .mode-toggle button.active { background: white; color: #667eea; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+
+        #typeInput {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 18px;
             font-family: 'Courier New', monospace;
-            font-weight: bold;
+            text-align: center;
+        }
+        #typeInput:focus { outline: none; border-color: #667eea; }
+
+        #writeCanvas {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            background: #fafafa;
+            touch-action: none;
+            cursor: crosshair;
+            width: 100%;
+            max-width: 420px;
+            height: 200px;
+        }
+        .canvas-tools { margin-top: 8px; }
+        .canvas-tools button {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 13px;
+            text-decoration: underline;
+        }
+
+        .input-wrap { display: none; }
+        .input-wrap.active { display: block; }
+
+        /* reveal / answer */
+        .answer-box {
+            margin-top: 22px;
+            padding: 20px;
+            background: #f3f6ff;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            text-align: left;
+            display: none;
+        }
+        .answer-box.show { display: block; }
+        .answer-box .big-ipa {
+            font-family: 'Courier New', monospace;
+            font-size: 28px;
+            font-weight: 700;
             color: #667eea;
         }
+        .answer-box .desc { color: #555; margin: 6px 0; }
+        .answer-box .examples { color: #333; font-size: 14px; }
+        .answer-box .examples b { color: #764ba2; }
 
-        .vowel-item.selected .phonetic {
-            color: white;
-        }
+        .action-row { margin-top: 22px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .action-row .btn { flex: 1; min-width: 140px; max-width: 220px; }
 
-        .info-box {
-            background: #e7f3ff;
-            border-left: 4px solid #2196F3;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            color: #0c5460;
-        }
-
-        .sound-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            background: #ffc107;
-            border-radius: 50%;
-            margin-right: 8px;
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .sound-indicator.playing {
-            animation: pulse 0.5s infinite;
-        }
+        /* ---------- Done screen ---------- */
+        .done-emoji { font-size: 56px; text-align: center; }
+        .done-stats { text-align: center; color: #555; margin: 16px 0 24px; font-size: 16px; line-height: 1.6; }
+        .done-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🇦🇺 Australian English Vowel Practice</h1>
-        <p class="subtitle">Listen, identify, and practice Australian English vowel sounds</p>
+        <h1>🇦🇺 Aussie Vowel Trainer</h1>
+        <p class="subtitle">Pick your sounds, then drill them flashcard-style: listen, write, check.</p>
 
-        <div class="info-box">
-            <strong>How to use:</strong> Select a vowel from below, listen to the pronunciation, and then either type or handwrite the phonetic symbol and example words.
-        </div>
-
-        <div class="vowel-list" id="vowelList"></div>
-
-        <div class="practice-section">
-            <div class="vowel-info" id="vowelInfo" style="display: none;">
-                <div class="vowel-symbol" id="vowelSymbol"></div>
-                <div class="vowel-example" id="vowelDescription"></div>
-                <div class="vowel-example"><strong>IPA Symbol:</strong> <span id="ipaSymbol" class="phonetic"></span></div>
-            </div>
-
-            <div class="controls" style="display: none;" id="controlsSection">
-                <button class="btn-primary" id="listenBtn">
-                    <span id="soundIndicator"></span>🔊 Listen to Sound
-                </button>
-                <button class="btn-secondary" id="typeBtn">✍️ Type Response</button>
-                <button class="btn-secondary" id="drawBtn">✏️ Handwrite Response</button>
-            </div>
-
-            <!-- Typing Input -->
-            <div class="input-section" id="typingSection">
-                <label class="input-label">Type the IPA symbol and example word:</label>
-                <input type="text" id="typingInput" placeholder="e.g., /iː/ fleece">
-                <button class="btn-primary" style="margin-top: 10px;" id="submitTyping">Check Answer</button>
-            </div>
-
-            <!-- Drawing Canvas -->
-            <div class="input-section" id="drawingSection">
-                <label class="input-label">Handwrite the vowel representation:</label>
-                <canvas id="drawingCanvas" width="400" height="200"></canvas>
-                <div class="canvas-controls">
-                    <button class="btn-secondary" id="clearCanvas">Clear</button>
-                    <button class="btn-primary" id="submitDrawing">Check Answer (Typing Fallback)</button>
+        <!-- ============ SCREEN 1: SELECT ============ -->
+        <section class="screen active" id="selectScreen">
+            <div class="select-toolbar">
+                <span class="count-pill"><span id="selCount">0</span> selected</span>
+                <div class="links">
+                    <button id="selectAll">Select all</button>
+                    <button id="selectNone">Clear</button>
                 </div>
-                <input type="text" id="drawingFallback" placeholder="Or type: e.g., /iː/ fleece" style="width: 100%; padding: 10px; margin-top: 10px; border-radius: 8px; border: 2px solid #ddd;">
             </div>
+            <div class="group-label">Monophthongs</div>
+            <div class="vowel-grid" id="gridMono"></div>
+            <div class="group-label">Diphthongs</div>
+            <div class="vowel-grid" id="gridDiph"></div>
 
-            <div class="feedback" id="feedback"></div>
+            <div class="start-bar">
+                <button class="btn btn-primary" id="startBtn" disabled>Start practising →</button>
+            </div>
+        </section>
 
-            <div class="score-display" id="scoreDisplay" style="display: none;"></div>
-        </div>
+        <!-- ============ SCREEN 2: FLASHCARD ============ -->
+        <section class="screen" id="cardScreen">
+            <div class="progress-row">
+                <span id="remainingLabel">0 left</span>
+                <button class="btn-ghost" id="quitBtn" style="border:none;background:none;color:#999;cursor:pointer;font-weight:600;">✕ Exit</button>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+            <div class="card">
+                <button class="listen-btn" id="listenBtn">🔊 Play sound</button>
+                <div class="replay-hint">Listen, then write or type the IPA symbol &amp; a sample word.</div>
+
+                <div class="mode-toggle">
+                    <button id="modeWrite" class="active">✏️ Handwrite</button>
+                    <button id="modeType">⌨️ Type</button>
+                </div>
+
+                <div class="input-wrap active" id="writeWrap">
+                    <canvas id="writeCanvas" width="420" height="200"></canvas>
+                    <div class="canvas-tools"><button id="clearCanvas">clear</button></div>
+                </div>
+                <div class="input-wrap" id="typeWrap">
+                    <input type="text" id="typeInput" placeholder="e.g.  /iː/  fleece" autocomplete="off">
+                </div>
+
+                <div class="answer-box" id="answerBox">
+                    <div class="big-ipa" id="ansIpa"></div>
+                    <div class="desc" id="ansDesc"></div>
+                    <div class="examples">Examples: <span id="ansExamples"></span></div>
+                </div>
+
+                <div class="action-row" id="checkRow">
+                    <button class="btn btn-primary" id="checkBtn">Check answer</button>
+                </div>
+                <div class="action-row" id="gradeRow" style="display:none;">
+                    <button class="btn btn-warn" id="againBtn">↻ Practise again</button>
+                    <button class="btn btn-success" id="gotItBtn">✓ Got it</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SCREEN 3: DONE ============ -->
+        <section class="screen" id="doneScreen">
+            <div class="done-emoji">🎉</div>
+            <div class="done-stats" id="doneStats"></div>
+            <div class="done-actions">
+                <button class="btn btn-ghost" id="reviewMissedBtn" style="display:none;">Review tricky ones</button>
+                <button class="btn btn-primary" id="restartBtn">Pick new sounds</button>
+            </div>
+        </section>
     </div>
 
     <script src="app.js"></script>
