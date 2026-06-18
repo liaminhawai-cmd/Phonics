@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australian English Vowel Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .practice-section {
+            margin-bottom: 30px;
+        }
+
+        .vowel-info {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .vowel-symbol {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .vowel-example {
+            color: #555;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-secondary.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .input-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .input-section.active {
+            display: block;
+        }
+
+        .input-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        #typingInput {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            transition: border-color 0.3s ease;
+        }
+
+        #typingInput:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        #drawingCanvas {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: crosshair;
+            display: block;
+            background: white;
+            margin-bottom: 10px;
+        }
+
+        .canvas-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+            margin-top: 10px;
+        }
+
+        .vowel-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .vowel-item {
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .vowel-item:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .vowel-item.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .phonetic {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .vowel-item.selected .phonetic {
+            color: white;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #0c5460;
+        }
+
+        .sound-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #ffc107;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .sound-indicator.playing {
+            animation: pulse 0.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🇦🇺 Australian English Vowel Practice</h1>
+        <p class="subtitle">Listen, identify, and practice Australian English vowel sounds</p>
+
+        <div class="info-box">
+            <strong>How to use:</strong> Select a vowel from below, listen to the pronunciation, and then either type or handwrite the phonetic symbol and example words.
+        </div>
+
+        <div class="vowel-list" id="vowelList"></div>
+
+        <div class="practice-section">
+            <div class="vowel-info" id="vowelInfo" style="display: none;">
+                <div class="vowel-symbol" id="vowelSymbol"></div>
+                <div class="vowel-example" id="vowelDescription"></div>
+                <div class="vowel-example"><strong>IPA Symbol:</strong> <span id="ipaSymbol" class="phonetic"></span></div>
+            </div>
+
+            <div class="controls" style="display: none;" id="controlsSection">
+                <button class="btn-primary" id="listenBtn">
+                    <span id="soundIndicator"></span>🔊 Listen to Sound
+                </button>
+                <button class="btn-secondary" id="typeBtn">✍️ Type Response</button>
+                <button class="btn-secondary" id="drawBtn">✏️ Handwrite Response</button>
+            </div>
+
+            <!-- Typing Input -->
+            <div class="input-section" id="typingSection">
+                <label class="input-label">Type the IPA symbol and example word:</label>
+                <input type="text" id="typingInput" placeholder="e.g., /iː/ fleece">
+                <button class="btn-primary" style="margin-top: 10px;" id="submitTyping">Check Answer</button>
+            </div>
+
+            <!-- Drawing Canvas -->
+            <div class="input-section" id="drawingSection">
+                <label class="input-label">Handwrite the vowel representation:</label>
+                <canvas id="drawingCanvas" width="400" height="200"></canvas>
+                <div class="canvas-controls">
+                    <button class="btn-secondary" id="clearCanvas">Clear</button>
+                    <button class="btn-primary" id="submitDrawing">Check Answer (Typing Fallback)</button>
+                </div>
+                <input type="text" id="drawingFallback" placeholder="Or type: e.g., /iː/ fleece" style="width: 100%; padding: 10px; margin-top: 10px; border-radius: 8px; border: 2px solid #ddd;">
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="score-display" id="scoreDisplay" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
