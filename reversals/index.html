@@ -581,10 +581,8 @@ function setupWriteCard(){
     ghostCvs.classList.remove('show','show-strong');
     ghostShowing = false;
     $('writeActions').style.display = 'none';
-    $('showGhost').textContent = 'Show correct letter';
-
-    const m = MNEMONICS[currentChar] || '';
-    $('mnemonicText').textContent = m;
+    $('showGhost').style.display = 'none';
+    $('mnemonicText').textContent = '';
 
     speakChar(displayChar(currentChar));
 
@@ -726,8 +724,14 @@ $('speakBtn').onclick = function(){
     setTimeout(function(){ $('speakBtn').classList.remove('playing'); }, 800);
 };
 
-$('gotItBtn').onclick = function(){ gradeCard(true); };
-$('missedItBtn').onclick = function(){ gradeCard(false); };
+$('gotItBtn').onclick = function(){
+    recordGrade(true);
+    showWriteAnswer(true);
+};
+$('missedItBtn').onclick = function(){
+    recordGrade(false);
+    showWriteAnswer(false);
+};
 
 /* ============================================================
    SPOT THE RIGHT ONE MODE
@@ -735,7 +739,7 @@ $('missedItBtn').onclick = function(){ gradeCard(false); };
 
 function setupSpotCard(){
     const ch = displayChar(currentChar);
-    $('spotTarget').textContent = ch;
+    $('spotTarget').textContent = '';
     $('spotActions').style.display = 'none';
 
     const grid = $('spotGrid');
@@ -783,13 +787,17 @@ function handleSpotPick(card){
 
     if(card.dataset.correct === '1'){
         card.classList.add('correct-pick');
-        gradeCard(true);
+        const correct = true;
+        recordGrade(correct);
+        showSpotAnswer(correct);
     } else {
         card.classList.add('wrong-pick');
         cards.forEach(function(c){
             if(c.dataset.correct === '1') c.classList.add('correct-pick');
         });
-        $('spotActions').style.display = '';
+        const correct = false;
+        recordGrade(correct);
+        showSpotAnswer(correct);
     }
 }
 
@@ -799,13 +807,13 @@ $('spotSpeakBtn').onclick = function(){
     setTimeout(function(){ $('spotSpeakBtn').classList.remove('playing'); }, 800);
 };
 
-$('spotNextBtn').onclick = function(){ gradeCard(false); };
+$('spotNextBtn').onclick = function(){ moveToNextCard(); };
 
 /* ============================================================
    GRADE
    ============================================================ */
 
-function gradeCard(correct){
+function recordGrade(correct){
     if(correct){
         mastered.push(currentChar);
         addToShelf(currentChar);
@@ -814,7 +822,26 @@ function gradeCard(correct){
         queue.splice(pos, 0, currentChar);
     }
     updateProgress();
-    setTimeout(nextCard, correct ? 500 : 800);
+}
+
+function showWriteAnswer(correct){
+    drawGhost();
+    ghostCvs.classList.add('show-strong');
+    const m = MNEMONICS[currentChar] || '';
+    $('mnemonicText').textContent = m;
+
+    $('writeActions').style.display = 'none';
+    $('spotActions').style.display = '';
+}
+
+function showSpotAnswer(correct){
+    const ch = displayChar(currentChar);
+    $('spotTarget').textContent = ch;
+    $('spotActions').style.display = '';
+}
+
+function moveToNextCard(){
+    setTimeout(nextCard, 500);
 }
 
 function addToShelf(ch){
