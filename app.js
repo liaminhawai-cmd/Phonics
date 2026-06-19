@@ -191,12 +191,18 @@ let inputMode = "type";
 
 const selected = new Set();
 let activeLevels = new Set();
+let activeCats = new Set();
 let queue = [];
 let current = null;
 let sessionTotal = 0;
 let attempts = {};
 let masteredOnTry = {};
 let missed = new Set();
+
+const graphemeToCategory = {};
+PHON_GROUPS.forEach((g) => {
+  g.graphemes.forEach((gr) => { graphemeToCategory[gr] = g.name; });
+});
 
 const $ = (id) => document.getElementById(id);
 const screens = {};
@@ -209,14 +215,17 @@ function chooseMode(mode) { practiceMode = mode; showScreen("view"); }
 function chooseView(view) { viewMode = view; buildSelectScreen(); showScreen("select"); }
 
 function buildSelectScreen() {
-  selected.clear(); activeLevels.clear();
+  selected.clear(); activeLevels.clear(); activeCats.clear();
   const modeLabel = practiceMode === "say" ? "Look &amp; Say" : "Listen &amp; Write";
   $("selectTitle").innerHTML = modeLabel + " &middot; " +
     (viewMode === "year" ? "Year Levels" : "Bookmark Levels");
   buildPresetBar();
+  buildCategoryBar();
   buildGrid();
   refreshCount();
 }
+
+// ---- Preset bar (year buttons or bookmark level buttons) ----
 
 function buildPresetBar() {
   const bar = $("levelBar");
@@ -228,30 +237,29 @@ function buildPresetBar() {
       bar.appendChild(btn);
     });
   } else {
-    BOOKMARK_LEVELS.forEach((lvl, i) => {
-      const btn = mkPreset("Lv " + (i + 1), () => togglePreset(i, btn, lvl.graphemes));
-      btn.title = lvl.name + ": " + lvl.graphemes.join(", ");
-      btn.style.setProperty("--chip", lvl.colour);
-      btn.classList.add("colour-chip");
-      bar.appendChild(btn);
-    });
+    bar.style.display = "none";
+    return;
   }
 
   const allBtn = mkPreset("All", () => {
-    setAllChips(true);
+    selectGraphemes(GRAPHEMES.map((_, i) => i), true);
     bar.querySelectorAll(".level-btn:not(.util)").forEach((b) => b.classList.add("active"));
-    activeLevels = new Set(viewMode === "year" ? Object.keys(YEAR_LEVELS) : BOOKMARK_LEVELS.map((_, i) => i));
+    activeLevels = new Set(Object.keys(YEAR_LEVELS));
   });
   allBtn.classList.add("util");
   bar.appendChild(allBtn);
 
   const clearBtn = mkPreset("Clear", () => {
-    setAllChips(false);
+    selectGraphemes(GRAPHEMES.map((_, i) => i), false);
     bar.querySelectorAll(".level-btn:not(.util)").forEach((b) => b.classList.remove("active"));
     activeLevels.clear();
+    activeCats.clear();
+    syncCatButtons();
   });
   clearBtn.classList.add("util");
   bar.appendChild(clearBtn);
+
+  bar.style.display = "";
 }
 
 function mkPreset(label, onClick) {
@@ -267,7 +275,10 @@ function togglePreset(key, btn, graphemes) {
     activeLevels.delete(key);
     btn.classList.remove("active");
     graphemes.forEach((gr) => {
-      const stillIn = [...activeLevels].some((k) => presetGraphemes(k).includes(gr));
+      const stillIn = [...activeLevels].some((k) => {
+        const pg = viewMode === "year" ? YEAR_LEVELS[k] : BOOKMARK_LEVELS[k].graphemes;
+        return pg.includes(gr);
+      });
       if (!stillIn) {
         const idx = graphemeIndex[gr];
         if (idx !== undefined) { selected.delete(idx); updateChipVisual(idx, false); }
@@ -284,31 +295,154 @@ function togglePreset(key, btn, graphemes) {
   refreshCount();
 }
 
-function presetGraphemes(key) {
-  return viewMode === "year" ? YEAR_LEVELS[key] : BOOKMARK_LEVELS[key].graphemes;
+// ---- Sound category bar (works in both views) ----
+
+function buildCategoryBar() {
+  const bar = $("catBar");
+  bar.innerHTML = "";
+  activeCats.clear();
+
+  PHON_GROUPS.forEach((group) => {
+    const btn = document.createElement("button");
+    btn.className = "cat-btn";
+    btn.textContent = group.name;
+    btn.addEventListener("click", () => toggleCategory(group.name, btn, group.graphemes));
+    bar.appendChild(btn);
+  });
+}
+
+function toggleCategory(catName, btn, graphemes) {
+  if (activeCats.has(catName)) {
+    activeCats.delete(catName);
+    btn.classList.remove("active");
+    graphemes.forEach((gr) => {
+      const stillInOtherCat = [...activeCats].some((c) => PHON_GROUPS.find((g) => g.name === c).graphemes.includes(gr));
+      if (!stillInOtherCat) {
+        const idx = graphemeIndex[gr];
+        if (idx !== undefined) { selected.delete(idx); updateChipVisual(idx, false); }
+      }
+    });
+  } else {
+    activeCats.add(catName);
+    btn.classList.add("active");
+    graphemes.forEach((gr) => {
+      const idx = graphemeIndex[gr];
+      if (idx !== undefined) { selected.add(idx); updateChipVisual(idx, true); }
+    });
+  }
+  refreshCount();
+}
+
+function syncCatButtons() {
+  $("catBar").querySelectorAll(".cat-btn").forEach((btn) => {
+    btn.classList.remove("active");
+  });
+}
+
+// ---- Selecting / deselecting graphemes ----
+
+function selectGraphemes(indices, on) {
+  indices.forEach((idx) => {
+    if (on) selected.add(idx); else selected.delete(idx);
+    updateChipVisual(idx, on);
+  });
+  refreshCount();
 }
 
 function updateChipVisual(idx, on) {
-  const chip = document.querySelector('.g-chip[data-idx="' + idx + '"]');
-  if (chip) chip.classList.toggle("selected", on);
+  const sel = '.g-chip[data-idx="' + idx + '"], .tracker-cell[data-idx="' + idx + '"]';
+  document.querySelectorAll(sel).forEach((el) => {
+    el.classList.toggle("selected", on);
+  });
 }
+
+// ---- Grid: year view uses grouped chips, bookmark view uses the tracker table ----
 
 function buildGrid() {
   const container = $("groupContainer");
   container.innerHTML = "";
-  const groups = viewMode === "year"
-    ? PHON_GROUPS.map((g) => ({ name: g.name, graphemes: g.graphemes, colour: null }))
-    : BOOKMARK_LEVELS.map((l) => ({ name: l.name, graphemes: l.graphemes, colour: l.colour }));
 
-  groups.forEach((group) => {
+  if (viewMode === "bookmark") {
+    buildTrackerGrid(container);
+  } else {
+    buildChipGrid(container);
+  }
+}
+
+function buildTrackerGrid(container) {
+  const tracker = document.createElement("div");
+  tracker.className = "tracker";
+
+  BOOKMARK_LEVELS.forEach((lvl, lvlIdx) => {
+    const row = document.createElement("div");
+    row.className = "tracker-row";
+
+    const label = document.createElement("div");
+    label.className = "tracker-label";
+    label.style.background = lvl.colour;
+    label.textContent = lvlIdx + 1;
+    label.title = lvl.name + " — click to toggle all";
+    label.addEventListener("click", () => toggleTrackerRow(lvlIdx, label));
+    row.appendChild(label);
+
+    const codes = document.createElement("div");
+    codes.className = "tracker-codes";
+    lvl.graphemes.forEach((gr) => {
+      const idx = graphemeIndex[gr];
+      if (idx === undefined) return;
+      const g = GRAPHEMES[idx];
+      const cell = document.createElement("div");
+      cell.className = "tracker-cell";
+      cell.dataset.idx = idx;
+      cell.dataset.lvl = lvlIdx;
+      cell.style.setProperty("--chip", lvl.colour);
+      const dots = "●".repeat(g.sounds.length);
+      cell.innerHTML = gr + '<span class="tc-dots">' + dots + '</span>';
+      cell.addEventListener("click", () => toggleTrackerCell(idx, cell));
+      codes.appendChild(cell);
+    });
+    row.appendChild(codes);
+    tracker.appendChild(row);
+  });
+  container.appendChild(tracker);
+}
+
+function toggleTrackerRow(lvlIdx, label) {
+  const lvl = BOOKMARK_LEVELS[lvlIdx];
+  const allSelected = lvl.graphemes.every((gr) => {
+    const idx = graphemeIndex[gr];
+    return idx !== undefined && selected.has(idx);
+  });
+
+  if (allSelected) {
+    activeLevels.delete(lvlIdx);
+    label.classList.remove("active");
+    lvl.graphemes.forEach((gr) => {
+      const idx = graphemeIndex[gr];
+      if (idx !== undefined) { selected.delete(idx); updateChipVisual(idx, false); }
+    });
+  } else {
+    activeLevels.add(lvlIdx);
+    label.classList.add("active");
+    lvl.graphemes.forEach((gr) => {
+      const idx = graphemeIndex[gr];
+      if (idx !== undefined) { selected.add(idx); updateChipVisual(idx, true); }
+    });
+  }
+  refreshCount();
+}
+
+function toggleTrackerCell(idx, cell) {
+  if (selected.has(idx)) { selected.delete(idx); cell.classList.remove("selected"); }
+  else { selected.add(idx); cell.classList.add("selected"); }
+  refreshCount();
+}
+
+function buildChipGrid(container) {
+  PHON_GROUPS.forEach((group) => {
     const label = document.createElement("div");
     label.className = "group-label";
-    if (group.colour) {
-      label.style.borderBottomColor = group.colour;
-      label.innerHTML = '<span class="swatch" style="background:' + group.colour + '"></span>' + group.name;
-    } else {
-      label.textContent = group.name;
-    }
+    label.textContent = group.name;
     container.appendChild(label);
 
     const grid = document.createElement("div");
@@ -320,28 +454,30 @@ function buildGrid() {
       const chip = document.createElement("div");
       chip.className = "g-chip";
       chip.dataset.idx = idx;
-      if (group.colour) chip.style.setProperty("--chip", group.colour);
       const dots = "●".repeat(g.sounds.length);
       chip.innerHTML = '<span class="gr">' + g.grapheme + '</span><span class="dots">' + dots + '</span>';
-      chip.addEventListener("click", () => toggleChip(idx, chip));
+      chip.addEventListener("click", () => {
+        if (selected.has(idx)) { selected.delete(idx); chip.classList.remove("selected"); }
+        else { selected.add(idx); chip.classList.add("selected"); }
+        refreshCount();
+      });
       grid.appendChild(chip);
     });
     container.appendChild(grid);
   });
 }
 
-function toggleChip(idx, chip) {
-  if (selected.has(idx)) { selected.delete(idx); chip.classList.remove("selected"); }
-  else { selected.add(idx); chip.classList.add("selected"); }
-  refreshCount();
-}
-
 function setAllChips(on) {
-  document.querySelectorAll(".g-chip").forEach((chip) => {
-    const idx = +chip.dataset.idx;
-    chip.classList.toggle("selected", on);
+  const allEls = document.querySelectorAll(".g-chip, .tracker-cell");
+  allEls.forEach((el) => {
+    const idx = +el.dataset.idx;
+    el.classList.toggle("selected", on);
     if (on) selected.add(idx); else selected.delete(idx);
   });
+  if (viewMode === "bookmark") {
+    document.querySelectorAll(".tracker-label").forEach((l) => l.classList.toggle("active", on));
+    if (on) { activeLevels = new Set(BOOKMARK_LEVELS.map((_, i) => i)); } else { activeLevels.clear(); }
+  }
   refreshCount();
 }
 
@@ -674,8 +810,16 @@ document.addEventListener("DOMContentLoaded", () => {
   $("viewBookmarkBtn").addEventListener("click", () => chooseView("bookmark"));
   $("viewBackBtn").addEventListener("click", () => showScreen("mode"));
 
-  $("selectAll").addEventListener("click", () => setAllChips(true));
-  $("selectNone").addEventListener("click", () => setAllChips(false));
+  $("selectAll").addEventListener("click", () => {
+    setAllChips(true);
+    activeCats = new Set(PHON_GROUPS.map((g) => g.name));
+    $("catBar").querySelectorAll(".cat-btn").forEach((b) => b.classList.add("active"));
+  });
+  $("selectNone").addEventListener("click", () => {
+    setAllChips(false);
+    activeCats.clear();
+    $("catBar").querySelectorAll(".cat-btn").forEach((b) => b.classList.remove("active"));
+  });
   $("startBtn").addEventListener("click", startSession);
   $("selectBackBtn").addEventListener("click", () => showScreen("view"));
 

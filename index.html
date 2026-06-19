@@ -49,20 +49,10 @@
         .screen.active { display: block; }
 
         /* ---- Big choice cards (screens 1 & 2) ---- */
-        .choice-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin: 28px 0 8px;
-        }
+        .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0 8px; }
         .choice-card {
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            background: var(--paper);
-            padding: 36px 20px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.18s ease;
+            border: 1px solid var(--line); border-radius: 12px; background: var(--paper);
+            padding: 36px 20px; cursor: pointer; text-align: center; transition: all 0.18s ease;
         }
         .choice-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
         .choice-card .emoji { font-size: 38px; display: block; margin-bottom: 12px; }
@@ -70,14 +60,11 @@
         .choice-card .desc { color: var(--muted); font-size: 13px; margin-top: 8px; line-height: 1.5; }
         @media (max-width: 480px) { .choice-grid { grid-template-columns: 1fr; } }
 
-        .back-link {
-            background: none; border: none; color: var(--muted);
-            font-weight: 600; font-size: 13px; cursor: pointer; padding: 4px 0; margin-bottom: 4px;
-        }
+        .back-link { background: none; border: none; color: var(--muted); font-weight: 600; font-size: 13px; cursor: pointer; padding: 4px 0; margin-bottom: 4px; }
         .back-link:hover { color: var(--ink); }
 
-        /* ---- Preset (year / bookmark) bar ---- */
-        .level-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; justify-content: center; }
+        /* ---- Preset bar (year / bookmark) ---- */
+        .level-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; justify-content: center; }
         .level-btn {
             border: 1px solid var(--line); background: var(--paper); color: var(--muted);
             font-weight: 600; font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer;
@@ -90,6 +77,17 @@
         .level-btn.util { background: var(--bg); color: var(--muted); border-color: var(--line-soft); }
         .level-btn.util:hover { color: var(--ink); border-color: var(--ink); }
 
+        /* ---- Sound category filter bar ---- */
+        .cat-bar { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; justify-content: center; }
+        .cat-btn {
+            border: 1px solid var(--line-soft); background: var(--bg); color: var(--muted);
+            font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 14px; cursor: pointer;
+            transition: all 0.15s ease; text-transform: uppercase; letter-spacing: 0.3px;
+        }
+        .cat-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .cat-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+        .cat-divider { width: 100%; font-size: 10px; color: var(--muted); text-align: center; margin: 2px 0; text-transform: uppercase; letter-spacing: 1px; }
+
         /* ---- Selection toolbar ---- */
         .select-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .count-pill { background: var(--bg); color: var(--accent); border: 1px solid var(--line); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; }
@@ -97,13 +95,13 @@
         .select-toolbar .links button:hover { text-decoration: underline; }
         .select-title { text-align: center; font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 14px; }
 
-        /* ---- Grid ---- */
+        /* ---- Grid (year view) ---- */
         .group-label {
             font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase;
             letter-spacing: 0.8px; margin: 18px 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--line-soft);
             display: flex; align-items: center; gap: 6px;
         }
-        .swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; }
+        .swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
         .grapheme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(68px, 1fr)); gap: 6px; }
         .g-chip {
             border: 1px solid var(--line); border-radius: 8px; padding: 8px 4px; text-align: center;
@@ -114,6 +112,31 @@
         .g-chip .gr { font-weight: 700; font-size: 17px; display: block; font-family: Georgia, serif; }
         .g-chip .dots { font-size: 8px; opacity: 0.5; margin-top: 2px; display: block; letter-spacing: 1px; }
         .g-chip.selected .dots { opacity: 0.8; }
+
+        /* ---- Bookmark tracker (bookmark view) ---- */
+        .tracker { display: flex; flex-direction: column; gap: 4px; }
+        .tracker-row {
+            display: flex; align-items: center; gap: 0; border: 1px solid var(--line-soft);
+            border-radius: 8px; overflow: hidden; background: var(--paper);
+        }
+        .tracker-label {
+            flex-shrink: 0; width: 42px; padding: 10px 0; text-align: center;
+            font-weight: 800; font-size: 13px; color: white; cursor: pointer;
+            transition: opacity 0.15s ease; user-select: none;
+        }
+        .tracker-label:hover { opacity: 0.8; }
+        .tracker-label.active { box-shadow: inset 0 0 0 2px rgba(255,255,255,0.5); }
+        .tracker-codes { display: flex; flex: 1; gap: 0; }
+        .tracker-cell {
+            flex: 1; padding: 10px 2px; text-align: center; cursor: pointer;
+            font-family: Georgia, serif; font-weight: 700; font-size: 15px;
+            border-left: 1px solid var(--line-soft); transition: all 0.15s ease;
+            user-select: none; color: var(--ink); background: var(--paper);
+        }
+        .tracker-cell:hover { background: #faf5f0; }
+        .tracker-cell.selected { color: white; background: var(--chip, var(--accent)); }
+        .tracker-cell .tc-dots { font-size: 7px; opacity: 0.4; display: block; margin-top: 1px; letter-spacing: 1px; }
+        .tracker-cell.selected .tc-dots { opacity: 0.7; }
 
         /* ---- Buttons ---- */
         button.btn { padding: 12px 20px; border: 1px solid var(--line); border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; background: var(--paper); color: var(--ink); }
@@ -211,6 +234,8 @@
             .g-chip .gr { font-size: 15px; }
             .level-bar { gap: 4px; }
             .level-btn { padding: 5px 9px; font-size: 11px; }
+            .tracker-label { width: 34px; font-size: 11px; padding: 8px 0; }
+            .tracker-cell { font-size: 13px; padding: 8px 1px; }
         }
 
         /* ---- Print: report only ---- */
@@ -267,6 +292,7 @@
             <button class="back-link" id="selectBackBtn">&larr; Back</button>
             <div class="select-title" id="selectTitle"></div>
             <div class="level-bar" id="levelBar"></div>
+            <div class="cat-bar" id="catBar"></div>
 
             <div class="select-toolbar">
                 <span class="count-pill"><span id="selCount">0</span> selected</span>
