@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aussie Phonics Trainer</title>
+    <title>Aussie Phonics – Bookmark Levels</title>
     <style>
         :root {
             --bg: #f4efe6;
@@ -56,43 +56,55 @@
             font-size: 13px;
         }
 
+        .nav-link {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .nav-link a {
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .nav-link a:hover { text-decoration: underline; }
+
         .screen { display: none; }
         .screen.active { display: block; }
 
-        /* ---- Year Level Presets ---- */
-        .year-bar {
+        /* ---- Level toggle bar ---- */
+        .level-bar {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
             margin-bottom: 16px;
             justify-content: center;
         }
-        .year-btn {
+        .level-btn {
             border: 1px solid var(--line);
             background: var(--paper);
             color: var(--muted);
             font-weight: 600;
             font-size: 12px;
-            padding: 6px 14px;
+            padding: 6px 10px;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.15s ease;
         }
-        .year-btn:hover {
+        .level-btn:hover {
             border-color: var(--accent);
             color: var(--accent);
         }
-        .year-btn.active {
+        .level-btn.active {
             background: var(--accent);
             color: white;
             border-color: var(--accent);
         }
-        .year-btn.util {
+        .level-btn.util {
             background: var(--bg);
             color: var(--muted);
             border-color: var(--line-soft);
         }
-        .year-btn.util:hover {
+        .level-btn.util:hover {
             color: var(--ink);
             border-color: var(--ink);
         }
@@ -489,20 +501,20 @@
             .grapheme-grid { grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); gap: 5px; }
             .g-chip { padding: 6px 2px; }
             .g-chip .gr { font-size: 15px; }
-            .year-bar { gap: 4px; }
-            .year-btn { padding: 5px 10px; font-size: 11px; }
+            .level-bar { gap: 4px; }
+            .level-btn { padding: 5px 8px; font-size: 11px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Aussie Phonics</h1>
-        <p class="subtitle">Pick your graphemes, listen to the sound, type or write the spelling.</p>
-        <div style="text-align:center;margin-bottom:16px;"><a href="bookmarks.html" style="color:var(--accent);font-size:13px;font-weight:600;text-decoration:none;">Switch to Bookmark Levels view</a></div>
+        <h1>Aussie Phonics – Bookmarks</h1>
+        <p class="subtitle">Pick your bookmark levels, listen to the sound, type or write the spelling.</p>
+        <div class="nav-link"><a href="index.html">Switch to Year Level view</a></div>
 
         <!-- ===== SELECTION SCREEN ===== -->
         <section class="screen active" id="selectScreen">
-            <div class="year-bar" id="yearBar"></div>
+            <div class="level-bar" id="levelBar"></div>
 
             <div class="select-toolbar">
                 <span class="count-pill"><span id="selCount">0</span> selected</span>
@@ -555,7 +567,7 @@
                     <div class="sounds-list" id="ansSounds"></div>
                 </div>
 
-                <!-- Handwrite grade buttons (only in write mode after reveal) -->
+                <!-- Handwrite grade buttons -->
                 <div class="action-row" id="writeCheckRow">
                     <button class="btn btn-primary" id="writeRevealBtn">Show answer</button>
                 </div>
@@ -585,6 +597,6 @@
         </section>
     </div>
 
-    <script src="app.js"></script>
+    <script src="bookmarks-app.js"></script>
 </body>
 </html>

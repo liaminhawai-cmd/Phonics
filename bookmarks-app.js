@@ -1,10 +1,3 @@
-// ============================================================
-// Aussie Phonics Trainer
-//
-// Bopomofo-style flashcard drill for Australian English graphemes.
-// Selection screen -> Flashcard drill -> Done summary.
-// ============================================================
-
 const GRAPHEMES = [
   { grapheme: "a",  audio: "A",    sounds: [{s:"ă", ex:"at"}, {s:"ā", ex:"navy"}, {s:"ah", ex:"last"}] },
   { grapheme: "b",  audio: "B",    sounds: [{s:"b", ex:"rib"}] },
@@ -78,106 +71,87 @@ const GRAPHEMES = [
   { grapheme: "wr",   audio: "Wr",   sounds: [{s:"r", ex:"wrap"}] },
 ];
 
-// ============================================================
-// Phonetic category grouping
-// ============================================================
-const GROUPS = [
-  { name: "Unvoiced Consonants", graphemes: ["p","t","k","c","f","s","h","ch","sh","th","wh","ck","ph","x","qu"] },
-  { name: "Voiced Consonants",   graphemes: ["b","d","g","j","v","z","m","n","l","r","w","y","ng","dge","gn","kn","wr","gu"] },
-  { name: "Short Vowels",        graphemes: ["a","e","i","o","u"] },
-  { name: "Long Vowels",         graphemes: ["ee","ea","ie","ei","ey","ay","ai","eigh","igh","oa","oe","oo","ew","ui"] },
-  { name: "R-Controlled Vowels", graphemes: ["ar","er","ir","ur","or","ear","wor"] },
-  { name: "Diphthongs",          graphemes: ["oi","oy","ou","ow","au","aw"] },
-  { name: "Other",               graphemes: ["ed","ci","si","ti","ough"] },
+const BOOKMARK_LEVELS = [
+  { name: "Level 1 – APTIN",  graphemes: ["a","p","t","i","n"] },
+  { name: "Level 2 – SMOBC",  graphemes: ["s","m","o","b","c"] },
+  { name: "Level 3 – GHKDE",  graphemes: ["g","h","k","d","e"] },
+  { name: "Level 4 – LRFVU",  graphemes: ["l","r","f","v","u"] },
+  { name: "Level 5 – JWZXY",  graphemes: ["j","w","z","x","y"] },
+  { name: "Level 6",          graphemes: ["qu","sh","th","ch","ay"] },
+  { name: "Level 7",          graphemes: ["wh","ck","ee","er","ar"] },
+  { name: "Level 8",          graphemes: ["ed","oo","igh","ai","oy"] },
+  { name: "Level 9",          graphemes: ["oi","oa","ea","ir","ow"] },
+  { name: "Level 10",         graphemes: ["oe","au","aw","or","wr"] },
+  { name: "Level 11",         graphemes: ["ph","kn","ie","ei","eigh"] },
+  { name: "Level 12",         graphemes: ["ou","ew","ur","ear","wor"] },
+  { name: "Level 13",         graphemes: ["dge","ui","ng","ey","ough"] },
+  { name: "Level 14",         graphemes: ["gu","ti","si","ci","gn"] },
 ];
 
-// ============================================================
-// Year level mappings (Australian curriculum)
-// ============================================================
-const YEAR_LEVELS = {
-  "Pre":    ["a","p","t","i","n","s","m","o","b","c","g","h","k","d","e","l","r","f","v","u","j","w","z","x","y"],
-  "Yr 1":   ["qu","sh","th","ch","ay","wh","ck","ee","er","ar"],
-  "Yr 2":   ["ed","oo","igh","ai","oy","oi","oa","ea","ir","ow"],
-  "Yr 3":   ["oe","au","aw","or","wr","ph","kn","ie","ei","eigh"],
-  "Yr 4":   ["ou","ew","ur","ear","wor","dge","ui","ng","ey","ough","gu","ti","si","ci","gn"],
-};
-
-// ============================================================
-// Build a lookup: grapheme string -> index in GRAPHEMES
-// ============================================================
 const graphemeIndex = {};
 GRAPHEMES.forEach((g, i) => { graphemeIndex[g.grapheme] = i; });
 
-// ============================================================
-// State
-// ============================================================
-const selected = new Set();       // set of indices into GRAPHEMES
-let queue = [];                   // cards remaining
-let current = null;               // current card object
-let inputMode = "type";           // "type" or "write"
-let masteredList = [];            // graphemes mastered this session
-let missed = new Set();           // graphemes that were wrong at least once
+const selected = new Set();
+let queue = [];
+let current = null;
+let inputMode = "type";
+let masteredList = [];
+let missed = new Set();
 let sessionTotal = 0;
-let activeYears = new Set();      // which year-level buttons are active
+let activeLevels = new Set();
 
 const $ = (id) => document.getElementById(id);
-
 const screens = {};
 
 function showScreen(name) {
   Object.entries(screens).forEach(([k, el]) => el.classList.toggle("active", k === name));
 }
 
-// ============================================================
-// SELECTION SCREEN
-// ============================================================
+function buildLevelBar() {
+  var bar = $("levelBar");
 
-function buildYearBar() {
-  const bar = $("yearBar");
-  const yearNames = Object.keys(YEAR_LEVELS);
-
-  yearNames.forEach((name) => {
-    const btn = document.createElement("button");
-    btn.className = "year-btn";
-    btn.textContent = name;
-    btn.addEventListener("click", () => toggleYear(name, btn));
+  BOOKMARK_LEVELS.forEach(function(level, i) {
+    var btn = document.createElement("button");
+    btn.className = "level-btn";
+    btn.textContent = "Lv " + (i + 1);
+    btn.title = level.name + ": " + level.graphemes.join(", ");
+    btn.addEventListener("click", function() { toggleLevel(i, btn); });
     bar.appendChild(btn);
   });
 
-  // "All" button
-  const allBtn = document.createElement("button");
-  allBtn.className = "year-btn util";
+  var allBtn = document.createElement("button");
+  allBtn.className = "level-btn util";
   allBtn.textContent = "All";
-  allBtn.addEventListener("click", () => {
+  allBtn.addEventListener("click", function() {
     setAllChips(true);
-    // Mark all year buttons active
-    bar.querySelectorAll(".year-btn:not(.util)").forEach((b) => b.classList.add("active"));
-    activeYears = new Set(yearNames);
+    bar.querySelectorAll(".level-btn:not(.util)").forEach(function(b) { b.classList.add("active"); });
+    activeLevels = new Set(BOOKMARK_LEVELS.map(function(_, i) { return i; }));
   });
   bar.appendChild(allBtn);
 
-  // "Clear" button
-  const clearBtn = document.createElement("button");
-  clearBtn.className = "year-btn util";
+  var clearBtn = document.createElement("button");
+  clearBtn.className = "level-btn util";
   clearBtn.textContent = "Clear";
-  clearBtn.addEventListener("click", () => {
+  clearBtn.addEventListener("click", function() {
     setAllChips(false);
-    bar.querySelectorAll(".year-btn:not(.util)").forEach((b) => b.classList.remove("active"));
-    activeYears.clear();
+    bar.querySelectorAll(".level-btn:not(.util)").forEach(function(b) { b.classList.remove("active"); });
+    activeLevels.clear();
   });
   bar.appendChild(clearBtn);
 }
 
-function toggleYear(name, btn) {
-  if (activeYears.has(name)) {
-    activeYears.delete(name);
+function toggleLevel(levelIdx, btn) {
+  if (activeLevels.has(levelIdx)) {
+    activeLevels.delete(levelIdx);
     btn.classList.remove("active");
-    // Deselect graphemes that belong to this year (unless they belong to another active year)
-    const yearGraphemes = YEAR_LEVELS[name];
-    yearGraphemes.forEach((gr) => {
-      const belongsToOther = [...activeYears].some((y) => YEAR_LEVELS[y].includes(gr));
+    var levelGraphemes = BOOKMARK_LEVELS[levelIdx].graphemes;
+    levelGraphemes.forEach(function(gr) {
+      var belongsToOther = false;
+      activeLevels.forEach(function(otherIdx) {
+        if (BOOKMARK_LEVELS[otherIdx].graphemes.indexOf(gr) !== -1) belongsToOther = true;
+      });
       if (!belongsToOther) {
-        const idx = graphemeIndex[gr];
+        var idx = graphemeIndex[gr];
         if (idx !== undefined) {
           selected.delete(idx);
           updateChipVisual(idx, false);
@@ -185,12 +159,11 @@ function toggleYear(name, btn) {
       }
     });
   } else {
-    activeYears.add(name);
+    activeLevels.add(levelIdx);
     btn.classList.add("active");
-    // Select all graphemes for this year level
-    const yearGraphemes = YEAR_LEVELS[name];
-    yearGraphemes.forEach((gr) => {
-      const idx = graphemeIndex[gr];
+    var levelGraphemes = BOOKMARK_LEVELS[levelIdx].graphemes;
+    levelGraphemes.forEach(function(gr) {
+      var idx = graphemeIndex[gr];
       if (idx !== undefined) {
         selected.add(idx);
         updateChipVisual(idx, true);
@@ -201,31 +174,32 @@ function toggleYear(name, btn) {
 }
 
 function updateChipVisual(idx, on) {
-  const chip = document.querySelector(`.g-chip[data-idx="${idx}"]`);
+  var chip = document.querySelector('.g-chip[data-idx="' + idx + '"]');
   if (chip) chip.classList.toggle("selected", on);
 }
 
 function buildGroupedGrid() {
-  const container = $("groupContainer");
-  GROUPS.forEach((group) => {
-    const label = document.createElement("div");
+  var container = $("groupContainer");
+  BOOKMARK_LEVELS.forEach(function(level) {
+    var label = document.createElement("div");
     label.className = "group-label";
-    label.textContent = group.name;
+    label.textContent = level.name;
     container.appendChild(label);
 
-    const grid = document.createElement("div");
+    var grid = document.createElement("div");
     grid.className = "grapheme-grid";
 
-    group.graphemes.forEach((gr) => {
-      const idx = graphemeIndex[gr];
+    level.graphemes.forEach(function(gr) {
+      var idx = graphemeIndex[gr];
       if (idx === undefined) return;
-      const g = GRAPHEMES[idx];
-      const chip = document.createElement("div");
+      var g = GRAPHEMES[idx];
+      var chip = document.createElement("div");
       chip.className = "g-chip";
       chip.dataset.idx = idx;
-      const dots = "●".repeat(g.sounds.length);
+      var dots = "";
+      for (var d = 0; d < g.sounds.length; d++) dots += "●";
       chip.innerHTML = '<span class="gr">' + g.grapheme + '</span><span class="dots">' + dots + '</span>';
-      chip.addEventListener("click", () => toggleChip(idx, chip));
+      chip.addEventListener("click", function() { toggleChip(idx, chip); });
       grid.appendChild(chip);
     });
 
@@ -250,21 +224,17 @@ function refreshCount() {
 }
 
 function setAllChips(on) {
-  document.querySelectorAll(".g-chip").forEach((chip) => {
-    const idx = +chip.dataset.idx;
+  document.querySelectorAll(".g-chip").forEach(function(chip) {
+    var idx = +chip.dataset.idx;
     chip.classList.toggle("selected", on);
-    if (on) selected.add(idx);
-    else selected.delete(idx);
+    if (on) selected.add(idx); else selected.delete(idx);
   });
   refreshCount();
 }
 
-// ============================================================
-// FLASHCARD SCREEN
-// ============================================================
-
 function startSession() {
-  queue = [...selected].map((i) => GRAPHEMES[i]);
+  queue = [];
+  selected.forEach(function(i) { queue.push(GRAPHEMES[i]); });
   shuffle(queue);
   sessionTotal = queue.length;
   masteredList = [];
@@ -275,10 +245,7 @@ function startSession() {
 }
 
 function nextCard() {
-  if (queue.length === 0) {
-    finishSession();
-    return;
-  }
+  if (queue.length === 0) { finishSession(); return; }
   current = queue[0];
   resetCardUI();
   updateProgress();
@@ -288,9 +255,8 @@ function nextCard() {
 function resetCardUI() {
   $("answerBox").classList.remove("show");
   $("typeInput").value = "";
-  $("typeInput").className = "";  // remove flash classes
+  $("typeInput").className = "";
   clearCanvas();
-
   if (inputMode === "type") {
     $("writeCheckRow").style.display = "none";
     $("writeGradeRow").style.display = "none";
@@ -301,49 +267,34 @@ function resetCardUI() {
 }
 
 function updateProgress() {
-  const left = queue.length;
+  var left = queue.length;
   $("remainingLabel").textContent = left + " card" + (left === 1 ? "" : "s") + " left";
   $("progressFill").style.width = ((sessionTotal - left) / sessionTotal) * 100 + "%";
 }
 
-// ============================================================
-// TYPE MODE — auto-check
-// ============================================================
-
 function checkTypedAnswer() {
   if (!current) return;
-  const input = $("typeInput");
-  const typed = input.value.trim().toLowerCase();
-  const correct = current.grapheme.toLowerCase();
-
+  var input = $("typeInput");
+  var typed = input.value.trim().toLowerCase();
+  var correct = current.grapheme.toLowerCase();
   if (!typed) return;
 
   if (typed === correct) {
-    // Correct
     input.classList.add("flash-correct");
     revealAnswer();
-    setTimeout(() => {
-      gradeCard(true);
-    }, 1000);
+    setTimeout(function() { gradeCard(true); }, 1000);
   } else {
-    // Wrong
     input.classList.add("flash-wrong");
     revealAnswer();
-    setTimeout(() => {
-      gradeCard(false);
-    }, 1200);
+    setTimeout(function() { gradeCard(false); }, 1200);
   }
 }
 
-// ============================================================
-// HANDWRITE MODE — reveal then self-grade
-// ============================================================
-
 function revealAnswer() {
   $("ansGrapheme").textContent = current.grapheme;
-  const html = current.sounds.map((s) =>
-    '<div class="sound-item"><span class="sym">' + s.s + '</span> <span class="ex">e.g. ' + s.ex + '</span></div>'
-  ).join("");
+  var html = current.sounds.map(function(s) {
+    return '<div class="sound-item"><span class="sym">' + s.s + '</span> <span class="ex">e.g. ' + s.ex + '</span></div>';
+  }).join("");
   $("ansSounds").innerHTML = html;
   $("answerBox").classList.add("show");
 }
@@ -355,47 +306,37 @@ function showWriteGrade() {
 }
 
 function gradeCard(gotIt) {
-  const card = queue.shift();
+  var card = queue.shift();
   if (gotIt) {
     masteredList.push(card);
     addToShelf(card);
   } else {
     missed.add(card);
-    // Put it back somewhere in the latter half of the deck
-    const insertAt = Math.max(1, Math.floor(queue.length / 2) + Math.floor(Math.random() * Math.ceil(queue.length / 2)));
+    var insertAt = Math.max(1, Math.floor(queue.length / 2) + Math.floor(Math.random() * Math.ceil(queue.length / 2)));
     queue.splice(Math.min(insertAt, queue.length), 0, card);
   }
   nextCard();
 }
 
-// ============================================================
-// MASTERED SHELF
-// ============================================================
-
 function clearShelf() {
-  const shelf = $("masteredShelf");
+  var shelf = $("masteredShelf");
   shelf.innerHTML = '<span class="shelf-empty" id="shelfEmpty">Cards you get right appear here</span>';
 }
 
 function addToShelf(card) {
-  const shelf = $("masteredShelf");
-  const empty = $("shelfEmpty");
+  var shelf = $("masteredShelf");
+  var empty = $("shelfEmpty");
   if (empty) empty.remove();
-
-  const item = document.createElement("span");
+  var item = document.createElement("span");
   item.className = "shelf-item";
   item.textContent = card.grapheme;
   shelf.appendChild(item);
 }
 
-// ============================================================
-// DONE SCREEN
-// ============================================================
-
 function finishSession() {
   showScreen("done");
-  const tricky = missed.size;
-  let html = "You mastered <b>" + sessionTotal + "</b> grapheme" + (sessionTotal === 1 ? "" : "s") + "!";
+  var tricky = missed.size;
+  var html = "You mastered <b>" + sessionTotal + "</b> grapheme" + (sessionTotal === 1 ? "" : "s") + "!";
   if (tricky) {
     html += '<br><span style="color:var(--wrong)">' + tricky + '</span> needed extra practice.';
   } else {
@@ -406,39 +347,25 @@ function finishSession() {
 }
 
 function reviewMissed() {
-  const list = [...missed];
+  var list = [];
+  missed.forEach(function(v) { list.push(v); });
   selected.clear();
-  list.forEach((v) => selected.add(GRAPHEMES.indexOf(v)));
+  list.forEach(function(v) { selected.add(GRAPHEMES.indexOf(v)); });
   startSession();
 }
-
-// ============================================================
-// AUDIO
-// ============================================================
 
 var audioEl = null;
 
 function playCurrent() {
   if (!current) return;
   var btn = $("listenBtn");
-
-  if (audioEl) {
-    audioEl.pause();
-    audioEl = null;
-  }
-
+  if (audioEl) { audioEl.pause(); audioEl = null; }
   audioEl = new Audio(current.audio + ".mp4");
   audioEl.addEventListener("play", function() { btn.classList.add("playing"); });
   audioEl.addEventListener("ended", function() { btn.classList.remove("playing"); });
-  audioEl.addEventListener("error", function() {
-    btn.classList.remove("playing");
-  });
+  audioEl.addEventListener("error", function() { btn.classList.remove("playing"); });
   audioEl.play().catch(function() {});
 }
-
-// ============================================================
-// CANVAS (handwrite mode)
-// ============================================================
 
 var canvas, ctx, drawing = false;
 
@@ -455,20 +382,8 @@ function initCanvas() {
       y: (p.clientY - r.top) * (canvas.height / r.height)
     };
   }
-  function start(e) {
-    e.preventDefault();
-    drawing = true;
-    var pt = pos(e);
-    ctx.beginPath();
-    ctx.moveTo(pt.x, pt.y);
-  }
-  function move(e) {
-    if (!drawing) return;
-    e.preventDefault();
-    var pt = pos(e);
-    ctx.lineTo(pt.x, pt.y);
-    ctx.stroke();
-  }
+  function start(e) { e.preventDefault(); drawing = true; var pt = pos(e); ctx.beginPath(); ctx.moveTo(pt.x, pt.y); }
+  function move(e) { if (!drawing) return; e.preventDefault(); var pt = pos(e); ctx.lineTo(pt.x, pt.y); ctx.stroke(); }
   function end() { drawing = false; }
 
   canvas.addEventListener("mousedown", start);
@@ -493,17 +408,12 @@ function clearCanvas() {
   styleCtx();
 }
 
-// ============================================================
-// INPUT MODE TOGGLE
-// ============================================================
-
 function setMode(mode) {
   inputMode = mode;
   $("modeType").classList.toggle("active", mode === "type");
   $("modeWrite").classList.toggle("active", mode === "write");
   $("typeWrap").classList.toggle("active", mode === "type");
   $("writeWrap").classList.toggle("active", mode === "write");
-
   if (mode === "type") {
     $("writeCheckRow").style.display = "none";
     $("writeGradeRow").style.display = "none";
@@ -514,62 +424,46 @@ function setMode(mode) {
   }
 }
 
-// ============================================================
-// UTILS
-// ============================================================
-
 function shuffle(arr) {
   for (var i = arr.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
-    var tmp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = tmp;
+    var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
   }
 }
-
-// ============================================================
-// INIT
-// ============================================================
 
 document.addEventListener("DOMContentLoaded", function() {
   screens.select = $("selectScreen");
   screens.card = $("cardScreen");
   screens.done = $("doneScreen");
 
-  buildYearBar();
+  buildLevelBar();
   buildGroupedGrid();
   initCanvas();
   refreshCount();
 
-  // Selection
   $("selectAll").addEventListener("click", function() { setAllChips(true); });
   $("selectNone").addEventListener("click", function() { setAllChips(false); });
   $("startBtn").addEventListener("click", startSession);
 
-  // Flashcard
   $("listenBtn").addEventListener("click", playCurrent);
   $("modeType").addEventListener("click", function() { setMode("type"); });
   $("modeWrite").addEventListener("click", function() { setMode("write"); });
   $("clearCanvas").addEventListener("click", clearCanvas);
 
-  // Type mode: check on Enter or button click
   $("typeCheckBtn").addEventListener("click", checkTypedAnswer);
   $("typeInput").addEventListener("keypress", function(e) {
     if (e.key === "Enter") checkTypedAnswer();
   });
 
-  // Write mode: reveal then grade
   $("writeRevealBtn").addEventListener("click", showWriteGrade);
   $("gotItBtn").addEventListener("click", function() { gradeCard(true); });
   $("againBtn").addEventListener("click", function() { gradeCard(false); });
 
-  // Exit
   $("quitBtn").addEventListener("click", function() {
     if (audioEl) audioEl.pause();
     showScreen("select");
   });
 
-  // Done
   $("restartBtn").addEventListener("click", function() { showScreen("select"); });
   $("reviewMissedBtn").addEventListener("click", reviewMissed);
 });
