@@ -1,48 +1,98 @@
 // ============================================================
-// Australian English Vowel Trainer — flashcard drill
-// Flow: pick sounds → listen / write / check → learned cards
-//        drop out of rotation until the deck is empty.
+// Aussie Phonics Trainer — grapheme-first, multi-sound approach
+//
+// Flow: pick spelling codes → flashcard drill (hear pure sound
+// from MP4 → handwrite/type grapheme → reveal → self-grade)
+// → learned cards drop out until deck is empty.
 // ============================================================
 
-const MONOPHTHONGS = [
-    { ipa: "/iː/", kw: "fleece", desc: "Long 'ee' (FLEECE, GREEK)", examples: ["fleece", "see", "team", "greek"] },
-    { ipa: "/ɪ/",  kw: "kit",    desc: "Short 'i' (KIT, FISH)",     examples: ["kit", "fish", "sit", "bit"] },
-    { ipa: "/e/",  kw: "dress",  desc: "Short 'e' (DRESS, BED)",    examples: ["dress", "bed", "get", "set"] },
-    { ipa: "/æ/",  kw: "trap",   desc: "Short 'a' (TRAP, CAT)",     examples: ["trap", "cat", "bad", "hand"] },
-    { ipa: "/aː/", kw: "palm",   desc: "Long 'ah' (PALM, FATHER)",  examples: ["palm", "father", "car", "start"] },
-    { ipa: "/ɔ/",  kw: "lot",    desc: "Short 'o' (LOT, DOG)",      examples: ["lot", "dog", "hot", "box"] },
-    { ipa: "/oː/", kw: "thought",desc: "Long 'or' (THOUGHT, NORTH)",examples: ["thought", "north", "door", "law"] },
-    { ipa: "/ʊ/",  kw: "foot",   desc: "Short 'oo' (FOOT, BOOK)",   examples: ["foot", "book", "good", "put"] },
-    { ipa: "/ʉː/", kw: "goose",  desc: "Long 'oo' (GOOSE, BLUE)",   examples: ["goose", "blue", "food", "two"] },
-    { ipa: "/a/",  kw: "strut",  desc: "Short 'u' (STRUT, CUP)",    examples: ["strut", "cup", "but", "run"] },
-    { ipa: "/ɜː/", kw: "nurse",  desc: "Long 'er' (NURSE, BIRD)",   examples: ["nurse", "bird", "turn", "work"] },
-    { ipa: "/ə/",  kw: "comma",  desc: "Schwa, unstressed (COMMA, ABOUT)", examples: ["comma", "about", "sofa", "data"] },
+const GRAPHEMES = [
+  // ---- Single letters ----
+  { grapheme: "a",  audio: "A",    sounds: [{s:"ă", ex:"at"}, {s:"ā", ex:"navy"}, {s:"ah", ex:"last"}] },
+  { grapheme: "b",  audio: "B",    sounds: [{s:"b", ex:"rib"}] },
+  { grapheme: "c",  audio: "C",    sounds: [{s:"k", ex:"can"}, {s:"s", ex:"cent"}] },
+  { grapheme: "d",  audio: "D",    sounds: [{s:"d", ex:"lid"}] },
+  { grapheme: "e",  audio: "E",    sounds: [{s:"ĕ", ex:"end"}, {s:"ē", ex:"me"}] },
+  { grapheme: "f",  audio: "F",    sounds: [{s:"f", ex:"if"}] },
+  { grapheme: "g",  audio: "G",    sounds: [{s:"g", ex:"bag"}, {s:"j", ex:"gem"}] },
+  { grapheme: "h",  audio: "H",    sounds: [{s:"h", ex:"him"}] },
+  { grapheme: "i",  audio: "I",    sounds: [{s:"ĭ", ex:"sit"}, {s:"ī", ex:"silent"}] },
+  { grapheme: "j",  audio: "J",    sounds: [{s:"j", ex:"jam"}] },
+  { grapheme: "k",  audio: "K",    sounds: [{s:"k", ex:"ink"}] },
+  { grapheme: "l",  audio: "L",    sounds: [{s:"l", ex:"leg"}] },
+  { grapheme: "m",  audio: "M",    sounds: [{s:"m", ex:"am"}] },
+  { grapheme: "n",  audio: "N",    sounds: [{s:"n", ex:"in"}] },
+  { grapheme: "o",  audio: "O",    sounds: [{s:"ŏ", ex:"odd"}, {s:"ō", ex:"open"}, {s:"oo", ex:"do"}] },
+  { grapheme: "p",  audio: null,   sounds: [{s:"p", ex:"map"}] },
+  { grapheme: "qu", audio: null,   sounds: [{s:"kw", ex:"quit"}] },
+  { grapheme: "r",  audio: null,   sounds: [{s:"r", ex:"rat"}] },
+  { grapheme: "s",  audio: null,   sounds: [{s:"s", ex:"us"}, {s:"z", ex:"as"}] },
+  { grapheme: "t",  audio: null,   sounds: [{s:"t", ex:"bat"}] },
+  { grapheme: "u",  audio: null,   sounds: [{s:"ŭ", ex:"up"}, {s:"ū", ex:"music"}, {s:"oo", ex:"put"}] },
+  { grapheme: "v",  audio: null,   sounds: [{s:"v", ex:"van"}] },
+  { grapheme: "w",  audio: null,   sounds: [{s:"w", ex:"win"}] },
+  { grapheme: "x",  audio: null,   sounds: [{s:"ks", ex:"box"}] },
+  { grapheme: "y",  audio: null,   sounds: [{s:"y", ex:"yes"}, {s:"ī", ex:"by"}, {s:"ĭ", ex:"gym"}] },
+  { grapheme: "z",  audio: null,   sounds: [{s:"z", ex:"zoo"}] },
+
+  // ---- Digraphs & trigraphs ----
+  { grapheme: "ai",   audio: "Ai",   sounds: [{s:"ā", ex:"rain"}] },
+  { grapheme: "ar",   audio: "Ar",   sounds: [{s:"ar", ex:"far"}] },
+  { grapheme: "au",   audio: "Au",   sounds: [{s:"au", ex:"sauce"}] },
+  { grapheme: "aw",   audio: "Aw",   sounds: [{s:"aw", ex:"jaw"}] },
+  { grapheme: "ay",   audio: "Ay",   sounds: [{s:"ā", ex:"day"}] },
+  { grapheme: "ch",   audio: "Ch",   sounds: [{s:"ch", ex:"chop"}, {s:"k", ex:"school"}, {s:"sh", ex:"chef"}] },
+  { grapheme: "ci",   audio: "Ci",   sounds: [{s:"sh", ex:"social"}] },
+  { grapheme: "ck",   audio: "Ck",   sounds: [{s:"k", ex:"neck"}] },
+  { grapheme: "dge",  audio: "Dge",  sounds: [{s:"j", ex:"bridge"}] },
+  { grapheme: "ea",   audio: "Ea",   sounds: [{s:"ē", ex:"eat"}, {s:"ĕ", ex:"head"}, {s:"ā", ex:"break"}] },
+  { grapheme: "ear",  audio: "Ear",  sounds: [{s:"er", ex:"early"}] },
+  { grapheme: "ed",   audio: "Ed",   sounds: [{s:"ĕd", ex:"landed"}, {s:"d", ex:"loved"}, {s:"t", ex:"picked"}] },
+  { grapheme: "ee",   audio: "Ee",   sounds: [{s:"ē", ex:"see"}] },
+  { grapheme: "ei",   audio: "Ei",   sounds: [{s:"ē", ex:"receive"}, {s:"ā", ex:"veil"}, {s:"ī", ex:"forfeit"}] },
+  { grapheme: "eigh", audio: "Eigh", sounds: [{s:"ā", ex:"eight"}] },
+  { grapheme: "er",   audio: "Er",   sounds: [{s:"er", ex:"her"}] },
+  { grapheme: "ew",   audio: "Ew",   sounds: [{s:"ōō", ex:"grew"}, {s:"ū", ex:"new"}] },
+  { grapheme: "ey",   audio: "Ey",   sounds: [{s:"ā", ex:"they"}, {s:"ē", ex:"key"}, {s:"ī", ex:"donkey"}] },
+  { grapheme: "gn",   audio: "Gn",   sounds: [{s:"n", ex:"gnome"}] },
+  { grapheme: "gu",   audio: "Gu",   sounds: [{s:"g", ex:"guess"}] },
+  { grapheme: "ie",   audio: "Ie",   sounds: [{s:"ē", ex:"chief"}, {s:"ī", ex:"pie"}, {s:"ĭ", ex:"parties"}] },
+  { grapheme: "igh",  audio: "Igh",  sounds: [{s:"ī", ex:"light"}] },
+  { grapheme: "ir",   audio: "Ir",   sounds: [{s:"er", ex:"first"}] },
+  { grapheme: "kn",   audio: "Kn",   sounds: [{s:"n", ex:"knot"}] },
+  { grapheme: "ng",   audio: "Ng",   sounds: [{s:"ng", ex:"sang"}] },
+  { grapheme: "oa",   audio: "Oa",   sounds: [{s:"ō", ex:"boat"}] },
+  { grapheme: "oe",   audio: "Oe",   sounds: [{s:"ō", ex:"toe"}] },
+  { grapheme: "oi",   audio: "Oi",   sounds: [{s:"oi", ex:"point"}] },
+  { grapheme: "oo",   audio: "Oo",   sounds: [{s:"ōō", ex:"food"}, {s:"ŏŏ", ex:"cook"}] },
+  { grapheme: "or",   audio: "Or",   sounds: [{s:"or", ex:"for"}] },
+  { grapheme: "ou",   audio: "Ou",   sounds: [{s:"ow", ex:"round"}, {s:"ō", ex:"shoulder"}, {s:"oo", ex:"you"}, {s:"ŭ", ex:"famous"}] },
+  { grapheme: "ough", audio: "Ough", sounds: [{s:"ō", ex:"though"}, {s:"ōō", ex:"through"}, {s:"ŭf", ex:"rough"}, {s:"ŏff", ex:"cough"}, {s:"aw", ex:"thought"}, {s:"ow", ex:"drought"}] },
+  { grapheme: "oy",   audio: null,   sounds: [{s:"oy", ex:"boy"}] },
+  { grapheme: "ph",   audio: null,   sounds: [{s:"f", ex:"phone"}] },
+  { grapheme: "sh",   audio: null,   sounds: [{s:"sh", ex:"dish"}] },
+  { grapheme: "si",   audio: null,   sounds: [{s:"sh", ex:"session"}, {s:"zh", ex:"vision"}] },
+  { grapheme: "th",   audio: null,   sounds: [{s:"th", ex:"thin"}, {s:"th", ex:"this"}] },
+  { grapheme: "ti",   audio: null,   sounds: [{s:"sh", ex:"nation"}] },
+  { grapheme: "ui",   audio: null,   sounds: [{s:"ōō", ex:"fruit"}, {s:"ū", ex:"nuisance"}] },
+  { grapheme: "ur",   audio: null,   sounds: [{s:"er", ex:"nurse"}] },
+  { grapheme: "wh",   audio: null,   sounds: [{s:"hw", ex:"when"}] },
+  { grapheme: "wr",   audio: null,   sounds: [{s:"r", ex:"wrap"}] },
 ];
 
-const DIPHTHONGS = [
-    { ipa: "/æɪ/", kw: "face",   desc: "Glide 'ay' (FACE, MAKE)",   examples: ["face", "make", "say", "rain"] },
-    { ipa: "/ɑe/", kw: "price",  desc: "Glide 'eye' (PRICE, LIGHT)",examples: ["price", "light", "my", "time"] },
-    { ipa: "/oɪ/", kw: "choice", desc: "Glide 'oy' (CHOICE, VOICE)",examples: ["choice", "voice", "boy", "joy"] },
-    { ipa: "/æɔ/", kw: "mouth",  desc: "Glide 'ow' (MOUTH, DOWN)",  examples: ["mouth", "down", "now", "house"] },
-    { ipa: "/əʉ/", kw: "goat",   desc: "Glide 'oh' (GOAT, LOAD)",   examples: ["goat", "load", "go", "road"] },
-    { ipa: "/ɪə/", kw: "near",   desc: "Glide 'ear' (NEAR, HERE)",  examples: ["near", "here", "beer", "fear"] },
-    { ipa: "/eː/", kw: "square",  desc: "Long 'air' (SQUARE, CARE)", examples: ["square", "care", "fair", "hair"] },
-    { ipa: "/ʊə/", kw: "cure",   desc: "Glide 'ure' (CURE, TOUR)",  examples: ["cure", "tour", "poor", "sure"] },
-];
+const SINGLES = GRAPHEMES.filter(g => g.grapheme.length === 1);
+const MULTIS  = GRAPHEMES.filter(g => g.grapheme.length > 1);
 
-const ALL_VOWELS = [...MONOPHTHONGS, ...DIPHTHONGS];
-
-// ---- state ----
-const selected = new Set();      // indices into ALL_VOWELS
-let queue = [];                  // vowels still to learn this session
-let current = null;             // current card
-let inputMode = "write";        // "write" | "type"
+// ---- State ----
+const selected = new Set();
+let queue = [];
+let current = null;
+let inputMode = "write";
 let learnedCount = 0;
-let missed = new Set();          // vowels graded "again" at least once
+let missed = new Set();
 let sessionTotal = 0;
 
-// ---- element helpers ----
-const $ = (id) => document.getElementById(id);
+const $ = id => document.getElementById(id);
 const screens = { select: $("selectScreen"), card: $("cardScreen"), done: $("doneScreen") };
 function showScreen(name) {
     Object.entries(screens).forEach(([k, el]) => el.classList.toggle("active", k === name));
@@ -51,13 +101,14 @@ function showScreen(name) {
 // ============================================================
 // SCREEN 1 — selection
 // ============================================================
-function buildGrid(container, vowels) {
-    vowels.forEach((v) => {
-        const idx = ALL_VOWELS.indexOf(v);
+function buildGrid(container, items) {
+    items.forEach(v => {
+        const idx = GRAPHEMES.indexOf(v);
         const chip = document.createElement("div");
         chip.className = "vowel-chip";
         chip.dataset.idx = idx;
-        chip.innerHTML = `<span class="ipa">${v.ipa}</span><span class="kw">${v.kw}</span>`;
+        const dots = "●".repeat(v.sounds.length);
+        chip.innerHTML = `<span class="gr">${v.grapheme}</span><span class="dots">${dots}</span>`;
         chip.addEventListener("click", () => toggleChip(idx, chip));
         container.appendChild(chip);
     });
@@ -66,28 +117,28 @@ function buildGrid(container, vowels) {
 function toggleChip(idx, chip) {
     if (selected.has(idx)) { selected.delete(idx); chip.classList.remove("selected"); }
     else { selected.add(idx); chip.classList.add("selected"); }
-    refreshSelectCount();
+    refreshCount();
 }
 
-function refreshSelectCount() {
+function refreshCount() {
     $("selCount").textContent = selected.size;
     $("startBtn").disabled = selected.size === 0;
 }
 
 function setAllChips(on) {
-    document.querySelectorAll(".vowel-chip").forEach((chip) => {
+    document.querySelectorAll(".vowel-chip").forEach(chip => {
         const idx = +chip.dataset.idx;
         chip.classList.toggle("selected", on);
         if (on) selected.add(idx); else selected.delete(idx);
     });
-    refreshSelectCount();
+    refreshCount();
 }
 
 // ============================================================
-// SCREEN 2 — flashcard drill
+// SCREEN 2 — flashcard
 // ============================================================
 function startSession() {
-    queue = [...selected].map((i) => ALL_VOWELS[i]);
+    queue = [...selected].map(i => GRAPHEMES[i]);
     shuffle(queue);
     sessionTotal = queue.length;
     learnedCount = 0;
@@ -101,8 +152,7 @@ function nextCard() {
     current = queue[0];
     resetCardUI();
     updateProgress();
-    // auto-play the sound when the card appears
-    setTimeout(playCurrent, 250);
+    setTimeout(playCurrent, 300);
 }
 
 function resetCardUI() {
@@ -116,27 +166,27 @@ function resetCardUI() {
 function updateProgress() {
     const left = queue.length;
     $("remainingLabel").textContent = `${left} card${left === 1 ? "" : "s"} left`;
-    const done = sessionTotal - left;
-    $("progressFill").style.width = `${(done / sessionTotal) * 100}%`;
+    $("progressFill").style.width = `${((sessionTotal - left) / sessionTotal) * 100}%`;
 }
 
 function revealAnswer() {
-    $("ansIpa").textContent = current.ipa;
-    $("ansDesc").textContent = current.desc;
-    $("ansExamples").innerHTML = current.examples
-        .map((w) => (w === current.kw ? `<b>${w}</b>` : w)).join(", ");
+    $("ansGrapheme").textContent = current.grapheme;
+    const html = current.sounds.map(s =>
+        `<div class="sound-item"><span class="sym">${s.s}</span> <span class="ex">e.g. ${s.ex}</span></div>`
+    ).join("");
+    $("ansSounds").innerHTML = html;
     $("answerBox").classList.add("show");
     $("checkRow").style.display = "none";
     $("gradeRow").style.display = "flex";
 }
 
 function gradeCard(gotIt) {
-    const card = queue.shift();          // remove from front
+    const card = queue.shift();
     if (gotIt) {
-        learnedCount++;                  // out of rotation for good
+        learnedCount++;
     } else {
         missed.add(card);
-        queue.push(card);                // back of the line
+        queue.push(card);
     }
     nextCard();
 }
@@ -148,88 +198,77 @@ function finishSession() {
     showScreen("done");
     const tricky = missed.size;
     $("doneStats").innerHTML =
-        `You learned <b>${sessionTotal}</b> sound${sessionTotal === 1 ? "" : "s"}!` +
-        (tricky ? `<br><span style="color:#e8973a;">${tricky}</span> needed a few goes.` : `<br>Nailed every one first try. 🌟`);
+        `You learned <b>${sessionTotal}</b> spelling code${sessionTotal === 1 ? "" : "s"}!` +
+        (tricky ? `<br><span style="color:#e8973a">${tricky}</span> needed extra goes.`
+                 : `<br>Nailed every one first try! 🌟`);
     $("reviewMissedBtn").style.display = tricky ? "inline-block" : "none";
 }
 
 function reviewMissed() {
     const list = [...missed];
     selected.clear();
-    list.forEach((v) => selected.add(ALL_VOWELS.indexOf(v)));
+    list.forEach(v => selected.add(GRAPHEMES.indexOf(v)));
     startSession();
 }
 
 // ============================================================
-// Audio — Australian English via Web Speech API
+// Audio — play the MP4 file for the current grapheme
 // ============================================================
-let auVoice = null;
-function pickVoice() {
-    const voices = speechSynthesis.getVoices();
-    auVoice = voices.find((v) => v.lang === "en-AU")
-           || voices.find((v) => v.lang && v.lang.startsWith("en-AU"))
-           || voices.find((v) => v.lang && v.lang.startsWith("en"))
-           || null;
-}
-if ("speechSynthesis" in window) {
-    pickVoice();
-    speechSynthesis.onvoiceschanged = pickVoice;
-}
+let audioEl = null;
 
 function playCurrent() {
-    if (!current || !("speechSynthesis" in window)) return;
+    if (!current) return;
     const btn = $("listenBtn");
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(current.kw);
-    u.lang = "en-AU";
-    if (auVoice) u.voice = auVoice;
-    u.rate = 0.85;
-    u.onstart = () => btn.classList.add("playing");
-    u.onend = () => btn.classList.remove("playing");
-    speechSynthesis.speak(u);
+
+    if (!current.audio) {
+        btn.textContent = "🔇 No audio yet";
+        setTimeout(() => { btn.textContent = "🔊 Play sound"; }, 1500);
+        return;
+    }
+
+    if (audioEl) { audioEl.pause(); audioEl = null; }
+
+    audioEl = new Audio(current.audio + ".mp4");
+    audioEl.addEventListener("play", () => btn.classList.add("playing"));
+    audioEl.addEventListener("ended", () => btn.classList.remove("playing"));
+    audioEl.addEventListener("error", () => {
+        btn.classList.remove("playing");
+        btn.textContent = "🔇 Audio not found";
+        setTimeout(() => { btn.textContent = "🔊 Play sound"; }, 1500);
+    });
+    audioEl.play().catch(() => {});
 }
 
 // ============================================================
-// Handwriting canvas
+// Canvas
 // ============================================================
 let canvas, ctx, drawing = false;
 function initCanvas() {
     canvas = $("writeCanvas");
     ctx = canvas.getContext("2d");
     styleCtx();
-    const pos = (e) => {
+    const pos = e => {
         const r = canvas.getBoundingClientRect();
         const p = e.touches ? e.touches[0] : e;
-        return {
-            x: (p.clientX - r.left) * (canvas.width / r.width),
-            y: (p.clientY - r.top) * (canvas.height / r.height),
-        };
+        return { x: (p.clientX - r.left) * (canvas.width / r.width),
+                 y: (p.clientY - r.top) * (canvas.height / r.height) };
     };
-    const start = (e) => { e.preventDefault(); drawing = true; const { x, y } = pos(e); ctx.beginPath(); ctx.moveTo(x, y); };
-    const move = (e) => { if (!drawing) return; e.preventDefault(); const { x, y } = pos(e); ctx.lineTo(x, y); ctx.stroke(); };
-    const end = () => { drawing = false; };
+    const start = e => { e.preventDefault(); drawing = true; const {x,y} = pos(e); ctx.beginPath(); ctx.moveTo(x,y); };
+    const move  = e => { if (!drawing) return; e.preventDefault(); const {x,y} = pos(e); ctx.lineTo(x,y); ctx.stroke(); };
+    const end   = () => { drawing = false; };
     canvas.addEventListener("mousedown", start);
     canvas.addEventListener("mousemove", move);
     canvas.addEventListener("mouseup", end);
     canvas.addEventListener("mouseleave", end);
-    canvas.addEventListener("touchstart", start, { passive: false });
-    canvas.addEventListener("touchmove", move, { passive: false });
+    canvas.addEventListener("touchstart", start, {passive:false});
+    canvas.addEventListener("touchmove", move, {passive:false});
     canvas.addEventListener("touchend", end);
 }
-function styleCtx() {
-    ctx.strokeStyle = "#333";
-    ctx.lineWidth = 3;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-}
-function clearCanvas() {
-    if (!ctx) return;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    styleCtx();
-}
+function styleCtx() { ctx.strokeStyle = "#333"; ctx.lineWidth = 3; ctx.lineCap = "round"; ctx.lineJoin = "round"; }
+function clearCanvas() { if (!ctx) return; ctx.clearRect(0, 0, canvas.width, canvas.height); styleCtx(); }
 
 // ============================================================
-// Input mode toggle
+// Input mode
 // ============================================================
 function setMode(mode) {
     inputMode = mode;
@@ -251,17 +290,15 @@ function shuffle(arr) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    buildGrid($("gridMono"), MONOPHTHONGS);
-    buildGrid($("gridDiph"), DIPHTHONGS);
+    buildGrid($("gridSingle"), SINGLES);
+    buildGrid($("gridMulti"), MULTIS);
     initCanvas();
-    refreshSelectCount();
+    refreshCount();
 
-    // selection screen
     $("selectAll").addEventListener("click", () => setAllChips(true));
     $("selectNone").addEventListener("click", () => setAllChips(false));
     $("startBtn").addEventListener("click", startSession);
 
-    // flashcard screen
     $("listenBtn").addEventListener("click", playCurrent);
     $("modeWrite").addEventListener("click", () => setMode("write"));
     $("modeType").addEventListener("click", () => setMode("type"));
@@ -269,10 +306,9 @@ document.addEventListener("DOMContentLoaded", () => {
     $("checkBtn").addEventListener("click", revealAnswer);
     $("gotItBtn").addEventListener("click", () => gradeCard(true));
     $("againBtn").addEventListener("click", () => gradeCard(false));
-    $("quitBtn").addEventListener("click", () => { speechSynthesis.cancel(); showScreen("select"); });
-    $("typeInput").addEventListener("keypress", (e) => { if (e.key === "Enter") revealAnswer(); });
+    $("quitBtn").addEventListener("click", () => { if (audioEl) audioEl.pause(); showScreen("select"); });
+    $("typeInput").addEventListener("keypress", e => { if (e.key === "Enter") revealAnswer(); });
 
-    // done screen
     $("restartBtn").addEventListener("click", () => showScreen("select"));
     $("reviewMissedBtn").addEventListener("click", reviewMissed);
 });

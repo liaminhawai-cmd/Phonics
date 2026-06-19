@@ -1,112 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Australian English Vowel Trainer</title>
+    <title>Aussie Phonics Trainer</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 16px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
         }
-
         .container {
             background: white;
             border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 720px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 760px;
             width: 100%;
-            padding: 32px;
-            margin-top: 20px;
+            padding: 28px;
+            margin-top: 12px;
         }
-
-        h1 { color: #333; text-align: center; font-size: 24px; }
-        .subtitle { color: #666; text-align: center; margin: 8px 0 24px; font-size: 14px; }
+        h1 { color: #333; text-align: center; font-size: 22px; }
+        .subtitle { color: #666; text-align: center; margin: 6px 0 20px; font-size: 13px; }
 
         .screen { display: none; }
         .screen.active { display: block; }
 
-        /* ---------- Selection screen ---------- */
+        /* ---- Selection ---- */
         .select-toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12px; flex-wrap: wrap; gap: 8px;
         }
         .select-toolbar .links button {
-            background: none;
-            border: none;
-            color: #667eea;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 14px;
-            padding: 4px 8px;
+            background: none; border: none; color: #667eea;
+            font-weight: 600; cursor: pointer; font-size: 13px; padding: 4px 8px;
         }
         .select-toolbar .links button:hover { text-decoration: underline; }
         .count-pill {
-            background: #eef1ff;
-            color: #667eea;
-            border-radius: 20px;
-            padding: 6px 14px;
-            font-size: 13px;
-            font-weight: 600;
+            background: #eef1ff; color: #667eea; border-radius: 20px;
+            padding: 5px 12px; font-size: 12px; font-weight: 600;
         }
-
         .group-label {
-            font-size: 13px;
-            font-weight: 700;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 18px 0 10px;
+            font-size: 12px; font-weight: 700; color: #999;
+            text-transform: uppercase; letter-spacing: .5px; margin: 14px 0 8px;
         }
-
         .vowel-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+            gap: 8px;
         }
         .vowel-chip {
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 12px 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            user-select: none;
+            border: 2px solid #e0e0e0; border-radius: 10px;
+            padding: 10px 6px; text-align: center; cursor: pointer;
+            transition: all .15s ease; user-select: none;
         }
         .vowel-chip:hover { border-color: #b9c2ff; background: #f7f8ff; }
-        .vowel-chip.selected {
-            border-color: #667eea;
-            background: #667eea;
-            color: white;
+        .vowel-chip.selected { border-color: #667eea; background: #667eea; color: white; }
+        .vowel-chip .gr {
+            font-weight: 700; font-size: 18px; display: block;
+            font-family: Georgia, 'Times New Roman', serif;
         }
-        .vowel-chip .ipa {
-            font-family: 'Courier New', monospace;
-            font-weight: 700;
-            font-size: 20px;
-            display: block;
-        }
-        .vowel-chip .kw { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+        .vowel-chip .dots { font-size: 10px; opacity: .7; margin-top: 2px; display: block; }
+        .vowel-chip.selected .dots { opacity: .9; }
 
-        /* ---------- Buttons ---------- */
+        /* ---- Buttons ---- */
         button.btn {
-            padding: 14px 24px;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            padding: 13px 22px; border: none; border-radius: 10px;
+            font-size: 15px; font-weight: 600; cursor: pointer; transition: all .2s ease;
         }
         .btn-primary { background: #667eea; color: white; }
         .btn-primary:hover:not(:disabled) { background: #5568d3; transform: translateY(-1px); }
@@ -118,144 +82,87 @@
         .btn-warn { background: #e8973a; color: white; }
         .btn-warn:hover { background: #d4842b; }
 
-        .start-bar { margin-top: 28px; text-align: center; }
+        .start-bar { margin-top: 24px; text-align: center; }
         .start-bar .btn { width: 100%; max-width: 320px; }
 
-        /* ---------- Flashcard screen ---------- */
+        /* ---- Flashcard ---- */
         .progress-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            color: #777;
-            margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 13px; color: #777; margin-bottom: 8px;
         }
-        .progress-track {
-            height: 8px;
-            background: #eee;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 24px;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
+        .progress-track { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); width: 0%; transition: width .3s ease; }
 
         .card {
-            border: 2px solid #eee;
-            border-radius: 14px;
-            padding: 28px;
-            text-align: center;
+            border: 2px solid #eee; border-radius: 14px; padding: 24px; text-align: center;
         }
         .listen-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 18px 32px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            background: #667eea; color: white; border: none; border-radius: 50px;
+            padding: 16px 28px; font-size: 17px; font-weight: 600;
+            cursor: pointer; transition: all .2s ease;
         }
         .listen-btn:hover { background: #5568d3; transform: scale(1.03); }
-        .listen-btn.playing { animation: pulse 0.8s infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
-        .replay-hint { font-size: 13px; color: #999; margin-top: 10px; }
+        .listen-btn.playing { animation: pulse .8s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .6; } }
+        .replay-hint { font-size: 13px; color: #999; margin-top: 8px; }
 
-        /* input modes */
         .mode-toggle {
-            display: inline-flex;
-            background: #eef0f5;
-            border-radius: 10px;
-            padding: 4px;
-            margin: 24px 0 16px;
+            display: inline-flex; background: #eef0f5; border-radius: 10px;
+            padding: 4px; margin: 20px 0 14px;
         }
         .mode-toggle button {
-            border: none;
-            background: none;
-            padding: 8px 18px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            color: #666;
+            border: none; background: none; padding: 8px 16px; border-radius: 8px;
+            font-weight: 600; font-size: 14px; cursor: pointer; color: #666;
         }
-        .mode-toggle button.active { background: white; color: #667eea; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .mode-toggle button.active { background: white; color: #667eea; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
 
         #typeInput {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 18px;
-            font-family: 'Courier New', monospace;
+            width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 10px;
+            font-size: 20px; font-family: Georgia, 'Times New Roman', serif;
             text-align: center;
         }
         #typeInput:focus { outline: none; border-color: #667eea; }
 
         #writeCanvas {
-            border: 2px dashed #ccc;
-            border-radius: 10px;
-            background: #fafafa;
-            touch-action: none;
-            cursor: crosshair;
-            width: 100%;
-            max-width: 420px;
-            height: 200px;
+            border: 2px dashed #ccc; border-radius: 10px; background: #fafafa;
+            touch-action: none; cursor: crosshair; width: 100%; max-width: 420px; height: 200px;
         }
-        .canvas-tools { margin-top: 8px; }
-        .canvas-tools button {
-            background: none;
-            border: none;
-            color: #888;
-            cursor: pointer;
-            font-size: 13px;
-            text-decoration: underline;
-        }
+        .canvas-tools { margin-top: 6px; }
+        .canvas-tools button { background: none; border: none; color: #888; cursor: pointer; font-size: 13px; text-decoration: underline; }
 
         .input-wrap { display: none; }
         .input-wrap.active { display: block; }
 
-        /* reveal / answer */
         .answer-box {
-            margin-top: 22px;
-            padding: 20px;
-            background: #f3f6ff;
-            border-radius: 12px;
-            border-left: 4px solid #667eea;
-            text-align: left;
-            display: none;
+            margin-top: 20px; padding: 18px; background: #f3f6ff;
+            border-radius: 12px; border-left: 4px solid #667eea;
+            text-align: left; display: none;
         }
         .answer-box.show { display: block; }
-        .answer-box .big-ipa {
-            font-family: 'Courier New', monospace;
-            font-size: 28px;
-            font-weight: 700;
-            color: #667eea;
+        .answer-box .big-grapheme {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 36px; font-weight: 700; color: #667eea;
         }
-        .answer-box .desc { color: #555; margin: 6px 0; }
-        .answer-box .examples { color: #333; font-size: 14px; }
-        .answer-box .examples b { color: #764ba2; }
+        .answer-box .sounds-list { color: #555; margin: 8px 0; font-size: 14px; line-height: 1.6; }
+        .answer-box .sounds-list .sound-item { margin: 4px 0; }
+        .answer-box .sounds-list .sym { font-weight: 700; color: #764ba2; }
+        .answer-box .sounds-list .ex { color: #888; font-style: italic; }
 
-        .action-row { margin-top: 22px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .action-row { margin-top: 20px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
         .action-row .btn { flex: 1; min-width: 140px; max-width: 220px; }
 
-        /* ---------- Done screen ---------- */
-        .done-emoji { font-size: 56px; text-align: center; }
-        .done-stats { text-align: center; color: #555; margin: 16px 0 24px; font-size: 16px; line-height: 1.6; }
+        /* ---- Done ---- */
+        .done-emoji { font-size: 52px; text-align: center; }
+        .done-stats { text-align: center; color: #555; margin: 14px 0 22px; font-size: 16px; line-height: 1.6; }
         .done-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🇦🇺 Aussie Vowel Trainer</h1>
-        <p class="subtitle">Pick your sounds, then drill them flashcard-style: listen, write, check.</p>
+        <h1>Aussie Phonics Trainer</h1>
+        <p class="subtitle">Pick your spelling codes, then drill them: listen to the sound, write the grapheme, check.</p>
 
-        <!-- ============ SCREEN 1: SELECT ============ -->
+        <!-- ===== SELECT ===== -->
         <section class="screen active" id="selectScreen">
             <div class="select-toolbar">
                 <span class="count-pill"><span id="selCount">0</span> selected</span>
@@ -264,27 +171,27 @@
                     <button id="selectNone">Clear</button>
                 </div>
             </div>
-            <div class="group-label">Monophthongs</div>
-            <div class="vowel-grid" id="gridMono"></div>
-            <div class="group-label">Diphthongs</div>
-            <div class="vowel-grid" id="gridDiph"></div>
+            <div class="group-label">Single Letters</div>
+            <div class="vowel-grid" id="gridSingle"></div>
+            <div class="group-label">Digraphs &amp; Trigraphs</div>
+            <div class="vowel-grid" id="gridMulti"></div>
 
             <div class="start-bar">
-                <button class="btn btn-primary" id="startBtn" disabled>Start practising →</button>
+                <button class="btn btn-primary" id="startBtn" disabled>Start practising</button>
             </div>
         </section>
 
-        <!-- ============ SCREEN 2: FLASHCARD ============ -->
+        <!-- ===== FLASHCARD ===== -->
         <section class="screen" id="cardScreen">
             <div class="progress-row">
                 <span id="remainingLabel">0 left</span>
-                <button class="btn-ghost" id="quitBtn" style="border:none;background:none;color:#999;cursor:pointer;font-weight:600;">✕ Exit</button>
+                <button id="quitBtn" style="border:none;background:none;color:#999;cursor:pointer;font-weight:600;">✕ Exit</button>
             </div>
             <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
 
             <div class="card">
                 <button class="listen-btn" id="listenBtn">🔊 Play sound</button>
-                <div class="replay-hint">Listen, then write or type the IPA symbol &amp; a sample word.</div>
+                <div class="replay-hint">Listen, then write or type the spelling code (grapheme).</div>
 
                 <div class="mode-toggle">
                     <button id="modeWrite" class="active">✏️ Handwrite</button>
@@ -296,26 +203,25 @@
                     <div class="canvas-tools"><button id="clearCanvas">clear</button></div>
                 </div>
                 <div class="input-wrap" id="typeWrap">
-                    <input type="text" id="typeInput" placeholder="e.g.  /iː/  fleece" autocomplete="off">
+                    <input type="text" id="typeInput" placeholder="e.g. ch, igh, ough" autocomplete="off">
                 </div>
 
                 <div class="answer-box" id="answerBox">
-                    <div class="big-ipa" id="ansIpa"></div>
-                    <div class="desc" id="ansDesc"></div>
-                    <div class="examples">Examples: <span id="ansExamples"></span></div>
+                    <div class="big-grapheme" id="ansGrapheme"></div>
+                    <div class="sounds-list" id="ansSounds"></div>
                 </div>
 
                 <div class="action-row" id="checkRow">
-                    <button class="btn btn-primary" id="checkBtn">Check answer</button>
+                    <button class="btn btn-primary" id="checkBtn">Show answer</button>
                 </div>
                 <div class="action-row" id="gradeRow" style="display:none;">
-                    <button class="btn btn-warn" id="againBtn">↻ Practise again</button>
-                    <button class="btn btn-success" id="gotItBtn">✓ Got it</button>
+                    <button class="btn btn-warn" id="againBtn">&#8635; Again</button>
+                    <button class="btn btn-success" id="gotItBtn">&#10003; Got it</button>
                 </div>
             </div>
         </section>
 
-        <!-- ============ SCREEN 3: DONE ============ -->
+        <!-- ===== DONE ===== -->
         <section class="screen" id="doneScreen">
             <div class="done-emoji">🎉</div>
             <div class="done-stats" id="doneStats"></div>
