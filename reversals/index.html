@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter &amp; Number Reversal Trainer</title>
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --paper: #fbf7ee;
+            --ink: #1f1f1f;
+            --muted: #6b6256;
+            --line: #d8cfbb;
+            --line-soft: #e8e0cd;
+            --accent: #a83232;
+            --correct: #2f6a3e;
+            --wrong: #a83232;
+            --guide: #c4b8a4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--ink);
+        }
+        .container {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            max-width: 760px;
+            width: 100%;
+            padding: 28px;
+            margin-top: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        h1 {
+            text-align: center;
+            font-size: 22px;
+            font-family: Georgia, 'Times New Roman', serif;
+            letter-spacing: 0.5px;
+        }
+        .subtitle { color: var(--muted); text-align: center; margin: 6px 0 20px; font-size: 13px; }
+
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0 8px; }
+        .choice-card {
+            border: 1px solid var(--line); border-radius: 12px; background: var(--paper);
+            padding: 36px 20px; cursor: pointer; text-align: center; transition: all 0.18s ease;
+        }
+        .choice-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+        .choice-card .emoji { font-size: 38px; display: block; margin-bottom: 12px; }
+        .choice-card .ttl { font-family: Georgia, serif; font-size: 20px; font-weight: 700; }
+        .choice-card .desc { color: var(--muted); font-size: 13px; margin-top: 8px; line-height: 1.5; }
+        @media (max-width: 480px) { .choice-grid { grid-template-columns: 1fr; } }
+
+        .back-link { background: none; border: none; color: var(--muted); font-weight: 600; font-size: 13px; cursor: pointer; padding: 4px 0; margin-bottom: 4px; }
+        .back-link:hover { color: var(--ink); }
+
+        /* ---- Selection ---- */
+        .set-section { margin-bottom: 18px; }
+        .set-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+        .set-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+        .set-chip {
+            border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; text-align: center;
+            cursor: pointer; transition: all 0.15s ease; user-select: none; background: var(--paper);
+            font-weight: 700; font-size: 20px; font-family: Georgia, serif; min-width: 44px;
+        }
+        .set-chip:hover { border-color: var(--accent); background: #faf5f0; }
+        .set-chip.selected { border-color: var(--accent); background: var(--accent); color: white; }
+        .set-chip.confusable { border-left: 3px solid #e07020; }
+        .set-chip.confusable.selected { border-left-color: #fff; }
+
+        .focus-sets { margin: 14px 0; }
+        .focus-btn {
+            border: 1px solid var(--line); background: var(--bg); color: var(--muted);
+            font-weight: 600; font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer;
+            transition: all 0.15s ease; margin: 0 4px 4px 0;
+        }
+        .focus-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .focus-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .select-toolbar { display: flex; justify-content: space-between; align-items: center; margin: 12px 0; flex-wrap: wrap; gap: 8px; }
+        .count-pill { background: var(--bg); color: var(--accent); border: 1px solid var(--line); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; }
+        .select-toolbar .links button { background: none; border: none; color: var(--accent); font-weight: 600; cursor: pointer; font-size: 13px; padding: 4px 8px; }
+        .select-toolbar .links button:hover { text-decoration: underline; }
+
+        button.btn { padding: 12px 20px; border: 1px solid var(--line); border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; background: var(--paper); color: var(--ink); }
+        .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+        .btn-primary:hover:not(:disabled) { background: #8c2828; }
+        .btn-primary:disabled { background: var(--line); border-color: var(--line); color: var(--muted); cursor: not-allowed; }
+        .btn-ghost { background: var(--bg); color: var(--muted); }
+        .btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+        .btn-correct { background: var(--correct); color: white; border-color: var(--correct); }
+        .btn-correct:hover { background: #245a33; }
+        .btn-wrong { background: var(--wrong); color: white; border-color: var(--wrong); }
+        .btn-wrong:hover { background: #8c2828; }
+        .start-bar { margin-top: 24px; text-align: center; }
+        .start-bar .btn { width: 100%; max-width: 320px; }
+
+        /* ---- Drill ---- */
+        .progress-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+        .drill-mode-label { font-weight: 700; color: var(--accent); }
+        .progress-track { height: 6px; background: var(--line-soft); border-radius: 3px; overflow: hidden; margin-bottom: 20px; }
+        .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s ease; border-radius: 3px; }
+        .card { border: 1px solid var(--line); border-radius: 10px; padding: 24px; text-align: center; background: var(--paper); }
+
+        /* Canvas area */
+        .canvas-wrap { position: relative; margin: 0 auto; width: 100%; max-width: 340px; }
+        #writeCanvas {
+            border: 1px dashed var(--line); border-radius: 8px; background: var(--paper);
+            touch-action: none; cursor: crosshair; width: 100%; height: 280px; display: block;
+        }
+        .canvas-tools { margin-top: 6px; text-align: center; }
+        .canvas-tools button { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 13px; text-decoration: underline; margin: 0 6px; }
+
+        .ghost-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; opacity: 0; transition: opacity 0.4s ease;
+        }
+        .ghost-overlay.show { opacity: 0.35; }
+        .ghost-overlay.show-strong { opacity: 0.6; }
+
+        .model-letter {
+            font-family: Georgia, serif; font-size: 180px; font-weight: 700;
+            color: var(--ink); line-height: 1; margin: 10px 0;
+        }
+        .speak-btn {
+            background: var(--ink); color: var(--paper); border: none; border-radius: 50px;
+            padding: 14px 24px; font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s ease; margin: 10px 0;
+        }
+        .speak-btn:hover { background: #333; transform: scale(1.02); }
+        .speak-btn.playing { animation: pulse 0.8s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        .hint-text { color: var(--muted); font-size: 14px; margin: 8px 0; }
+        .mnemonic { color: var(--accent); font-size: 13px; font-style: italic; margin: 6px 0; }
+
+        .action-row { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .action-row .btn { flex: 1; min-width: 130px; max-width: 200px; }
+
+        /* Spot mode */
+        .spot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px auto; max-width: 360px; }
+        .spot-card {
+            border: 2px solid var(--line); border-radius: 10px; background: var(--paper);
+            padding: 18px 8px; text-align: center; cursor: pointer; transition: all 0.18s ease;
+            font-family: Georgia, serif; font-size: 48px; font-weight: 700; user-select: none;
+        }
+        .spot-card:hover { border-color: var(--accent); background: #faf5f0; }
+        .spot-card.correct-pick { border-color: var(--correct); background: #eaf5ed; color: var(--correct); }
+        .spot-card.wrong-pick { border-color: var(--wrong); background: #f5eaea; color: var(--wrong); }
+        .spot-card.disabled { pointer-events: none; opacity: 0.6; }
+        .spot-prompt { font-size: 16px; color: var(--muted); margin-bottom: 6px; }
+
+        /* Mastered shelf */
+        .shelf-section { margin-top: 24px; }
+        .shelf-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+        .shelf { display: flex; flex-wrap: wrap; gap: 6px; min-height: 36px; padding: 10px; background: var(--bg); border: 1px solid var(--line-soft); border-radius: 8px; }
+        .shelf-item { display: inline-block; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; font-family: Georgia, serif; font-weight: 700; font-size: 14px; color: var(--correct); animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .shelf-empty { font-size: 12px; color: var(--muted); font-style: italic; padding: 2px 0; }
+
+        /* Report */
+        .report-title { font-size: 26px; text-align: center; font-family: Georgia, serif; margin-bottom: 14px; }
+        .report-headline { text-align: center; font-size: 15px; color: var(--ink); margin-bottom: 16px; }
+        .report-rows { display: flex; flex-direction: column; gap: 8px; }
+        .report-row { display: flex; gap: 10px; align-items: center; background: var(--bg); border: 1px solid var(--line-soft); border-radius: 8px; padding: 8px 12px; }
+        .report-row .rtry { font-size: 12px; font-weight: 700; color: var(--muted); min-width: 84px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .rcodes { display: flex; flex-wrap: wrap; gap: 5px; }
+        .rcode { font-family: Georgia, serif; font-weight: 700; font-size: 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 5px; padding: 2px 8px; }
+        .report-perfect { text-align: center; color: var(--correct); font-weight: 600; margin-top: 16px; }
+        .report-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+
+        .exit-btn { border: none; background: none; color: var(--muted); cursor: pointer; font-weight: 600; font-size: 13px; padding: 4px 8px; }
+        .exit-btn:hover { color: var(--ink); }
+
+        .case-toggle { display: inline-flex; background: var(--bg); border: 1px solid var(--line-soft); border-radius: 8px; padding: 3px; margin-bottom: 14px; }
+        .case-toggle button { border: none; background: none; padding: 7px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; color: var(--muted); transition: all 0.15s ease; }
+        .case-toggle button.active { background: var(--paper); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+        @media (max-width: 480px) {
+            .container { padding: 16px; }
+            .spot-grid { grid-template-columns: repeat(2, 1fr); }
+            .model-letter { font-size: 120px; }
+            #writeCanvas { height: 220px; }
+            .set-chip { min-width: 38px; padding: 6px 8px; font-size: 18px; }
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; max-width: 100%; }
+            .screen { display: none !important; }
+            #reportScreen.active { display: block !important; }
+            .report-actions, .exit-btn { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Letter &amp; Number Reversal Trainer</h1>
+        <p class="subtitle">Hear it, write it, check yourself — beat those reversals!</p>
+
+        <!-- SCREEN 1: Mode selection -->
+        <section class="screen active" id="modeScreen">
+            <div class="choice-grid">
+                <div class="choice-card" id="modeWriteBtn">
+                    <span class="emoji">&#9997;&#65039;</span>
+                    <div class="ttl">Write &amp; Check</div>
+                    <div class="desc">Hear the letter or number, write it on the canvas, then compare with the correct shape.</div>
+                </div>
+                <div class="choice-card" id="modeSpotBtn">
+                    <span class="emoji">&#128065;&#65039;</span>
+                    <div class="ttl">Spot the Right One</div>
+                    <div class="desc">See the target, then pick the correct letter or number from the options (some are flipped!).</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: Character selection -->
+        <section class="screen" id="selectScreen">
+            <button class="back-link" id="backToMode">&larr; Back</button>
+
+            <div class="case-toggle" id="caseToggle" style="display:block;text-align:center;margin-bottom:14px;">
+                <button class="active" data-case="lower">lowercase</button>
+                <button data-case="upper">UPPERCASE</button>
+            </div>
+
+            <div class="focus-sets" style="text-align:center;">
+                <span style="font-size:12px;color:var(--muted);font-weight:600;margin-right:6px;">FOCUS SETS:</span>
+                <button class="focus-btn" data-set="confusable">b d p q</button>
+                <button class="focus-btn" data-set="mw">m w</button>
+                <button class="focus-btn" data-set="nu">n u</button>
+                <button class="focus-btn" data-set="szj">s z j</button>
+                <button class="focus-btn" data-set="nums">2 3 5 6 7 9</button>
+                <button class="focus-btn" data-set="all-letters">All letters</button>
+                <button class="focus-btn" data-set="all-numbers">All numbers</button>
+            </div>
+
+            <div class="select-toolbar">
+                <div class="count-pill" id="selCount">0 selected</div>
+                <div class="links">
+                    <button id="selAll">Select all</button>
+                    <button id="selClear">Clear</button>
+                </div>
+            </div>
+
+            <div class="set-section" id="letterSection">
+                <div class="set-title">Letters</div>
+                <div class="set-grid" id="letterGrid"></div>
+            </div>
+
+            <div class="set-section" id="numberSection">
+                <div class="set-title">Numbers</div>
+                <div class="set-grid" id="numberGrid"></div>
+            </div>
+
+            <div class="start-bar">
+                <button class="btn btn-primary" id="startBtn" disabled>Start practising</button>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: Drill (Write & Check) -->
+        <section class="screen" id="drillScreen">
+            <button class="exit-btn" id="exitDrill">&larr; Exit</button>
+            <div class="progress-row">
+                <span class="drill-mode-label" id="drillModeLabel">Write &amp; Check</span>
+                <span id="progressText">0 / 0 mastered</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+            <div class="card" id="writeCard">
+                <div class="hint-text">Listen, then write the letter or number:</div>
+                <button class="speak-btn" id="speakBtn">&#128266; Play sound</button>
+                <div class="mnemonic" id="mnemonicText"></div>
+
+                <div class="canvas-wrap" style="margin-top:16px;">
+                    <canvas id="writeCanvas" width="340" height="280"></canvas>
+                    <canvas class="ghost-overlay" id="ghostCanvas" width="340" height="280"></canvas>
+                    <div class="canvas-tools">
+                        <button id="clearCanvas">Clear</button>
+                        <button id="showGhost">Show correct letter</button>
+                    </div>
+                </div>
+
+                <div class="action-row" id="writeActions" style="display:none;">
+                    <button class="btn btn-correct" id="gotItBtn">&#10003; Got it right</button>
+                    <button class="btn btn-wrong" id="missedItBtn">&#10007; Got it wrong</button>
+                </div>
+            </div>
+
+            <div class="card" id="spotCard" style="display:none;">
+                <div class="hint-text">Find the correct letter or number:</div>
+                <div class="model-letter" id="spotTarget"></div>
+                <button class="speak-btn" id="spotSpeakBtn" style="margin-bottom:10px;">&#128266; Hear it</button>
+                <div class="spot-prompt">Tap the one that matches:</div>
+                <div class="spot-grid" id="spotGrid"></div>
+                <div class="action-row" id="spotActions" style="display:none;">
+                    <button class="btn btn-primary" id="spotNextBtn">Next &rarr;</button>
+                </div>
+            </div>
+
+            <div class="shelf-section">
+                <div class="shelf-label">Mastered</div>
+                <div class="shelf" id="shelf"><span class="shelf-empty">Characters you master will appear here.</span></div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: Report -->
+        <section class="screen" id="reportScreen">
+            <div class="report-title">Session Report</div>
+            <div class="report-headline" id="reportHeadline"></div>
+            <div class="report-rows" id="reportRows"></div>
+            <div id="reportPerfect"></div>
+            <div class="report-actions">
+                <button class="btn btn-primary" id="retryMissedBtn">Practise missed</button>
+                <button class="btn btn-ghost" id="newSessionBtn">New session</button>
+                <button class="btn btn-ghost" id="printBtn">&#128424; Save / print report</button>
+            </div>
+        </section>
+    </div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   DATA
+   ============================================================ */
+
+const CONFUSABLE_PAIRS = {
+    b:['d'],d:['b'],p:['q'],q:['p'],
+    m:['w'],w:['m'],n:['u'],u:['n'],
+    s:[],z:[],j:[]
+};
+const CONFUSABLE_NUMS = {
+    2:['5'],5:['2'],6:['9'],9:['6'],3:['E'],7:[]
+};
+
+const FOCUS_SETS = {
+    confusable: ['b','d','p','q'],
+    mw: ['m','w'],
+    nu: ['n','u'],
+    szj: ['s','z','j'],
+    nums: ['2','3','5','6','7','9'],
+    'all-letters': 'abcdefghijklmnopqrstuvwxyz'.split(''),
+    'all-numbers': '0123456789'.split('')
+};
+
+const MNEMONICS = {
+    b: "b — bat first, then the ball",
+    d: "d — drum's round belly comes first",
+    p: "p — pole goes down, belly on the right",
+    q: "q — queen's round face, ponytail behind",
+    m: "m — two humps on a stick",
+    w: "w — two valleys dipping down",
+    n: "n — one hump on a stick",
+    u: "u — a cup you can drink from",
+    s: "s — a snake curving forward",
+    z: "z — zigzag left to right",
+    j: "j — a hook hanging below the line",
+    2: "2 — curve around then slide right",
+    3: "3 — two bumps on the right side",
+    5: "5 — hat on top, belly on the right",
+    6: "6 — curl down and loop around",
+    7: "7 — a shelf then a slope down-left",
+    9: "9 — circle on top, tail goes down"
+};
+
+const ALL_CHARS = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('');
+
+let practiceMode = ''; // 'write' or 'spot'
+let useUpperCase = false;
+let selectedChars = new Set();
+let queue = [];
+let mastered = [];
+let attempts = {};
+let totalCards = 0;
+let currentChar = null;
+let drawing = false;
+let lastX = 0, lastY = 0;
+let hasStrokes = false;
+let ghostShowing = false;
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+
+function $(id){ return document.getElementById(id); }
+function showScreen(id){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    $(id).classList.add('active');
+}
+
+function displayChar(ch){
+    if(!ch) return '';
+    if(useUpperCase && /[a-z]/.test(ch)) return ch.toUpperCase();
+    return ch;
+}
+
+function speak(text, rate){
+    if(!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-AU';
+    u.rate = rate || 0.85;
+    u.pitch = 1;
+    speechSynthesis.speak(u);
+}
+
+function speakChar(ch){
+    if(/[a-z]/i.test(ch)){
+        speak(ch.toUpperCase(), 0.8);
+    } else {
+        speak(ch, 0.8);
+    }
+}
+
+function shuffle(arr){
+    for(let i=arr.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+}
+
+/* ============================================================
+   SCREEN 1: MODE SELECTION
+   ============================================================ */
+
+$('modeWriteBtn').onclick = function(){ practiceMode='write'; showScreen('selectScreen'); buildSelection(); };
+$('modeSpotBtn').onclick = function(){ practiceMode='spot'; showScreen('selectScreen'); buildSelection(); };
+
+/* ============================================================
+   SCREEN 2: SELECTION
+   ============================================================ */
+
+function buildSelection(){
+    selectedChars.clear();
+    buildGrid('letterGrid', 'abcdefghijklmnopqrstuvwxyz'.split(''));
+    buildGrid('numberGrid', '0123456789'.split(''));
+    updateCount();
+}
+
+function buildGrid(containerId, chars){
+    const grid = $(containerId);
+    grid.innerHTML = '';
+    chars.forEach(ch => {
+        const div = document.createElement('div');
+        div.className = 'set-chip';
+        if(ch in CONFUSABLE_PAIRS || ch in CONFUSABLE_NUMS) div.classList.add('confusable');
+        div.textContent = displayChar(ch);
+        div.dataset.char = ch;
+        div.onclick = function(){
+            if(selectedChars.has(ch)){ selectedChars.delete(ch); div.classList.remove('selected'); }
+            else { selectedChars.add(ch); div.classList.add('selected'); }
+            updateCount();
+        };
+        if(selectedChars.has(ch)) div.classList.add('selected');
+        grid.appendChild(div);
+    });
+}
+
+function refreshGridDisplay(){
+    document.querySelectorAll('.set-chip').forEach(div => {
+        div.textContent = displayChar(div.dataset.char);
+    });
+}
+
+function updateCount(){
+    $('selCount').textContent = selectedChars.size + ' selected';
+    $('startBtn').disabled = selectedChars.size === 0;
+}
+
+function setSelection(chars){
+    selectedChars.clear();
+    chars.forEach(ch => selectedChars.add(ch));
+    document.querySelectorAll('.set-chip').forEach(div => {
+        div.classList.toggle('selected', selectedChars.has(div.dataset.char));
+    });
+    updateCount();
+}
+
+// Focus set buttons
+document.querySelectorAll('.focus-btn').forEach(btn => {
+    btn.onclick = function(){
+        const set = FOCUS_SETS[btn.dataset.set];
+        if(set) setSelection(set);
+    };
+});
+
+$('selAll').onclick = function(){ setSelection(ALL_CHARS); };
+$('selClear').onclick = function(){ setSelection([]); };
+$('backToMode').onclick = function(){ showScreen('modeScreen'); };
+
+// Case toggle
+document.querySelectorAll('#caseToggle button').forEach(btn => {
+    btn.onclick = function(){
+        document.querySelectorAll('#caseToggle button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        useUpperCase = btn.dataset.case === 'upper';
+        refreshGridDisplay();
+    };
+});
+
+$('startBtn').onclick = startSession;
+
+/* ============================================================
+   SESSION START
+   ============================================================ */
+
+function startSession(){
+    queue = shuffle([...selectedChars]);
+    mastered = [];
+    attempts = {};
+    selectedChars.forEach(ch => attempts[ch] = 0);
+    totalCards = queue.length;
+    $('shelf').innerHTML = '<span class="shelf-empty">Characters you master will appear here.</span>';
+
+    $('drillModeLabel').textContent = practiceMode === 'write' ? 'Write & Check' : 'Spot the Right One';
+
+    showScreen('drillScreen');
+    if(practiceMode === 'write'){
+        $('writeCard').style.display = '';
+        $('spotCard').style.display = 'none';
+    } else {
+        $('writeCard').style.display = 'none';
+        $('spotCard').style.display = '';
+    }
+    nextCard();
+}
+
+/* ============================================================
+   DRILL LOOP
+   ============================================================ */
+
+function updateProgress(){
+    const done = mastered.length;
+    $('progressText').textContent = done + ' / ' + totalCards + ' mastered';
+    $('progressFill').style.width = (totalCards ? (done/totalCards*100) : 0) + '%';
+}
+
+function nextCard(){
+    if(queue.length === 0){ showReport(); return; }
+    currentChar = queue.shift();
+    attempts[currentChar] = (attempts[currentChar]||0) + 1;
+    updateProgress();
+
+    if(practiceMode === 'write') setupWriteCard();
+    else setupSpotCard();
+}
+
+/* ============================================================
+   WRITE & CHECK MODE
+   ============================================================ */
+
+const canvas = $('writeCanvas');
+const ctx = canvas.getContext('2d');
+const ghostCvs = $('ghostCanvas');
+const ghostCtx = ghostCvs.getContext('2d');
+
+function resizeCanvas(){
+    const rect = canvas.parentElement.getBoundingClientRect();
+    const w = Math.min(rect.width, 340);
+    const h = 280;
+    canvas.width = w; canvas.height = h;
+    ghostCvs.width = w; ghostCvs.height = h;
+    canvas.style.width = w+'px'; canvas.style.height = h+'px';
+    ghostCvs.style.width = w+'px'; ghostCvs.style.height = h+'px';
+}
+
+function setupWriteCard(){
+    resizeCanvas();
+    clearCanvasFn();
+    ghostCvs.classList.remove('show','show-strong');
+    ghostShowing = false;
+    $('writeActions').style.display = 'none';
+    $('showGhost').textContent = 'Show correct letter';
+
+    const m = MNEMONICS[currentChar] || '';
+    $('mnemonicText').textContent = m;
+
+    speakChar(displayChar(currentChar));
+
+    drawGuideLines();
+}
+
+function drawGuideLines(){
+    const w = canvas.width, h = canvas.height;
+    ctx.strokeStyle = '#e8e0cd';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([5,5]);
+    ctx.beginPath();
+    ctx.moveTo(0, h*0.5); ctx.lineTo(w, h*0.5);
+    ctx.moveTo(0, h*0.25); ctx.lineTo(w, h*0.25);
+    ctx.moveTo(0, h*0.75); ctx.lineTo(w, h*0.75);
+    ctx.moveTo(w*0.5, 0); ctx.lineTo(w*0.5, h);
+    ctx.stroke();
+    ctx.setLineDash([]);
+}
+
+function clearCanvasFn(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hasStrokes = false;
+    drawGuideLines();
+    $('writeActions').style.display = 'none';
+    ghostCvs.classList.remove('show','show-strong');
+    ghostShowing = false;
+    $('showGhost').textContent = 'Show correct letter';
+}
+
+function drawGhost(){
+    ghostCtx.clearRect(0, 0, ghostCvs.width, ghostCvs.height);
+    const ch = displayChar(currentChar);
+    const w = ghostCvs.width, h = ghostCvs.height;
+
+    ghostCtx.fillStyle = '#a83232';
+    ghostCtx.textAlign = 'center';
+    ghostCtx.textBaseline = 'middle';
+
+    const fontSize = /[a-z]/.test(currentChar) && !useUpperCase ? 200 : 180;
+    ghostCtx.font = '700 ' + fontSize + 'px Georgia, serif';
+    ghostCtx.fillText(ch, w/2, h/2 + 8);
+
+    // Start dot
+    const metrics = ghostCtx.measureText(ch);
+    const startX = w/2 - metrics.width/2 + 8;
+    const startY = h/2 - fontSize*0.35;
+
+    ghostCtx.fillStyle = '#2f6a3e';
+    ghostCtx.beginPath();
+    ghostCtx.arc(startX, startY, 6, 0, Math.PI*2);
+    ghostCtx.fill();
+
+    // Arrow from start dot
+    ghostCtx.strokeStyle = '#2f6a3e';
+    ghostCtx.lineWidth = 2;
+    ghostCtx.beginPath();
+    ghostCtx.moveTo(startX, startY);
+    ghostCtx.lineTo(startX, startY + 24);
+    ghostCtx.stroke();
+    ghostCtx.beginPath();
+    ghostCtx.moveTo(startX-4, startY+18);
+    ghostCtx.lineTo(startX, startY+24);
+    ghostCtx.lineTo(startX+4, startY+18);
+    ghostCtx.stroke();
+}
+
+// Canvas drawing (mouse + touch)
+function getPos(e){
+    const rect = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+}
+
+function startDraw(e){
+    e.preventDefault();
+    drawing = true;
+    const p = getPos(e);
+    lastX = p.x; lastY = p.y;
+    hasStrokes = true;
+}
+
+function moveDraw(e){
+    if(!drawing) return;
+    e.preventDefault();
+    const p = getPos(e);
+    ctx.strokeStyle = var_ink();
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    lastX = p.x; lastY = p.y;
+}
+
+function endDraw(e){
+    if(!drawing) return;
+    drawing = false;
+    if(hasStrokes) $('writeActions').style.display = '';
+}
+
+function var_ink(){ return getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#1f1f1f'; }
+
+canvas.addEventListener('mousedown', startDraw);
+canvas.addEventListener('mousemove', moveDraw);
+canvas.addEventListener('mouseup', endDraw);
+canvas.addEventListener('mouseleave', endDraw);
+canvas.addEventListener('touchstart', startDraw, {passive:false});
+canvas.addEventListener('touchmove', moveDraw, {passive:false});
+canvas.addEventListener('touchend', endDraw);
+
+$('clearCanvas').onclick = function(){
+    clearCanvasFn();
+};
+
+$('showGhost').onclick = function(){
+    if(!ghostShowing){
+        drawGhost();
+        ghostCvs.classList.add('show');
+        ghostShowing = true;
+        $('showGhost').textContent = 'Stronger overlay';
+    } else if(!ghostCvs.classList.contains('show-strong')){
+        ghostCvs.classList.remove('show');
+        ghostCvs.classList.add('show-strong');
+        $('showGhost').textContent = 'Hide overlay';
+    } else {
+        ghostCvs.classList.remove('show','show-strong');
+        ghostShowing = false;
+        $('showGhost').textContent = 'Show correct letter';
+    }
+    if(hasStrokes) $('writeActions').style.display = '';
+};
+
+$('speakBtn').onclick = function(){
+    speakChar(displayChar(currentChar));
+    $('speakBtn').classList.add('playing');
+    setTimeout(function(){ $('speakBtn').classList.remove('playing'); }, 800);
+};
+
+$('gotItBtn').onclick = function(){ gradeCard(true); };
+$('missedItBtn').onclick = function(){ gradeCard(false); };
+
+/* ============================================================
+   SPOT THE RIGHT ONE MODE
+   ============================================================ */
+
+function setupSpotCard(){
+    const ch = displayChar(currentChar);
+    $('spotTarget').textContent = ch;
+    $('spotActions').style.display = 'none';
+
+    const grid = $('spotGrid');
+    grid.innerHTML = '';
+
+    const transforms = generateSpotOptions(ch);
+    shuffle(transforms);
+
+    transforms.forEach(function(opt){
+        const card = document.createElement('div');
+        card.className = 'spot-card';
+        if(opt.transform){
+            card.style.display = 'inline-block';
+            card.style.transform = opt.transform;
+        }
+        card.textContent = opt.char;
+        card.dataset.correct = opt.isCorrect ? '1' : '0';
+        card.onclick = function(){ handleSpotPick(card); };
+        grid.appendChild(card);
+    });
+
+    speakChar(ch);
+}
+
+function generateSpotOptions(ch){
+    const options = [{ char: ch, transform: '', isCorrect: true }];
+
+    const flips = [
+        'scaleX(-1)',
+        'scaleY(-1)',
+        'scaleX(-1) scaleY(-1)'
+    ];
+
+    flips.forEach(function(t){
+        options.push({ char: ch, transform: t, isCorrect: false });
+    });
+
+    return options;
+}
+
+function handleSpotPick(card){
+    const grid = $('spotGrid');
+    const cards = grid.querySelectorAll('.spot-card');
+    cards.forEach(function(c){ c.classList.add('disabled'); });
+
+    if(card.dataset.correct === '1'){
+        card.classList.add('correct-pick');
+        gradeCard(true);
+    } else {
+        card.classList.add('wrong-pick');
+        cards.forEach(function(c){
+            if(c.dataset.correct === '1') c.classList.add('correct-pick');
+        });
+        $('spotActions').style.display = '';
+    }
+}
+
+$('spotSpeakBtn').onclick = function(){
+    speakChar(displayChar(currentChar));
+    $('spotSpeakBtn').classList.add('playing');
+    setTimeout(function(){ $('spotSpeakBtn').classList.remove('playing'); }, 800);
+};
+
+$('spotNextBtn').onclick = function(){ gradeCard(false); };
+
+/* ============================================================
+   GRADE
+   ============================================================ */
+
+function gradeCard(correct){
+    if(correct){
+        mastered.push(currentChar);
+        addToShelf(currentChar);
+    } else {
+        const pos = Math.min(queue.length, Math.floor(Math.random()*3)+2);
+        queue.splice(pos, 0, currentChar);
+    }
+    updateProgress();
+    setTimeout(nextCard, correct ? 500 : 800);
+}
+
+function addToShelf(ch){
+    const shelf = $('shelf');
+    if(shelf.querySelector('.shelf-empty')) shelf.innerHTML = '';
+    const span = document.createElement('span');
+    span.className = 'shelf-item';
+    span.textContent = displayChar(ch);
+    shelf.appendChild(span);
+}
+
+/* ============================================================
+   REPORT
+   ============================================================ */
+
+function showReport(){
+    showScreen('reportScreen');
+
+    const total = mastered.length;
+    const firstTry = mastered.filter(function(ch){ return attempts[ch] === 1; }).length;
+    $('reportHeadline').textContent = 'You practised ' + total + ' characters. ' + firstTry + ' correct on first try.';
+
+    const byAttempt = {};
+    mastered.forEach(function(ch){
+        const a = attempts[ch];
+        if(!byAttempt[a]) byAttempt[a] = [];
+        byAttempt[a].push(ch);
+    });
+
+    const rows = $('reportRows');
+    rows.innerHTML = '';
+    const keys = Object.keys(byAttempt).map(Number).sort(function(a,b){return a-b;});
+    keys.forEach(function(k){
+        const row = document.createElement('div');
+        row.className = 'report-row';
+        const label = k === 1 ? '1st try' : k === 2 ? '2nd try' : k === 3 ? '3rd try' : k + 'th try';
+        row.innerHTML = '<span class="rtry">' + label + '</span><div class="rcodes">' +
+            byAttempt[k].map(function(ch){ return '<span class="rcode">' + displayChar(ch) + '</span>'; }).join('') +
+            '</div>';
+        rows.appendChild(row);
+    });
+
+    const pf = $('reportPerfect');
+    if(firstTry === total){
+        pf.innerHTML = '<div class="report-perfect">&#127881; Perfect score — every character correct on the first try!</div>';
+    } else {
+        pf.innerHTML = '';
+    }
+
+    const missedChars = mastered.filter(function(ch){ return attempts[ch] > 1; });
+    $('retryMissedBtn').style.display = missedChars.length > 0 ? '' : 'none';
+    $('retryMissedBtn').onclick = function(){
+        selectedChars = new Set(missedChars);
+        startSession();
+    };
+}
+
+$('newSessionBtn').onclick = function(){ showScreen('modeScreen'); };
+$('printBtn').onclick = function(){ window.print(); };
+$('exitDrill').onclick = function(){ showScreen('modeScreen'); };
+
+})();
+</script>
+</body>
+</html>
