@@ -84,21 +84,22 @@ const GRAPHEMES = [
   { grapheme: "wr",   audio: "Wr",   sounds: [{s:"r", ex:"wrap"}] },
 ];
 
+// Colours match the printed physical bookmarks (read off bookmarks.pdf).
 const BOOKMARK_LEVELS = [
-  { name: "Level 1 – APTIN",  graphemes: ["a","p","t","i","n"],        colour: "#d64545" },
-  { name: "Level 2 – SMOBC",  graphemes: ["s","m","o","b","c"],        colour: "#e08a3c" },
-  { name: "Level 3 – GHKDE",  graphemes: ["g","h","k","d","e"],        colour: "#e6b800" },
-  { name: "Level 4 – LRFVU",  graphemes: ["l","r","f","v","u"],        colour: "#5a9e4b" },
-  { name: "Level 5 – JWZXY",  graphemes: ["j","w","z","x","y"],        colour: "#3fa7a0" },
-  { name: "Level 6",          graphemes: ["qu","sh","th","ch","ay"],   colour: "#4a90c2" },
-  { name: "Level 7",          graphemes: ["wh","ck","ee","er","ar"],   colour: "#3f6fb0" },
-  { name: "Level 8",          graphemes: ["ed","oo","igh","ai","oy"],  colour: "#5a5ab0" },
-  { name: "Level 9",          graphemes: ["oi","oa","ea","ir","ow"],   colour: "#8a5ab0" },
-  { name: "Level 10",         graphemes: ["oe","au","aw","or","wr"],   colour: "#b04a8a" },
-  { name: "Level 11",         graphemes: ["ph","kn","ie","ei","eigh"], colour: "#c2588a" },
-  { name: "Level 12",         graphemes: ["ou","ew","ur","ear","wor"], colour: "#9e7b53" },
-  { name: "Level 13",         graphemes: ["dge","ui","ng","ey","ough"],colour: "#6b7a8a" },
-  { name: "Level 14",         graphemes: ["gu","ti","si","ci","gn"],   colour: "#555555" },
+  { name: "Level 1 – APTIN",  graphemes: ["a","p","t","i","n"],        colour: "#cfe0f5" },
+  { name: "Level 2 – SMOBC",  graphemes: ["s","m","o","b","c"],        colour: "#5b9bd5" },
+  { name: "Level 3 – GHKDE",  graphemes: ["g","h","k","d","e"],        colour: "#dcd6ec" },
+  { name: "Level 4 – LRFVU",  graphemes: ["l","r","f","v","u"],        colour: "#7c64b0" },
+  { name: "Level 5 – JWZXY",  graphemes: ["j","w","z","x","y"],        colour: "#d4e6c5" },
+  { name: "Level 6",          graphemes: ["qu","sh","th","ch","ay"],   colour: "#84b063" },
+  { name: "Level 7",          graphemes: ["wh","ck","ee","er","ar"],   colour: "#fbecc2" },
+  { name: "Level 8",          graphemes: ["ed","oo","igh","ai","oy"],  colour: "#f5c33c" },
+  { name: "Level 9",          graphemes: ["oi","oa","ea","ir","ow"],   colour: "#f3cbc4" },
+  { name: "Level 10",         graphemes: ["oe","au","aw","or","wr"],   colour: "#d75f50" },
+  { name: "Level 11",         graphemes: ["ph","kn","ie","ei","eigh"], colour: "#ededed" },
+  { name: "Level 12",         graphemes: ["ou","ew","ur","ear","wor"], colour: "#d6e5ec" },
+  { name: "Level 13",         graphemes: ["dge","ui","ng","ey","ough"],colour: "#97b5d7" },
+  { name: "Level 14",         graphemes: ["gu","ti","si","ci","gn"],   colour: "#cacaca" },
 ];
 
 const F = "https://drive.google.com/file/d/";
@@ -159,14 +160,21 @@ const BOOKMARK_RESOURCES = [
   { reading: F+"1TzfD4KFQjUkxHzcQPFA9z5U1ayMD2MAN/view", writing: null, activities: [] },
 ];
 
+// Sound-group names follow the Victorian Education State "44 Sounds"
+// scope & sequence: vowels split into Short / Long / R-Controlled / Other,
+// consonants grouped by manner of articulation.
 const PHON_GROUPS = [
-  { name: "Unvoiced Consonants", graphemes: ["p","t","k","c","f","s","h","ch","sh","th","wh","ck","ph","x","qu"] },
-  { name: "Voiced Consonants",   graphemes: ["b","d","g","j","v","z","m","n","l","r","w","y","ng","dge","gn","kn","wr","gu"] },
   { name: "Short Vowels",        graphemes: ["a","e","i","o","u"] },
-  { name: "Long Vowels",         graphemes: ["ee","ea","ie","ei","ey","ay","ai","eigh","igh","oa","oe","oo","ew","ui"] },
+  { name: "Long Vowels",         graphemes: ["ay","ai","ee","ea","ie","igh","oe","oa","ow","oo","ew","ui","ey","ei","eigh"] },
   { name: "R-Controlled Vowels", graphemes: ["ar","er","ir","ur","or","ear","wor"] },
-  { name: "Diphthongs",          graphemes: ["oi","oy","ou","ow","au","aw"] },
-  { name: "Other",               graphemes: ["ed","ci","si","ti","ough"] },
+  { name: "Other Vowels",        graphemes: ["ou","oy","oi","au","aw"] },
+  { name: "Stops",               graphemes: ["p","b","t","d","k","c","g","ck","qu","x","gu"] },
+  { name: "Nasals",              graphemes: ["m","n","ng","kn","gn"] },
+  { name: "Fricatives",          graphemes: ["f","v","th","s","z","sh","h","ph","wh","ci","si","ti"] },
+  { name: "Affricates",          graphemes: ["ch","j","dge"] },
+  { name: "Approximants",        graphemes: ["w","r","y","wr"] },
+  { name: "Lateral",             graphemes: ["l"] },
+  { name: "Other Codes",         graphemes: ["ed","ough"] },
 ];
 
 const YEAR_LEVELS = {
@@ -198,11 +206,6 @@ let sessionTotal = 0;
 let attempts = {};
 let masteredOnTry = {};
 let missed = new Set();
-
-const graphemeToCategory = {};
-PHON_GROUPS.forEach((g) => {
-  g.graphemes.forEach((gr) => { graphemeToCategory[gr] = g.name; });
-});
 
 const $ = (id) => document.getElementById(id);
 const screens = {};
@@ -295,12 +298,18 @@ function togglePreset(key, btn, graphemes) {
   refreshCount();
 }
 
-// ---- Sound category bar (works in both views) ----
+// ---- Sound category bar ----
+// In bookmark view the grid is organised by level, so a pill bar gives
+// quick access to whole sound groups. In year view the group headings
+// themselves are the toggles, so the bar is hidden.
 
 function buildCategoryBar() {
   const bar = $("catBar");
   bar.innerHTML = "";
   activeCats.clear();
+
+  if (viewMode !== "bookmark") { bar.style.display = "none"; return; }
+  bar.style.display = "";
 
   PHON_GROUPS.forEach((group) => {
     const btn = document.createElement("button");
@@ -369,17 +378,31 @@ function buildGrid() {
   }
 }
 
+// Some bookmark colours are very pale — pick readable text per colour.
+function isLightColour(hex) {
+  const c = hex.replace("#", "");
+  const r = parseInt(c.substr(0, 2), 16);
+  const g = parseInt(c.substr(2, 2), 16);
+  const b = parseInt(c.substr(4, 2), 16);
+  return (0.299 * r + 0.587 * g + 0.114 * b) > 150;
+}
+
 function buildTrackerGrid(container) {
   const tracker = document.createElement("div");
   tracker.className = "tracker";
 
   BOOKMARK_LEVELS.forEach((lvl, lvlIdx) => {
+    const light = isLightColour(lvl.colour);
+    const textCol = light ? "#1f1f1f" : "#ffffff";
+
     const row = document.createElement("div");
     row.className = "tracker-row";
 
     const label = document.createElement("div");
-    label.className = "tracker-label";
+    label.className = "tracker-label" + (light ? " on-light" : "");
+    label.dataset.lvl = lvlIdx;
     label.style.background = lvl.colour;
+    label.style.color = textCol;
     label.textContent = lvlIdx + 1;
     label.title = lvl.name + " — click to toggle all";
     label.addEventListener("click", () => toggleTrackerRow(lvlIdx, label));
@@ -396,6 +419,7 @@ function buildTrackerGrid(container) {
       cell.dataset.idx = idx;
       cell.dataset.lvl = lvlIdx;
       cell.style.setProperty("--chip", lvl.colour);
+      cell.style.setProperty("--cell-text", textCol);
       const dots = "●".repeat(g.sounds.length);
       cell.innerHTML = gr + '<span class="tc-dots">' + dots + '</span>';
       cell.addEventListener("click", () => toggleTrackerCell(idx, cell));
@@ -440,9 +464,12 @@ function toggleTrackerCell(idx, cell) {
 
 function buildChipGrid(container) {
   PHON_GROUPS.forEach((group) => {
+    // The heading itself is the category toggle (tap to select the whole group).
     const label = document.createElement("div");
-    label.className = "group-label";
-    label.textContent = group.name;
+    label.className = "group-label group-toggle";
+    label.dataset.cat = group.name;
+    label.innerHTML = '<span class="grp-name">' + group.name + '</span><span class="grp-hint"></span>';
+    label.addEventListener("click", () => toggleGroupHeading(group));
     container.appendChild(label);
 
     const grid = document.createElement("div");
@@ -467,6 +494,12 @@ function buildChipGrid(container) {
   });
 }
 
+function toggleGroupHeading(group) {
+  const idxs = group.graphemes.map((gr) => graphemeIndex[gr]).filter((i) => i !== undefined);
+  const allSel = idxs.length && idxs.every((i) => selected.has(i));
+  selectGraphemes(idxs, !allSel);
+}
+
 function setAllChips(on) {
   const allEls = document.querySelectorAll(".g-chip, .tracker-cell");
   allEls.forEach((el) => {
@@ -484,6 +517,29 @@ function setAllChips(on) {
 function refreshCount() {
   $("selCount").textContent = selected.size;
   $("startBtn").disabled = selected.size === 0;
+  syncGroupHeadings();
+}
+
+// Keep year-mode group headings lit when their whole group is selected,
+// however the selection was made (chip, heading, year preset…).
+function syncGroupHeadings() {
+  document.querySelectorAll(".group-toggle").forEach((label) => {
+    const group = PHON_GROUPS.find((g) => g.name === label.dataset.cat);
+    if (!group) return;
+    const idxs = group.graphemes.map((gr) => graphemeIndex[gr]).filter((i) => i !== undefined);
+    const allSel = idxs.length && idxs.every((i) => selected.has(i));
+    label.classList.toggle("active", allSel);
+    label.querySelector(".grp-hint").textContent = allSel ? "✓ all selected" : "tap to add all";
+  });
+  // Light a tracker row's number when its whole level is selected.
+  document.querySelectorAll(".tracker-label").forEach((label) => {
+    const lvl = BOOKMARK_LEVELS[+label.dataset.lvl];
+    const allSel = lvl.graphemes.every((gr) => {
+      const i = graphemeIndex[gr];
+      return i !== undefined && selected.has(i);
+    });
+    label.classList.toggle("active", allSel);
+  });
 }
 
 function startSession() {

@@ -102,6 +102,14 @@
             display: flex; align-items: center; gap: 6px;
         }
         .swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
+
+        /* clickable group heading = category toggle (year view) */
+        .group-label.group-toggle { cursor: pointer; justify-content: space-between; transition: color 0.15s ease, border-color 0.15s ease; }
+        .group-label.group-toggle:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        .group-label.group-toggle.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .group-label .grp-hint { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: none; letter-spacing: 0; opacity: 0.75; }
+        .group-label.group-toggle:hover .grp-hint { color: var(--accent); opacity: 1; }
+        .group-label.group-toggle.active .grp-hint { color: var(--accent); opacity: 1; }
         .grapheme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(68px, 1fr)); gap: 6px; }
         .g-chip {
             border: 1px solid var(--line); border-radius: 8px; padding: 8px 4px; text-align: center;
@@ -125,7 +133,8 @@
             transition: opacity 0.15s ease; user-select: none;
         }
         .tracker-label:hover { opacity: 0.8; }
-        .tracker-label.active { box-shadow: inset 0 0 0 2px rgba(255,255,255,0.5); }
+        .tracker-label.active { box-shadow: inset 0 0 0 2px rgba(255,255,255,0.55); }
+        .tracker-label.on-light.active { box-shadow: inset 0 0 0 2px rgba(0,0,0,0.28); }
         .tracker-codes { display: flex; flex: 1; gap: 0; }
         .tracker-cell {
             flex: 1; padding: 10px 2px; text-align: center; cursor: pointer;
@@ -134,7 +143,7 @@
             user-select: none; color: var(--ink); background: var(--paper);
         }
         .tracker-cell:hover { background: #faf5f0; }
-        .tracker-cell.selected { color: white; background: var(--chip, var(--accent)); }
+        .tracker-cell.selected { color: var(--cell-text, white); background: var(--chip, var(--accent)); }
         .tracker-cell .tc-dots { font-size: 7px; opacity: 0.4; display: block; margin-top: 1px; letter-spacing: 1px; }
         .tracker-cell.selected .tc-dots { opacity: 0.7; }
 
