@@ -107,8 +107,8 @@ const A = "activities/level-";
 
 const BOOKMARK_RESOURCES = [
   { reading: F+"1V8Ux6hEoJTtqXd0AWvERm_Equv45BOpl/view", writing: F+"1QXFrY3GRznRow7xdJbhaZKzR215DCkcv/view", activities: [
-    { name: "Initial sounds – look & write",   url: A+"1/aptin initial sounds look and write.pdf", kind: "look"  },
-    { name: "End sounds – look & write",        url: A+"1/aptin end sounds look and write.pdf", kind: "look"  },
+    { name: "Initial sounds – look & write",   url: A+"1/aptin initial sounds look and write.pdf?v=2", kind: "look"  },
+    { name: "End sounds – look & write",        url: A+"1/aptin end sounds look and write.pdf?v=2", kind: "look"  },
     { name: "Initial sounds – listen & write",  url: A+"1/aptin initial sounds listen and write.pdf", kind: "write" },
     { name: "End sounds – listen & write",      url: A+"1/aptin end sounds listen and write.pdf", kind: "write" },
     { name: "Reading cards",                    url: A+"1/aptin reading cards.pdf", kind: "read"  },
