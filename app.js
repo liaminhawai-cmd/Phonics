@@ -1,8 +1,14 @@
 // ============================================================
-// Aussie Phonics Trainer
+// Aussie Phonics Trainer (unified)
 //
-// Bopomofo-style flashcard drill for Australian English graphemes.
-// Selection screen -> Flashcard drill -> Done summary.
+// Flow: Practice mode -> View -> Code selection -> Drill -> Report
+//   Practice mode : "say"  (Look & Say)  | "write" (Listen & Write)
+//   View          : "year" (scope & seq) | "bookmark" (14 levels)
+//
+// Drill keeps wrong answers in the deck and tracks how many tries
+// each code took. The report turns first-try misses into targeted
+// homework: the reading/writing video + activity sheets for the
+// bookmark level those codes belong to.
 // ============================================================
 
 const GRAPHEMES = [
@@ -78,10 +84,134 @@ const GRAPHEMES = [
   { grapheme: "wr",   audio: "Wr",   sounds: [{s:"r", ex:"wrap"}] },
 ];
 
-// ============================================================
-// Phonetic category grouping
-// ============================================================
-const GROUPS = [
+// ------------------------------------------------------------
+// Bookmark levels (the 14 progressive levels) + a colour each
+// (matches the colour-coded physical bookmarks at a glance).
+// ------------------------------------------------------------
+const BOOKMARK_LEVELS = [
+  { name: "Level 1 – APTIN",  graphemes: ["a","p","t","i","n"],        colour: "#d64545" },
+  { name: "Level 2 – SMOBC",  graphemes: ["s","m","o","b","c"],        colour: "#e08a3c" },
+  { name: "Level 3 – GHKDE",  graphemes: ["g","h","k","d","e"],        colour: "#e6b800" },
+  { name: "Level 4 – LRFVU",  graphemes: ["l","r","f","v","u"],        colour: "#5a9e4b" },
+  { name: "Level 5 – JWZXY",  graphemes: ["j","w","z","x","y"],        colour: "#3fa7a0" },
+  { name: "Level 6",          graphemes: ["qu","sh","th","ch","ay"],   colour: "#4a90c2" },
+  { name: "Level 7",          graphemes: ["wh","ck","ee","er","ar"],   colour: "#3f6fb0" },
+  { name: "Level 8",          graphemes: ["ed","oo","igh","ai","oy"],  colour: "#5a5ab0" },
+  { name: "Level 9",          graphemes: ["oi","oa","ea","ir","ow"],   colour: "#8a5ab0" },
+  { name: "Level 10",         graphemes: ["oe","au","aw","or","wr"],   colour: "#b04a8a" },
+  { name: "Level 11",         graphemes: ["ph","kn","ie","ei","eigh"], colour: "#c2588a" },
+  { name: "Level 12",         graphemes: ["ou","ew","ur","ear","wor"], colour: "#9e7b53" },
+  { name: "Level 13",         graphemes: ["dge","ui","ng","ey","ough"],colour: "#6b7a8a" },
+  { name: "Level 14",         graphemes: ["gu","ti","si","ci","gn"],   colour: "#555555" },
+];
+
+// ------------------------------------------------------------
+// Remediation resources, keyed by bookmark level index (0..13).
+// reading / writing : the demo videos. activities : printable sheets.
+// folder : the level's Drive folder (fallback for any extras).
+// ------------------------------------------------------------
+const F = "https://drive.google.com/file/d/";   // + id + "/view"
+const D = "https://drive.google.com/drive/folders/";
+
+const BOOKMARK_RESOURCES = [
+  { // 1 APTIN
+    reading: F+"1V8Ux6hEoJTtqXd0AWvERm_Equv45BOpl/view",
+    writing: F+"1QXFrY3GRznRow7xdJbhaZKzR215DCkcv/view",
+    folder:  D+"14lIrN7H7dbKnuU1JssUziER2hN2b2Adp",
+    activities: [
+      { name: "Initial sounds – look & write",   url: F+"14nI0XZ578uJ8NwkCZIC_eNSl9RHQgdoO/view", kind: "look"  },
+      { name: "End sounds – look & write",        url: F+"14umtjhKp7jbtesAsFtgtd81kfyESo9KS/view", kind: "look"  },
+      { name: "Initial sounds – listen & write",  url: F+"1BJ1ybbNu4AP6L28gfe-UDpNheenDLcJT/view", kind: "write" },
+      { name: "End sounds – listen & write",      url: F+"1DiFzkGelfgr4YgspBDYOdwPsVwj12czC/view", kind: "write" },
+      { name: "Reading cards",                    url: F+"1C2id1vJddPeZl4GqlaXKmcdH7EyJzt7M/view", kind: "read"  },
+    ],
+  },
+  { // 2 SMOBC
+    reading: F+"1TsMeIck3VgGbhrnGcF6OHkRwxKML3Y67/view",
+    writing: F+"1QjAY9Y6X3PtZklMj8rixuikZ58LKCJ61/view",
+    folder:  D+"1HpzdEl64qN1_Wdw6o47Cn_ZnCInm_EJy",
+    activities: [
+      { name: "Initial sounds – look & write",   url: F+"1HxavzrJcKkEYHbglStkXkca13WFB3rJH/view", kind: "look"  },
+      { name: "End sounds – look & write",        url: F+"1I8vGbd74QJKjiqB2O2RdWvOJOZjguxot/view", kind: "look"  },
+      { name: "Initial sounds – listen & write",  url: F+"1IDGsf5NHyB0V95mLchEPkCRLUQJLYNC8/view", kind: "write" },
+      { name: "End sounds – listen & write",      url: F+"1IRhvpc-5WVfZ2joEqVQvpE3-TzFS3Q3B/view", kind: "write" },
+      { name: "Reading words",                    url: F+"1DgywWcrOYZb4SrqfQcS4qY8LHL8rVZ3X/view", kind: "read"  },
+    ],
+  },
+  { // 3 GHKDE
+    reading: F+"1VVQ4G9VYTjxzRALsmljpByX4SXiizeeX/view",
+    writing: F+"1QoqthUwCkmBlzeysnMauFZa09x8UFDrC/view",
+    folder:  D+"1eeC9kn2P1VLXuiNKYGhU5DRki8bE2_KB",
+    activities: [
+      { name: "Initial sounds – listen & write",  url: F+"1BJdyMArDp4_Yo_DSwuY3E3zVZT-6JxhG/view", kind: "write" },
+      { name: "End sounds – listen & write",      url: F+"1BJwHNtdR0A7joCIALK2970lCy9wB-iV6/view", kind: "write" },
+      { name: "Reading cards",                    url: F+"1C4i0EjnMMjkMvjAWk9GXWHmy8-d8JuXV/view", kind: "read"  },
+    ],
+  },
+  { // 4 LRFVU
+    reading: F+"1VWCLqajUMABx3rwYXqi3p4_PC-r4AD7j/view",
+    writing: F+"1QutZua5oFC5cnW42k8Mh-BEjzuKUvX8f/view",
+    folder:  D+"1elDh2I9x0eqLpoVtxkFwaot1ZHb2WWEX",
+    activities: [
+      { name: "Initial sounds – listen & write",  url: F+"1BK9-BrJnnSJ0MSUpliKOX_6d0PkitvRe/view", kind: "write" },
+      { name: "End sounds – listen & write",      url: F+"1BKS4VzjG6lEgODNkXWZMBM57ta5yDLl3/view", kind: "write" },
+      { name: "Reading cards",                    url: F+"1C7uwh4ulustZ2oYHT8TW-FubuGQobDnW/view", kind: "read"  },
+      { name: "Reading words",                    url: F+"1KBjMPCde8wl5WDxe8LTjJTGXimrPgHiw/view", kind: "read"  },
+    ],
+  },
+  { // 5 JWZXY
+    reading: F+"1VlO4zWHFD5MJZuDYEAembv4AvVPU8fts/view",
+    writing: F+"1Qxy117ZfgqNM9517bixJEXUWRe8u-xYY/view",
+    folder:  D+"14yfwfNciYJleVPXznd98cmJM8vg8pBTF",
+    activities: [
+      { name: "Initial sounds – listen & write",  url: F+"1BO1N6OIuceYoRJy-m6-fbLdwM2iQireU/view", kind: "write" },
+      { name: "End sounds – listen & write",      url: F+"1BV7Io84kT1IycNbd10c2JtMjBlSlyk8-/view", kind: "write" },
+      { name: "Reading words",                    url: F+"1CHkHfmngc5YIJaM_KcPItLLxkmeGSPmU/view", kind: "read"  },
+    ],
+  },
+  { // 6 qu sh th ch ay
+    reading: F+"1UQWCRM8jELug9m8OOkbILteSi0pbDQGw/view",
+    writing: F+"1R5k6DPw5Cc9AHCmboOkW4V6RqM32TKqI/view",
+    folder:  D+"155hYA-pnGikm6Txacb9K3Ev5PDdVpUPJ",
+    activities: [
+      { name: "Initial sounds – listen & write",  url: F+"1BYf_ANONE8VBE2UxL-MWDMrwTIt4xHdr/view", kind: "write" },
+      { name: "Middle sounds – listen & write",   url: F+"1BqQHK1gM7U-a3rW7Y8nUxiDOsATvJTF8/view", kind: "write" },
+      { name: "End sounds – listen & write",      url: F+"1BkO1JUsF4RxVZSLygB4K-tXTkai6sror/view", kind: "write" },
+      { name: "Reading words",                    url: F+"1CR0QWLYwIPXeRHp8v9_jd2m332TkHlQL/view", kind: "read"  },
+    ],
+  },
+  { // 7 wh ck ee er ar
+    reading: F+"1UNwGUC3eFqi4sPPI9lmLJEhn5KwvosZa/view",
+    writing: F+"1RI6qnr4swOZfthMTOZKy_e34u6Yhig2b/view",
+    folder:  D+"1592LOcJdbWWCh0LP_Re9kzzbtK2M-UKU",
+    activities: [
+      { name: "Initial sounds – listen & write",  url: F+"1Bqt9--q7l4KprXm3Teh1fPwwfwVwBRba/view", kind: "write" },
+      { name: "Middle sounds – listen & write",   url: F+"1C-BbWpNjzuYDTJmWNKxTQ_TkDHKzHEMT/view", kind: "write" },
+      { name: "End sounds – listen & write",      url: F+"1BskW0c_Eq7HtV397YB2HO7Pj212pZUpM/view", kind: "write" },
+      { name: "Reading words",                    url: F+"1CRmhvPy6ZKGFgrWawdJ_SPd9jt_g4xTa/view", kind: "read"  },
+    ],
+  },
+  { // 8 ed oo igh ai oy
+    reading: F+"1UEn-tMQ4oXfrSAo9CyB8cVcvd9p30uB7/view",
+    writing: F+"1RLRUuQgW-z5hhyd0jppVhMDIg6OoT6bb/view",
+    folder:  D+"15AQtu22SxswzV4qmmOp_Sl1JI7QcndZv",
+    activities: [
+      { name: "Middle sounds – listen & write",   url: F+"1C1q4hor_befpBQpmCr8rpMALQPt8Qa1K/view", kind: "write" },
+      { name: "Reading words",                    url: F+"1CTf-vBI0NeHRU_PlfFFWZIzd5UN6szpl/view", kind: "read"  },
+    ],
+  },
+  { reading: F+"1UElswdzVuMCZlFoewpjt05opVTscmtjJ/view", writing: null, folder: null, activities: [] }, // 9
+  { reading: F+"1UDhOLPyJZiptqvkCw9JYmsBPmurxWDsc/view", writing: null, folder: null, activities: [] }, // 10
+  { reading: F+"1UAiMkQEqVh1v7IkbsBkrMwxsiqtaqZPZ/view", writing: null, folder: null, activities: [] }, // 11
+  { reading: F+"1U7_IS7j8JJvvvC3iPAN9XDcffVnggmKt/view", writing: null, folder: null, activities: [] }, // 12
+  { reading: F+"1U-6Ij0S7B_ov5DgYyxxdDpqvQy2ZiPEI/view", writing: null, folder: null, activities: [] }, // 13
+  { reading: F+"1TzfD4KFQjUkxHzcQPFA9z5U1ayMD2MAN/view", writing: null, folder: null, activities: [] }, // 14
+];
+
+// ------------------------------------------------------------
+// Year-level scope & sequence (for the GPS / non-bookmark view)
+// ------------------------------------------------------------
+const PHON_GROUPS = [
   { name: "Unvoiced Consonants", graphemes: ["p","t","k","c","f","s","h","ch","sh","th","wh","ck","ph","x","qu"] },
   { name: "Voiced Consonants",   graphemes: ["b","d","g","j","v","z","m","n","l","r","w","y","ng","dge","gn","kn","wr","gu"] },
   { name: "Short Vowels",        graphemes: ["a","e","i","o","u"] },
@@ -91,37 +221,44 @@ const GROUPS = [
   { name: "Other",               graphemes: ["ed","ci","si","ti","ough"] },
 ];
 
-// ============================================================
-// Year level mappings (Australian curriculum)
-// ============================================================
 const YEAR_LEVELS = {
-  "Pre":    ["a","p","t","i","n","s","m","o","b","c","g","h","k","d","e","l","r","f","v","u","j","w","z","x","y"],
-  "Yr 1":   ["qu","sh","th","ch","ay","wh","ck","ee","er","ar"],
-  "Yr 2":   ["ed","oo","igh","ai","oy","oi","oa","ea","ir","ow"],
-  "Yr 3":   ["oe","au","aw","or","wr","ph","kn","ie","ei","eigh"],
-  "Yr 4":   ["ou","ew","ur","ear","wor","dge","ui","ng","ey","ough","gu","ti","si","ci","gn"],
+  "Pre":  ["a","p","t","i","n","s","m","o","b","c","g","h","k","d","e","l","r","f","v","u","j","w","z","x","y"],
+  "Yr 1": ["qu","sh","th","ch","ay","wh","ck","ee","er","ar"],
+  "Yr 2": ["ed","oo","igh","ai","oy","oi","oa","ea","ir","ow"],
+  "Yr 3": ["oe","au","aw","or","wr","ph","kn","ie","ei","eigh"],
+  "Yr 4": ["ou","ew","ur","ear","wor","dge","ui","ng","ey","ough","gu","ti","si","ci","gn"],
 };
 
-// ============================================================
-// Build a lookup: grapheme string -> index in GRAPHEMES
-// ============================================================
+// ------------------------------------------------------------
+// Lookups
+// ------------------------------------------------------------
 const graphemeIndex = {};
 GRAPHEMES.forEach((g, i) => { graphemeIndex[g.grapheme] = i; });
+
+const graphemeToBookmark = {};   // grapheme -> bookmark level index
+BOOKMARK_LEVELS.forEach((lvl, i) => {
+  lvl.graphemes.forEach((gr) => { graphemeToBookmark[gr] = i; });
+});
 
 // ============================================================
 // State
 // ============================================================
-const selected = new Set();       // set of indices into GRAPHEMES
-let queue = [];                   // cards remaining
-let current = null;               // current card object
-let inputMode = "type";           // "type" or "write"
-let masteredList = [];            // graphemes mastered this session
-let missed = new Set();           // graphemes that were wrong at least once
+let practiceMode = "say";        // "say" | "write"
+let viewMode = "bookmark";       // "year" | "bookmark"
+let inputMode = "type";          // (write mode) "type" | "write"
+
+const selected = new Set();      // indices into GRAPHEMES
+let activeLevels = new Set();    // active preset buttons (year names or bookmark idx)
+
+let queue = [];
+let current = null;
 let sessionTotal = 0;
-let activeYears = new Set();      // which year-level buttons are active
+
+let attempts = {};               // grapheme -> tries taken
+let masteredOnTry = {};          // grapheme -> tries when finally got it
+let missed = new Set();          // graphemes wrong at least once
 
 const $ = (id) => document.getElementById(id);
-
 const screens = {};
 
 function showScreen(name) {
@@ -129,93 +266,133 @@ function showScreen(name) {
 }
 
 // ============================================================
-// SELECTION SCREEN
+// SCREEN 1 — practice mode
 // ============================================================
+function chooseMode(mode) {
+  practiceMode = mode;
+  showScreen("view");
+}
 
-function buildYearBar() {
-  const bar = $("yearBar");
-  const yearNames = Object.keys(YEAR_LEVELS);
+// ============================================================
+// SCREEN 2 — view (year / bookmark)
+// ============================================================
+function chooseView(view) {
+  viewMode = view;
+  buildSelectScreen();
+  showScreen("select");
+}
 
-  yearNames.forEach((name) => {
-    const btn = document.createElement("button");
-    btn.className = "year-btn";
-    btn.textContent = name;
-    btn.addEventListener("click", () => toggleYear(name, btn));
-    bar.appendChild(btn);
-  });
+// ============================================================
+// SCREEN 3 — code selection
+// ============================================================
+function buildSelectScreen() {
+  selected.clear();
+  activeLevels.clear();
 
-  // "All" button
-  const allBtn = document.createElement("button");
-  allBtn.className = "year-btn util";
-  allBtn.textContent = "All";
-  allBtn.addEventListener("click", () => {
+  const modeLabel = practiceMode === "say" ? "Look &amp; Say" : "Listen &amp; Write";
+  $("selectTitle").innerHTML = modeLabel + " &middot; " +
+    (viewMode === "year" ? "Year Levels" : "Bookmark Levels");
+
+  buildPresetBar();
+  buildGrid();
+  refreshCount();
+}
+
+function buildPresetBar() {
+  const bar = $("levelBar");
+  bar.innerHTML = "";
+
+  if (viewMode === "year") {
+    Object.keys(YEAR_LEVELS).forEach((name) => {
+      const btn = mkPreset(name, () => togglePreset(name, btn, YEAR_LEVELS[name]));
+      bar.appendChild(btn);
+    });
+  } else {
+    BOOKMARK_LEVELS.forEach((lvl, i) => {
+      const btn = mkPreset("Lv " + (i + 1), () => togglePreset(i, btn, lvl.graphemes));
+      btn.title = lvl.name + ": " + lvl.graphemes.join(", ");
+      btn.style.setProperty("--chip", lvl.colour);
+      btn.classList.add("colour-chip");
+      bar.appendChild(btn);
+    });
+  }
+
+  const allBtn = mkPreset("All", () => {
     setAllChips(true);
-    // Mark all year buttons active
-    bar.querySelectorAll(".year-btn:not(.util)").forEach((b) => b.classList.add("active"));
-    activeYears = new Set(yearNames);
+    bar.querySelectorAll(".level-btn:not(.util)").forEach((b) => b.classList.add("active"));
+    activeLevels = new Set(viewMode === "year" ? Object.keys(YEAR_LEVELS) : BOOKMARK_LEVELS.map((_, i) => i));
   });
+  allBtn.classList.add("util");
   bar.appendChild(allBtn);
 
-  // "Clear" button
-  const clearBtn = document.createElement("button");
-  clearBtn.className = "year-btn util";
-  clearBtn.textContent = "Clear";
-  clearBtn.addEventListener("click", () => {
+  const clearBtn = mkPreset("Clear", () => {
     setAllChips(false);
-    bar.querySelectorAll(".year-btn:not(.util)").forEach((b) => b.classList.remove("active"));
-    activeYears.clear();
+    bar.querySelectorAll(".level-btn:not(.util)").forEach((b) => b.classList.remove("active"));
+    activeLevels.clear();
   });
+  clearBtn.classList.add("util");
   bar.appendChild(clearBtn);
 }
 
-function toggleYear(name, btn) {
-  if (activeYears.has(name)) {
-    activeYears.delete(name);
+function mkPreset(label, onClick) {
+  const btn = document.createElement("button");
+  btn.className = "level-btn";
+  btn.textContent = label;
+  btn.addEventListener("click", onClick);
+  return btn;
+}
+
+function togglePreset(key, btn, graphemes) {
+  if (activeLevels.has(key)) {
+    activeLevels.delete(key);
     btn.classList.remove("active");
-    // Deselect graphemes that belong to this year (unless they belong to another active year)
-    const yearGraphemes = YEAR_LEVELS[name];
-    yearGraphemes.forEach((gr) => {
-      const belongsToOther = [...activeYears].some((y) => YEAR_LEVELS[y].includes(gr));
-      if (!belongsToOther) {
+    graphemes.forEach((gr) => {
+      const stillIn = [...activeLevels].some((k) => presetGraphemes(k).includes(gr));
+      if (!stillIn) {
         const idx = graphemeIndex[gr];
-        if (idx !== undefined) {
-          selected.delete(idx);
-          updateChipVisual(idx, false);
-        }
+        if (idx !== undefined) { selected.delete(idx); updateChipVisual(idx, false); }
       }
     });
   } else {
-    activeYears.add(name);
+    activeLevels.add(key);
     btn.classList.add("active");
-    // Select all graphemes for this year level
-    const yearGraphemes = YEAR_LEVELS[name];
-    yearGraphemes.forEach((gr) => {
+    graphemes.forEach((gr) => {
       const idx = graphemeIndex[gr];
-      if (idx !== undefined) {
-        selected.add(idx);
-        updateChipVisual(idx, true);
-      }
+      if (idx !== undefined) { selected.add(idx); updateChipVisual(idx, true); }
     });
   }
   refreshCount();
 }
 
+function presetGraphemes(key) {
+  return viewMode === "year" ? YEAR_LEVELS[key] : BOOKMARK_LEVELS[key].graphemes;
+}
+
 function updateChipVisual(idx, on) {
-  const chip = document.querySelector(`.g-chip[data-idx="${idx}"]`);
+  const chip = document.querySelector('.g-chip[data-idx="' + idx + '"]');
   if (chip) chip.classList.toggle("selected", on);
 }
 
-function buildGroupedGrid() {
+function buildGrid() {
   const container = $("groupContainer");
-  GROUPS.forEach((group) => {
+  container.innerHTML = "";
+  const groups = viewMode === "year"
+    ? PHON_GROUPS.map((g) => ({ name: g.name, graphemes: g.graphemes, colour: null }))
+    : BOOKMARK_LEVELS.map((l) => ({ name: l.name, graphemes: l.graphemes, colour: l.colour }));
+
+  groups.forEach((group) => {
     const label = document.createElement("div");
     label.className = "group-label";
-    label.textContent = group.name;
+    if (group.colour) {
+      label.style.borderBottomColor = group.colour;
+      label.innerHTML = '<span class="swatch" style="background:' + group.colour + '"></span>' + group.name;
+    } else {
+      label.textContent = group.name;
+    }
     container.appendChild(label);
 
     const grid = document.createElement("div");
     grid.className = "grapheme-grid";
-
     group.graphemes.forEach((gr) => {
       const idx = graphemeIndex[gr];
       if (idx === undefined) return;
@@ -223,24 +400,28 @@ function buildGroupedGrid() {
       const chip = document.createElement("div");
       chip.className = "g-chip";
       chip.dataset.idx = idx;
+      if (group.colour) chip.style.setProperty("--chip", group.colour);
       const dots = "●".repeat(g.sounds.length);
       chip.innerHTML = '<span class="gr">' + g.grapheme + '</span><span class="dots">' + dots + '</span>';
       chip.addEventListener("click", () => toggleChip(idx, chip));
       grid.appendChild(chip);
     });
-
     container.appendChild(grid);
   });
 }
 
 function toggleChip(idx, chip) {
-  if (selected.has(idx)) {
-    selected.delete(idx);
-    chip.classList.remove("selected");
-  } else {
-    selected.add(idx);
-    chip.classList.add("selected");
-  }
+  if (selected.has(idx)) { selected.delete(idx); chip.classList.remove("selected"); }
+  else { selected.add(idx); chip.classList.add("selected"); }
+  refreshCount();
+}
+
+function setAllChips(on) {
+  document.querySelectorAll(".g-chip").forEach((chip) => {
+    const idx = +chip.dataset.idx;
+    chip.classList.toggle("selected", on);
+    if (on) selected.add(idx); else selected.delete(idx);
+  });
   refreshCount();
 }
 
@@ -249,54 +430,56 @@ function refreshCount() {
   $("startBtn").disabled = selected.size === 0;
 }
 
-function setAllChips(on) {
-  document.querySelectorAll(".g-chip").forEach((chip) => {
-    const idx = +chip.dataset.idx;
-    chip.classList.toggle("selected", on);
-    if (on) selected.add(idx);
-    else selected.delete(idx);
-  });
-  refreshCount();
-}
-
 // ============================================================
-// FLASHCARD SCREEN
+// SCREEN 4 — drill
 // ============================================================
-
 function startSession() {
   queue = [...selected].map((i) => GRAPHEMES[i]);
   shuffle(queue);
   sessionTotal = queue.length;
-  masteredList = [];
+  attempts = {};
+  masteredOnTry = {};
   missed = new Set();
   clearShelf();
+
+  // Show the right panel for the mode
+  $("sayPanel").style.display  = practiceMode === "say"   ? "block" : "none";
+  $("writePanel").style.display = practiceMode === "write" ? "block" : "none";
+  $("drillModeLabel").textContent = practiceMode === "say" ? "Look & Say" : "Listen & Write";
+
   showScreen("card");
   nextCard();
 }
 
 function nextCard() {
-  if (queue.length === 0) {
-    finishSession();
-    return;
-  }
+  if (queue.length === 0) { finishSession(); return; }
   current = queue[0];
   resetCardUI();
   updateProgress();
-  setTimeout(playCurrent, 300);
+  if (practiceMode === "write") {
+    setTimeout(playCurrent, 300);   // listen & write: sound leads
+  }
 }
 
 function resetCardUI() {
   $("answerBox").classList.remove("show");
-  $("typeInput").value = "";
-  $("typeInput").className = "";  // remove flash classes
-  clearCanvas();
 
-  if (inputMode === "type") {
-    $("writeCheckRow").style.display = "none";
-    $("writeGradeRow").style.display = "none";
+  if (practiceMode === "say") {
+    // Show the code, hide the reveal/grade until they've checked
+    $("sayGrapheme").textContent = current.grapheme;
+    $("sayCheckRow").style.display = "flex";
+    $("sayGradeRow").style.display = "none";
   } else {
-    $("writeCheckRow").style.display = "flex";
-    $("writeGradeRow").style.display = "none";
+    $("typeInput").value = "";
+    $("typeInput").className = "";
+    clearCanvas();
+    if (inputMode === "type") {
+      $("writeCheckRow").style.display = "none";
+      $("writeGradeRow").style.display = "none";
+    } else {
+      $("writeCheckRow").style.display = "flex";
+      $("writeGradeRow").style.display = "none";
+    }
   }
 }
 
@@ -306,46 +489,31 @@ function updateProgress() {
   $("progressFill").style.width = ((sessionTotal - left) / sessionTotal) * 100 + "%";
 }
 
-// ============================================================
-// TYPE MODE — auto-check
-// ============================================================
+// ---- Look & Say: reveal sound, then self-mark ----
+function sayCheck() {
+  playCurrent();
+  revealAnswer();
+  $("sayCheckRow").style.display = "none";
+  $("sayGradeRow").style.display = "flex";
+}
 
+// ---- Listen & Write: type auto-check ----
 function checkTypedAnswer() {
   if (!current) return;
   const input = $("typeInput");
   const typed = input.value.trim().toLowerCase();
   const correct = current.grapheme.toLowerCase();
-
   if (!typed) return;
 
   if (typed === correct) {
-    // Correct
     input.classList.add("flash-correct");
     revealAnswer();
-    setTimeout(() => {
-      gradeCard(true);
-    }, 1000);
+    setTimeout(() => gradeCard(true), 1000);
   } else {
-    // Wrong
     input.classList.add("flash-wrong");
     revealAnswer();
-    setTimeout(() => {
-      gradeCard(false);
-    }, 1200);
+    setTimeout(() => gradeCard(false), 1200);
   }
-}
-
-// ============================================================
-// HANDWRITE MODE — reveal then self-grade
-// ============================================================
-
-function revealAnswer() {
-  $("ansGrapheme").textContent = current.grapheme;
-  const html = current.sounds.map((s) =>
-    '<div class="sound-item"><span class="sym">' + s.s + '</span> <span class="ex">e.g. ' + s.ex + '</span></div>'
-  ).join("");
-  $("ansSounds").innerHTML = html;
-  $("answerBox").classList.add("show");
 }
 
 function showWriteGrade() {
@@ -354,156 +522,227 @@ function showWriteGrade() {
   $("writeGradeRow").style.display = "flex";
 }
 
+function revealAnswer() {
+  $("ansGrapheme").textContent = current.grapheme;
+  $("ansSounds").innerHTML = current.sounds.map((s) =>
+    '<div class="sound-item"><span class="sym">' + s.s + '</span> <span class="ex">e.g. ' + s.ex + '</span></div>'
+  ).join("");
+  $("answerBox").classList.add("show");
+}
+
 function gradeCard(gotIt) {
   const card = queue.shift();
+  const g = card.grapheme;
+  attempts[g] = (attempts[g] || 0) + 1;
+
   if (gotIt) {
-    masteredList.push(card);
+    masteredOnTry[g] = attempts[g];
     addToShelf(card);
   } else {
-    missed.add(card);
-    // Put it back somewhere in the latter half of the deck
+    missed.add(g);
     const insertAt = Math.max(1, Math.floor(queue.length / 2) + Math.floor(Math.random() * Math.ceil(queue.length / 2)));
     queue.splice(Math.min(insertAt, queue.length), 0, card);
   }
   nextCard();
 }
 
-// ============================================================
-// MASTERED SHELF
-// ============================================================
-
+// ---- Mastered shelf ----
 function clearShelf() {
-  const shelf = $("masteredShelf");
-  shelf.innerHTML = '<span class="shelf-empty" id="shelfEmpty">Cards you get right appear here</span>';
+  $("masteredShelf").innerHTML = '<span class="shelf-empty" id="shelfEmpty">Cards you get right appear here</span>';
 }
-
 function addToShelf(card) {
-  const shelf = $("masteredShelf");
   const empty = $("shelfEmpty");
   if (empty) empty.remove();
-
   const item = document.createElement("span");
   item.className = "shelf-item";
   item.textContent = card.grapheme;
-  shelf.appendChild(item);
+  $("masteredShelf").appendChild(item);
 }
 
 // ============================================================
-// DONE SCREEN
+// SCREEN 5 — report + targeted homework
 // ============================================================
-
 function finishSession() {
-  showScreen("done");
-  const tricky = missed.size;
-  let html = "You mastered <b>" + sessionTotal + "</b> grapheme" + (sessionTotal === 1 ? "" : "s") + "!";
-  if (tricky) {
-    html += '<br><span style="color:var(--wrong)">' + tricky + '</span> needed extra practice.';
-  } else {
-    html += "<br>Perfect run — every one right first try.";
+  showScreen("report");
+  renderSummary();
+  renderRemediation();
+  $("reportReviewBtn").style.display = missed.size ? "inline-block" : "none";
+}
+
+function renderSummary() {
+  // Group mastered codes by how many tries they took
+  const buckets = {};   // tries -> [graphemes]
+  Object.keys(masteredOnTry).forEach((g) => {
+    const t = masteredOnTry[g];
+    (buckets[t] = buckets[t] || []).push(g);
+  });
+
+  const firstTry = (buckets[1] || []).length;
+  let html = '<div class="report-headline">You practised <b>' + sessionTotal +
+    '</b> code' + (sessionTotal === 1 ? "" : "s") + ' &middot; <b>' + firstTry +
+    '</b> right first try</div>';
+
+  const tries = Object.keys(buckets).map(Number).sort((a, b) => a - b);
+  html += '<div class="report-rows">';
+  tries.forEach((t) => {
+    const label = t === 1 ? "First try" : t === 2 ? "Second try" : t + "th try";
+    html += '<div class="report-row"><span class="rtry">' + label + '</span>' +
+      '<span class="rcodes">' + buckets[t].map((g) => '<span class="rcode">' + g + '</span>').join("") + '</span></div>';
+  });
+  html += '</div>';
+
+  if (missed.size === 0) {
+    html += '<div class="report-perfect">Perfect run — everything right first go! 🎉</div>';
   }
-  $("doneStats").innerHTML = html;
-  $("reviewMissedBtn").style.display = tricky ? "inline-block" : "none";
+  $("reportSummary").innerHTML = html;
+}
+
+function renderRemediation() {
+  const box = $("reportRemediation");
+
+  if (missed.size === 0) {
+    box.innerHTML = "";
+    $("practiceSheetBtn").style.display = "none";
+    return;
+  }
+
+  // Which bookmark levels do the missed codes belong to?
+  const levelToCodes = {};   // levelIdx -> [graphemes]
+  missed.forEach((g) => {
+    const lvl = graphemeToBookmark[g];
+    if (lvl === undefined) return;
+    (levelToCodes[lvl] = levelToCodes[lvl] || []).push(g);
+  });
+
+  let html = '<div class="remedy-title">Revise these</div>' +
+    '<p class="remedy-sub">' + (practiceMode === "say"
+      ? "Codes to read again — tap to watch the reading demo or print the cards."
+      : "Codes to write again — tap to watch the writing demo or print the sheets.") + '</p>';
+
+  Object.keys(levelToCodes).map(Number).sort((a, b) => a - b).forEach((lvl) => {
+    const meta = BOOKMARK_LEVELS[lvl];
+    const res = BOOKMARK_RESOURCES[lvl];
+    const codes = levelToCodes[lvl];
+
+    html += '<div class="remedy-card" style="border-left-color:' + meta.colour + '">';
+    html += '<div class="remedy-head"><span class="swatch" style="background:' + meta.colour + '"></span>' +
+      meta.name + '</div>';
+    html += '<div class="remedy-codes">' + codes.map((g) => '<span class="rcode">' + g + '</span>').join("") + '</div>';
+
+    const links = [];
+    if (practiceMode === "say") {
+      if (res.reading) links.push(linkBtn("▶ Reading demo video", res.reading));
+      res.activities.filter((a) => a.kind === "read" || a.kind === "look").forEach((a) => links.push(linkBtn("📄 " + a.name, a.url)));
+    } else {
+      if (res.writing) links.push(linkBtn("▶ Writing demo video", res.writing));
+      res.activities.filter((a) => a.kind === "write" || a.kind === "look").forEach((a) => links.push(linkBtn("📄 " + a.name, a.url)));
+    }
+    if (links.length === 0 && res.folder) links.push(linkBtn("📁 Open level resources", res.folder));
+    if (links.length === 0 && res.reading) links.push(linkBtn("▶ Demo video", res.reading));
+
+    html += '<div class="remedy-links">' + links.join("") + '</div></div>';
+  });
+
+  box.innerHTML = html;
+  $("practiceSheetBtn").style.display = viewMode === "year" ? "inline-block" : "none";
+}
+
+function linkBtn(label, url) {
+  return '<a class="remedy-link" href="' + url + '" target="_blank" rel="noopener">' + label + '</a>';
+}
+
+// ---- Printable practice sheet (year view): missed codes + words ----
+function openPracticeSheet() {
+  const codes = [...missed];
+  const cards = codes.map((g) => {
+    const idx = graphemeIndex[g];
+    const data = GRAPHEMES[idx];
+    const words = data.sounds.map((s) => s.ex).join(", ");
+    const sounds = data.sounds.map((s) => s.s).join("  ");
+    return '<div class="ps-card"><div class="ps-code">' + g + '</div>' +
+      '<div class="ps-sounds">' + sounds + '</div>' +
+      '<div class="ps-words">' + words + '</div></div>';
+  }).join("");
+
+  const w = window.open("", "_blank");
+  w.document.write(
+    '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Practice sheet</title><style>' +
+    'body{font-family:Georgia,serif;margin:32px;color:#1f1f1f;}' +
+    'h1{font-size:20px;}p{color:#555;font-size:13px;}' +
+    '.ps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;}' +
+    '.ps-card{border:2px solid #1f1f1f;border-radius:10px;padding:18px;text-align:center;page-break-inside:avoid;}' +
+    '.ps-code{font-size:40px;font-weight:700;}' +
+    '.ps-sounds{font-size:18px;color:#a83232;margin:6px 0;letter-spacing:2px;}' +
+    '.ps-words{font-size:13px;color:#555;font-style:italic;}' +
+    '@media print{button{display:none;}}' +
+    '</style></head><body>' +
+    '<h1>Phonics practice sheet</h1>' +
+    '<p>Codes to keep practising. Read each card, say the sound(s), then write a word.</p>' +
+    '<button onclick="window.print()" style="padding:8px 16px;">Print</button>' +
+    '<div class="ps-grid">' + cards + '</div></body></html>'
+  );
+  w.document.close();
 }
 
 function reviewMissed() {
-  const list = [...missed];
   selected.clear();
-  list.forEach((v) => selected.add(GRAPHEMES.indexOf(v)));
+  [...missed].forEach((g) => selected.add(graphemeIndex[g]));
   startSession();
 }
 
 // ============================================================
 // AUDIO
 // ============================================================
-
-var audioEl = null;
-
+let audioEl = null;
 function playCurrent() {
   if (!current) return;
-  var btn = $("listenBtn");
-
-  if (audioEl) {
-    audioEl.pause();
-    audioEl = null;
-  }
-
+  const btn = $("listenBtn");
+  if (audioEl) { audioEl.pause(); audioEl = null; }
   audioEl = new Audio(current.audio + ".mp4");
-  audioEl.addEventListener("play", function() { btn.classList.add("playing"); });
-  audioEl.addEventListener("ended", function() { btn.classList.remove("playing"); });
-  audioEl.addEventListener("error", function() {
-    btn.classList.remove("playing");
-  });
-  audioEl.play().catch(function() {});
+  if (btn) {
+    audioEl.addEventListener("play",  () => btn.classList.add("playing"));
+    audioEl.addEventListener("ended", () => btn.classList.remove("playing"));
+    audioEl.addEventListener("error", () => btn.classList.remove("playing"));
+  }
+  audioEl.play().catch(() => {});
 }
 
 // ============================================================
-// CANVAS (handwrite mode)
+// CANVAS (handwrite)
 // ============================================================
-
-var canvas, ctx, drawing = false;
-
+let canvas, ctx, drawing = false;
 function initCanvas() {
   canvas = $("writeCanvas");
   ctx = canvas.getContext("2d");
   styleCtx();
-
   function pos(e) {
-    var r = canvas.getBoundingClientRect();
-    var p = e.touches ? e.touches[0] : e;
-    return {
-      x: (p.clientX - r.left) * (canvas.width / r.width),
-      y: (p.clientY - r.top) * (canvas.height / r.height)
-    };
+    const r = canvas.getBoundingClientRect();
+    const p = e.touches ? e.touches[0] : e;
+    return { x: (p.clientX - r.left) * (canvas.width / r.width), y: (p.clientY - r.top) * (canvas.height / r.height) };
   }
-  function start(e) {
-    e.preventDefault();
-    drawing = true;
-    var pt = pos(e);
-    ctx.beginPath();
-    ctx.moveTo(pt.x, pt.y);
-  }
-  function move(e) {
-    if (!drawing) return;
-    e.preventDefault();
-    var pt = pos(e);
-    ctx.lineTo(pt.x, pt.y);
-    ctx.stroke();
-  }
+  function start(e) { e.preventDefault(); drawing = true; const pt = pos(e); ctx.beginPath(); ctx.moveTo(pt.x, pt.y); }
+  function move(e) { if (!drawing) return; e.preventDefault(); const pt = pos(e); ctx.lineTo(pt.x, pt.y); ctx.stroke(); }
   function end() { drawing = false; }
-
   canvas.addEventListener("mousedown", start);
   canvas.addEventListener("mousemove", move);
   canvas.addEventListener("mouseup", end);
   canvas.addEventListener("mouseleave", end);
-  canvas.addEventListener("touchstart", start, {passive: false});
-  canvas.addEventListener("touchmove", move, {passive: false});
+  canvas.addEventListener("touchstart", start, { passive: false });
+  canvas.addEventListener("touchmove", move, { passive: false });
   canvas.addEventListener("touchend", end);
 }
-
-function styleCtx() {
-  ctx.strokeStyle = "#1f1f1f";
-  ctx.lineWidth = 3;
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-}
-
-function clearCanvas() {
-  if (!ctx) return;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  styleCtx();
-}
+function styleCtx() { ctx.strokeStyle = "#1f1f1f"; ctx.lineWidth = 3; ctx.lineCap = "round"; ctx.lineJoin = "round"; }
+function clearCanvas() { if (!ctx) return; ctx.clearRect(0, 0, canvas.width, canvas.height); styleCtx(); }
 
 // ============================================================
-// INPUT MODE TOGGLE
+// Write-mode input toggle (type / handwrite)
 // ============================================================
-
-function setMode(mode) {
+function setInputMode(mode) {
   inputMode = mode;
   $("modeType").classList.toggle("active", mode === "type");
   $("modeWrite").classList.toggle("active", mode === "write");
   $("typeWrap").classList.toggle("active", mode === "type");
   $("writeWrap").classList.toggle("active", mode === "write");
-
   if (mode === "type") {
     $("writeCheckRow").style.display = "none";
     $("writeGradeRow").style.display = "none";
@@ -514,62 +753,61 @@ function setMode(mode) {
   }
 }
 
-// ============================================================
-// UTILS
-// ============================================================
-
 function shuffle(arr) {
-  for (var i = arr.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var tmp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = tmp;
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 }
 
 // ============================================================
 // INIT
 // ============================================================
-
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
+  screens.mode   = $("modeScreen");
+  screens.view   = $("viewScreen");
   screens.select = $("selectScreen");
-  screens.card = $("cardScreen");
-  screens.done = $("doneScreen");
+  screens.card   = $("cardScreen");
+  screens.report = $("reportScreen");
 
-  buildYearBar();
-  buildGroupedGrid();
   initCanvas();
-  refreshCount();
 
-  // Selection
-  $("selectAll").addEventListener("click", function() { setAllChips(true); });
-  $("selectNone").addEventListener("click", function() { setAllChips(false); });
+  // Screen 1
+  $("modeSayBtn").addEventListener("click", () => chooseMode("say"));
+  $("modeWriteBtn").addEventListener("click", () => chooseMode("write"));
+
+  // Screen 2
+  $("viewYearBtn").addEventListener("click", () => chooseView("year"));
+  $("viewBookmarkBtn").addEventListener("click", () => chooseView("bookmark"));
+  $("viewBackBtn").addEventListener("click", () => showScreen("mode"));
+
+  // Screen 3
+  $("selectAll").addEventListener("click", () => setAllChips(true));
+  $("selectNone").addEventListener("click", () => setAllChips(false));
   $("startBtn").addEventListener("click", startSession);
+  $("selectBackBtn").addEventListener("click", () => showScreen("view"));
 
-  // Flashcard
+  // Screen 4 — say
+  $("sayCheckBtn").addEventListener("click", sayCheck);
+  $("sayGotBtn").addEventListener("click", () => gradeCard(true));
+  $("sayMissedBtn").addEventListener("click", () => gradeCard(false));
+
+  // Screen 4 — write
   $("listenBtn").addEventListener("click", playCurrent);
-  $("modeType").addEventListener("click", function() { setMode("type"); });
-  $("modeWrite").addEventListener("click", function() { setMode("write"); });
+  $("modeType").addEventListener("click", () => setInputMode("type"));
+  $("modeWrite").addEventListener("click", () => setInputMode("write"));
   $("clearCanvas").addEventListener("click", clearCanvas);
-
-  // Type mode: check on Enter or button click
   $("typeCheckBtn").addEventListener("click", checkTypedAnswer);
-  $("typeInput").addEventListener("keypress", function(e) {
-    if (e.key === "Enter") checkTypedAnswer();
-  });
-
-  // Write mode: reveal then grade
+  $("typeInput").addEventListener("keypress", (e) => { if (e.key === "Enter") checkTypedAnswer(); });
   $("writeRevealBtn").addEventListener("click", showWriteGrade);
-  $("gotItBtn").addEventListener("click", function() { gradeCard(true); });
-  $("againBtn").addEventListener("click", function() { gradeCard(false); });
+  $("gotItBtn").addEventListener("click", () => gradeCard(true));
+  $("againBtn").addEventListener("click", () => gradeCard(false));
 
-  // Exit
-  $("quitBtn").addEventListener("click", function() {
-    if (audioEl) audioEl.pause();
-    showScreen("select");
-  });
+  $("quitBtn").addEventListener("click", () => { if (audioEl) audioEl.pause(); showScreen("select"); });
 
-  // Done
-  $("restartBtn").addEventListener("click", function() { showScreen("select"); });
-  $("reviewMissedBtn").addEventListener("click", reviewMissed);
+  // Screen 5
+  $("printBtn").addEventListener("click", () => window.print());
+  $("practiceSheetBtn").addEventListener("click", openPracticeSheet);
+  $("reportReviewBtn").addEventListener("click", reviewMissed);
+  $("reportRestartBtn").addEventListener("click", () => showScreen("mode"));
 });
