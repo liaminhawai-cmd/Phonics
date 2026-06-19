@@ -285,8 +285,11 @@
                     <canvas class="ghost-overlay" id="ghostCanvas" width="340" height="280"></canvas>
                     <div class="canvas-tools">
                         <button id="clearCanvas">Clear</button>
-                        <button id="showGhost">Show correct letter</button>
                     </div>
+                </div>
+
+                <div class="action-row" id="checkRow" style="display:none;">
+                    <button class="btn btn-primary" id="checkBtn">Check answer</button>
                 </div>
 
                 <div class="action-row" id="writeActions" style="display:none;">
@@ -580,8 +583,8 @@ function setupWriteCard(){
     clearCanvasFn();
     ghostCvs.classList.remove('show','show-strong');
     ghostShowing = false;
+    $('checkRow').style.display = 'none';
     $('writeActions').style.display = 'none';
-    $('showGhost').style.display = 'none';
     $('mnemonicText').textContent = '';
 
     speakChar(displayChar(currentChar));
@@ -607,10 +610,10 @@ function clearCanvasFn(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     hasStrokes = false;
     drawGuideLines();
+    $('checkRow').style.display = 'none';
     $('writeActions').style.display = 'none';
     ghostCvs.classList.remove('show','show-strong');
     ghostShowing = false;
-    $('showGhost').textContent = 'Show correct letter';
 }
 
 function drawGhost(){
@@ -683,7 +686,7 @@ function moveDraw(e){
 function endDraw(e){
     if(!drawing) return;
     drawing = false;
-    if(hasStrokes) $('writeActions').style.display = '';
+    if(hasStrokes) $('checkRow').style.display = '';
 }
 
 function var_ink(){ return getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#1f1f1f'; }
@@ -700,22 +703,13 @@ $('clearCanvas').onclick = function(){
     clearCanvasFn();
 };
 
-$('showGhost').onclick = function(){
-    if(!ghostShowing){
-        drawGhost();
-        ghostCvs.classList.add('show');
-        ghostShowing = true;
-        $('showGhost').textContent = 'Stronger overlay';
-    } else if(!ghostCvs.classList.contains('show-strong')){
-        ghostCvs.classList.remove('show');
-        ghostCvs.classList.add('show-strong');
-        $('showGhost').textContent = 'Hide overlay';
-    } else {
-        ghostCvs.classList.remove('show','show-strong');
-        ghostShowing = false;
-        $('showGhost').textContent = 'Show correct letter';
-    }
-    if(hasStrokes) $('writeActions').style.display = '';
+$('checkBtn').onclick = function(){
+    drawGhost();
+    ghostCvs.classList.add('show-strong');
+    const m = MNEMONICS[currentChar] || '';
+    $('mnemonicText').textContent = m;
+    $('checkRow').style.display = 'none';
+    $('writeActions').style.display = '';
 };
 
 $('speakBtn').onclick = function(){
@@ -726,11 +720,11 @@ $('speakBtn').onclick = function(){
 
 $('gotItBtn').onclick = function(){
     recordGrade(true);
-    showWriteAnswer(true);
+    moveToNextCard();
 };
 $('missedItBtn').onclick = function(){
     recordGrade(false);
-    showWriteAnswer(false);
+    moveToNextCard();
 };
 
 /* ============================================================
@@ -822,16 +816,6 @@ function recordGrade(correct){
         queue.splice(pos, 0, currentChar);
     }
     updateProgress();
-}
-
-function showWriteAnswer(correct){
-    drawGhost();
-    ghostCvs.classList.add('show-strong');
-    const m = MNEMONICS[currentChar] || '';
-    $('mnemonicText').textContent = m;
-
-    $('writeActions').style.display = 'none';
-    $('spotActions').style.display = '';
 }
 
 function showSpotAnswer(correct){
