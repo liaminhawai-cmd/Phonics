@@ -84,10 +84,6 @@ const GRAPHEMES = [
   { grapheme: "wr",   audio: "Wr",   sounds: [{s:"r", ex:"wrap"}] },
 ];
 
-// ------------------------------------------------------------
-// Bookmark levels (the 14 progressive levels) + a colour each
-// (matches the colour-coded physical bookmarks at a glance).
-// ------------------------------------------------------------
 const BOOKMARK_LEVELS = [
   { name: "Level 1 – APTIN",  graphemes: ["a","p","t","i","n"],        colour: "#d64545" },
   { name: "Level 2 – SMOBC",  graphemes: ["s","m","o","b","c"],        colour: "#e08a3c" },
@@ -105,112 +101,64 @@ const BOOKMARK_LEVELS = [
   { name: "Level 14",         graphemes: ["gu","ti","si","ci","gn"],   colour: "#555555" },
 ];
 
-// ------------------------------------------------------------
-// Remediation resources, keyed by bookmark level index (0..13).
-// reading / writing : the demo videos. activities : printable sheets.
-// folder : the level's Drive folder (fallback for any extras).
-// ------------------------------------------------------------
-const F = "https://drive.google.com/file/d/";   // + id + "/view"
-const D = "https://drive.google.com/drive/folders/";
+const F = "https://drive.google.com/file/d/";
+const A = "activities/level-";
 
 const BOOKMARK_RESOURCES = [
-  { // 1 APTIN
-    reading: F+"1V8Ux6hEoJTtqXd0AWvERm_Equv45BOpl/view",
-    writing: F+"1QXFrY3GRznRow7xdJbhaZKzR215DCkcv/view",
-    folder:  D+"14lIrN7H7dbKnuU1JssUziER2hN2b2Adp",
-    activities: [
-      { name: "Initial sounds – look & write",   url: F+"14nI0XZ578uJ8NwkCZIC_eNSl9RHQgdoO/view", kind: "look"  },
-      { name: "End sounds – look & write",        url: F+"14umtjhKp7jbtesAsFtgtd81kfyESo9KS/view", kind: "look"  },
-      { name: "Initial sounds – listen & write",  url: F+"1BJ1ybbNu4AP6L28gfe-UDpNheenDLcJT/view", kind: "write" },
-      { name: "End sounds – listen & write",      url: F+"1DiFzkGelfgr4YgspBDYOdwPsVwj12czC/view", kind: "write" },
-      { name: "Reading cards",                    url: F+"1C2id1vJddPeZl4GqlaXKmcdH7EyJzt7M/view", kind: "read"  },
-    ],
-  },
-  { // 2 SMOBC
-    reading: F+"1TsMeIck3VgGbhrnGcF6OHkRwxKML3Y67/view",
-    writing: F+"1QjAY9Y6X3PtZklMj8rixuikZ58LKCJ61/view",
-    folder:  D+"1HpzdEl64qN1_Wdw6o47Cn_ZnCInm_EJy",
-    activities: [
-      { name: "Initial sounds – look & write",   url: F+"1HxavzrJcKkEYHbglStkXkca13WFB3rJH/view", kind: "look"  },
-      { name: "End sounds – look & write",        url: F+"1I8vGbd74QJKjiqB2O2RdWvOJOZjguxot/view", kind: "look"  },
-      { name: "Initial sounds – listen & write",  url: F+"1IDGsf5NHyB0V95mLchEPkCRLUQJLYNC8/view", kind: "write" },
-      { name: "End sounds – listen & write",      url: F+"1IRhvpc-5WVfZ2joEqVQvpE3-TzFS3Q3B/view", kind: "write" },
-      { name: "Reading words",                    url: F+"1DgywWcrOYZb4SrqfQcS4qY8LHL8rVZ3X/view", kind: "read"  },
-    ],
-  },
-  { // 3 GHKDE
-    reading: F+"1VVQ4G9VYTjxzRALsmljpByX4SXiizeeX/view",
-    writing: F+"1QoqthUwCkmBlzeysnMauFZa09x8UFDrC/view",
-    folder:  D+"1eeC9kn2P1VLXuiNKYGhU5DRki8bE2_KB",
-    activities: [
-      { name: "Initial sounds – listen & write",  url: F+"1BJdyMArDp4_Yo_DSwuY3E3zVZT-6JxhG/view", kind: "write" },
-      { name: "End sounds – listen & write",      url: F+"1BJwHNtdR0A7joCIALK2970lCy9wB-iV6/view", kind: "write" },
-      { name: "Reading cards",                    url: F+"1C4i0EjnMMjkMvjAWk9GXWHmy8-d8JuXV/view", kind: "read"  },
-    ],
-  },
-  { // 4 LRFVU
-    reading: F+"1VWCLqajUMABx3rwYXqi3p4_PC-r4AD7j/view",
-    writing: F+"1QutZua5oFC5cnW42k8Mh-BEjzuKUvX8f/view",
-    folder:  D+"1elDh2I9x0eqLpoVtxkFwaot1ZHb2WWEX",
-    activities: [
-      { name: "Initial sounds – listen & write",  url: F+"1BK9-BrJnnSJ0MSUpliKOX_6d0PkitvRe/view", kind: "write" },
-      { name: "End sounds – listen & write",      url: F+"1BKS4VzjG6lEgODNkXWZMBM57ta5yDLl3/view", kind: "write" },
-      { name: "Reading cards",                    url: F+"1C7uwh4ulustZ2oYHT8TW-FubuGQobDnW/view", kind: "read"  },
-      { name: "Reading words",                    url: F+"1KBjMPCde8wl5WDxe8LTjJTGXimrPgHiw/view", kind: "read"  },
-    ],
-  },
-  { // 5 JWZXY
-    reading: F+"1VlO4zWHFD5MJZuDYEAembv4AvVPU8fts/view",
-    writing: F+"1Qxy117ZfgqNM9517bixJEXUWRe8u-xYY/view",
-    folder:  D+"14yfwfNciYJleVPXznd98cmJM8vg8pBTF",
-    activities: [
-      { name: "Initial sounds – listen & write",  url: F+"1BO1N6OIuceYoRJy-m6-fbLdwM2iQireU/view", kind: "write" },
-      { name: "End sounds – listen & write",      url: F+"1BV7Io84kT1IycNbd10c2JtMjBlSlyk8-/view", kind: "write" },
-      { name: "Reading words",                    url: F+"1CHkHfmngc5YIJaM_KcPItLLxkmeGSPmU/view", kind: "read"  },
-    ],
-  },
-  { // 6 qu sh th ch ay
-    reading: F+"1UQWCRM8jELug9m8OOkbILteSi0pbDQGw/view",
-    writing: F+"1R5k6DPw5Cc9AHCmboOkW4V6RqM32TKqI/view",
-    folder:  D+"155hYA-pnGikm6Txacb9K3Ev5PDdVpUPJ",
-    activities: [
-      { name: "Initial sounds – listen & write",  url: F+"1BYf_ANONE8VBE2UxL-MWDMrwTIt4xHdr/view", kind: "write" },
-      { name: "Middle sounds – listen & write",   url: F+"1BqQHK1gM7U-a3rW7Y8nUxiDOsATvJTF8/view", kind: "write" },
-      { name: "End sounds – listen & write",      url: F+"1BkO1JUsF4RxVZSLygB4K-tXTkai6sror/view", kind: "write" },
-      { name: "Reading words",                    url: F+"1CR0QWLYwIPXeRHp8v9_jd2m332TkHlQL/view", kind: "read"  },
-    ],
-  },
-  { // 7 wh ck ee er ar
-    reading: F+"1UNwGUC3eFqi4sPPI9lmLJEhn5KwvosZa/view",
-    writing: F+"1RI6qnr4swOZfthMTOZKy_e34u6Yhig2b/view",
-    folder:  D+"1592LOcJdbWWCh0LP_Re9kzzbtK2M-UKU",
-    activities: [
-      { name: "Initial sounds – listen & write",  url: F+"1Bqt9--q7l4KprXm3Teh1fPwwfwVwBRba/view", kind: "write" },
-      { name: "Middle sounds – listen & write",   url: F+"1C-BbWpNjzuYDTJmWNKxTQ_TkDHKzHEMT/view", kind: "write" },
-      { name: "End sounds – listen & write",      url: F+"1BskW0c_Eq7HtV397YB2HO7Pj212pZUpM/view", kind: "write" },
-      { name: "Reading words",                    url: F+"1CRmhvPy6ZKGFgrWawdJ_SPd9jt_g4xTa/view", kind: "read"  },
-    ],
-  },
-  { // 8 ed oo igh ai oy
-    reading: F+"1UEn-tMQ4oXfrSAo9CyB8cVcvd9p30uB7/view",
-    writing: F+"1RLRUuQgW-z5hhyd0jppVhMDIg6OoT6bb/view",
-    folder:  D+"15AQtu22SxswzV4qmmOp_Sl1JI7QcndZv",
-    activities: [
-      { name: "Middle sounds – listen & write",   url: F+"1C1q4hor_befpBQpmCr8rpMALQPt8Qa1K/view", kind: "write" },
-      { name: "Reading words",                    url: F+"1CTf-vBI0NeHRU_PlfFFWZIzd5UN6szpl/view", kind: "read"  },
-    ],
-  },
-  { reading: F+"1UElswdzVuMCZlFoewpjt05opVTscmtjJ/view", writing: null, folder: null, activities: [] }, // 9
-  { reading: F+"1UDhOLPyJZiptqvkCw9JYmsBPmurxWDsc/view", writing: null, folder: null, activities: [] }, // 10
-  { reading: F+"1UAiMkQEqVh1v7IkbsBkrMwxsiqtaqZPZ/view", writing: null, folder: null, activities: [] }, // 11
-  { reading: F+"1U7_IS7j8JJvvvC3iPAN9XDcffVnggmKt/view", writing: null, folder: null, activities: [] }, // 12
-  { reading: F+"1U-6Ij0S7B_ov5DgYyxxdDpqvQy2ZiPEI/view", writing: null, folder: null, activities: [] }, // 13
-  { reading: F+"1TzfD4KFQjUkxHzcQPFA9z5U1ayMD2MAN/view", writing: null, folder: null, activities: [] }, // 14
+  { reading: F+"1V8Ux6hEoJTtqXd0AWvERm_Equv45BOpl/view", writing: F+"1QXFrY3GRznRow7xdJbhaZKzR215DCkcv/view", activities: [
+    { name: "Initial sounds – look & write",   url: A+"1/aptin initial sounds look and write.pdf", kind: "look"  },
+    { name: "End sounds – look & write",        url: A+"1/aptin end sounds look and write.pdf", kind: "look"  },
+    { name: "Initial sounds – listen & write",  url: A+"1/aptin initial sounds listen and write.pdf", kind: "write" },
+    { name: "End sounds – listen & write",      url: A+"1/aptin end sounds listen and write.pdf", kind: "write" },
+    { name: "Reading cards",                    url: A+"1/aptin reading cards.pdf", kind: "read"  },
+  ]},
+  { reading: F+"1TsMeIck3VgGbhrnGcF6OHkRwxKML3Y67/view", writing: F+"1QjAY9Y6X3PtZklMj8rixuikZ58LKCJ61/view", activities: [
+    { name: "Initial sounds – look & write",   url: A+"2/SMOBC initial sounds look and write.pdf", kind: "look"  },
+    { name: "End sounds – look & write",        url: A+"2/SMOBC end sounds look and write.pdf", kind: "look"  },
+    { name: "Initial sounds – listen & write",  url: A+"2/SMOBC initial sounds listen and write.pdf", kind: "write" },
+    { name: "End sounds – listen & write",      url: A+"2/SMOBC end sounds listen and write.pdf", kind: "write" },
+    { name: "Reading words",                    url: A+"2/SMOBC Reading words.pdf", kind: "read"  },
+  ]},
+  { reading: F+"1VVQ4G9VYTjxzRALsmljpByX4SXiizeeX/view", writing: F+"1QoqthUwCkmBlzeysnMauFZa09x8UFDrC/view", activities: [
+    { name: "Initial sounds – listen & write",  url: A+"3/GHKDE initial sounds listen and write.pdf", kind: "write" },
+    { name: "End sounds – listen & write",      url: A+"3/GHKDE end sounds listen and write.pdf", kind: "write" },
+    { name: "Reading cards",                    url: A+"3/GHKDE reading cards.pdf", kind: "read"  },
+  ]},
+  { reading: F+"1VWCLqajUMABx3rwYXqi3p4_PC-r4AD7j/view", writing: F+"1QutZua5oFC5cnW42k8Mh-BEjzuKUvX8f/view", activities: [
+    { name: "Initial sounds – listen & write",  url: A+"4/LFRVU initial sounds listen and write.pdf", kind: "write" },
+    { name: "End sounds – listen & write",      url: A+"4/LFRVU end sounds listen and write.pdf", kind: "write" },
+    { name: "Reading cards",                    url: A+"4/LFRVU reading cards.pdf", kind: "read"  },
+    { name: "Reading words",                    url: A+"4/LFRVU Reading words.pdf", kind: "read"  },
+  ]},
+  { reading: F+"1VlO4zWHFD5MJZuDYEAembv4AvVPU8fts/view", writing: F+"1Qxy117ZfgqNM9517bixJEXUWRe8u-xYY/view", activities: [
+    { name: "Initial sounds – listen & write",  url: A+"5/JWZXY initial sounds listen and write.pdf", kind: "write" },
+    { name: "End sounds – listen & write",      url: A+"5/JWZXY end sounds listen and write.pdf", kind: "write" },
+    { name: "Reading words",                    url: A+"5/JWZXY Reading words.pdf", kind: "read"  },
+  ]},
+  { reading: F+"1UQWCRM8jELug9m8OOkbILteSi0pbDQGw/view", writing: F+"1R5k6DPw5Cc9AHCmboOkW4V6RqM32TKqI/view", activities: [
+    { name: "Initial sounds – listen & write",  url: A+"6/QuShThChAy initial sounds listen and write.pdf", kind: "write" },
+    { name: "Middle sounds – listen & write",   url: A+"6/QuShThChAy middle sounds listen and write.pdf", kind: "write" },
+    { name: "End sounds – listen & write",      url: A+"6/QuShThChAy end sounds listen and write.pdf", kind: "write" },
+    { name: "Reading words",                    url: A+"6/QuShThChAy Reading words.pdf", kind: "read"  },
+  ]},
+  { reading: F+"1UNwGUC3eFqi4sPPI9lmLJEhn5KwvosZa/view", writing: F+"1RI6qnr4swOZfthMTOZKy_e34u6Yhig2b/view", activities: [
+    { name: "Initial sounds – listen & write",  url: A+"7/WhCkEeErAr initial sounds listen and write.pdf", kind: "write" },
+    { name: "Middle sounds – listen & write",   url: A+"7/WhCkEeErAr middle sounds listen and write.pdf", kind: "write" },
+    { name: "End sounds – listen & write",      url: A+"7/WhCkEeErAr end sounds listen and write.pdf", kind: "write" },
+    { name: "Reading words",                    url: A+"7/WhCkEeErAr Reading words.pdf", kind: "read"  },
+  ]},
+  { reading: F+"1UEn-tMQ4oXfrSAo9CyB8cVcvd9p30uB7/view", writing: F+"1RLRUuQgW-z5hhyd0jppVhMDIg6OoT6bb/view", activities: [
+    { name: "Middle sounds – listen & write",   url: A+"8/EdOoIghAiOy middle sounds listen and write.pdf", kind: "write" },
+    { name: "Reading words",                    url: A+"8/EdOoIghAiOy Reading words.pdf", kind: "read"  },
+  ]},
+  { reading: F+"1UElswdzVuMCZlFoewpjt05opVTscmtjJ/view", writing: null, activities: [] },
+  { reading: F+"1UDhOLPyJZiptqvkCw9JYmsBPmurxWDsc/view", writing: null, activities: [] },
+  { reading: F+"1UAiMkQEqVh1v7IkbsBkrMwxsiqtaqZPZ/view", writing: null, activities: [] },
+  { reading: F+"1U7_IS7j8JJvvvC3iPAN9XDcffVnggmKt/view", writing: null, activities: [] },
+  { reading: F+"1U-6Ij0S7B_ov5DgYyxxdDpqvQy2ZiPEI/view", writing: null, activities: [] },
+  { reading: F+"1TzfD4KFQjUkxHzcQPFA9z5U1ayMD2MAN/view", writing: null, activities: [] },
 ];
 
-// ------------------------------------------------------------
-// Year-level scope & sequence (for the GPS / non-bookmark view)
-// ------------------------------------------------------------
 const PHON_GROUPS = [
   { name: "Unvoiced Consonants", graphemes: ["p","t","k","c","f","s","h","ch","sh","th","wh","ck","ph","x","qu"] },
   { name: "Voiced Consonants",   graphemes: ["b","d","g","j","v","z","m","n","l","r","w","y","ng","dge","gn","kn","wr","gu"] },
@@ -229,34 +177,26 @@ const YEAR_LEVELS = {
   "Yr 4": ["ou","ew","ur","ear","wor","dge","ui","ng","ey","ough","gu","ti","si","ci","gn"],
 };
 
-// ------------------------------------------------------------
-// Lookups
-// ------------------------------------------------------------
 const graphemeIndex = {};
 GRAPHEMES.forEach((g, i) => { graphemeIndex[g.grapheme] = i; });
 
-const graphemeToBookmark = {};   // grapheme -> bookmark level index
+const graphemeToBookmark = {};
 BOOKMARK_LEVELS.forEach((lvl, i) => {
   lvl.graphemes.forEach((gr) => { graphemeToBookmark[gr] = i; });
 });
 
-// ============================================================
-// State
-// ============================================================
-let practiceMode = "say";        // "say" | "write"
-let viewMode = "bookmark";       // "year" | "bookmark"
-let inputMode = "type";          // (write mode) "type" | "write"
+let practiceMode = "say";
+let viewMode = "bookmark";
+let inputMode = "type";
 
-const selected = new Set();      // indices into GRAPHEMES
-let activeLevels = new Set();    // active preset buttons (year names or bookmark idx)
-
+const selected = new Set();
+let activeLevels = new Set();
 let queue = [];
 let current = null;
 let sessionTotal = 0;
-
-let attempts = {};               // grapheme -> tries taken
-let masteredOnTry = {};          // grapheme -> tries when finally got it
-let missed = new Set();          // graphemes wrong at least once
+let attempts = {};
+let masteredOnTry = {};
+let missed = new Set();
 
 const $ = (id) => document.getElementById(id);
 const screens = {};
@@ -265,34 +205,14 @@ function showScreen(name) {
   Object.entries(screens).forEach(([k, el]) => el.classList.toggle("active", k === name));
 }
 
-// ============================================================
-// SCREEN 1 — practice mode
-// ============================================================
-function chooseMode(mode) {
-  practiceMode = mode;
-  showScreen("view");
-}
+function chooseMode(mode) { practiceMode = mode; showScreen("view"); }
+function chooseView(view) { viewMode = view; buildSelectScreen(); showScreen("select"); }
 
-// ============================================================
-// SCREEN 2 — view (year / bookmark)
-// ============================================================
-function chooseView(view) {
-  viewMode = view;
-  buildSelectScreen();
-  showScreen("select");
-}
-
-// ============================================================
-// SCREEN 3 — code selection
-// ============================================================
 function buildSelectScreen() {
-  selected.clear();
-  activeLevels.clear();
-
+  selected.clear(); activeLevels.clear();
   const modeLabel = practiceMode === "say" ? "Look &amp; Say" : "Listen &amp; Write";
   $("selectTitle").innerHTML = modeLabel + " &middot; " +
     (viewMode === "year" ? "Year Levels" : "Bookmark Levels");
-
   buildPresetBar();
   buildGrid();
   refreshCount();
@@ -430,9 +350,6 @@ function refreshCount() {
   $("startBtn").disabled = selected.size === 0;
 }
 
-// ============================================================
-// SCREEN 4 — drill
-// ============================================================
 function startSession() {
   queue = [...selected].map((i) => GRAPHEMES[i]);
   shuffle(queue);
@@ -442,7 +359,6 @@ function startSession() {
   missed = new Set();
   clearShelf();
 
-  // Show the right panel for the mode
   $("sayPanel").style.display  = practiceMode === "say"   ? "block" : "none";
   $("writePanel").style.display = practiceMode === "write" ? "block" : "none";
   $("drillModeLabel").textContent = practiceMode === "say" ? "Look & Say" : "Listen & Write";
@@ -456,16 +372,13 @@ function nextCard() {
   current = queue[0];
   resetCardUI();
   updateProgress();
-  if (practiceMode === "write") {
-    setTimeout(playCurrent, 300);   // listen & write: sound leads
-  }
+  if (practiceMode === "write") setTimeout(playCurrent, 300);
 }
 
 function resetCardUI() {
   $("answerBox").classList.remove("show");
 
   if (practiceMode === "say") {
-    // Show the code, hide the reveal/grade until they've checked
     $("sayGrapheme").textContent = current.grapheme;
     $("sayCheckRow").style.display = "flex";
     $("sayGradeRow").style.display = "none";
@@ -489,7 +402,6 @@ function updateProgress() {
   $("progressFill").style.width = ((sessionTotal - left) / sessionTotal) * 100 + "%";
 }
 
-// ---- Look & Say: reveal sound, then self-mark ----
 function sayCheck() {
   playCurrent();
   revealAnswer();
@@ -497,7 +409,6 @@ function sayCheck() {
   $("sayGradeRow").style.display = "flex";
 }
 
-// ---- Listen & Write: type auto-check ----
 function checkTypedAnswer() {
   if (!current) return;
   const input = $("typeInput");
@@ -546,10 +457,10 @@ function gradeCard(gotIt) {
   nextCard();
 }
 
-// ---- Mastered shelf ----
 function clearShelf() {
   $("masteredShelf").innerHTML = '<span class="shelf-empty" id="shelfEmpty">Cards you get right appear here</span>';
 }
+
 function addToShelf(card) {
   const empty = $("shelfEmpty");
   if (empty) empty.remove();
@@ -559,9 +470,6 @@ function addToShelf(card) {
   $("masteredShelf").appendChild(item);
 }
 
-// ============================================================
-// SCREEN 5 — report + targeted homework
-// ============================================================
 function finishSession() {
   showScreen("report");
   renderSummary();
@@ -570,8 +478,7 @@ function finishSession() {
 }
 
 function renderSummary() {
-  // Group mastered codes by how many tries they took
-  const buckets = {};   // tries -> [graphemes]
+  const buckets = {};
   Object.keys(masteredOnTry).forEach((g) => {
     const t = masteredOnTry[g];
     (buckets[t] = buckets[t] || []).push(g);
@@ -599,15 +506,13 @@ function renderSummary() {
 
 function renderRemediation() {
   const box = $("reportRemediation");
-
   if (missed.size === 0) {
     box.innerHTML = "";
     $("practiceSheetBtn").style.display = "none";
     return;
   }
 
-  // Which bookmark levels do the missed codes belong to?
-  const levelToCodes = {};   // levelIdx -> [graphemes]
+  const levelToCodes = {};
   missed.forEach((g) => {
     const lvl = graphemeToBookmark[g];
     if (lvl === undefined) return;
@@ -616,8 +521,8 @@ function renderRemediation() {
 
   let html = '<div class="remedy-title">Revise these</div>' +
     '<p class="remedy-sub">' + (practiceMode === "say"
-      ? "Codes to read again — tap to watch the reading demo or print the cards."
-      : "Codes to write again — tap to watch the writing demo or print the sheets.") + '</p>';
+      ? "Codes to read again — tap to watch the reading demo or open the activity sheets."
+      : "Codes to write again — tap to watch the writing demo or open the activity sheets.") + '</p>';
 
   Object.keys(levelToCodes).map(Number).sort((a, b) => a - b).forEach((lvl) => {
     const meta = BOOKMARK_LEVELS[lvl];
@@ -631,14 +536,17 @@ function renderRemediation() {
 
     const links = [];
     if (practiceMode === "say") {
-      if (res.reading) links.push(linkBtn("▶ Reading demo video", res.reading));
-      res.activities.filter((a) => a.kind === "read" || a.kind === "look").forEach((a) => links.push(linkBtn("📄 " + a.name, a.url)));
+      if (res.reading) links.push(linkBtn("▶ Reading demo", res.reading));
+      res.activities.filter((a) => ["read", "look"].includes(a.kind)).forEach((a) => {
+        links.push(linkBtn("📄 " + a.name, a.url));
+      });
     } else {
-      if (res.writing) links.push(linkBtn("▶ Writing demo video", res.writing));
-      res.activities.filter((a) => a.kind === "write" || a.kind === "look").forEach((a) => links.push(linkBtn("📄 " + a.name, a.url)));
+      if (res.writing) links.push(linkBtn("▶ Writing demo", res.writing));
+      res.activities.filter((a) => ["write", "look"].includes(a.kind)).forEach((a) => {
+        links.push(linkBtn("📄 " + a.name, a.url));
+      });
     }
-    if (links.length === 0 && res.folder) links.push(linkBtn("📁 Open level resources", res.folder));
-    if (links.length === 0 && res.reading) links.push(linkBtn("▶ Demo video", res.reading));
+    if (links.length === 0 && res.reading) links.push(linkBtn("▶ Demo", res.reading));
 
     html += '<div class="remedy-links">' + links.join("") + '</div></div>';
   });
@@ -651,7 +559,6 @@ function linkBtn(label, url) {
   return '<a class="remedy-link" href="' + url + '" target="_blank" rel="noopener">' + label + '</a>';
 }
 
-// ---- Printable practice sheet (year view): missed codes + words ----
 function openPracticeSheet() {
   const codes = [...missed];
   const cards = codes.map((g) => {
@@ -690,9 +597,6 @@ function reviewMissed() {
   startSession();
 }
 
-// ============================================================
-// AUDIO
-// ============================================================
 let audioEl = null;
 function playCurrent() {
   if (!current) return;
@@ -707,9 +611,6 @@ function playCurrent() {
   audioEl.play().catch(() => {});
 }
 
-// ============================================================
-// CANVAS (handwrite)
-// ============================================================
 let canvas, ctx, drawing = false;
 function initCanvas() {
   canvas = $("writeCanvas");
@@ -734,9 +635,6 @@ function initCanvas() {
 function styleCtx() { ctx.strokeStyle = "#1f1f1f"; ctx.lineWidth = 3; ctx.lineCap = "round"; ctx.lineJoin = "round"; }
 function clearCanvas() { if (!ctx) return; ctx.clearRect(0, 0, canvas.width, canvas.height); styleCtx(); }
 
-// ============================================================
-// Write-mode input toggle (type / handwrite)
-// ============================================================
 function setInputMode(mode) {
   inputMode = mode;
   $("modeType").classList.toggle("active", mode === "type");
@@ -760,9 +658,6 @@ function shuffle(arr) {
   }
 }
 
-// ============================================================
-// INIT
-// ============================================================
 document.addEventListener("DOMContentLoaded", () => {
   screens.mode   = $("modeScreen");
   screens.view   = $("viewScreen");
@@ -772,27 +667,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initCanvas();
 
-  // Screen 1
   $("modeSayBtn").addEventListener("click", () => chooseMode("say"));
   $("modeWriteBtn").addEventListener("click", () => chooseMode("write"));
 
-  // Screen 2
   $("viewYearBtn").addEventListener("click", () => chooseView("year"));
   $("viewBookmarkBtn").addEventListener("click", () => chooseView("bookmark"));
   $("viewBackBtn").addEventListener("click", () => showScreen("mode"));
 
-  // Screen 3
   $("selectAll").addEventListener("click", () => setAllChips(true));
   $("selectNone").addEventListener("click", () => setAllChips(false));
   $("startBtn").addEventListener("click", startSession);
   $("selectBackBtn").addEventListener("click", () => showScreen("view"));
 
-  // Screen 4 — say
   $("sayCheckBtn").addEventListener("click", sayCheck);
   $("sayGotBtn").addEventListener("click", () => gradeCard(true));
   $("sayMissedBtn").addEventListener("click", () => gradeCard(false));
 
-  // Screen 4 — write
   $("listenBtn").addEventListener("click", playCurrent);
   $("modeType").addEventListener("click", () => setInputMode("type"));
   $("modeWrite").addEventListener("click", () => setInputMode("write"));
@@ -805,7 +695,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("quitBtn").addEventListener("click", () => { if (audioEl) audioEl.pause(); showScreen("select"); });
 
-  // Screen 5
   $("printBtn").addEventListener("click", () => window.print());
   $("practiceSheetBtn").addEventListener("click", openPracticeSheet);
   $("reportReviewBtn").addEventListener("click", reviewMissed);
