@@ -1,16 +1,136 @@
 // ============================================================
-// Aussie Phonics Trainer (unified)
+// Mika's Phonics Trainer — trilingual (English / Mandarin / Cantonese)
 //
-// Flow: Practice mode -> View -> Code selection -> Drill -> Report
-//   Practice mode : "say"  (Look & Say)  | "write" (Listen & Write)
-//   View          : "year" (scope & seq) | "bookmark" (14 levels)
+// A special build just for Mika:
+//   • Bookmark levels only (no year-level view)
+//   • Both practice modes: Look & Say + Listen & Write
+//   • Every instruction and button shown in English, Mandarin
+//     (with Hanyu Pinyin) and Cantonese (with Jyutping)
 //
-// Drill keeps wrong answers in the deck and tracks how many tries
-// each code took. The report turns first-try misses into targeted
-// homework: the reading/writing video + activity sheets for the
-// bookmark level those codes belong to.
+// The drill itself is identical to the main app: wrong answers go
+// back in the deck, mastered cards drop out, and a report turns
+// first-try misses into targeted homework.
 // ============================================================
 
+// ---- Trilingual strings: en = English, cn/cnP = Mandarin + pinyin,
+//      yue/yueP = Cantonese + Jyutping ----
+const T = {
+  subtitle:      { en: "Hear it or see it, say it or write it, then check.",
+                   cn: "听或看，说或写，然后检查。", cnP: "tīng huò kàn, shuō huò xiě",
+                   yue: "聽或者睇，講或者寫，然後檢查。", yueP: "teng1 waak6 tai2, gong2 waak6 se2" },
+
+  modeSayTitle:  { en: "Look & Say", cn: "看一看，说一说", cnP: "kàn yi kàn, shuō yi shuō",
+                   yue: "睇一睇，講一講", yueP: "tai2 jat1 tai2, gong2 jat1 gong2" },
+  modeSayDesc:   { en: "See the code, say the sound, then listen to check.",
+                   cn: "看字母，读出声音，再听录音检查。", cnP: "kàn zìmǔ, dú chū shēngyīn",
+                   yue: "睇字母，讀個音出嚟，再聽錄音檢查。", yueP: "tai2 zi6 mou5, duk6 go3 jam1" },
+  modeWriteTitle:{ en: "Listen & Write", cn: "听一听，写一写", cnP: "tīng yi tīng, xiě yi xiě",
+                   yue: "聽一聽，寫一寫", yueP: "teng1 jat1 teng1, se2 jat1 se2" },
+  modeWriteDesc: { en: "Hear the sound, then type or handwrite the code.",
+                   cn: "听声音，然后打字或手写字母。", cnP: "tīng shēngyīn, dǎzì huò shǒuxiě",
+                   yue: "聽個音，然後打字或者手寫字母。", yueP: "teng1 go3 jam1, daa2 zi6 waak6 sau2 se2" },
+
+  back:          { en: "← Back", cn: "返回", cnP: "fǎnhuí", yue: "返回", yueP: "faan1 wui4" },
+  selected:      { en: "selected", cn: "已选", cnP: "yǐ xuǎn", yue: "已揀", yueP: "ji5 gaan2" },
+  selectAll:     { en: "Select all", cn: "全选", cnP: "quán xuǎn", yue: "全部揀", yueP: "cyun4 bou6 gaan2" },
+  clear:         { en: "Clear", cn: "清除", cnP: "qīngchú", yue: "清除", yueP: "cing1 ceoi4" },
+  trackerHint:   { en: "Tap a code to pick it, or tap a number to pick the whole level.",
+                   cn: "点字母选一个，点号码选整级。", cnP: "diǎn zìmǔ xuǎn yī gè",
+                   yue: "撳字母揀一個，撳號碼揀成級。", yueP: "gam6 zi6 mou5, gam6 hou6 maa5" },
+  start:         { en: "Start practising", cn: "开始练习", cnP: "kāishǐ liànxí",
+                   yue: "開始練習", yueP: "hoi1 ci2 lin6 zaap6" },
+
+  bookmarkLevels:{ en: "Bookmark Levels", cn: "书签等级", cnP: "shūqiān děngjí",
+                   yue: "書籤等級", yueP: "syu1 cim1 dang2 kap1" },
+
+  exit:          { en: "Exit", cn: "退出", cnP: "tuìchū", yue: "退出", yueP: "teoi3 ceot1" },
+  sayHint:       { en: "Read this code and say its sound out loud.",
+                   cn: "读出这个字母的声音。", cnP: "dú chū zhège zìmǔ de shēngyīn",
+                   yue: "讀出呢個字母嘅聲。", yueP: "duk6 ceot1 ni1 go3 zi6 mou5 ge3 seng1" },
+  listenCheck:   { en: "Listen to check", cn: "听录音检查", cnP: "tīng lùyīn jiǎnchá",
+                   yue: "聽錄音檢查", yueP: "teng1 luk6 jam1 gim2 caa4" },
+  missed:        { en: "Missed it", cn: "答错了", cnP: "dá cuò le", yue: "答錯咗", yueP: "daap3 co3 zo2" },
+  gotIt:         { en: "Got it", cn: "答对了", cnP: "dá duì le", yue: "答啱咗", yueP: "daap3 ngaam1 zo2" },
+  playSound:     { en: "Play sound", cn: "播放声音", cnP: "bòfàng shēngyīn",
+                   yue: "播放聲音", yueP: "bo3 fong3 sing1 jam1" },
+  writeHint:     { en: "Listen, then type or write the code.",
+                   cn: "听完，打字或写出字母。", cnP: "tīng wán, dǎzì huò xiě",
+                   yue: "聽完，打字或者寫出字母。", yueP: "teng1 jyun4, daa2 zi6 waak6 se2" },
+  type:          { en: "Type", cn: "打字", cnP: "dǎzì", yue: "打字", yueP: "daa2 zi6" },
+  handwrite:     { en: "Handwrite", cn: "手写", cnP: "shǒuxiě", yue: "手寫", yueP: "sau2 se2" },
+  check:         { en: "Check", cn: "检查", cnP: "jiǎnchá", yue: "檢查", yueP: "gim2 caa4" },
+  showAnswer:    { en: "Show answer", cn: "显示答案", cnP: "xiǎnshì dá'àn",
+                   yue: "顯示答案", yueP: "hin2 si6 daap3 on3" },
+  again:         { en: "Again", cn: "再来一次", cnP: "zài lái yīcì", yue: "再嚟多次", yueP: "zoi3 lai4 do1 ci3" },
+  clearPlain:    { en: "clear", cn: "清除", cnP: "qīngchú", yue: "清除", yueP: "cing1 ceoi4" },
+  mastered:      { en: "Mastered", cn: "已掌握", cnP: "yǐ zhǎngwò", yue: "已掌握", yueP: "ji5 zoeng2 aak1" },
+  shelfEmpty:    { en: "Codes you get right appear here.",
+                   cn: "答对的字母会出现在这里。", cnP: "dá duì de zìmǔ",
+                   yue: "答啱嘅字母會喺度出現。", yueP: "daap3 ngaam1 ge3 zi6 mou5" },
+  typePlaceholder:{ en: "type here", cn: "在这里打字", cnP: "", yue: "喺度打字", yueP: "" },
+
+  wellDone:      { en: "Well done!", cn: "做得好！", cnP: "zuò dé hǎo", yue: "做得好！", yueP: "zou6 dak1 hou2" },
+  perfect:       { en: "Perfect run — everything right first go! 🎉",
+                   cn: "完美！全部第一次就答对！", cnP: "wánměi",
+                   yue: "完美！全部第一次就答啱！", yueP: "jyun4 mei5" },
+  reviseThese:   { en: "Revise these", cn: "需要复习", cnP: "xūyào fùxí",
+                   yue: "需要溫習", yueP: "seoi1 jiu3 wan1 zaap6" },
+  remedyReadSub: { en: "Codes to read again — tap to watch the reading demo or open the activity sheets.",
+                   cn: "需要再读的字母 — 点击观看朗读示范或打开练习纸。", cnP: "",
+                   yue: "需要再讀嘅字母 — 撳一下睇朗讀示範或者打開練習紙。", yueP: "" },
+  remedyWriteSub:{ en: "Codes to write again — tap to watch the writing demo or open the activity sheets.",
+                   cn: "需要再写的字母 — 点击观看书写示范或打开练习纸。", cnP: "",
+                   yue: "需要再寫嘅字母 — 撳一下睇書寫示範或者打開練習紙。", yueP: "" },
+  readingDemo:   { en: "▶ Reading demo", cn: "朗读示范", cnP: "lǎngdú shìfàn",
+                   yue: "朗讀示範", yueP: "long5 duk6 si6 faan6" },
+  writingDemo:   { en: "▶ Writing demo", cn: "书写示范", cnP: "shūxiě shìfàn",
+                   yue: "書寫示範", yueP: "syu1 se2 si6 faan6" },
+  demo:          { en: "▶ Demo", cn: "示范", cnP: "shìfàn", yue: "示範", yueP: "si6 faan6" },
+  printReport:   { en: "Save / print report", cn: "保存／打印报告", cnP: "bǎocún / dǎyìn",
+                   yue: "儲存／打印報告", yueP: "cou5 cyun4 / daa2 jan3" },
+  reviewMissed:  { en: "Review missed", cn: "复习答错的", cnP: "fùxí dá cuò de",
+                   yue: "溫習答錯嘅", yueP: "wan1 zaap6 daap3 co3" },
+  newSession:    { en: "New session", cn: "重新开始", cnP: "chóngxīn kāishǐ",
+                   yue: "重新開始", yueP: "cung4 san1 hoi1 ci2" },
+};
+
+// Sound-category names, trilingual (used on the filter pills).
+const CAT_T = {
+  "Short Vowels":        { en: "Short Vowels", cn: "短元音", cnP: "duǎn yuányīn", yue: "短元音", yueP: "dyun2 jyun4 jam1" },
+  "Long Vowels":         { en: "Long Vowels", cn: "长元音", cnP: "cháng yuányīn", yue: "長元音", yueP: "coeng4 jyun4 jam1" },
+  "R-Controlled Vowels": { en: "R-Controlled", cn: "R元音", cnP: "R yuányīn", yue: "R元音", yueP: "R jyun4 jam1" },
+  "Other Vowels":        { en: "Other Vowels", cn: "其他元音", cnP: "qítā yuányīn", yue: "其他元音", yueP: "kei4 taa1 jyun4 jam1" },
+  "Stops":               { en: "Stops", cn: "爆破音", cnP: "bàopò yīn", yue: "爆破音", yueP: "baau3 po3 jam1" },
+  "Nasals":              { en: "Nasals", cn: "鼻音", cnP: "bíyīn", yue: "鼻音", yueP: "bei6 jam1" },
+  "Fricatives":          { en: "Fricatives", cn: "摩擦音", cnP: "mócā yīn", yue: "摩擦音", yueP: "mo1 caat3 jam1" },
+  "Affricates":          { en: "Affricates", cn: "塞擦音", cnP: "sècā yīn", yue: "塞擦音", yueP: "sak1 caat3 jam1" },
+  "Approximants":        { en: "Approximants", cn: "近音", cnP: "jìn yīn", yue: "近音", yueP: "kan5 jam1" },
+  "Lateral":             { en: "Lateral", cn: "边音", cnP: "biānyīn", yue: "边音", yueP: "bin1 jam1" },
+  "Other Codes":         { en: "Other Codes", cn: "其他字母", cnP: "qítā zìmǔ", yue: "其他字母", yueP: "kei4 taa1 zi6 mou5" },
+};
+
+// Build a trilingual block from a {en,cn,cnP,yue,yueP} object.
+function triBlock(t) {
+  if (!t) return "";
+  const cn = t.cn ? (t.cn + (t.cnP ? " · " + t.cnP : "")) : "";
+  const yue = t.yue ? (t.yue + (t.yueP ? " · " + t.yueP : "")) : "";
+  return '<span class="tl">' +
+    '<span class="tl-en">' + t.en + '</span>' +
+    (cn ? '<span class="tl-cn">' + cn + '</span>' : '') +
+    (yue ? '<span class="tl-yue">' + yue + '</span>' : '') +
+    '</span>';
+}
+function tri(key) { return triBlock(T[key]); }
+// Inline trilingual from three raw strings (for dynamic text with numbers).
+function triStr(en, cn, yue) {
+  return '<span class="tl"><span class="tl-en">' + en + '</span>' +
+    '<span class="tl-cn">' + cn + '</span>' +
+    '<span class="tl-yue">' + yue + '</span></span>';
+}
+
+// ============================================================
+// Phonics data (shared with the main app)
+// ============================================================
 const GRAPHEMES = [
   { grapheme: "a",  audio: "A",    sounds: [{s:"ă", ex:"at"}, {s:"ā", ex:"navy"}, {s:"ah", ex:"last"}] },
   { grapheme: "b",  audio: "B",    sounds: [{s:"b", ex:"rib"}] },
@@ -84,7 +204,7 @@ const GRAPHEMES = [
   { grapheme: "wr",   audio: "Wr",   sounds: [{s:"r", ex:"wrap"}] },
 ];
 
-// Colours match the printed physical bookmarks (read off bookmarks.pdf).
+// Colours match the printed physical bookmarks.
 const BOOKMARK_LEVELS = [
   { name: "Level 1 – APTIN",  graphemes: ["a","p","t","i","n"],        colour: "#cfe0f5" },
   { name: "Level 2 – SMOBC",  graphemes: ["s","m","o","b","c"],        colour: "#5b9bd5" },
@@ -160,9 +280,6 @@ const BOOKMARK_RESOURCES = [
   { reading: F+"1TzfD4KFQjUkxHzcQPFA9z5U1ayMD2MAN/view", writing: null, activities: [] },
 ];
 
-// Sound-group names follow the Victorian Education State "44 Sounds"
-// scope & sequence: vowels split into Short / Long / R-Controlled / Other,
-// consonants grouped by manner of articulation.
 const PHON_GROUPS = [
   { name: "Short Vowels",        graphemes: ["a","e","i","o","u"] },
   { name: "Long Vowels",         graphemes: ["ay","ai","ee","ea","ie","igh","oe","oa","ow","oo","ew","ui","ey","ei","eigh"] },
@@ -177,14 +294,6 @@ const PHON_GROUPS = [
   { name: "Other Codes",         graphemes: ["ed","ough"] },
 ];
 
-const YEAR_LEVELS = {
-  "Pre":  ["a","p","t","i","n","s","m","o","b","c","g","h","k","d","e","l","r","f","v","u","j","w","z","x","y"],
-  "Yr 1": ["qu","sh","th","ch","ay","wh","ck","ee","er","ar"],
-  "Yr 2": ["ed","oo","igh","ai","oy","oi","oa","ea","ir","ow"],
-  "Yr 3": ["oe","au","aw","or","wr","ph","kn","ie","ei","eigh"],
-  "Yr 4": ["ou","ew","ur","ear","wor","dge","ui","ng","ey","ough","gu","ti","si","ci","gn"],
-};
-
 const graphemeIndex = {};
 GRAPHEMES.forEach((g, i) => { graphemeIndex[g.grapheme] = i; });
 
@@ -193,12 +302,13 @@ BOOKMARK_LEVELS.forEach((lvl, i) => {
   lvl.graphemes.forEach((gr) => { graphemeToBookmark[gr] = i; });
 });
 
-let practiceMode = "say";
-let viewMode = "bookmark";
-let inputMode = "type";
+// ============================================================
+// State
+// ============================================================
+let practiceMode = "say";   // "say" | "write"
+let inputMode = "type";     // "type" | "write"
 
 const selected = new Set();
-let activeLevels = new Set();
 let activeCats = new Set();
 let queue = [];
 let current = null;
@@ -214,107 +324,30 @@ function showScreen(name) {
   Object.entries(screens).forEach(([k, el]) => el.classList.toggle("active", k === name));
 }
 
-function chooseMode(mode) { practiceMode = mode; showScreen("view"); }
-function chooseView(view) { viewMode = view; buildSelectScreen(); showScreen("select"); }
+function chooseMode(mode) { practiceMode = mode; buildSelectScreen(); showScreen("select"); }
 
 function buildSelectScreen() {
-  selected.clear(); activeLevels.clear(); activeCats.clear();
-  const modeLabel = practiceMode === "say" ? "Look &amp; Say" : "Listen &amp; Write";
-  $("selectTitle").innerHTML = modeLabel + " &middot; " +
-    (viewMode === "year" ? "Year Levels" : "Bookmark Levels");
-  buildPresetBar();
+  selected.clear(); activeCats.clear();
+  const modeT = practiceMode === "say" ? T.modeSayTitle : T.modeWriteTitle;
+  $("selectTitle").innerHTML = triStr(
+    modeT.en + " · " + T.bookmarkLevels.en,
+    modeT.cn + " · " + T.bookmarkLevels.cn,
+    modeT.yue + " · " + T.bookmarkLevels.yue
+  );
   buildCategoryBar();
-  buildGrid();
+  buildTrackerGrid($("groupContainer"));
   refreshCount();
 }
 
-// ---- Preset bar (year buttons or bookmark level buttons) ----
-
-function buildPresetBar() {
-  const bar = $("levelBar");
-  bar.innerHTML = "";
-
-  if (viewMode === "year") {
-    Object.keys(YEAR_LEVELS).forEach((name) => {
-      const btn = mkPreset(name, () => togglePreset(name, btn, YEAR_LEVELS[name]));
-      bar.appendChild(btn);
-    });
-  } else {
-    bar.style.display = "none";
-    return;
-  }
-
-  const allBtn = mkPreset("All", () => {
-    selectGraphemes(GRAPHEMES.map((_, i) => i), true);
-    bar.querySelectorAll(".level-btn:not(.util)").forEach((b) => b.classList.add("active"));
-    activeLevels = new Set(Object.keys(YEAR_LEVELS));
-  });
-  allBtn.classList.add("util");
-  bar.appendChild(allBtn);
-
-  const clearBtn = mkPreset("Clear", () => {
-    selectGraphemes(GRAPHEMES.map((_, i) => i), false);
-    bar.querySelectorAll(".level-btn:not(.util)").forEach((b) => b.classList.remove("active"));
-    activeLevels.clear();
-    activeCats.clear();
-    syncCatButtons();
-  });
-  clearBtn.classList.add("util");
-  bar.appendChild(clearBtn);
-
-  bar.style.display = "";
-}
-
-function mkPreset(label, onClick) {
-  const btn = document.createElement("button");
-  btn.className = "level-btn";
-  btn.textContent = label;
-  btn.addEventListener("click", onClick);
-  return btn;
-}
-
-function togglePreset(key, btn, graphemes) {
-  if (activeLevels.has(key)) {
-    activeLevels.delete(key);
-    btn.classList.remove("active");
-    graphemes.forEach((gr) => {
-      const stillIn = [...activeLevels].some((k) => {
-        const pg = viewMode === "year" ? YEAR_LEVELS[k] : BOOKMARK_LEVELS[k].graphemes;
-        return pg.includes(gr);
-      });
-      if (!stillIn) {
-        const idx = graphemeIndex[gr];
-        if (idx !== undefined) { selected.delete(idx); updateChipVisual(idx, false); }
-      }
-    });
-  } else {
-    activeLevels.add(key);
-    btn.classList.add("active");
-    graphemes.forEach((gr) => {
-      const idx = graphemeIndex[gr];
-      if (idx !== undefined) { selected.add(idx); updateChipVisual(idx, true); }
-    });
-  }
-  refreshCount();
-}
-
-// ---- Sound category bar ----
-// In bookmark view the grid is organised by level, so a pill bar gives
-// quick access to whole sound groups. In year view the group headings
-// themselves are the toggles, so the bar is hidden.
-
+// ---- Sound category filter pills ----
 function buildCategoryBar() {
   const bar = $("catBar");
   bar.innerHTML = "";
   activeCats.clear();
-
-  if (viewMode !== "bookmark") { bar.style.display = "none"; return; }
-  bar.style.display = "";
-
   PHON_GROUPS.forEach((group) => {
     const btn = document.createElement("button");
     btn.className = "cat-btn";
-    btn.textContent = group.name;
+    btn.innerHTML = triBlock(CAT_T[group.name]);
     btn.addEventListener("click", () => toggleCategory(group.name, btn, group.graphemes));
     bar.appendChild(btn);
   });
@@ -342,43 +375,14 @@ function toggleCategory(catName, btn, graphemes) {
   refreshCount();
 }
 
-function syncCatButtons() {
-  $("catBar").querySelectorAll(".cat-btn").forEach((btn) => {
-    btn.classList.remove("active");
-  });
-}
-
-// ---- Selecting / deselecting graphemes ----
-
-function selectGraphemes(indices, on) {
-  indices.forEach((idx) => {
-    if (on) selected.add(idx); else selected.delete(idx);
-    updateChipVisual(idx, on);
-  });
-  refreshCount();
-}
-
+// ---- Selecting / deselecting ----
 function updateChipVisual(idx, on) {
-  const sel = '.g-chip[data-idx="' + idx + '"], .tracker-cell[data-idx="' + idx + '"]';
-  document.querySelectorAll(sel).forEach((el) => {
+  document.querySelectorAll('.tracker-cell[data-idx="' + idx + '"]').forEach((el) => {
     el.classList.toggle("selected", on);
   });
 }
 
-// ---- Grid: year view uses grouped chips, bookmark view uses the tracker table ----
-
-function buildGrid() {
-  const container = $("groupContainer");
-  container.innerHTML = "";
-
-  if (viewMode === "bookmark") {
-    buildTrackerGrid(container);
-  } else {
-    buildChipGrid(container);
-  }
-}
-
-// Some bookmark colours are very pale — pick readable text per colour.
+// ---- Bookmark tracker grid ----
 function isLightColour(hex) {
   const c = hex.replace("#", "");
   const r = parseInt(c.substr(0, 2), 16);
@@ -388,6 +392,7 @@ function isLightColour(hex) {
 }
 
 function buildTrackerGrid(container) {
+  container.innerHTML = "";
   const tracker = document.createElement("div");
   tracker.className = "tracker";
 
@@ -404,7 +409,7 @@ function buildTrackerGrid(container) {
     label.style.background = lvl.colour;
     label.style.color = textCol;
     label.textContent = lvlIdx + 1;
-    label.title = lvl.name + " — click to toggle all";
+    label.title = lvl.name;
     label.addEventListener("click", () => toggleTrackerRow(lvlIdx, label));
     row.appendChild(label);
 
@@ -437,22 +442,12 @@ function toggleTrackerRow(lvlIdx, label) {
     const idx = graphemeIndex[gr];
     return idx !== undefined && selected.has(idx);
   });
-
-  if (allSelected) {
-    activeLevels.delete(lvlIdx);
-    label.classList.remove("active");
-    lvl.graphemes.forEach((gr) => {
-      const idx = graphemeIndex[gr];
-      if (idx !== undefined) { selected.delete(idx); updateChipVisual(idx, false); }
-    });
-  } else {
-    activeLevels.add(lvlIdx);
-    label.classList.add("active");
-    lvl.graphemes.forEach((gr) => {
-      const idx = graphemeIndex[gr];
-      if (idx !== undefined) { selected.add(idx); updateChipVisual(idx, true); }
-    });
-  }
+  lvl.graphemes.forEach((gr) => {
+    const idx = graphemeIndex[gr];
+    if (idx === undefined) return;
+    if (allSelected) { selected.delete(idx); updateChipVisual(idx, false); }
+    else { selected.add(idx); updateChipVisual(idx, true); }
+  });
   refreshCount();
 }
 
@@ -462,76 +457,19 @@ function toggleTrackerCell(idx, cell) {
   refreshCount();
 }
 
-function buildChipGrid(container) {
-  PHON_GROUPS.forEach((group) => {
-    // The heading itself is the category toggle (tap to select the whole group).
-    const label = document.createElement("div");
-    label.className = "group-label group-toggle";
-    label.dataset.cat = group.name;
-    label.innerHTML = '<span class="grp-name">' + group.name + '</span><span class="grp-hint"></span>';
-    label.addEventListener("click", () => toggleGroupHeading(group));
-    container.appendChild(label);
-
-    const grid = document.createElement("div");
-    grid.className = "grapheme-grid";
-    group.graphemes.forEach((gr) => {
-      const idx = graphemeIndex[gr];
-      if (idx === undefined) return;
-      const g = GRAPHEMES[idx];
-      const chip = document.createElement("div");
-      chip.className = "g-chip";
-      chip.dataset.idx = idx;
-      const dots = "●".repeat(g.sounds.length);
-      chip.innerHTML = '<span class="gr">' + g.grapheme + '</span><span class="dots">' + dots + '</span>';
-      chip.addEventListener("click", () => {
-        if (selected.has(idx)) { selected.delete(idx); chip.classList.remove("selected"); }
-        else { selected.add(idx); chip.classList.add("selected"); }
-        refreshCount();
-      });
-      grid.appendChild(chip);
-    });
-    container.appendChild(grid);
-  });
-}
-
-function toggleGroupHeading(group) {
-  const idxs = group.graphemes.map((gr) => graphemeIndex[gr]).filter((i) => i !== undefined);
-  const allSel = idxs.length && idxs.every((i) => selected.has(i));
-  selectGraphemes(idxs, !allSel);
-}
-
-function setAllChips(on) {
-  const allEls = document.querySelectorAll(".g-chip, .tracker-cell");
-  allEls.forEach((el) => {
+function setAllCells(on) {
+  document.querySelectorAll(".tracker-cell").forEach((el) => {
     const idx = +el.dataset.idx;
     el.classList.toggle("selected", on);
     if (on) selected.add(idx); else selected.delete(idx);
   });
-  if (viewMode === "bookmark") {
-    document.querySelectorAll(".tracker-label").forEach((l) => l.classList.toggle("active", on));
-    if (on) { activeLevels = new Set(BOOKMARK_LEVELS.map((_, i) => i)); } else { activeLevels.clear(); }
-  }
   refreshCount();
 }
 
 function refreshCount() {
   $("selCount").textContent = selected.size;
   $("startBtn").disabled = selected.size === 0;
-  syncGroupHeadings();
-}
-
-// Keep year-mode group headings lit when their whole group is selected,
-// however the selection was made (chip, heading, year preset…).
-function syncGroupHeadings() {
-  document.querySelectorAll(".group-toggle").forEach((label) => {
-    const group = PHON_GROUPS.find((g) => g.name === label.dataset.cat);
-    if (!group) return;
-    const idxs = group.graphemes.map((gr) => graphemeIndex[gr]).filter((i) => i !== undefined);
-    const allSel = idxs.length && idxs.every((i) => selected.has(i));
-    label.classList.toggle("active", allSel);
-    label.querySelector(".grp-hint").textContent = allSel ? "✓ all selected" : "tap to add all";
-  });
-  // Light a tracker row's number when its whole level is selected.
+  // Light a level's number when its whole row is selected.
   document.querySelectorAll(".tracker-label").forEach((label) => {
     const lvl = BOOKMARK_LEVELS[+label.dataset.lvl];
     const allSel = lvl.graphemes.every((gr) => {
@@ -542,6 +480,9 @@ function syncGroupHeadings() {
   });
 }
 
+// ============================================================
+// Drill
+// ============================================================
 function startSession() {
   queue = [...selected].map((i) => GRAPHEMES[i]);
   shuffle(queue);
@@ -551,9 +492,10 @@ function startSession() {
   missed = new Set();
   clearShelf();
 
-  $("sayPanel").style.display  = practiceMode === "say"   ? "block" : "none";
+  $("sayPanel").style.display   = practiceMode === "say"   ? "block" : "none";
   $("writePanel").style.display = practiceMode === "write" ? "block" : "none";
-  $("drillModeLabel").textContent = practiceMode === "say" ? "Look & Say" : "Listen & Write";
+  const mt = practiceMode === "say" ? T.modeSayTitle : T.modeWriteTitle;
+  $("drillModeLabel").textContent = mt.en;
 
   showScreen("card");
   nextCard();
@@ -569,7 +511,6 @@ function nextCard() {
 
 function resetCardUI() {
   $("answerBox").classList.remove("show");
-
   if (practiceMode === "say") {
     $("sayGrapheme").textContent = current.grapheme;
     $("sayCheckRow").style.display = "flex";
@@ -590,7 +531,9 @@ function resetCardUI() {
 
 function updateProgress() {
   const left = queue.length;
-  $("remainingLabel").textContent = left + " card" + (left === 1 ? "" : "s") + " left";
+  $("remainingLabel").innerHTML = triStr(
+    left + " left", "还剩 " + left, "仲剩 " + left
+  );
   $("progressFill").style.width = ((sessionTotal - left) / sessionTotal) * 100 + "%";
 }
 
@@ -607,7 +550,6 @@ function checkTypedAnswer() {
   const typed = input.value.trim().toLowerCase();
   const correct = current.grapheme.toLowerCase();
   if (!typed) return;
-
   if (typed === correct) {
     input.classList.add("flash-correct");
     revealAnswer();
@@ -628,7 +570,7 @@ function showWriteGrade() {
 function revealAnswer() {
   $("ansGrapheme").textContent = current.grapheme;
   $("ansSounds").innerHTML = current.sounds.map((s) =>
-    '<div class="sound-item"><span class="sym">' + s.s + '</span> <span class="ex">e.g. ' + s.ex + '</span></div>'
+    '<div class="sound-item"><span class="sym">' + s.s + '</span> <span class="ex">e.g. / 例如 ' + s.ex + '</span></div>'
   ).join("");
   $("answerBox").classList.add("show");
 }
@@ -637,7 +579,6 @@ function gradeCard(gotIt) {
   const card = queue.shift();
   const g = card.grapheme;
   attempts[g] = (attempts[g] || 0) + 1;
-
   if (gotIt) {
     masteredOnTry[g] = attempts[g];
     addToShelf(card);
@@ -650,7 +591,8 @@ function gradeCard(gotIt) {
 }
 
 function clearShelf() {
-  $("masteredShelf").innerHTML = '<span class="shelf-empty" id="shelfEmpty">Cards you get right appear here</span>';
+  $("masteredShelf").innerHTML = '<span class="shelf-empty" id="shelfEmpty"></span>';
+  $("shelfEmpty").innerHTML = tri("shelfEmpty");
 }
 
 function addToShelf(card) {
@@ -666,7 +608,7 @@ function finishSession() {
   showScreen("report");
   renderSummary();
   renderRemediation();
-  $("reportReviewBtn").style.display = missed.size ? "inline-block" : "none";
+  $("reportReviewBtn").style.display = missed.size ? "inline-flex" : "none";
 }
 
 function renderSummary() {
@@ -675,34 +617,36 @@ function renderSummary() {
     const t = masteredOnTry[g];
     (buckets[t] = buckets[t] || []).push(g);
   });
-
   const firstTry = (buckets[1] || []).length;
-  let html = '<div class="report-headline">You practised <b>' + sessionTotal +
-    '</b> code' + (sessionTotal === 1 ? "" : "s") + ' &middot; <b>' + firstTry +
-    '</b> right first try</div>';
+
+  let html = '<div class="report-headline">' + triStr(
+    "You practised " + sessionTotal + " code" + (sessionTotal === 1 ? "" : "s") + " · " + firstTry + " right first try",
+    "练习了 " + sessionTotal + " 个字母 · " + firstTry + " 个第一次答对",
+    "練習咗 " + sessionTotal + " 個字母 · " + firstTry + " 個第一次答啱"
+  ) + '</div>';
 
   const tries = Object.keys(buckets).map(Number).sort((a, b) => a - b);
   html += '<div class="report-rows">';
   tries.forEach((t) => {
-    const label = t === 1 ? "First try" : t === 2 ? "Second try" : t + "th try";
+    const label = t === 1
+      ? triStr("First try", "第一次", "第一次")
+      : t === 2
+      ? triStr("Second try", "第二次", "第二次")
+      : triStr(t + "th try", "第 " + t + " 次", "第 " + t + " 次");
     html += '<div class="report-row"><span class="rtry">' + label + '</span>' +
       '<span class="rcodes">' + buckets[t].map((g) => '<span class="rcode">' + g + '</span>').join("") + '</span></div>';
   });
   html += '</div>';
 
   if (missed.size === 0) {
-    html += '<div class="report-perfect">Perfect run — everything right first go! 🎉</div>';
+    html += '<div class="report-perfect">' + tri("perfect") + '</div>';
   }
   $("reportSummary").innerHTML = html;
 }
 
 function renderRemediation() {
   const box = $("reportRemediation");
-  if (missed.size === 0) {
-    box.innerHTML = "";
-    $("practiceSheetBtn").style.display = "none";
-    return;
-  }
+  if (missed.size === 0) { box.innerHTML = ""; return; }
 
   const levelToCodes = {};
   missed.forEach((g) => {
@@ -711,10 +655,8 @@ function renderRemediation() {
     (levelToCodes[lvl] = levelToCodes[lvl] || []).push(g);
   });
 
-  let html = '<div class="remedy-title">Revise these</div>' +
-    '<p class="remedy-sub">' + (practiceMode === "say"
-      ? "Codes to read again — tap to watch the reading demo or open the activity sheets."
-      : "Codes to write again — tap to watch the writing demo or open the activity sheets.") + '</p>';
+  let html = '<div class="remedy-title">' + tri("reviseThese") + '</div>' +
+    '<p class="remedy-sub">' + (practiceMode === "say" ? tri("remedyReadSub") : tri("remedyWriteSub")) + '</p>';
 
   Object.keys(levelToCodes).map(Number).sort((a, b) => a - b).forEach((lvl) => {
     const meta = BOOKMARK_LEVELS[lvl];
@@ -722,65 +664,27 @@ function renderRemediation() {
     const codes = levelToCodes[lvl];
 
     html += '<div class="remedy-card" style="border-left-color:' + meta.colour + '">';
-    html += '<div class="remedy-head"><span class="swatch" style="background:' + meta.colour + '"></span>' +
-      meta.name + '</div>';
+    html += '<div class="remedy-head"><span class="swatch" style="background:' + meta.colour + '"></span>' + meta.name + '</div>';
     html += '<div class="remedy-codes">' + codes.map((g) => '<span class="rcode">' + g + '</span>').join("") + '</div>';
 
     const links = [];
     if (practiceMode === "say") {
-      if (res.reading) links.push(linkBtn("▶ Reading demo", res.reading));
-      res.activities.filter((a) => ["read", "look"].includes(a.kind)).forEach((a) => {
-        links.push(linkBtn("📄 " + a.name, a.url));
-      });
+      if (res.reading) links.push(linkBtn(T.readingDemo.en, res.reading));
+      res.activities.filter((a) => ["read", "look"].includes(a.kind)).forEach((a) => links.push(linkBtn("📄 " + a.name, a.url)));
     } else {
-      if (res.writing) links.push(linkBtn("▶ Writing demo", res.writing));
-      res.activities.filter((a) => ["write", "look"].includes(a.kind)).forEach((a) => {
-        links.push(linkBtn("📄 " + a.name, a.url));
-      });
+      if (res.writing) links.push(linkBtn(T.writingDemo.en, res.writing));
+      res.activities.filter((a) => ["write", "look"].includes(a.kind)).forEach((a) => links.push(linkBtn("📄 " + a.name, a.url)));
     }
-    if (links.length === 0 && res.reading) links.push(linkBtn("▶ Demo", res.reading));
+    if (links.length === 0 && res.reading) links.push(linkBtn(T.demo.en, res.reading));
 
     html += '<div class="remedy-links">' + links.join("") + '</div></div>';
   });
 
   box.innerHTML = html;
-  $("practiceSheetBtn").style.display = viewMode === "year" ? "inline-block" : "none";
 }
 
 function linkBtn(label, url) {
   return '<a class="remedy-link" href="' + url + '" target="_blank" rel="noopener">' + label + '</a>';
-}
-
-function openPracticeSheet() {
-  const codes = [...missed];
-  const cards = codes.map((g) => {
-    const idx = graphemeIndex[g];
-    const data = GRAPHEMES[idx];
-    const words = data.sounds.map((s) => s.ex).join(", ");
-    const sounds = data.sounds.map((s) => s.s).join("  ");
-    return '<div class="ps-card"><div class="ps-code">' + g + '</div>' +
-      '<div class="ps-sounds">' + sounds + '</div>' +
-      '<div class="ps-words">' + words + '</div></div>';
-  }).join("");
-
-  const w = window.open("", "_blank");
-  w.document.write(
-    '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Practice sheet</title><style>' +
-    'body{font-family:Georgia,serif;margin:32px;color:#1f1f1f;}' +
-    'h1{font-size:20px;}p{color:#555;font-size:13px;}' +
-    '.ps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;}' +
-    '.ps-card{border:2px solid #1f1f1f;border-radius:10px;padding:18px;text-align:center;page-break-inside:avoid;}' +
-    '.ps-code{font-size:40px;font-weight:700;}' +
-    '.ps-sounds{font-size:18px;color:#a83232;margin:6px 0;letter-spacing:2px;}' +
-    '.ps-words{font-size:13px;color:#555;font-style:italic;}' +
-    '@media print{button{display:none;}}' +
-    '</style></head><body>' +
-    '<h1>Phonics practice sheet</h1>' +
-    '<p>Codes to keep practising. Read each card, say the sound(s), then write a word.</p>' +
-    '<button onclick="window.print()" style="padding:8px 16px;">Print</button>' +
-    '<div class="ps-grid">' + cards + '</div></body></html>'
-  );
-  w.document.close();
 }
 
 function reviewMissed() {
@@ -789,6 +693,7 @@ function reviewMissed() {
   startSession();
 }
 
+// ---- Audio ----
 let audioEl = null;
 function playCurrent() {
   if (!current) return;
@@ -803,6 +708,7 @@ function playCurrent() {
   audioEl.play().catch(() => {});
 }
 
+// ---- Handwriting canvas ----
 let canvas, ctx, drawing = false;
 function initCanvas() {
   canvas = $("writeCanvas");
@@ -850,34 +756,39 @@ function shuffle(arr) {
   }
 }
 
+// ---- Apply trilingual labels to every [data-t] element ----
+function applyTranslations() {
+  document.querySelectorAll("[data-t]").forEach((el) => {
+    el.innerHTML = tri(el.dataset.t);
+  });
+  const ph = T.typePlaceholder;
+  $("typeInput").placeholder = ph.en + " · " + ph.cn + " · " + ph.yue;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   screens.mode   = $("modeScreen");
-  screens.view   = $("viewScreen");
   screens.select = $("selectScreen");
   screens.card   = $("cardScreen");
   screens.report = $("reportScreen");
 
+  applyTranslations();
   initCanvas();
 
   $("modeSayBtn").addEventListener("click", () => chooseMode("say"));
   $("modeWriteBtn").addEventListener("click", () => chooseMode("write"));
-
-  $("viewYearBtn").addEventListener("click", () => chooseView("year"));
-  $("viewBookmarkBtn").addEventListener("click", () => chooseView("bookmark"));
-  $("viewBackBtn").addEventListener("click", () => showScreen("mode"));
+  $("selectBackBtn").addEventListener("click", () => showScreen("mode"));
 
   $("selectAll").addEventListener("click", () => {
-    setAllChips(true);
+    setAllCells(true);
     activeCats = new Set(PHON_GROUPS.map((g) => g.name));
     $("catBar").querySelectorAll(".cat-btn").forEach((b) => b.classList.add("active"));
   });
   $("selectNone").addEventListener("click", () => {
-    setAllChips(false);
+    setAllCells(false);
     activeCats.clear();
     $("catBar").querySelectorAll(".cat-btn").forEach((b) => b.classList.remove("active"));
   });
   $("startBtn").addEventListener("click", startSession);
-  $("selectBackBtn").addEventListener("click", () => showScreen("view"));
 
   $("sayCheckBtn").addEventListener("click", sayCheck);
   $("sayGotBtn").addEventListener("click", () => gradeCard(true));
@@ -896,7 +807,6 @@ document.addEventListener("DOMContentLoaded", () => {
   $("quitBtn").addEventListener("click", () => { if (audioEl) audioEl.pause(); showScreen("select"); });
 
   $("printBtn").addEventListener("click", () => window.print());
-  $("practiceSheetBtn").addEventListener("click", openPracticeSheet);
   $("reportReviewBtn").addEventListener("click", reviewMissed);
   $("reportRestartBtn").addEventListener("click", () => showScreen("mode"));
 });

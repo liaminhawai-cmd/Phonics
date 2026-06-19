@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mika's Phonics · 米卡的拼讀</title>
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --paper: #fbf7ee;
+            --ink: #1f1f1f;
+            --muted: #6b6256;
+            --line: #d8cfbb;
+            --line-soft: #e8e0cd;
+            --accent: #a83232;
+            --correct: #2f6a3e;
+            --wrong: #a83232;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Tahoma, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--ink);
+        }
+        .container {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            max-width: 760px;
+            width: 100%;
+            padding: 28px;
+            margin-top: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        h1 {
+            text-align: center;
+            font-size: 22px;
+            font-family: Georgia, 'Times New Roman', serif;
+            letter-spacing: 0.5px;
+        }
+        h1 .cn-title { display: block; font-family: 'PingFang SC','Microsoft YaHei',serif; font-size: 16px; color: var(--muted); margin-top: 3px; font-weight: 500; }
+        .subtitle { color: var(--muted); text-align: center; margin: 10px 0 20px; }
+
+        /* ---- Trilingual label block ---- */
+        .tl { display: flex; flex-direction: column; line-height: 1.3; align-items: inherit; }
+        .tl-en { font-weight: 700; }
+        .tl-cn, .tl-yue { font-size: 0.74em; font-weight: 600; opacity: 0.82; font-family: 'PingFang SC','Microsoft YaHei',sans-serif; }
+        .tl-cn::before { content: "普 "; opacity: 0.6; font-size: 0.85em; }
+        .tl-yue::before { content: "粵 "; opacity: 0.6; font-size: 0.85em; }
+        .subtitle .tl { align-items: center; }
+
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        /* ---- Big choice cards ---- */
+        .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0 8px; }
+        .choice-card {
+            border: 1px solid var(--line); border-radius: 12px; background: var(--paper);
+            padding: 30px 20px; cursor: pointer; text-align: center; transition: all 0.18s ease;
+        }
+        .choice-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+        .choice-card .emoji { font-size: 38px; display: block; margin-bottom: 12px; }
+        .choice-card .ttl { font-family: Georgia, serif; font-size: 20px; }
+        .choice-card .ttl .tl { align-items: center; }
+        .choice-card .ttl .tl-en { font-size: 20px; }
+        .choice-card .desc { color: var(--muted); font-size: 13px; margin-top: 10px; }
+        .choice-card .desc .tl { align-items: center; gap: 1px; }
+        @media (max-width: 480px) { .choice-grid { grid-template-columns: 1fr; } }
+
+        .back-link { background: none; border: none; color: var(--muted); font-weight: 600; font-size: 13px; cursor: pointer; padding: 4px 0; margin-bottom: 4px; }
+        .back-link:hover { color: var(--ink); }
+
+        /* ---- Sound category filter bar ---- */
+        .cat-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; justify-content: center; }
+        .cat-btn {
+            border: 1px solid var(--line-soft); background: var(--bg); color: var(--muted);
+            font-size: 12px; padding: 5px 10px; border-radius: 12px; cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .cat-btn .tl { align-items: center; gap: 0; }
+        .cat-btn .tl-en { font-size: 11px; letter-spacing: 0.3px; }
+        .cat-btn .tl-cn, .cat-btn .tl-yue { font-size: 0.78em; }
+        .cat-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .cat-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+        /* ---- Selection toolbar ---- */
+        .select-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .count-pill { background: var(--bg); color: var(--accent); border: 1px solid var(--line); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; }
+        .select-toolbar .links button { background: none; border: none; color: var(--accent); font-weight: 600; cursor: pointer; font-size: 13px; padding: 4px 8px; line-height: 1.2; }
+        .select-toolbar .links button:hover { text-decoration: underline; }
+        .select-title { text-align: center; color: var(--muted); margin-bottom: 14px; }
+        .select-title .tl { align-items: center; font-size: 14px; }
+
+        /* ---- Bookmark tracker ---- */
+        .tracker-hint { font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 10px; }
+        .tracker-hint .tl { align-items: center; }
+        .tracker { display: flex; flex-direction: column; gap: 4px; }
+        .tracker-row {
+            display: flex; align-items: center; gap: 0; border: 1px solid var(--line-soft);
+            border-radius: 8px; overflow: hidden; background: var(--paper);
+        }
+        .tracker-label {
+            flex-shrink: 0; width: 42px; padding: 10px 0; text-align: center;
+            font-weight: 800; font-size: 13px; color: white; cursor: pointer;
+            transition: opacity 0.15s ease; user-select: none;
+        }
+        .tracker-label:hover { opacity: 0.8; }
+        .tracker-label.active { box-shadow: inset 0 0 0 2px rgba(255,255,255,0.55); }
+        .tracker-label.on-light.active { box-shadow: inset 0 0 0 2px rgba(0,0,0,0.28); }
+        .tracker-codes { display: flex; flex: 1; gap: 0; }
+        .tracker-cell {
+            flex: 1; padding: 10px 2px; text-align: center; cursor: pointer;
+            font-family: Georgia, serif; font-weight: 700; font-size: 15px;
+            border-left: 1px solid var(--line-soft); transition: all 0.15s ease;
+            user-select: none; color: var(--ink); background: var(--paper);
+        }
+        .tracker-cell:hover { background: #faf5f0; }
+        .tracker-cell.selected { color: var(--cell-text, white); background: var(--chip, var(--accent)); }
+        .tracker-cell .tc-dots { font-size: 7px; opacity: 0.4; display: block; margin-top: 1px; letter-spacing: 1px; }
+        .tracker-cell.selected .tc-dots { opacity: 0.7; }
+
+        /* ---- Buttons ---- */
+        button.btn { padding: 11px 18px; border: 1px solid var(--line); border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; background: var(--paper); color: var(--ink); }
+        button.btn .tl { align-items: center; }
+        .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+        .btn-primary:hover:not(:disabled) { background: #8c2828; }
+        .btn-primary:disabled { background: var(--line); border-color: var(--line); color: var(--muted); cursor: not-allowed; }
+        .btn-ghost { background: var(--bg); color: var(--muted); }
+        .btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+        .btn-correct { background: var(--correct); color: white; border-color: var(--correct); }
+        .btn-correct:hover { background: #245a33; }
+        .btn-wrong { background: var(--wrong); color: white; border-color: var(--wrong); }
+        .btn-wrong:hover { background: #8c2828; }
+        .emj { margin-right: 5px; }
+        .start-bar { margin-top: 24px; text-align: center; }
+        .start-bar .btn { width: 100%; max-width: 340px; }
+
+        /* ---- Drill ---- */
+        .progress-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); margin-bottom: 8px; gap: 8px; }
+        .drill-mode-label { font-weight: 700; color: var(--accent); }
+        .progress-track { height: 6px; background: var(--line-soft); border-radius: 3px; overflow: hidden; margin-bottom: 20px; }
+        .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s ease; border-radius: 3px; }
+        .card { border: 1px solid var(--line); border-radius: 10px; padding: 24px; text-align: center; background: var(--paper); }
+
+        .say-hint { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+        .say-hint .tl { align-items: center; }
+        .say-grapheme { font-family: Georgia, serif; font-size: 64px; font-weight: 700; color: var(--ink); margin: 12px 0; }
+
+        .listen-btn { background: var(--ink); color: var(--paper); border: none; border-radius: 50px; padding: 14px 26px; font-size: 17px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+        .listen-btn .tl { align-items: center; }
+        .listen-btn .tl-en { font-size: 17px; }
+        .listen-btn:hover { background: #333; transform: scale(1.02); }
+        .listen-btn.playing { animation: pulse 0.8s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .replay-hint { font-size: 13px; color: var(--muted); margin-top: 10px; }
+        .replay-hint .tl { align-items: center; }
+
+        .mode-toggle { display: inline-flex; background: var(--bg); border: 1px solid var(--line-soft); border-radius: 8px; padding: 3px; margin: 16px 0 14px; }
+        .mode-toggle button { border: none; background: none; padding: 7px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; color: var(--muted); transition: all 0.15s ease; }
+        .mode-toggle button .tl { align-items: center; }
+        .mode-toggle button.active { background: var(--paper); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+        #typeInput { width: 100%; max-width: 300px; padding: 14px; border: 1px solid var(--line); border-radius: 8px; font-size: 22px; font-family: Georgia, serif; text-align: center; background: var(--paper); color: var(--ink); outline: none; transition: border-color 0.15s ease; }
+        #typeInput:focus { border-color: var(--accent); }
+        #typeInput.flash-correct { border-color: var(--correct); background: #eaf5ed; }
+        #typeInput.flash-wrong { border-color: var(--wrong); background: #f5eaea; }
+
+        #writeCanvas { border: 1px dashed var(--line); border-radius: 8px; background: var(--paper); touch-action: none; cursor: crosshair; width: 100%; max-width: 420px; height: 200px; }
+        .canvas-tools { margin-top: 6px; }
+        .canvas-tools button { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 13px; text-decoration: underline; }
+
+        .input-wrap { display: none; }
+        .input-wrap.active { display: block; }
+
+        .answer-box { margin-top: 20px; padding: 18px; background: var(--bg); border-radius: 10px; border-left: 3px solid var(--accent); text-align: left; display: none; }
+        .answer-box.show { display: block; }
+        .answer-box .big-grapheme { font-family: Georgia, serif; font-size: 36px; font-weight: 700; color: var(--accent); }
+        .answer-box .sounds-list { color: var(--muted); margin: 8px 0; font-size: 14px; line-height: 1.7; }
+        .answer-box .sounds-list .sym { font-weight: 700; color: var(--ink); }
+        .answer-box .sounds-list .ex { color: var(--muted); font-style: italic; }
+
+        .action-row { margin-top: 18px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .action-row .btn { flex: 1; min-width: 130px; max-width: 200px; }
+        .type-check-row { margin-top: 12px; }
+
+        /* ---- Mastered shelf ---- */
+        .shelf-section { margin-top: 24px; }
+        .shelf-label { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+        .shelf-label .tl { flex-direction: row; gap: 6px; flex-wrap: wrap; align-items: baseline; }
+        .shelf-label .tl-cn, .shelf-label .tl-yue { font-size: 11px; }
+        .shelf { display: flex; flex-wrap: wrap; gap: 6px; min-height: 36px; padding: 10px; background: var(--bg); border: 1px solid var(--line-soft); border-radius: 8px; }
+        .shelf-item { display: inline-block; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; font-family: Georgia, serif; font-weight: 700; font-size: 14px; color: var(--correct); animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .shelf-empty { font-size: 12px; color: var(--muted); font-style: italic; padding: 2px 0; }
+
+        /* ---- Report ---- */
+        .report-title { font-size: 26px; text-align: center; font-family: Georgia, serif; margin-bottom: 4px; }
+        .report-title .tl { align-items: center; }
+        .report-title .tl-en { font-size: 26px; }
+        .report-headline { text-align: center; font-size: 14px; color: var(--ink); margin: 14px 0 16px; }
+        .report-headline .tl { align-items: center; }
+        .report-rows { display: flex; flex-direction: column; gap: 8px; }
+        .report-row { display: flex; gap: 10px; align-items: center; background: var(--bg); border: 1px solid var(--line-soft); border-radius: 8px; padding: 8px 12px; }
+        .report-row .rtry { font-size: 12px; font-weight: 700; color: var(--muted); min-width: 96px; }
+        .rcodes { display: flex; flex-wrap: wrap; gap: 5px; }
+        .rcode { font-family: Georgia, serif; font-weight: 700; font-size: 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 5px; padding: 2px 8px; }
+        .report-perfect { text-align: center; color: var(--correct); font-weight: 600; margin-top: 16px; }
+        .report-perfect .tl { align-items: center; }
+
+        .remedy-title { font-size: 16px; font-weight: 700; margin: 26px 0 4px; font-family: Georgia, serif; }
+        .remedy-title .tl { align-items: flex-start; }
+        .remedy-sub { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+        .remedy-card { border: 1px solid var(--line-soft); border-left: 4px solid var(--accent); border-radius: 8px; padding: 14px; margin-bottom: 10px; background: var(--paper); }
+        .remedy-head { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 7px; }
+        .swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
+        .remedy-codes { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; }
+        .remedy-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+        .remedy-link { font-size: 12.5px; font-weight: 600; text-decoration: none; color: var(--accent); border: 1px solid var(--line); border-radius: 6px; padding: 6px 11px; background: var(--bg); transition: all 0.15s ease; }
+        .remedy-link:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .report-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+
+        .exit-btn { border: none; background: none; color: var(--muted); cursor: pointer; font-weight: 600; font-size: 13px; padding: 4px 8px; line-height: 1.2; flex-shrink: 0; }
+        .exit-btn:hover { color: var(--ink); }
+
+        @media (max-width: 480px) {
+            .container { padding: 16px; }
+            .tracker-label { width: 34px; font-size: 11px; padding: 8px 0; }
+            .tracker-cell { font-size: 13px; padding: 8px 1px; }
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; max-width: 100%; }
+            .screen { display: none !important; }
+            #reportScreen.active { display: block !important; }
+            .report-actions, .exit-btn { display: none !important; }
+            .remedy-link { color: var(--accent) !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mika's Phonics<span class="cn-title">米卡的拼讀 · 拼读</span></h1>
+        <p class="subtitle" data-t="subtitle"></p>
+
+        <!-- ===== SCREEN 1: practice mode ===== -->
+        <section class="screen active" id="modeScreen">
+            <div class="choice-grid">
+                <div class="choice-card" id="modeSayBtn">
+                    <span class="emoji">👀</span>
+                    <div class="ttl" data-t="modeSayTitle"></div>
+                    <div class="desc" data-t="modeSayDesc"></div>
+                </div>
+                <div class="choice-card" id="modeWriteBtn">
+                    <span class="emoji">👂</span>
+                    <div class="ttl" data-t="modeWriteTitle"></div>
+                    <div class="desc" data-t="modeWriteDesc"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SCREEN 2: selection ===== -->
+        <section class="screen" id="selectScreen">
+            <button class="back-link" id="selectBackBtn" data-t="back"></button>
+            <div class="select-title" id="selectTitle"></div>
+            <div class="cat-bar" id="catBar"></div>
+
+            <div class="select-toolbar">
+                <span class="count-pill"><span id="selCount">0</span> <span data-t="selected"></span></span>
+                <div class="links">
+                    <button id="selectAll" data-t="selectAll"></button>
+                    <button id="selectNone" data-t="clear"></button>
+                </div>
+            </div>
+
+            <div class="tracker-hint" data-t="trackerHint"></div>
+            <div id="groupContainer"></div>
+
+            <div class="start-bar">
+                <button class="btn btn-primary" id="startBtn" disabled data-t="start"></button>
+            </div>
+        </section>
+
+        <!-- ===== SCREEN 3: drill ===== -->
+        <section class="screen" id="cardScreen">
+            <div class="progress-row">
+                <span><span class="drill-mode-label" id="drillModeLabel"></span></span>
+                <span id="remainingLabel"></span>
+                <button class="exit-btn" id="quitBtn" data-t="exit"></button>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+            <div class="card">
+                <!-- Look & Say panel -->
+                <div id="sayPanel" style="display:none;">
+                    <div class="say-hint" data-t="sayHint"></div>
+                    <div class="say-grapheme" id="sayGrapheme"></div>
+                    <div class="action-row" id="sayCheckRow">
+                        <button class="btn btn-primary" id="sayCheckBtn"><span class="emj">🔊</span><span data-t="listenCheck"></span></button>
+                    </div>
+                    <div class="action-row" id="sayGradeRow" style="display:none;">
+                        <button class="btn btn-wrong" id="sayMissedBtn" data-t="missed"></button>
+                        <button class="btn btn-correct" id="sayGotBtn" data-t="gotIt"></button>
+                    </div>
+                </div>
+
+                <!-- Listen & Write panel -->
+                <div id="writePanel" style="display:none;">
+                    <button class="listen-btn" id="listenBtn"><span class="emj">🔊</span><span data-t="playSound"></span></button>
+                    <div class="replay-hint" data-t="writeHint"></div>
+                    <div class="mode-toggle">
+                        <button id="modeType" class="active" data-t="type"></button>
+                        <button id="modeWrite" data-t="handwrite"></button>
+                    </div>
+                    <div class="input-wrap active" id="typeWrap">
+                        <input type="text" id="typeInput" autocomplete="off" autocapitalize="off" spellcheck="false">
+                        <div class="type-check-row"><button class="btn btn-primary" id="typeCheckBtn" data-t="check"></button></div>
+                    </div>
+                    <div class="input-wrap" id="writeWrap">
+                        <canvas id="writeCanvas" width="420" height="200"></canvas>
+                        <div class="canvas-tools"><button id="clearCanvas" data-t="clearPlain"></button></div>
+                    </div>
+                    <div class="action-row" id="writeCheckRow"><button class="btn btn-primary" id="writeRevealBtn" data-t="showAnswer"></button></div>
+                    <div class="action-row" id="writeGradeRow" style="display:none;">
+                        <button class="btn btn-wrong" id="againBtn" data-t="again"></button>
+                        <button class="btn btn-correct" id="gotItBtn" data-t="gotIt"></button>
+                    </div>
+                </div>
+
+                <div class="answer-box" id="answerBox">
+                    <div class="big-grapheme" id="ansGrapheme"></div>
+                    <div class="sounds-list" id="ansSounds"></div>
+                </div>
+            </div>
+
+            <div class="shelf-section">
+                <div class="shelf-label" data-t="mastered"></div>
+                <div class="shelf" id="masteredShelf">
+                    <span class="shelf-empty" id="shelfEmpty"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SCREEN 4: report ===== -->
+        <section class="screen" id="reportScreen">
+            <div class="report-title" data-t="wellDone"></div>
+            <div id="reportSummary"></div>
+            <div id="reportRemediation"></div>
+            <div class="report-actions">
+                <button class="btn btn-ghost" id="printBtn"><span class="emj">💾</span><span data-t="printReport"></span></button>
+                <button class="btn btn-ghost" id="reportReviewBtn"><span class="emj">↻</span><span data-t="reviewMissed"></span></button>
+                <button class="btn btn-primary" id="reportRestartBtn" data-t="newSession"></button>
+            </div>
+        </section>
+    </div>
+
+    <script src="mika.js"></script>
+</body>
+</html>
