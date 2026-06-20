@@ -392,23 +392,23 @@ const FOCUS_SETS = {
 };
 
 const MNEMONICS = {
-    b: "b — bat first, then the ball",
-    d: "d — drum's round belly comes first",
-    p: "p — pole goes down, belly on the right",
-    q: "q — queen's round face, ponytail behind",
-    m: "m — two humps on a stick",
+    b: "b — 👉 right hand: stick down, belly opens right (clockwise ⟳)",
+    d: "d — 👈 left hand: belly first, stick closes left (anti-clockwise ⟲)",
+    p: "p — 👉 right hand: stick down past line, belly opens right (clockwise ⟳)",
+    q: "q — 👈 left hand: belly first then tail down (anti-clockwise ⟲)",
+    m: "m — right hand: start left, two humps right",
     w: "w — two valleys dipping down",
     n: "n — one hump on a stick",
     u: "u — a cup you can drink from",
     s: "s — a snake curving forward",
     z: "z — zigzag left to right",
     j: "j — a hook hanging below the line",
-    2: "2 — curve around then slide right",
-    3: "3 — two bumps on the right side",
-    5: "5 — hat on top, belly on the right",
-    6: "6 — curl down and loop around",
+    2: "2 — 👉 curve top-right then line bottom (clockwise ⟳)",
+    3: "3 — 👉 two bumps on the right side (clockwise ⟳)",
+    5: "5 — 👉 top line, curve bottom-right (clockwise ⟳)",
+    6: "6 — 👈 curl down-left and loop (anti-clockwise ⟲)",
     7: "7 — a shelf then a slope down-left",
-    9: "9 — circle on top, tail goes down"
+    9: "9 — 👉 circle top, tail down (clockwise ⟳)"
 };
 
 const ALL_CHARS = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('');
@@ -904,14 +904,18 @@ function setupSpotCard(){
 
         // Hand & direction label
         const label = document.createElement('div');
-        label.style.fontSize = '10px';
+        label.style.fontSize = '12px';
         label.style.color = 'var(--muted)';
         label.style.textAlign = 'center';
-        label.style.lineHeight = '1.2';
+        label.style.lineHeight = '1.4';
         label.style.fontFamily = 'Arial, sans-serif';
-        const handArrow = opt.hand === 'right' ? '→' : '←';
-        const dirLabel = opt.direction === 'cw' ? '⟳' : '⟲';
-        label.innerHTML = `${handArrow}<br>${dirLabel}`;
+        label.style.marginTop = '4px';
+
+        // Hand emoji + direction indicator
+        const handEmoji = opt.hand === 'right' ? '👉' : '👈';
+        const dirSymbol = opt.direction === 'cw' ? '⟳' : '⟲';
+        label.innerHTML = `${handEmoji} ${dirSymbol}`;
+        label.title = `${opt.hand} hand, ${opt.direction === 'cw' ? 'clockwise' : 'anti-clockwise'}`;
 
         card.appendChild(charSpan);
         card.appendChild(label);
