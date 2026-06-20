@@ -164,8 +164,7 @@
         .spot-card.disabled { pointer-events: none; opacity: 0.6; }
         .spot-prompt { font-size: 16px; color: var(--muted); margin-bottom: 6px; }
         /* Symbol cards (hands, arrows, spin directions) */
-        .spot-card.symbol { font-family: 'Segoe UI', Arial, sans-serif; font-size: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
-        .spot-card.symbol .sym-label { font-size: 13px; font-weight: 600; color: var(--muted); font-family: 'Segoe UI', Arial, sans-serif; }
+        .spot-card.symbol { font-family: 'Segoe UI', Arial, sans-serif; font-size: 64px; display: flex; align-items: center; justify-content: center; }
 
         /* Mastered shelf */
         .shelf-section { margin-top: 24px; }
@@ -721,6 +720,16 @@ $('missedItBtn').onclick = function(){
    SPOT THE RIGHT ONE MODE
    ============================================================ */
 
+// A spread of fonts so the child learns the letter shape, not one typeface.
+const SPOT_FONTS = [
+    "'VICCursive', cursive",
+    "'Comic Sans MS', 'Comic Neue', 'Chalkboard SE', cursive",
+    "Georgia, 'Times New Roman', serif",
+    "'Trebuchet MS', Verdana, sans-serif",
+    "'Courier New', monospace"
+];
+let spotRoundFont = '';
+
 function setupSpotCard(){
     $('spotTarget').textContent = '';
     $('spotActions').style.display = 'none';
@@ -736,6 +745,7 @@ function buildLetterRound(grid){
     $('spotHint').textContent = 'Listen, then tap the one written the right way:';
     $('spotPrompt').textContent = 'Which one is correct?';
     const ch = displayChar(currentChar);
+    spotRoundFont = SPOT_FONTS[Math.floor(Math.random() * SPOT_FONTS.length)];
     const variants = shuffle([
         { t: '',                    correct: true  },
         { t: 'scaleX(-1)',          correct: false },
@@ -748,6 +758,7 @@ function buildLetterRound(grid){
         const span = document.createElement('span');
         span.textContent = ch;
         span.style.display = 'inline-block';
+        span.style.fontFamily = spotRoundFont;
         if(v.t) span.style.transform = v.t;
         card.appendChild(span);
         card.dataset.correct = v.correct ? '1' : '0';
@@ -759,25 +770,26 @@ function buildLetterRound(grid){
 
 // Direction round: the voice says a cue; tap the matching hand / arrow / spin symbol.
 function buildDirRound(grid){
+    spotRoundFont = '';
     const r = DIR_ROUNDS[currentChar];
     let opts, prompt;
     if(r.type === 'hand'){
         prompt = 'Tap the hand pointing the right way:';
         opts = [
-            { sym: DIR_SYMBOLS.hand.left,  label: 'Left hand',  side: 'left' },
-            { sym: DIR_SYMBOLS.hand.right, label: 'Right hand', side: 'right' }
+            { sym: DIR_SYMBOLS.hand.left,  side: 'left' },
+            { sym: DIR_SYMBOLS.hand.right, side: 'right' }
         ];
     } else if(r.type === 'arrow'){
         prompt = 'Tap the arrow pointing the right way:';
         opts = [
-            { sym: DIR_SYMBOLS.arrow.left,  label: 'Left',  side: 'left' },
-            { sym: DIR_SYMBOLS.arrow.right, label: 'Right', side: 'right' }
+            { sym: DIR_SYMBOLS.arrow.left,  side: 'left' },
+            { sym: DIR_SYMBOLS.arrow.right, side: 'right' }
         ];
     } else {
         prompt = 'Tap the spinning the right way:';
         opts = [
-            { sym: DIR_SYMBOLS.spin.cw,  label: 'Clockwise',      side: 'cw' },
-            { sym: DIR_SYMBOLS.spin.ccw, label: 'Anti-clockwise', side: 'ccw' }
+            { sym: DIR_SYMBOLS.spin.cw,  side: 'cw' },
+            { sym: DIR_SYMBOLS.spin.ccw, side: 'ccw' }
         ];
     }
     $('spotHint').textContent = 'Listen, then tap what you hear:';
@@ -788,11 +800,7 @@ function buildDirRound(grid){
         card.className = 'spot-card symbol';
         const sym = document.createElement('span');
         sym.textContent = o.sym;
-        const lab = document.createElement('span');
-        lab.className = 'sym-label';
-        lab.textContent = o.label;
         card.appendChild(sym);
-        card.appendChild(lab);
         card.dataset.correct = o.side === r.side ? '1' : '0';
         card.onclick = function(){ handleSpotPick(card); };
         grid.appendChild(card);
@@ -841,7 +849,9 @@ function recordGrade(correct){
 }
 
 function showSpotAnswer(){
-    $('spotTarget').textContent = displayChar(currentChar);
+    const t = $('spotTarget');
+    t.textContent = displayChar(currentChar);
+    t.style.fontFamily = spotRoundFont || '';
     $('spotActions').style.display = '';
 }
 
