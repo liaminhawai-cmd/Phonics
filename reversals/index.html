@@ -164,20 +164,9 @@
         .spot-card.wrong-pick { border-color: var(--wrong); background: #f5eaea; color: var(--wrong); }
         .spot-card.disabled { pointer-events: none; opacity: 0.6; }
         .spot-prompt { font-size: 16px; color: var(--muted); margin-bottom: 6px; }
-
-        /* Which-way (direction) game */
-        .spin-target { font-family: 'VICCursive', Georgia, serif; font-size: 130px; font-weight: 400; color: var(--ink); line-height: 1; margin: 6px 0 4px; }
-        .spin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px auto; max-width: 360px; }
-        .spin-card {
-            border: 2px solid var(--line); border-radius: 12px; background: var(--paper);
-            padding: 12px 8px 10px; text-align: center; cursor: pointer; transition: all 0.18s ease; user-select: none;
-        }
-        .spin-card:hover { border-color: var(--accent); background: #faf5f0; }
-        .spin-card.correct-pick { border-color: var(--correct); background: #eaf5ed; }
-        .spin-card.wrong-pick { border-color: var(--wrong); background: #f5eaea; }
-        .spin-card.disabled { pointer-events: none; }
-        .spin-card canvas { display: block; margin: 0 auto; }
-        .spin-card .spin-label { font-size: 13px; font-weight: 600; color: var(--muted); margin-top: 6px; }
+        /* Symbol cards (hands, arrows, spin directions) */
+        .spot-card.symbol { font-family: 'Segoe UI', Arial, sans-serif; font-size: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+        .spot-card.symbol .sym-label { font-size: 13px; font-weight: 600; color: var(--muted); font-family: 'Segoe UI', Arial, sans-serif; }
 
         /* Mastered shelf */
         .shelf-section { margin-top: 24px; }
@@ -233,17 +222,12 @@
                 <div class="choice-card" id="modeWriteBtn">
                     <span class="emoji">&#9997;&#65039;</span>
                     <div class="ttl">Write &amp; Check</div>
-                    <div class="desc">Hear the letter or number, write it, then watch the stroke-order arrows and compare.</div>
+                    <div class="desc">Hear the letter or number, write it, then reveal the model letter and compare.</div>
                 </div>
                 <div class="choice-card" id="modeSpotBtn">
                     <span class="emoji">&#128065;&#65039;</span>
                     <div class="ttl">Spot the Right One</div>
-                    <div class="desc">See the target, then pick the correct letter or number from the options (some are flipped!).</div>
-                </div>
-                <div class="choice-card" id="modeSpinBtn" style="display: none;">
-                    <span class="emoji">&#128260;</span>
-                    <div class="ttl">Which Way?</div>
-                    <div class="desc">Choose the right direction to form the round part — clockwise or anti-clockwise.</div>
+                    <div class="desc">Listen and tap what you hear — the right letter, hand, arrow, or spinning direction.</div>
                 </div>
             </div>
         </section>
@@ -312,10 +296,6 @@
                     <button class="btn btn-primary" id="checkBtn">Check answer</button>
                 </div>
 
-                <div id="replayRow" style="display:none;margin-top:10px;">
-                    <button class="btn btn-ghost" id="replayBtn" style="font-size:13px;padding:8px 16px;">&#8635; Replay stroke order</button>
-                </div>
-
                 <div class="action-row" id="writeActions" style="display:none;">
                     <button class="btn btn-correct" id="gotItBtn">&#10003; Got it right</button>
                     <button class="btn btn-wrong" id="missedItBtn">&#10007; Got it wrong</button>
@@ -323,24 +303,13 @@
             </div>
 
             <div class="card" id="spotCard" style="display:none;">
-                <div class="hint-text">Find the correct letter or number:</div>
+                <div class="hint-text" id="spotHint">Listen, then tap what you hear:</div>
+                <button class="speak-btn" id="spotSpeakBtn" style="margin-bottom:10px;">&#128266; Play sound</button>
                 <div class="model-letter" id="spotTarget"></div>
-                <button class="speak-btn" id="spotSpeakBtn" style="margin-bottom:10px;">&#128266; Hear it</button>
-                <div class="spot-prompt">Tap the one that matches:</div>
+                <div class="spot-prompt" id="spotPrompt">Tap the matching one:</div>
                 <div class="spot-grid" id="spotGrid"></div>
                 <div class="action-row" id="spotActions" style="display:none;">
                     <button class="btn btn-primary" id="spotNextBtn">Next &rarr;</button>
-                </div>
-            </div>
-
-            <div class="card" id="spinCard" style="display:none;">
-                <div class="hint-text">Which way does the round part go?</div>
-                <div class="spin-target" id="spinTarget"></div>
-                <button class="speak-btn" id="spinSpeakBtn" style="margin-bottom:6px;">&#128266; Hear it</button>
-                <div class="spot-prompt">Tap the correct direction:</div>
-                <div class="spin-grid" id="spinGrid"></div>
-                <div class="action-row" id="spinActions" style="display:none;">
-                    <button class="btn btn-primary" id="spinNextBtn">Next &rarr;</button>
                 </div>
             </div>
 
@@ -392,34 +361,41 @@ const FOCUS_SETS = {
 };
 
 const MNEMONICS = {
-    b: "b — 👉 right hand: stick down, belly opens right (clockwise ⟳)",
-    d: "d — 👈 left hand: belly first, stick closes left (anti-clockwise ⟲)",
-    p: "p — 👉 right hand: stick down past line, belly opens right (clockwise ⟳)",
-    q: "q — 👈 left hand: belly first then tail down (anti-clockwise ⟲)",
-    m: "m — right hand: start left, two humps right",
+    b: "b — tall stick DOWN first, then the ball bounces out to the RIGHT 👉",
+    d: "d — ball first on the LEFT 👈, then the tall stick up and down",
+    p: "p — stick straight down past the line, then ball out to the RIGHT 👉",
+    q: "q — ball first on the LEFT 👈, then a tail with a little flick",
+    m: "m — start at the LEFT, then two humps to the RIGHT 👉",
     w: "w — two valleys dipping down",
     n: "n — one hump on a stick",
     u: "u — a cup you can drink from",
     s: "s — a snake curving forward",
-    z: "z — zigzag left to right",
+    z: "z — zigzag LEFT to RIGHT 👉",
     j: "j — a hook hanging below the line",
-    2: "2 — 👉 curve top-right then line bottom (clockwise ⟳)",
-    3: "3 — 👉 two bumps on the right side (clockwise ⟳)",
-    5: "5 — 👉 top line, curve bottom-right (clockwise ⟳)",
-    6: "6 — 👈 curl down-left and loop (anti-clockwise ⟲)",
-    7: "7 — a shelf then a slope down-left",
-    9: "9 — 👉 circle top, tail down (clockwise ⟳)"
+    2: "2 — curve over to the RIGHT 👉, then a line along the bottom",
+    3: "3 — two bumps, both on the RIGHT side 👉",
+    5: "5 — line across the top, then a belly out to the RIGHT 👉",
+    6: "6 — start high, curl DOWN to the LEFT 👈, then loop",
+    7: "7 — a shelf along the top, then a slope down-left",
+    9: "9 — circle at the top, then a tail straight down"
 };
 
 const ALL_CHARS = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('');
 
-// Stroke-order data: { S: {char:[strokes]}, SPIN: {char:'cw'|'ccw'} }
-// Each stroke is a polyline of [x,y] points in a 0..100 box.
-const STROKE_DATA = {"S": {"c": [[[60.9, 43.4], [56.4, 41.1], [51.4, 40.1], [46.4, 40.3], [41.6, 42.0], [37.4, 44.8], [34.1, 48.6], [31.9, 53.2], [31.0, 58.2], [31.5, 63.2], [33.2, 68.0], [36.2, 72.1], [40.1, 75.2], [44.8, 77.3], [49.8, 78.0], [54.8, 77.4], [59.5, 75.5]]], "a": [[[58.9, 47.0], [55.0, 44.5], [50.6, 43.2], [46.0, 43.1], [41.5, 44.3], [37.5, 46.6], [34.3, 49.9], [32.1, 54.0], [31.1, 58.5], [31.3, 63.1], [32.8, 67.5], [35.3, 71.3], [38.9, 74.3], [43.1, 76.3], [47.6, 77.0], [52.2, 76.5], [56.5, 74.7]], [[64, 42], [64, 80]]], "d": [[[56.9, 47.0], [53.0, 44.5], [48.6, 43.2], [44.0, 43.1], [39.5, 44.3], [35.5, 46.6], [32.3, 49.9], [30.1, 54.0], [29.1, 58.5], [29.3, 63.1], [30.8, 67.5], [33.3, 71.3], [36.9, 74.3], [41.1, 76.3], [45.6, 77.0], [50.2, 76.5], [54.5, 74.7]], [[62, 14], [62, 80]]], "g": [[[58.9, 47.0], [55.0, 44.5], [50.6, 43.2], [46.0, 43.1], [41.5, 44.3], [37.5, 46.6], [34.3, 49.9], [32.1, 54.0], [31.1, 58.5], [31.3, 63.1], [32.8, 67.5], [35.3, 71.3], [38.9, 74.3], [43.1, 76.3], [47.6, 77.0], [52.2, 76.5], [56.5, 74.7]], [[64, 42], [64, 88]], [[64, 88], [52, 94], [44, 90]]], "q": [[[58.9, 47.0], [55.0, 44.5], [50.6, 43.2], [46.0, 43.1], [41.5, 44.3], [37.5, 46.6], [34.3, 49.9], [32.1, 54.0], [31.1, 58.5], [31.3, 63.1], [32.8, 67.5], [35.3, 71.3], [38.9, 74.3], [43.1, 76.3], [47.6, 77.0], [52.2, 76.5], [56.5, 74.7]], [[64, 42], [64, 90]], [[64, 90], [72, 92]]], "o": [[[50.0, 41.0], [43.1, 42.4], [37.3, 46.3], [33.4, 52.1], [32.0, 59.0], [33.4, 65.9], [37.3, 71.7], [43.1, 75.6], [50.0, 77.0], [56.9, 75.6], [62.7, 71.7], [66.6, 65.9], [68.0, 59.0], [66.6, 52.1], [62.7, 46.3], [56.9, 42.4], [50.0, 41.0]]], "e": [[[34, 60], [66, 60]], [[67.0, 59.0], [66.4, 54.4], [64.5, 50.2], [61.6, 46.6], [57.8, 43.9], [53.5, 42.4], [48.9, 42.0], [44.4, 43.0], [40.2, 45.1], [36.9, 48.2], [34.4, 52.2], [33.2, 56.6], [33.1, 61.2], [34.4, 65.7], [36.7, 69.6], [40.1, 72.8], [44.2, 75.0]]], "b": [[[37, 14], [37, 80]], [[42.9, 51.9], [47.0, 51.0], [51.2, 51.4], [55.2, 52.8], [58.6, 55.4], [61.2, 58.8], [62.6, 62.8], [63.0, 67.0], [62.1, 71.1], [60.1, 74.9], [57.1, 77.9], [53.4, 80.0], [49.3, 80.9], [45.1, 80.7], [41.1, 79.3], [37.6, 76.8], [35.0, 73.5]]], "p": [[[35, 38], [35, 96]], [[40.9, 41.9], [45.0, 41.0], [49.2, 41.4], [53.2, 42.8], [56.6, 45.4], [59.2, 48.8], [60.6, 52.8], [61.0, 57.0], [60.1, 61.1], [58.1, 64.9], [55.1, 67.9], [51.4, 70.0], [47.3, 70.9], [43.1, 70.7], [39.1, 69.3], [35.6, 66.8], [33.0, 63.5]]], "n": [[[36, 38], [36, 80]], [[36.0, 52.0], [36.3, 49.3], [37.1, 46.6], [38.4, 44.2], [40.1, 42.1], [42.2, 40.4], [44.6, 39.1], [47.3, 38.3], [50.0, 38.0], [52.7, 38.3], [55.4, 39.1], [57.8, 40.4], [59.9, 42.1], [61.6, 44.2], [62.9, 46.6], [63.7, 49.3], [64.0, 52.0], [64, 80]]], "m": [[[30, 38], [30, 80]], [[30.0, 52.0], [30.2, 50.0], [30.8, 48.2], [31.7, 46.4], [32.9, 44.9], [34.4, 43.7], [36.2, 42.8], [38.0, 42.2], [40.0, 42.0], [42.0, 42.2], [43.8, 42.8], [45.6, 43.7], [47.1, 44.9], [48.3, 46.4], [49.2, 48.2], [49.8, 50.0], [50.0, 52.0], [50, 80]], [[50.0, 52.0], [50.2, 50.0], [50.8, 48.2], [51.7, 46.4], [52.9, 44.9], [54.4, 43.7], [56.2, 42.8], [58.0, 42.2], [60.0, 42.0], [62.0, 42.2], [63.8, 42.8], [65.6, 43.7], [67.1, 44.9], [68.3, 46.4], [69.2, 48.2], [69.8, 50.0], [70.0, 52.0], [70, 80]]], "u": [[[36, 38], [36, 70]], [[36.0, 70.0], [36.5, 66.4], [37.9, 63.0], [40.1, 60.1], [43.0, 57.9], [46.4, 56.5], [50.0, 56.0], [53.6, 56.5], [57.0, 57.9], [59.9, 60.1], [62.1, 63.0], [63.5, 66.4], [64.0, 70.0]], [[64, 56], [64, 80]]], "w": [[[30, 38], [38, 80], [50, 46], [62, 80], [70, 38]]], "s": [[[61.0, 42.7], [58.7, 40.3], [55.8, 38.7], [52.5, 38.0], [49.2, 38.4], [46.1, 39.7], [43.6, 41.9], [41.8, 44.8], [41.0, 48.0], [41.3, 51.4], [42.5, 54.5], [56.4, 75.1], [53.9, 77.3], [50.8, 78.6], [47.5, 79.0], [44.2, 78.3], [41.3, 76.7], [39.0, 74.3], [37.5, 71.3], [37.0, 68.0], [37.5, 64.7], [39.0, 61.7], [41.3, 59.3], [44.2, 57.7]]], "z": [[[36, 42], [64, 42], [36, 78], [66, 78]]], "j": [[[52, 40], [52, 90], [44, 95], [38, 90]], [[52, 26], [52, 30]]], "i": [[[50, 40], [50, 80]], [[50, 26], [50, 30]]], "l": [[[48, 14], [48, 76], [56, 80]]], "t": [[[50, 24], [50, 76], [58, 80]], [[40, 42], [62, 42]]], "h": [[[36, 14], [36, 80]], [[36.0, 52.0], [36.3, 49.3], [37.1, 46.6], [38.4, 44.2], [40.1, 42.1], [42.2, 40.4], [44.6, 39.1], [47.3, 38.3], [50.0, 38.0], [52.7, 38.3], [55.4, 39.1], [57.8, 40.4], [59.9, 42.1], [61.6, 44.2], [62.9, 46.6], [63.7, 49.3], [64.0, 52.0], [64, 80]]], "k": [[[38, 14], [38, 80]], [[60, 44], [38, 62]], [[44, 57], [62, 80]]], "r": [[[40, 40], [40, 80]], [[40.0, 50.0], [40.2, 48.0], [40.6, 46.1], [41.4, 44.3], [42.5, 42.7], [43.8, 41.2], [45.3, 40.0], [47.0, 39.1], [48.9, 38.4], [50.8, 38.1], [52.8, 38.0], [54.7, 38.3], [56.6, 38.9], [58.3, 39.8], [59.9, 41.0], [61.3, 42.4], [62.4, 44.0]]], "f": [[[58, 22], [46, 26], [44, 40], [44, 90], [36, 95]], [[34, 44], [58, 44]]], "v": [[[36, 40], [50, 80], [64, 40]]], "x": [[[36, 40], [64, 80]], [[64, 40], [36, 80]]], "y": [[[35, 38], [36, 44], [39, 50], [44, 54], [50, 56], [56, 54], [60, 48], [62, 40], [63, 42], [63, 68], [61, 76], [55, 80], [46, 82], [38, 80], [35, 74]], [[46, 82], [44, 86], [40, 89], [36, 88]]], "0": [[[50.0, 37.0], [43.1, 38.4], [37.3, 42.3], [33.4, 48.1], [32.0, 55.0], [33.4, 61.9], [37.3, 67.7], [43.1, 71.6], [50.0, 73.0], [56.9, 71.6], [62.7, 67.7], [66.6, 61.9], [68.0, 55.0], [66.6, 48.1], [62.7, 42.3], [56.9, 38.4], [50.0, 37.0]]], "1": [[[42, 30], [52, 22], [52, 80]], [[40, 80], [64, 80]]], "2": [[[32, 36], [34, 40], [38, 44], [45, 48], [52, 50], [59, 48], [63, 42], [64, 35], [62, 30], [56, 28], [50, 30], [46, 34], [44, 40], [45, 46], [52, 50], [60, 50]], [[34, 56], [38, 54], [60, 54], [35, 80], [66, 80]]], "3": [[[35.0, 34.0], [35.0, 34.8], [35.1, 35.5], [35.2, 36.3], [35.4, 37.0], [35.5, 37.7], [35.8, 38.4], [36.1, 39.1], [36.4, 39.8], [36.7, 40.5], [37.1, 41.1], [37.6, 41.8], [38.0, 42.4], [35.0, 54.5], [38.6, 50.3], [43.6, 47.7], [49.1, 47.0], [54.5, 48.5], [59.0, 51.8], [62.0, 56.5], [63.0, 62.0], [62.0, 67.5], [59.0, 72.2], [54.5, 75.5], [49.1, 77.0], [43.6, 76.3], [38.6, 73.7], [35.0, 69.5]]], "5": [[[58, 22], [42, 22], [40, 50]], [[32.1, 54.0], [36.0, 49.5], [41.3, 46.7], [47.2, 46.0], [52.9, 47.6], [57.7, 51.1], [60.9, 56.2], [62.0, 62.0], [60.9, 67.8], [57.7, 72.9], [52.9, 76.4], [47.2, 78.0], [41.3, 77.3], [36.0, 74.5], [32.1, 70.0]]], "6": [[[60, 26], [44, 40], [38, 60]], [[35.0, 64.0], [36.0, 59.0], [38.8, 54.8], [43.0, 52.0], [48.0, 51.0], [53.0, 52.0], [57.2, 54.8], [60.0, 59.0], [61.0, 64.0], [60.0, 69.0], [57.2, 73.2], [53.0, 76.0], [48.0, 77.0], [43.0, 76.0], [38.8, 73.2], [36.0, 69.0], [35.0, 64.0]]], "7": [[[36, 24], [66, 24], [44, 80]]], "8": [[[50.0, 26.0], [45.9, 26.7], [42.3, 28.8], [39.6, 32.0], [38.2, 35.9], [38.2, 40.1], [39.6, 44.0], [42.3, 47.2], [45.9, 49.3], [50.0, 50.0], [54.1, 49.3], [57.7, 47.2], [60.4, 44.0], [61.8, 40.1], [61.8, 35.9], [60.4, 32.0], [57.7, 28.8], [54.1, 26.7], [50.0, 26.0], [50.0, 50.0], [54.8, 50.8], [59.0, 53.3], [62.1, 57.0], [63.8, 61.6], [63.8, 66.4], [62.1, 71.0], [59.0, 74.7], [54.8, 77.2], [50.0, 78.0], [45.2, 77.2], [41.0, 74.7], [37.9, 71.0], [36.2, 66.4], [36.2, 61.6], [37.9, 57.0], [41.0, 53.3], [45.2, 50.8], [50.0, 50.0]]], "9": [[[62.1, 33.0], [58.5, 28.9], [53.6, 26.5], [48.2, 26.1], [43.0, 27.9], [38.9, 31.5], [36.5, 36.4], [36.1, 41.8], [37.9, 47.0], [41.5, 51.1], [46.4, 53.5], [51.8, 53.9], [57.0, 52.1], [61.1, 48.5], [63.5, 43.6], [63.9, 38.2], [62.1, 33.0]], [[62, 40], [62, 80], [54, 86]]], "4": [[[58, 22], [34, 62], [66, 62]], [[58, 40], [58, 80]]]}, "SPIN": {"c": "ccw", "a": "ccw", "d": "ccw", "g": "ccw", "q": "ccw", "o": "ccw", "e": "ccw", "b": "cw", "p": "cw", "0": "ccw", "2": "cw", "3": "cw", "5": "cw", "6": "ccw", "8": "ccw", "9": "ccw"}};
-const STROKES = STROKE_DATA.S;
-const SPIN = STROKE_DATA.SPIN;
+// Direction-concept rounds for "Spot the Right One": the voice says a cue
+// and the student taps the matching hand, arrow, or spinning-direction symbol.
+const DIR_ROUNDS = {
+    '__hand_left':  { say: 'left',           type: 'hand',  side: 'left' },
+    '__hand_right': { say: 'right',          type: 'hand',  side: 'right' },
+    '__arrow_left': { say: 'left',           type: 'arrow', side: 'left' },
+    '__arrow_right':{ say: 'right',          type: 'arrow', side: 'right' },
+    '__spin_cw':    { say: 'clockwise',      type: 'spin',  side: 'cw' },
+    '__spin_ccw':   { say: 'anti-clockwise', type: 'spin',  side: 'ccw' }
+};
+const DIR_TOKENS = Object.keys(DIR_ROUNDS);
+function isDirRound(t){ return Object.prototype.hasOwnProperty.call(DIR_ROUNDS, t); }
 
-let practiceMode = ''; // 'write' | 'spot' | 'spin'
+let practiceMode = ''; // 'write' | 'spot'
 let selectedChars = new Set();
 let queue = [];
 let mastered = [];
@@ -441,8 +417,23 @@ function showScreen(id){
     $(id).classList.add('active');
 }
 
+const DIR_SYMBOLS = {
+    hand:  { left: '👈', right: '👉' },
+    arrow: { left: '⬅️', right: '➡️' },
+    spin:  { cw: '⟳', ccw: '⟲' }
+};
+
 function displayChar(ch){
+    if(isDirRound(ch)){
+        const r = DIR_ROUNDS[ch];
+        return DIR_SYMBOLS[r.type][r.side];
+    }
     return ch || '';
+}
+
+function speakRound(token){
+    if(isDirRound(token)){ speak(DIR_ROUNDS[token].say, 0.8); }
+    else speakChar(token);
 }
 
 function speak(text, rate){
@@ -477,7 +468,6 @@ function shuffle(arr){
 
 $('modeWriteBtn').onclick = function(){ practiceMode='write'; showScreen('selectScreen'); buildSelection(); };
 $('modeSpotBtn').onclick = function(){ practiceMode='spot'; showScreen('selectScreen'); buildSelection(); };
-$('modeSpinBtn').onclick = function(){ practiceMode='spin'; showScreen('selectScreen'); buildSelection(); };
 
 /* ============================================================
    SCREEN 2: SELECTION
@@ -543,13 +533,9 @@ $('startBtn').onclick = startSession;
 
 function startSession(){
     let pool = [...selectedChars];
-    if(practiceMode === 'spin'){
-        pool = pool.filter(function(ch){ return ch in SPIN; });
-        if(pool.length === 0){
-            alert('“Which Way?” works on letters and numbers with a round part — like a b c d g o p q and 0 2 3 5 6 8 9. Pick some of those to play this mode.');
-            showScreen('selectScreen');
-            return;
-        }
+    // In Spot mode, mix in the direction-concept rounds (left/right/clockwise...).
+    if(practiceMode === 'spot'){
+        pool = pool.concat(DIR_TOKENS);
     }
     queue = shuffle(pool);
     mastered = [];
@@ -559,13 +545,11 @@ function startSession(){
     $('shelf').innerHTML = '<span class="shelf-empty">Characters you master will appear here.</span>';
 
     $('drillModeLabel').textContent =
-        practiceMode === 'write' ? 'Write & Check' :
-        practiceMode === 'spot' ? 'Spot the Right One' : 'Which Way?';
+        practiceMode === 'write' ? 'Write & Check' : 'Spot the Right One';
 
     showScreen('drillScreen');
     $('writeCard').style.display = practiceMode === 'write' ? '' : 'none';
     $('spotCard').style.display  = practiceMode === 'spot'  ? '' : 'none';
-    $('spinCard').style.display  = practiceMode === 'spin'  ? '' : 'none';
     nextCard();
 }
 
@@ -586,8 +570,7 @@ function nextCard(){
     updateProgress();
 
     if(practiceMode === 'write') setupWriteCard();
-    else if(practiceMode === 'spot') setupSpotCard();
-    else setupSpinCard();
+    else setupSpotCard();
 }
 
 /* ============================================================
@@ -616,7 +599,6 @@ function setupWriteCard(){
     ghostCvs.classList.remove('show','show-strong');
     ghostShowing = false;
     $('checkRow').style.display = 'none';
-    $('replayRow').style.display = 'none';
     $('writeActions').style.display = 'none';
     $('mnemonicText').textContent = '';
 
@@ -645,7 +627,6 @@ function clearCanvasFn(){
     hasStrokes = false;
     drawGuideLines();
     $('checkRow').style.display = 'none';
-    $('replayRow').style.display = 'none';
     $('writeActions').style.display = 'none';
     ghostCvs.classList.remove('show','show-strong');
     ghostCtx.clearRect(0, 0, ghostCvs.width, ghostCvs.height);
@@ -673,7 +654,7 @@ function boxMap(){
 function paintGlyphBase(map){
     ghostCtx.clearRect(0, 0, ghostCvs.width, ghostCvs.height);
     ghostCtx.save();
-    ghostCtx.fillStyle = 'rgba(120,110,95,0.20)';
+    ghostCtx.fillStyle = 'rgba(120,110,95,0.32)';
     ghostCtx.textAlign = 'center';
     ghostCtx.textBaseline = 'alphabetic';
     ghostCtx.font = '400 ' + (map.bh * 0.92) + "px " + LETTER_FONT;
@@ -681,112 +662,10 @@ function paintGlyphBase(map){
     ghostCtx.restore();
 }
 
-function resample(points, n){
-    if(points.length === 1) return new Array(n).fill(points[0]);
-    const segs = []; let total = 0;
-    for(let i=0;i<points.length-1;i++){
-        const d = Math.hypot(points[i+1][0]-points[i][0], points[i+1][1]-points[i][1]);
-        segs.push(d); total += d;
-    }
-    const out = [];
-    for(let k=0;k<n;k++){
-        let dist = total * k / (n-1), i = 0;
-        while(i < segs.length && dist > segs[i]){ dist -= segs[i]; i++; }
-        if(i >= segs.length){ out.push(points[points.length-1]); continue; }
-        const f = segs[i] ? dist/segs[i] : 0;
-        out.push([ points[i][0] + (points[i+1][0]-points[i][0])*f,
-                   points[i][1] + (points[i+1][1]-points[i][1])*f ]);
-    }
-    return out;
-}
-
-function arrowTri(pts, idx, size, color){
-    if(idx < 1) return;
-    const to = pts[Math.min(idx, pts.length-1)];
-    const from = pts[Math.max(0, idx-3)];
-    const ang = Math.atan2(to[1]-from[1], to[0]-from[0]);
-    ghostCtx.fillStyle = color;
-    ghostCtx.beginPath();
-    ghostCtx.moveTo(to[0], to[1]);
-    ghostCtx.lineTo(to[0]-size*Math.cos(ang-0.45), to[1]-size*Math.sin(ang-0.45));
-    ghostCtx.lineTo(to[0]-size*Math.cos(ang+0.45), to[1]-size*Math.sin(ang+0.45));
-    ghostCtx.closePath();
-    ghostCtx.fill();
-}
-
-function drawTrail(pts, upto, num){
-    upto = Math.min(upto, pts.length-1);
-    ghostCtx.strokeStyle = '#a83232';
-    ghostCtx.lineWidth = 5;
-    ghostCtx.lineCap = 'round';
-    ghostCtx.lineJoin = 'round';
-    ghostCtx.beginPath();
-    ghostCtx.moveTo(pts[0][0], pts[0][1]);
-    for(let i=1;i<=upto;i++) ghostCtx.lineTo(pts[i][0], pts[i][1]);
-    ghostCtx.stroke();
-    // start dot
-    ghostCtx.fillStyle = '#2f6a3e';
-    ghostCtx.beginPath();
-    ghostCtx.arc(pts[0][0], pts[0][1], 7, 0, Math.PI*2);
-    ghostCtx.fill();
-    // stroke number
-    ghostCtx.fillStyle = '#fff';
-    ghostCtx.font = '700 9px Segoe UI, sans-serif';
-    ghostCtx.textAlign = 'center';
-    ghostCtx.textBaseline = 'middle';
-    ghostCtx.fillText(String(num), pts[0][0], pts[0][1]);
-}
-
-function drawStrokeStatic(pts, num){
-    drawTrail(pts, pts.length-1, num);
-    // arrowheads spaced along the path
-    const steps = Math.max(2, Math.floor(pts.length/3));
-    for(let i=steps;i<pts.length;i+=steps) arrowTri(pts, i, 11, '#a83232');
-    arrowTri(pts, pts.length-1, 12, '#a83232');
-}
-
-// Render stroke-order guide. animate=true plays it once, then leaves static arrows.
-function drawGhost(animate){
+// Reveal the correct model letter as a faint overlay to self-check against.
+function drawModel(){
     stopAnim();
-    const map = boxMap();
-    const raw = STROKES[currentChar];
-
-    if(!raw){
-        paintGlyphBase(map);
-        return;
-    }
-
-    const strokeCanvas = raw.map(function(st){
-        return st.map(function(p){ return [map.X(p[0]), map.Y(p[1])]; });
-    });
-    const samples = strokeCanvas.map(function(poly){
-        return resample(poly, Math.max(28, poly.length*10));
-    });
-
-    function paintFinal(){
-        paintGlyphBase(map);
-        strokeCanvas.forEach(function(poly, i){ drawStrokeStatic(poly, i+1); });
-    }
-
-    if(!animate){ paintFinal(); return; }
-
-    let si = 0, idx = 0;
-    const speed = 3;
-    function frame(){
-        paintGlyphBase(map);
-        for(let k=0;k<si;k++) drawStrokeStatic(samples[k], k+1);
-        if(si < samples.length){
-            drawTrail(samples[si], idx, si+1);
-            arrowTri(samples[si], idx, 13, '#1f1f1f');
-            idx += speed;
-            if(idx >= samples[si].length){ si++; idx = 0; }
-            animReq = requestAnimationFrame(frame);
-        } else {
-            animReq = null;
-            paintFinal();
-        }
-    }
-    frame();
+    paintGlyphBase(boxMap());
 }
 
 // Canvas drawing (mouse + touch)
@@ -841,17 +720,10 @@ $('clearCanvas').onclick = function(){
 
 $('checkBtn').onclick = function(){
     ghostCvs.classList.add('show-strong');
-    drawGhost(true);
-    const m = MNEMONICS[currentChar] || '';
-    $('mnemonicText').textContent = m;
+    drawModel();
+    $('mnemonicText').textContent = MNEMONICS[currentChar] || '';
     $('checkRow').style.display = 'none';
-    $('replayRow').style.display = '';
     $('writeActions').style.display = '';
-};
-
-$('replayBtn').onclick = function(){
-    ghostCvs.classList.add('show-strong');
-    drawGhost(true);
 };
 
 $('speakBtn').onclick = function(){
@@ -874,214 +746,108 @@ $('missedItBtn').onclick = function(){
    ============================================================ */
 
 function setupSpotCard(){
-    const ch = displayChar(currentChar);
     $('spotTarget').textContent = '';
     $('spotActions').style.display = 'none';
-
     const grid = $('spotGrid');
     grid.innerHTML = '';
 
-    const transforms = generateSpotOptions(ch);
-    shuffle(transforms);
+    if(isDirRound(currentChar)) buildDirRound(grid);
+    else buildLetterRound(grid);
+}
 
-    transforms.forEach(function(opt){
+// Letter/number round: tap the correctly-formed letter among flipped versions.
+function buildLetterRound(grid){
+    $('spotHint').textContent = 'Listen, then tap the one written the right way:';
+    $('spotPrompt').textContent = 'Which one is correct?';
+    const ch = displayChar(currentChar);
+    const variants = shuffle([
+        { t: '',                    correct: true  },
+        { t: 'scaleX(-1)',          correct: false },
+        { t: 'scaleY(-1)',          correct: false },
+        { t: 'scaleX(-1) scaleY(-1)', correct: false }
+    ]);
+    variants.forEach(function(v){
         const card = document.createElement('div');
         card.className = 'spot-card';
-        card.style.display = 'flex';
-        card.style.flexDirection = 'column';
-        card.style.justifyContent = 'center';
-        card.style.alignItems = 'center';
-        card.style.gap = '6px';
-
-        // Main character
-        const charSpan = document.createElement('span');
-        charSpan.textContent = opt.char;
-        charSpan.style.fontSize = '48px';
-        if(opt.transform){
-            charSpan.style.display = 'inline-block';
-            charSpan.style.transform = opt.transform;
-        }
-
-        // Hand & direction label
-        const label = document.createElement('div');
-        label.style.fontSize = '12px';
-        label.style.color = 'var(--muted)';
-        label.style.textAlign = 'center';
-        label.style.lineHeight = '1.4';
-        label.style.fontFamily = 'Arial, sans-serif';
-        label.style.marginTop = '4px';
-
-        // Hand emoji + direction indicator
-        const handEmoji = opt.hand === 'right' ? '👉' : '👈';
-        const dirSymbol = opt.direction === 'cw' ? '⟳' : '⟲';
-        label.innerHTML = `${handEmoji} ${dirSymbol}`;
-        label.title = `${opt.hand} hand, ${opt.direction === 'cw' ? 'clockwise' : 'anti-clockwise'}`;
-
-        card.appendChild(charSpan);
-        card.appendChild(label);
-        card.dataset.correct = opt.isCorrect ? '1' : '0';
+        const span = document.createElement('span');
+        span.textContent = ch;
+        span.style.display = 'inline-block';
+        if(v.t) span.style.transform = v.t;
+        card.appendChild(span);
+        card.dataset.correct = v.correct ? '1' : '0';
         card.onclick = function(){ handleSpotPick(card); };
         grid.appendChild(card);
     });
-
-    speakChar(ch);
+    speakRound(currentChar);
 }
 
-function generateSpotOptions(ch){
-    const options = [];
-    const correctDir = SPIN[ch] || 'cw';
-    const wrongDir = correctDir === 'cw' ? 'ccw' : 'cw';
+// Direction round: the voice says a cue; tap the matching hand / arrow / spin symbol.
+function buildDirRound(grid){
+    const r = DIR_ROUNDS[currentChar];
+    let opts, prompt;
+    if(r.type === 'hand'){
+        prompt = 'Tap the hand pointing the right way:';
+        opts = [
+            { sym: DIR_SYMBOLS.hand.left,  label: 'Left hand',  side: 'left' },
+            { sym: DIR_SYMBOLS.hand.right, label: 'Right hand', side: 'right' }
+        ];
+    } else if(r.type === 'arrow'){
+        prompt = 'Tap the arrow pointing the right way:';
+        opts = [
+            { sym: DIR_SYMBOLS.arrow.left,  label: 'Left',  side: 'left' },
+            { sym: DIR_SYMBOLS.arrow.right, label: 'Right', side: 'right' }
+        ];
+    } else {
+        prompt = 'Tap the spinning the right way:';
+        opts = [
+            { sym: DIR_SYMBOLS.spin.cw,  label: 'Clockwise',      side: 'cw' },
+            { sym: DIR_SYMBOLS.spin.ccw, label: 'Anti-clockwise', side: 'ccw' }
+        ];
+    }
+    $('spotHint').textContent = 'Listen, then tap what you hear:';
+    $('spotPrompt').textContent = prompt;
 
-    // Option 1: Right hand, correct direction (CORRECT)
-    options.push({
-        char: ch,
-        transform: '',
-        isCorrect: true,
-        hand: 'right',
-        direction: correctDir
+    shuffle(opts).forEach(function(o){
+        const card = document.createElement('div');
+        card.className = 'spot-card symbol';
+        const sym = document.createElement('span');
+        sym.textContent = o.sym;
+        const lab = document.createElement('span');
+        lab.className = 'sym-label';
+        lab.textContent = o.label;
+        card.appendChild(sym);
+        card.appendChild(lab);
+        card.dataset.correct = o.side === r.side ? '1' : '0';
+        card.onclick = function(){ handleSpotPick(card); };
+        grid.appendChild(card);
     });
-
-    // Option 2: Left hand, correct direction (wrong hand)
-    options.push({
-        char: ch,
-        transform: 'scaleX(-1)',
-        isCorrect: false,
-        hand: 'left',
-        direction: correctDir
-    });
-
-    // Option 3: Right hand, wrong direction (wrong direction)
-    options.push({
-        char: ch,
-        transform: 'scaleY(-1)',
-        isCorrect: false,
-        hand: 'right',
-        direction: wrongDir
-    });
-
-    // Option 4: Left hand, wrong direction (wrong hand + wrong direction)
-    options.push({
-        char: ch,
-        transform: 'scaleX(-1) scaleY(-1)',
-        isCorrect: false,
-        hand: 'left',
-        direction: wrongDir
-    });
-
-    return options;
+    speakRound(currentChar);
 }
 
 function handleSpotPick(card){
-    const grid = $('spotGrid');
-    const cards = grid.querySelectorAll('.spot-card');
+    const cards = $('spotGrid').querySelectorAll('.spot-card');
     cards.forEach(function(c){ c.classList.add('disabled'); });
 
-    if(card.dataset.correct === '1'){
-        card.classList.add('correct-pick');
-        const correct = true;
-        recordGrade(correct);
-        showSpotAnswer(correct);
-    } else {
-        card.classList.add('wrong-pick');
-        cards.forEach(function(c){
-            if(c.dataset.correct === '1') c.classList.add('correct-pick');
-        });
-        const correct = false;
-        recordGrade(correct);
-        showSpotAnswer(correct);
-    }
-}
-
-$('spotSpeakBtn').onclick = function(){
-    speakChar(displayChar(currentChar));
-    $('spotSpeakBtn').classList.add('playing');
-    setTimeout(function(){ $('spotSpeakBtn').classList.remove('playing'); }, 800);
-};
-
-$('spotNextBtn').onclick = function(){ moveToNextCard(); };
-
-/* ============================================================
-   WHICH WAY? (direction) MODE
-   ============================================================ */
-
-function drawSpinArrow(cv, dir){
-    const c = cv.getContext('2d');
-    const w = cv.width, h = cv.height, cx = w/2, cy = h/2, r = Math.min(w,h)*0.30;
-    c.clearRect(0,0,w,h);
-    c.strokeStyle = '#1f1f1f';
-    c.lineWidth = 6;
-    c.lineCap = 'round';
-    let tip, tang;
-    if(dir === 'cw'){
-        const a0 = -Math.PI*0.55, a1 = a0 + Math.PI*1.55;
-        c.beginPath(); c.arc(cx, cy, r, a0, a1, false); c.stroke();
-        tip = a1; tang = tip + Math.PI/2;
-    } else {
-        const a0 = -Math.PI*0.45, a1 = a0 - Math.PI*1.55;
-        c.beginPath(); c.arc(cx, cy, r, a0, a1, true); c.stroke();
-        tip = a1; tang = tip - Math.PI/2;
-    }
-    const tx = cx + r*Math.cos(tip), ty = cy + r*Math.sin(tip);
-    const s = 13;
-    c.fillStyle = '#a83232';
-    c.beginPath();
-    c.moveTo(tx + s*Math.cos(tang), ty + s*Math.sin(tang));
-    c.lineTo(tx + s*Math.cos(tang+2.5), ty + s*Math.sin(tang+2.5));
-    c.lineTo(tx + s*Math.cos(tang-2.5), ty + s*Math.sin(tang-2.5));
-    c.closePath(); c.fill();
-    // start dot
-    const sx = cx + r*Math.cos(dir==='cw' ? -Math.PI*0.55 : -Math.PI*0.45);
-    const sy = cy + r*Math.sin(dir==='cw' ? -Math.PI*0.55 : -Math.PI*0.45);
-    c.fillStyle = '#2f6a3e';
-    c.beginPath(); c.arc(sx, sy, 5, 0, Math.PI*2); c.fill();
-}
-
-function setupSpinCard(){
-    const ch = currentChar;
-    $('spinTarget').textContent = ch;
-    $('spinActions').style.display = 'none';
-    const grid = $('spinGrid');
-    grid.innerHTML = '';
-    const correct = SPIN[ch];
-    shuffle(['cw','ccw']).forEach(function(dir){
-        const card = document.createElement('div');
-        card.className = 'spin-card';
-        const cv = document.createElement('canvas');
-        cv.width = 110; cv.height = 110;
-        card.appendChild(cv);
-        const lab = document.createElement('div');
-        lab.className = 'spin-label';
-        lab.textContent = dir === 'cw' ? 'Clockwise' : 'Anti-clockwise';
-        card.appendChild(lab);
-        drawSpinArrow(cv, dir);
-        card.dataset.correct = dir === correct ? '1' : '0';
-        card.onclick = function(){ handleSpinPick(card); };
-        grid.appendChild(card);
-    });
-    speakChar(ch);
-}
-
-function handleSpinPick(card){
-    const cards = $('spinGrid').querySelectorAll('.spin-card');
-    cards.forEach(function(c){ c.classList.add('disabled'); });
     const correct = card.dataset.correct === '1';
     if(correct){
         card.classList.add('correct-pick');
     } else {
         card.classList.add('wrong-pick');
-        cards.forEach(function(c){ if(c.dataset.correct === '1') c.classList.add('correct-pick'); });
+        cards.forEach(function(c){
+            if(c.dataset.correct === '1') c.classList.add('correct-pick');
+        });
     }
     recordGrade(correct);
-    $('spinActions').style.display = '';
+    showSpotAnswer();
 }
 
-$('spinSpeakBtn').onclick = function(){
-    speakChar(currentChar);
-    $('spinSpeakBtn').classList.add('playing');
-    setTimeout(function(){ $('spinSpeakBtn').classList.remove('playing'); }, 800);
+$('spotSpeakBtn').onclick = function(){
+    speakRound(currentChar);
+    $('spotSpeakBtn').classList.add('playing');
+    setTimeout(function(){ $('spotSpeakBtn').classList.remove('playing'); }, 800);
 };
 
-$('spinNextBtn').onclick = function(){ moveToNextCard(); };
+$('spotNextBtn').onclick = function(){ moveToNextCard(); };
 
 /* ============================================================
    GRADE
@@ -1098,9 +864,8 @@ function recordGrade(correct){
     updateProgress();
 }
 
-function showSpotAnswer(correct){
-    const ch = displayChar(currentChar);
-    $('spotTarget').textContent = ch;
+function showSpotAnswer(){
+    $('spotTarget').textContent = displayChar(currentChar);
     $('spotActions').style.display = '';
 }
 
