@@ -147,7 +147,6 @@
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         .hint-text { color: var(--muted); font-size: 14px; margin: 8px 0; }
-        .mnemonic { color: var(--accent); font-size: 13px; font-style: italic; margin: 6px 0; }
 
         .action-row { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         .action-row .btn { flex: 1; min-width: 130px; max-width: 200px; }
@@ -282,7 +281,6 @@
             <div class="card" id="writeCard">
                 <div class="hint-text">Listen, then write the letter or number:</div>
                 <button class="speak-btn" id="speakBtn">&#128266; Play sound</button>
-                <div class="mnemonic" id="mnemonicText"></div>
 
                 <div class="canvas-wrap" style="margin-top:16px;">
                     <canvas id="writeCanvas" width="340" height="280"></canvas>
@@ -358,26 +356,6 @@ const FOCUS_SETS = {
     nums: ['2','3','5','6','7','9'],
     'all-letters': 'abcdefghijklmnopqrstuvwxyz'.split(''),
     'all-numbers': '0123456789'.split('')
-};
-
-const MNEMONICS = {
-    b: "b — tall stick DOWN first, then the ball bounces out to the RIGHT 👉",
-    d: "d — ball first on the LEFT 👈, then the tall stick up and down",
-    p: "p — stick straight down past the line, then ball out to the RIGHT 👉",
-    q: "q — ball first on the LEFT 👈, then a tail with a little flick",
-    m: "m — start at the LEFT, then two humps to the RIGHT 👉",
-    w: "w — two valleys dipping down",
-    n: "n — one hump on a stick",
-    u: "u — a cup you can drink from",
-    s: "s — a snake curving forward",
-    z: "z — zigzag LEFT to RIGHT 👉",
-    j: "j — a hook hanging below the line",
-    2: "2 — curve over to the RIGHT 👉, then a line along the bottom",
-    3: "3 — two bumps, both on the RIGHT side 👉",
-    5: "5 — line across the top, then a belly out to the RIGHT 👉",
-    6: "6 — start high, curl DOWN to the LEFT 👈, then loop",
-    7: "7 — a shelf along the top, then a slope down-left",
-    9: "9 — circle at the top, then a tail straight down"
 };
 
 const ALL_CHARS = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('');
@@ -600,7 +578,6 @@ function setupWriteCard(){
     ghostShowing = false;
     $('checkRow').style.display = 'none';
     $('writeActions').style.display = 'none';
-    $('mnemonicText').textContent = '';
 
     speakChar(displayChar(currentChar));
 
@@ -721,7 +698,6 @@ $('clearCanvas').onclick = function(){
 $('checkBtn').onclick = function(){
     ghostCvs.classList.add('show-strong');
     drawModel();
-    $('mnemonicText').textContent = MNEMONICS[currentChar] || '';
     $('checkRow').style.display = 'none';
     $('writeActions').style.display = '';
 };
