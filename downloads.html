@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phonics Apps – Downloads</title>
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --paper: #fbf7ee;
+            --ink: #1f1f1f;
+            --muted: #6b6256;
+            --line: #d8cfbb;
+            --line-soft: #e8e0cd;
+            --accent: #a83232;
+            --correct: #2f6a3e;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 16px;
+            color: var(--ink);
+        }
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            font-family: Georgia, 'Times New Roman', serif;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+        .apps-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .app-card {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 24px;
+            background: var(--paper);
+            transition: all 0.2s ease;
+        }
+        .app-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+        .app-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .app-icon {
+            font-size: 32px;
+        }
+        .app-title {
+            font-size: 18px;
+            font-weight: 700;
+            font-family: Georgia, serif;
+        }
+        .app-desc {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        .app-features {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 14px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        .app-features ul {
+            margin-left: 18px;
+            line-height: 1.7;
+        }
+        .download-btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .download-btn:hover {
+            background: #8c2828;
+        }
+        .help-section {
+            border-top: 1px solid var(--line-soft);
+            padding-top: 24px;
+            margin-top: 24px;
+        }
+        .help-title {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: Georgia, serif;
+            margin-bottom: 12px;
+        }
+        .help-text {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+        .code-block {
+            background: var(--bg);
+            border-left: 3px solid var(--accent);
+            padding: 12px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin: 8px 0;
+            overflow-x: auto;
+        }
+        @media (max-width: 480px) {
+            .container { padding: 16px; }
+            h1 { font-size: 22px; }
+            .app-card { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Phonics Apps</h1>
+        <p class="subtitle">Download standalone versions to use offline. No internet connection needed once downloaded.</p>
+
+        <div class="apps-grid">
+            <!-- Phonics Trainer -->
+            <div class="app-card">
+                <div class="app-header">
+                    <span class="app-icon">🇦🇺</span>
+                    <div class="app-title">Aussie Phonics Trainer</div>
+                </div>
+                <p class="app-desc">Australian English phonics drill. Pick your sounds, then practice: hear a sound, write or type the code, check your answer, and self-grade.</p>
+                <div class="app-features">
+                    <strong>Features:</strong>
+                    <ul>
+                        <li>Multimodal input: type or handwrite</li>
+                        <li>Australian English phonemes (IPA)</li>
+                        <li>Sound auto-plays with replay button</li>
+                        <li>Progress tracking &amp; mastery shelf</li>
+                        <li>Session report &amp; remediation hints</li>
+                    </ul>
+                </div>
+                <a href="phonics-standalone.html" download="aussie-phonics.html" class="download-btn">⬇️ Download Phonics App</a>
+            </div>
+
+            <!-- Reversals Trainer -->
+            <div class="app-card">
+                <div class="app-header">
+                    <span class="app-icon">🔄</span>
+                    <div class="app-title">Letter &amp; Number Reversals Trainer</div>
+                </div>
+                <p class="app-desc">Drill for students who confuse letter and number reversals (b/d, p/q, 2/5, 6/9). Three modes: Write &amp; Check with self-overlay, and Spot the Right One with hand/direction choices.</p>
+                <div class="app-features">
+                    <strong>Features:</strong>
+                    <ul>
+                        <li>Canvas-based handwriting input</li>
+                        <li>Self-check ghost overlay in VIC cursive</li>
+                        <li>Direction-concept game (hands, arrows, spin)</li>
+                        <li>Multiple fonts per round for shape learning</li>
+                        <li>Progress tracking &amp; session report</li>
+                    </ul>
+                </div>
+                <a href="reversals/index.html" download="letter-reversals.html" class="download-btn">⬇️ Download Reversals App</a>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <div class="help-title">How to use your downloaded app</div>
+            <p class="help-text"><strong>Option 1:</strong> Simply double-click the HTML file to open it in your browser.</p>
+            <p class="help-text"><strong>Option 2:</strong> If that doesn't work, open your browser and drag the HTML file into it.</p>
+            <p class="help-text"><strong>Using a local server (optional):</strong> For best compatibility, run a simple local web server:</p>
+            <div class="code-block">python3 -m http.server 8000</div>
+            <p class="help-text">Then open <code>http://localhost:8000</code> in your browser.</p>
+            <p class="help-text" style="margin-top: 14px;"><strong>No internet needed:</strong> These apps run entirely offline. Download once, use forever.</p>
+        </div>
+    </div>
+</body>
+</html>
