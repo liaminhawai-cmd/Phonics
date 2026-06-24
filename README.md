@@ -8,6 +8,8 @@ back until the deck is empty.
 
 🔗 **Live:** https://liaminhawai-cmd.github.io/Phonics/
 
+📥 **Download standalone apps:** https://liaminhawai-cmd.github.io/Phonics/downloads.html
+
 ## How it works
 
 1. **Pick your sounds** — tap the vowels you want to practise (or *Select all*).
