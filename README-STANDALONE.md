@@ -8,7 +8,10 @@ Two fully self-contained HTML files for offline use or distribution.
 The complete **Aussie Phonics Trainer** in a single file.
 - Year Levels (Pre–Yr 4, grouped by sound type)
 - Bookmark Levels (14 colour-coded levels)
-- Both practice modes: Look & Say + Listen & Write
+- Three practice modes: Look & Say + Listen & Write + Spelling Sheets
+- Spelling Sheets rebuild the printed "listen & write" worksheets: hear eight
+  words and fill in the missing sound (uses the browser voice, or the real
+  recordings if the `activities/audio/` files are alongside it)
 - All HTML, CSS, and JavaScript embedded
 
 ### `mika-standalone.html`

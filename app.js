@@ -185,6 +185,89 @@ const YEAR_LEVELS = {
   "Yr 4": ["ou","ew","ur","ear","wor","dge","ui","ng","ey","ough","gu","ti","si","ci","gn"],
 };
 
+// ============================================================
+// Spelling worksheets — the "listen & write" activity sheets,
+// rebuilt from the printed PDFs in /activities. Each sheet plays
+// eight words and the student writes the missing sound. Every set
+// mirrors one QR-code recording on the original worksheet; the
+// audio path points at a local file (committed alongside the
+// grapheme .mp4s) and falls back to speech synthesis if absent.
+//   pos : "initial" | "middle" | "end"  (which sound is blanked)
+//   w   : the whole word (what the recording says)
+//   p   : the printed pattern, blank shown as underscore(s)
+//   a   : the missing sound the student must write
+// ============================================================
+const WORKSHEETS = [
+  { level:1, pos:"initial", sets:[
+    { audio:"activities/audio/L1-initial-1.mp4", items:[{w:"nan",p:"_an",a:"n"}, {w:"pan",p:"_an",a:"p"}, {w:"tan",p:"_an",a:"t"}, {w:"nap",p:"_ap",a:"n"}, {w:"tap",p:"_ap",a:"t"}, {w:"pat",p:"_at",a:"p"}, {w:"pin",p:"_in",a:"p"}, {w:"tin",p:"_in",a:"t"}] },
+    { audio:"activities/audio/L1-initial-2.mp4", items:[{w:"nap",p:"_ap",a:"n"}, {w:"tap",p:"_ap",a:"t"}, {w:"pat",p:"_at",a:"p"}, {w:"pin",p:"_in",a:"p"}, {w:"tin",p:"_in",a:"t"}, {w:"nip",p:"_ip",a:"n"}, {w:"pip",p:"_ip",a:"p"}, {w:"tip",p:"_ip",a:"t"}] },
+  ]},
+  { level:1, pos:"end", sets:[
+    { audio:"activities/audio/L1-end-1.mp4", items:[{w:"nan",p:"na_",a:"n"}, {w:"pan",p:"pa_",a:"n"}, {w:"tan",p:"ta_",a:"n"}, {w:"nap",p:"na_",a:"p"}, {w:"tap",p:"ta_",a:"p"}, {w:"pat",p:"pa_",a:"t"}, {w:"pin",p:"pi_",a:"n"}, {w:"tin",p:"ti_",a:"n"}] },
+    { audio:"activities/audio/L1-end-2.mp4", items:[{w:"nap",p:"na_",a:"p"}, {w:"tap",p:"ta_",a:"p"}, {w:"pat",p:"pa_",a:"t"}, {w:"pin",p:"pi_",a:"n"}, {w:"tin",p:"ti_",a:"n"}, {w:"nip",p:"ni_",a:"p"}, {w:"pip",p:"pi_",a:"p"}, {w:"tip",p:"ti_",a:"p"}] },
+  ]},
+  { level:2, pos:"initial", sets:[
+    { audio:"activities/audio/L2-initial-1.mp4", items:[{w:"man",p:"_an",a:"m"}, {w:"can",p:"_an",a:"c"}, {w:"sap",p:"_ap",a:"s"}, {w:"map",p:"_ap",a:"m"}, {w:"cap",p:"_ap",a:"c"}, {w:"sat",p:"_at",a:"s"}, {w:"mat",p:"_at",a:"m"}, {w:"cat",p:"_at",a:"c"}] },
+    { audio:"activities/audio/L2-initial-2.mp4", items:[{w:"bat",p:"_at",a:"b"}, {w:"bib",p:"_ib",a:"b"}, {w:"tim",p:"_im",a:"t"}, {w:"min",p:"_in",a:"m"}, {w:"bin",p:"_in",a:"b"}, {w:"sip",p:"_ip",a:"s"}, {w:"sit",p:"_it",a:"s"}, {w:"mom",p:"_om",a:"m"}] },
+  ]},
+  { level:2, pos:"end", sets:[
+    { audio:"activities/audio/L2-end-1.mp4", items:[{w:"man",p:"ma_",a:"n"}, {w:"bat",p:"ba_",a:"t"}, {w:"bib",p:"bi_",a:"b"}, {w:"bin",p:"bi_",a:"n"}, {w:"bop",p:"bo_",a:"p"}, {w:"bot",p:"bo_",a:"t"}, {w:"can",p:"ca_",a:"n"}, {w:"cap",p:"ca_",a:"p"}] },
+    { audio:"activities/audio/L2-end-2.mp4", items:[{w:"cat",p:"ca_",a:"t"}, {w:"cop",p:"co_",a:"p"}, {w:"cot",p:"co_",a:"t"}, {w:"map",p:"ma_",a:"p"}, {w:"mat",p:"ma_",a:"t"}, {w:"min",p:"mi_",a:"n"}, {w:"mom",p:"mo_",a:"m"}, {w:"mop",p:"mo_",a:"p"}] },
+  ]},
+  { level:3, pos:"initial", sets:[
+    { audio:"activities/audio/L3-initial-1.mp4", items:[{w:"gas",p:"_as",a:"g"}, {w:"hat",p:"_at",a:"h"}, {w:"den",p:"_en",a:"d"}, {w:"hen",p:"_en",a:"h"}, {w:"men",p:"_en",a:"m"}, {w:"pen",p:"_en",a:"p"}, {w:"ten",p:"_en",a:"t"}, {w:"dig",p:"_ig",a:"d"}] },
+    { audio:"activities/audio/L3-initial-2.mp4", items:[{w:"pig",p:"_ig",a:"p"}, {w:"dim",p:"_im",a:"d"}, {w:"him",p:"_im",a:"h"}, {w:"din",p:"_in",a:"d"}, {w:"gin",p:"_in",a:"g"}, {w:"kin",p:"_in",a:"k"}, {w:"dip",p:"_ip",a:"d"}, {w:"hip",p:"_ip",a:"h"}] },
+  ]},
+  { level:3, pos:"end", sets:[
+    { audio:"activities/audio/L3-end-1.mp4", items:[{w:"kin",p:"ki_",a:"n"}, {w:"dip",p:"di_",a:"p"}, {w:"hip",p:"hi_",a:"p"}, {w:"god",p:"go_",a:"d"}, {w:"hop",p:"ho_",a:"p"}, {w:"hot",p:"ho_",a:"t"}, {w:"dab",p:"da_",a:"b"}, {w:"gap",p:"ga_",a:"p"}] },
+    { audio:"activities/audio/L3-end-2.mp4", items:[{w:"pen",p:"pe_",a:"n"}, {w:"ten",p:"te_",a:"n"}, {w:"dig",p:"di_",a:"g"}, {w:"pig",p:"pi_",a:"g"}, {w:"dim",p:"di_",a:"m"}, {w:"gin",p:"gi_",a:"n"}, {w:"him",p:"hi_",a:"m"}, {w:"din",p:"di_",a:"n"}] },
+  ]},
+  { level:4, pos:"initial", sets:[
+    { audio:"activities/audio/L4-initial-1.mp4", items:[{w:"ran",p:"_an",a:"r"}, {w:"fin",p:"_in",a:"f"}, {w:"fan",p:"_an",a:"f"}, {w:"rib",p:"_ib",a:"r"}, {w:"van",p:"_an",a:"v"}, {w:"rap",p:"_ap",a:"r"}, {w:"fat",p:"_at",a:"f"}, {w:"rat",p:"_at",a:"r"}] },
+    { audio:"activities/audio/L4-initial-2.mp4", items:[{w:"bug",p:"_ug",a:"b"}, {w:"bud",p:"_ud",a:"b"}, {w:"dud",p:"_ud",a:"d"}, {w:"mud",p:"_ud",a:"m"}, {w:"rot",p:"_ot",a:"r"}, {w:"lop",p:"_op",a:"l"}, {w:"lip",p:"_ip",a:"l"}, {w:"rip",p:"_ip",a:"r"}] },
+  ]},
+  { level:4, pos:"end", sets:[
+    { audio:"activities/audio/L4-end-1.mp4", items:[{w:"gum",p:"gu_",a:"m"}, {w:"fin",p:"fi_",a:"n"}, {w:"fat",p:"fa_",a:"t"}, {w:"fan",p:"fa_",a:"n"}, {w:"dud",p:"du_",a:"d"}, {w:"cup",p:"cu_",a:"p"}, {w:"bug",p:"bu_",a:"g"}, {w:"bud",p:"bu_",a:"d"}] },
+    { audio:"activities/audio/L4-end-2.mp4", items:[{w:"pug",p:"pu_",a:"g"}, {w:"mum",p:"mu_",a:"m"}, {w:"mug",p:"mu_",a:"g"}, {w:"mud",p:"mu_",a:"d"}, {w:"lop",p:"lo_",a:"p"}, {w:"lip",p:"li_",a:"p"}, {w:"lap",p:"la_",a:"p"}, {w:"hug",p:"hu_",a:"g"}] },
+  ]},
+  { level:5, pos:"initial", sets:[
+    { audio:"activities/audio/L5-initial-1.mp4", items:[{w:"jog",p:"_og",a:"j"}, {w:"yak",p:"_ak",a:"y"}, {w:"jam",p:"_am",a:"j"}, {w:"zen",p:"_en",a:"z"}, {w:"win",p:"_in",a:"w"}, {w:"won",p:"_on",a:"w"}, {w:"zap",p:"_ap",a:"z"}, {w:"yap",p:"_ap",a:"y"}] },
+    { audio:"activities/audio/L5-initial-2.mp4", items:[{w:"yep",p:"_ep",a:"y"}, {w:"zip",p:"_ip",a:"z"}, {w:"yes",p:"_es",a:"y"}, {w:"jet",p:"_et",a:"j"}, {w:"wet",p:"_et",a:"w"}, {w:"sax",p:"_ax",a:"s"}, {w:"wax",p:"_ax",a:"w"}, {w:"fix",p:"_ix",a:"f"}] },
+  ]},
+  { level:5, pos:"end", sets:[
+    { audio:"activities/audio/L5-end-1.mp4", items:[{w:"yap",p:"ya_",a:"p"}, {w:"fix",p:"fi_",a:"x"}, {w:"zap",p:"za_",a:"p"}, {w:"wax",p:"wa_",a:"x"}, {w:"won",p:"wo_",a:"n"}, {w:"sax",p:"sa_",a:"x"}, {w:"six",p:"si_",a:"x"}, {w:"win",p:"wi_",a:"n"}] },
+    { audio:"activities/audio/L5-end-2.mp4", items:[{w:"wet",p:"we_",a:"t"}, {w:"zen",p:"ze_",a:"n"}, {w:"jet",p:"je_",a:"t"}, {w:"jam",p:"ja_",a:"m"}, {w:"yes",p:"ye_",a:"s"}, {w:"yak",p:"ya_",a:"k"}, {w:"zip",p:"zi_",a:"p"}, {w:"jog",p:"jo_",a:"g"}] },
+  ]},
+  { level:6, pos:"initial", sets:[
+    { audio:"activities/audio/L6-initial-1.mp4", items:[{w:"shush",p:"_ush",a:"sh"}, {w:"chat",p:"_at",a:"ch"}, {w:"that",p:"_at",a:"th"}, {w:"quit",p:"_it",a:"qu"}, {w:"shot",p:"_ot",a:"sh"}, {w:"shut",p:"_ut",a:"sh"}, {w:"shiv",p:"_iv",a:"sh"}, {w:"quiz",p:"_iz",a:"qu"}] },
+    { audio:"activities/audio/L6-initial-2.mp4", items:[{w:"chic",p:"_ic",a:"ch"}, {w:"chad",p:"_ad",a:"ch"}, {w:"shed",p:"_ed",a:"sh"}, {w:"quid",p:"_id",a:"qu"}, {w:"thud",p:"_ud",a:"th"}, {w:"chef",p:"_ef",a:"ch"}, {w:"chug",p:"_ug",a:"ch"}, {w:"thug",p:"_ug",a:"th"}] },
+  ]},
+  { level:6, pos:"middle", sets:[
+    { audio:"activities/audio/L6-middle-1.mp4", items:[{w:"days",p:"d__s",a:"ay"}, {w:"fish",p:"f_sh",a:"i"}, {w:"wish",p:"w_sh",a:"i"}, {w:"chef",p:"ch_f",a:"e"}, {w:"bath",p:"b_th",a:"a"}, {w:"pays",p:"p__s",a:"ay"}, {w:"mach",p:"m_ch",a:"a"}, {w:"math",p:"m_th",a:"a"}] },
+    { audio:"activities/audio/L6-middle-2.mp4", items:[{w:"bays",p:"b__s",a:"ay"}, {w:"hush",p:"h_sh",a:"u"}, {w:"chic",p:"ch_c",a:"i"}, {w:"chad",p:"ch_d",a:"a"}, {w:"shed",p:"sh_d",a:"e"}, {w:"quid",p:"qu_d",a:"i"}, {w:"thud",p:"th_d",a:"u"}, {w:"shush",p:"sh_sh",a:"u"}] },
+  ]},
+  { level:6, pos:"end", sets:[
+    { audio:"activities/audio/L6-end-1.mp4", items:[{w:"hush",p:"hu__",a:"sh"}, {w:"shush",p:"shu__",a:"sh"}, {w:"moth",p:"mo__",a:"th"}, {w:"fish",p:"fi__",a:"sh"}, {w:"wish",p:"wi__",a:"sh"}, {w:"chef",p:"che_",a:"f"}, {w:"bath",p:"ba__",a:"th"}, {w:"mach",p:"ma__",a:"ch"}] },
+    { audio:"activities/audio/L6-end-2.mp4", items:[{w:"bath",p:"ba__",a:"th"}, {w:"chef",p:"che_",a:"f"}, {w:"mach",p:"ma__",a:"ch"}, {w:"fish",p:"fi__",a:"sh"}, {w:"hush",p:"hu__",a:"sh"}, {w:"moth",p:"mo__",a:"th"}, {w:"math",p:"ma__",a:"th"}, {w:"path",p:"pa__",a:"th"}] },
+  ]},
+  { level:7, pos:"initial", sets:[
+    { audio:"activities/audio/L7-initial-1.mp4", items:[{w:"chuck",p:"__uck",a:"ch"}, {w:"shuck",p:"__uck",a:"sh"}, {w:"cheek",p:"__eek",a:"ch"}, {w:"whim",p:"__im",a:"wh"}, {w:"when",p:"__en",a:"wh"}, {w:"cheep",p:"__eep",a:"ch"}, {w:"queer",p:"__eer",a:"qu"}, {w:"quack",p:"__ack",a:"qu"}] },
+    { audio:"activities/audio/L7-initial-2.mp4", items:[{w:"verb",p:"_erb",a:"v"}, {w:"quack",p:"__ack",a:"qu"}, {w:"rack",p:"_ack",a:"r"}, {w:"sack",p:"_ack",a:"s"}, {w:"tack",p:"_ack",a:"t"}, {w:"whack",p:"__ack",a:"wh"}, {w:"chick",p:"__ick",a:"ch"}, {w:"quick",p:"__ick",a:"qu"}] },
+  ]},
+  { level:7, pos:"middle", sets:[
+    { audio:"activities/audio/L7-middle-1.mp4", items:[{w:"teeth",p:"t__th",a:"ee"}, {w:"part",p:"p__t",a:"ar"}, {w:"cart",p:"c__t",a:"ar"}, {w:"queer",p:"qu__r",a:"ee"}, {w:"seep",p:"s__p",a:"ee"}, {w:"peep",p:"p__p",a:"ee"}, {w:"cheep",p:"ch__p",a:"ee"}, {w:"when",p:"wh__n",a:"e"}] },
+    { audio:"activities/audio/L7-middle-2.mp4", items:[{w:"keel",p:"k__l",a:"ee"}, {w:"seek",p:"s__k",a:"ee"}, {w:"park",p:"p__k",a:"ar"}, {w:"peek",p:"p__k",a:"ee"}, {w:"mark",p:"m__k",a:"ar"}, {w:"meek",p:"m__k",a:"ee"}, {w:"lark",p:"l__k",a:"ar"}, {w:"leek",p:"l__k",a:"ee"}] },
+  ]},
+  { level:7, pos:"end", sets:[
+    { audio:"activities/audio/L7-end-1.mp4", items:[{w:"yuck",p:"yu__",a:"ck"}, {w:"whack",p:"wha__",a:"ck"}, {w:"when",p:"whe_",a:"n"}, {w:"whim",p:"whi_",a:"m"}, {w:"verb",p:"ver_",a:"b"}, {w:"thick",p:"thi__",a:"ck"}, {w:"tack",p:"ta__",a:"ck"}, {w:"teeth",p:"tee__",a:"th"}] },
+    { audio:"activities/audio/L7-end-2.mp4", items:[{w:"tick",p:"ti__",a:"ck"}, {w:"shock",p:"sho__",a:"ck"}, {w:"shuck",p:"shu__",a:"ck"}, {w:"sack",p:"sa__",a:"ck"}, {w:"seek",p:"see_",a:"k"}, {w:"seed",p:"see_",a:"d"}, {w:"seep",p:"see_",a:"p"}, {w:"mark",p:"m__k",a:"ar"}] },
+  ]},
+  { level:8, pos:"middle", sets:[
+    { audio:"activities/audio/L8-middle-1.mp4", items:[{w:"chain",p:"ch__n",a:"ai"}, {w:"fight",p:"f__t",a:"igh"}, {w:"food",p:"f__d",a:"oo"}, {w:"gain",p:"g__n",a:"ai"}, {w:"good",p:"g__d",a:"oo"}, {w:"main",p:"m__n",a:"ai"}, {w:"rain",p:"r__n",a:"ai"}, {w:"sight",p:"s__t",a:"igh"}] },
+    { audio:"activities/audio/L8-middle-2.mp4", items:[{w:"shook",p:"sh__k",a:"oo"}, {w:"fool",p:"f__l",a:"oo"}, {w:"look",p:"l__k",a:"oo"}, {w:"nook",p:"n__k",a:"oo"}, {w:"might",p:"m__t",a:"igh"}, {w:"right",p:"r__t",a:"igh"}, {w:"sighed",p:"s__ed",a:"igh"}, {w:"toys",p:"t__s",a:"oy"}] },
+  ]},
+];
+
 const graphemeIndex = {};
 GRAPHEMES.forEach((g, i) => { graphemeIndex[g.grapheme] = i; });
 
@@ -206,6 +289,11 @@ let sessionTotal = 0;
 let attempts = {};
 let masteredOnTry = {};
 let missed = new Set();
+
+// Worksheet activity state
+let wsFlat = [];      // flat list of {entry, set} in display order
+let wsPos = 0;        // index into wsFlat of the sheet being done
+let wsAudio = null;   // current block-audio element
 
 const $ = (id) => document.getElementById(id);
 const screens = {};
@@ -850,17 +938,217 @@ function shuffle(arr) {
   }
 }
 
+// ============================================================
+// Spelling worksheets: hear eight words, write the missing sound.
+// ============================================================
+
+const POS_LABEL = { initial: "Initial sounds", middle: "Middle sounds", end: "End sounds" };
+
+function chooseSheets() {
+  buildWorksheetSelect();
+  showScreen("wsSelect");
+}
+
+function buildWorksheetSelect() {
+  const wrap = $("wsLevelList");
+  wrap.innerHTML = "";
+
+  // Flatten every (entry, set) into display order so "Next sheet" can walk them.
+  wsFlat = [];
+  WORKSHEETS.forEach((entry, ei) => entry.sets.forEach((_, si) => wsFlat.push({ entry: ei, set: si })));
+
+  const byLevel = {};
+  WORKSHEETS.forEach((entry, ei) => { (byLevel[entry.level] = byLevel[entry.level] || []).push(ei); });
+
+  Object.keys(byLevel).map(Number).sort((a, b) => a - b).forEach((lvl) => {
+    const meta = BOOKMARK_LEVELS[lvl - 1];
+    const card = document.createElement("div");
+    card.className = "ws-level-card";
+    card.style.borderLeftColor = meta.colour;
+
+    let html = '<div class="ws-level-name"><span class="swatch" style="background:' +
+      meta.colour + '"></span>' + meta.name + '</div><div class="ws-sheet-btns">';
+    byLevel[lvl].forEach((ei) => {
+      const entry = WORKSHEETS[ei];
+      entry.sets.forEach((_, si) => {
+        const flatIdx = wsFlat.findIndex((f) => f.entry === ei && f.set === si);
+        html += '<button class="ws-sheet-btn" data-flat="' + flatIdx + '">' +
+          POS_LABEL[entry.pos] + ' <span class="ws-set-num">' + (si + 1) + '</span></button>';
+      });
+    });
+    html += '</div>';
+    card.innerHTML = html;
+    wrap.appendChild(card);
+  });
+
+  wrap.querySelectorAll(".ws-sheet-btn").forEach((b) => {
+    b.addEventListener("click", () => startWorksheet(+b.dataset.flat));
+  });
+}
+
+function currentSheet() {
+  const ref = wsFlat[wsPos];
+  const entry = WORKSHEETS[ref.entry];
+  return { entry, set: entry.sets[ref.set], setIdx: ref.set };
+}
+
+function startWorksheet(flatIdx) {
+  stopWsAudio();
+  wsPos = flatIdx;
+  renderWorksheet();
+  showScreen("wsCard");
+}
+
+function renderWorksheet() {
+  const { entry, set, setIdx } = currentSheet();
+  const meta = BOOKMARK_LEVELS[entry.level - 1];
+  $("wsTitle").innerHTML = '<span class="swatch" style="background:' + meta.colour +
+    '"></span>' + meta.name + ' &middot; ' + POS_LABEL[entry.pos] + ' ' + (setIdx + 1);
+  $("wsAudioHint").textContent = "Listen, then write the missing sound in each word.";
+
+  const box = $("wsItems");
+  box.innerHTML = "";
+  set.items.forEach((it, i) => {
+    const gap = it.p.indexOf("_");
+    const gapLen = it.p.match(/_+/)[0].length;
+    const pre = it.p.slice(0, gap);
+    const suf = it.p.slice(gap + gapLen);
+
+    const row = document.createElement("div");
+    row.className = "ws-item";
+    row.dataset.i = i;
+    row.innerHTML =
+      '<span class="ws-num">' + (i + 1) + '</span>' +
+      '<span class="ws-word">' +
+        '<span class="ws-fixed">' + pre + '</span>' +
+        '<input class="ws-blank" type="text" inputmode="latin" autocomplete="off" ' +
+          'autocapitalize="off" spellcheck="false" maxlength="' + it.a.length + '" ' +
+          'aria-label="missing sound for word ' + (i + 1) + '">' +
+        '<span class="ws-fixed">' + suf + '</span>' +
+      '</span>' +
+      '<button class="ws-say" title="Hear this word" aria-label="Hear word ' + (i + 1) + '">🔊</button>' +
+      '<span class="ws-mark"></span>';
+    box.appendChild(row);
+  });
+
+  box.querySelectorAll(".ws-item").forEach((row) => {
+    const i = +row.dataset.i;
+    row.querySelector(".ws-say").addEventListener("click", () => speakWord(set.items[i].w));
+    const inp = row.querySelector(".ws-blank");
+    inp.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter") return;
+      const inputs = [...box.querySelectorAll(".ws-blank")];
+      const next = inputs[inputs.indexOf(inp) + 1];
+      if (next) next.focus(); else checkWorksheet();
+    });
+  });
+
+  $("wsCheckRow").style.display = "flex";
+  $("wsScore").style.display = "none";
+  $("wsDoneRow").style.display = "none";
+}
+
+function checkWorksheet() {
+  const { set } = currentSheet();
+  const rows = [...$("wsItems").querySelectorAll(".ws-item")];
+  let right = 0;
+
+  rows.forEach((row, i) => {
+    const it = set.items[i];
+    const inp = row.querySelector(".ws-blank");
+    const mark = row.querySelector(".ws-mark");
+    const got = inp.value.trim().toLowerCase();
+    const ok = got === it.a.toLowerCase();
+    inp.disabled = true;
+    row.classList.remove("correct", "wrong");
+    if (ok) {
+      right++;
+      row.classList.add("correct");
+      mark.textContent = "✓";
+    } else {
+      row.classList.add("wrong");
+      inp.value = it.a;
+      mark.textContent = "✗";
+    }
+  });
+
+  const score = $("wsScore");
+  score.style.display = "block";
+  score.className = "ws-score" + (right === rows.length ? " perfect" : "");
+  score.textContent = right === rows.length
+    ? "Perfect — " + right + " / " + rows.length + " 🎉"
+    : right + " / " + rows.length + " correct";
+
+  $("wsCheckRow").style.display = "none";
+  $("wsDoneRow").style.display = "flex";
+  $("wsNextBtn").style.display = wsPos < wsFlat.length - 1 ? "inline-block" : "none";
+}
+
+// Play the block recording; if it can't load, read the words with speech synthesis.
+function playWorksheetAudio() {
+  const { set } = currentSheet();
+  const btn = $("wsPlayBtn");
+  stopWsAudio();
+  let fellBack = false;
+  const fallback = () => { if (!fellBack) { fellBack = true; speakAllWords(set); } };
+
+  wsAudio = new Audio(set.audio);
+  wsAudio.addEventListener("play",  () => btn.classList.add("playing"));
+  wsAudio.addEventListener("ended", () => btn.classList.remove("playing"));
+  wsAudio.addEventListener("error", () => { btn.classList.remove("playing"); fallback(); });
+  wsAudio.play().catch(fallback);
+}
+
+function stopWsAudio() {
+  if (wsAudio) { wsAudio.pause(); wsAudio = null; }
+  $("wsPlayBtn") && $("wsPlayBtn").classList.remove("playing");
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
+function speakAllWords(set) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  set.items.forEach((it, i) => {
+    const u = new SpeechSynthesisUtterance((i + 1) + ". " + it.w);
+    u.lang = "en-AU"; u.rate = 0.8;
+    window.speechSynthesis.speak(u);
+  });
+}
+
+function speakWord(word) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(word);
+  u.lang = "en-AU"; u.rate = 0.8;
+  window.speechSynthesis.speak(u);
+}
+
+function retryWorksheet() { stopWsAudio(); renderWorksheet(); }
+function nextWorksheet() {
+  if (wsPos < wsFlat.length - 1) { startWorksheet(wsPos + 1); }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  screens.mode   = $("modeScreen");
-  screens.view   = $("viewScreen");
-  screens.select = $("selectScreen");
-  screens.card   = $("cardScreen");
-  screens.report = $("reportScreen");
+  screens.mode     = $("modeScreen");
+  screens.view     = $("viewScreen");
+  screens.select   = $("selectScreen");
+  screens.card     = $("cardScreen");
+  screens.report   = $("reportScreen");
+  screens.wsSelect = $("wsSelectScreen");
+  screens.wsCard   = $("wsCardScreen");
 
   initCanvas();
 
   $("modeSayBtn").addEventListener("click", () => chooseMode("say"));
   $("modeWriteBtn").addEventListener("click", () => chooseMode("write"));
+  $("modeSheetsBtn").addEventListener("click", chooseSheets);
+
+  $("wsBackBtn").addEventListener("click", () => { stopWsAudio(); showScreen("mode"); });
+  $("wsQuitBtn").addEventListener("click", () => { stopWsAudio(); showScreen("wsSelect"); });
+  $("wsPlayBtn").addEventListener("click", playWorksheetAudio);
+  $("wsCheckBtn").addEventListener("click", checkWorksheet);
+  $("wsRetryBtn").addEventListener("click", retryWorksheet);
+  $("wsNextBtn").addEventListener("click", nextWorksheet);
 
   $("viewYearBtn").addEventListener("click", () => chooseView("year"));
   $("viewBookmarkBtn").addEventListener("click", () => chooseView("bookmark"));
