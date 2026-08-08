@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aussie Phonics Trainer</title>
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --paper: #fbf7ee;
+            --ink: #1f1f1f;
+            --muted: #6b6256;
+            --line: #d8cfbb;
+            --line-soft: #e8e0cd;
+            --accent: #a83232;
+            --correct: #2f6a3e;
+            --wrong: #a83232;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--ink);
+        }
+        .container {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            max-width: 760px;
+            width: 100%;
+            padding: 28px;
+            margin-top: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        h1 {
+            text-align: center;
+            font-size: 22px;
+            font-family: Georgia, 'Times New Roman', serif;
+            letter-spacing: 0.5px;
+        }
+        .subtitle { color: var(--muted); text-align: center; margin: 6px 0 20px; font-size: 13px; }
+
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        /* ---- Big choice cards (screens 1 & 2) ---- */
+        .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0 8px; }
+        .choice-card {
+            border: 1px solid var(--line); border-radius: 12px; background: var(--paper);
+            padding: 36px 20px; cursor: pointer; text-align: center; transition: all 0.18s ease;
+        }
+        .choice-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+        .choice-card .emoji { font-size: 38px; display: block; margin-bottom: 12px; }
+        .choice-card .ttl { font-family: Georgia, serif; font-size: 20px; font-weight: 700; }
+        .choice-card .desc { color: var(--muted); font-size: 13px; margin-top: 8px; line-height: 1.5; }
+        a.choice-card { color: inherit; text-decoration: none; }
+        .choice-card.wide { grid-column: 1 / -1; padding: 24px 20px; }
+        @media (max-width: 480px) { .choice-grid { grid-template-columns: 1fr; } }
+
+        .back-link { background: none; border: none; color: var(--muted); font-weight: 600; font-size: 13px; cursor: pointer; padding: 4px 0; margin-bottom: 4px; }
+        .back-link:hover { color: var(--ink); }
+
+        /* ---- Preset bar (year / bookmark) ---- */
+        .level-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; justify-content: center; }
+        .level-btn {
+            border: 1px solid var(--line); background: var(--paper); color: var(--muted);
+            font-weight: 600; font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .level-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .level-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+        .level-btn.colour-chip { border-left: 4px solid var(--chip); }
+        .level-btn.colour-chip.active { background: var(--chip); border-color: var(--chip); }
+        .level-btn.util { background: var(--bg); color: var(--muted); border-color: var(--line-soft); }
+        .level-btn.util:hover { color: var(--ink); border-color: var(--ink); }
+
+        /* ---- Sound category filter bar ---- */
+        .cat-bar { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; justify-content: center; }
+        .cat-btn {
+            border: 1px solid var(--line-soft); background: var(--bg); color: var(--muted);
+            font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 14px; cursor: pointer;
+            transition: all 0.15s ease; text-transform: uppercase; letter-spacing: 0.3px;
+        }
+        .cat-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .cat-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+        .cat-divider { width: 100%; font-size: 10px; color: var(--muted); text-align: center; margin: 2px 0; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ---- Selection toolbar ---- */
+        .select-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .count-pill { background: var(--bg); color: var(--accent); border: 1px solid var(--line); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; }
+        .select-toolbar .links button { background: none; border: none; color: var(--accent); font-weight: 600; cursor: pointer; font-size: 13px; padding: 4px 8px; }
+        .select-toolbar .links button:hover { text-decoration: underline; }
+        .select-title { text-align: center; font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 14px; }
+
+        /* ---- Grid (year view) ---- */
+        .group-label {
+            font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase;
+            letter-spacing: 0.8px; margin: 18px 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--line-soft);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
+
+        /* clickable group heading = category toggle (year view) */
+        .group-label.group-toggle { cursor: pointer; justify-content: space-between; transition: color 0.15s ease, border-color 0.15s ease; }
+        .group-label.group-toggle:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        .group-label.group-toggle.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .group-label .grp-hint { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: none; letter-spacing: 0; opacity: 0.75; }
+        .group-label.group-toggle:hover .grp-hint { color: var(--accent); opacity: 1; }
+        .group-label.group-toggle.active .grp-hint { color: var(--accent); opacity: 1; }
+        .grapheme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(68px, 1fr)); gap: 6px; }
+        .g-chip {
+            border: 1px solid var(--line); border-radius: 8px; padding: 8px 4px; text-align: center;
+            cursor: pointer; transition: all 0.15s ease; user-select: none; background: var(--paper);
+        }
+        .g-chip:hover { border-color: var(--accent); background: #faf5f0; }
+        .g-chip.selected { border-color: var(--accent); background: var(--accent); color: white; }
+        .g-chip .gr { font-weight: 700; font-size: 17px; display: block; font-family: Georgia, serif; }
+        .g-chip .dots { font-size: 8px; opacity: 0.5; margin-top: 2px; display: block; letter-spacing: 1px; }
+        .g-chip.selected .dots { opacity: 0.8; }
+
+        /* ---- Bookmark tracker (bookmark view) ---- */
+        .tracker { display: flex; flex-direction: column; gap: 4px; }
+        .tracker-row {
+            display: flex; align-items: center; gap: 0; border: 1px solid var(--line-soft);
+            border-radius: 8px; overflow: hidden; background: var(--paper);
+        }
+        .tracker-label {
+            flex-shrink: 0; width: 42px; padding: 10px 0; text-align: center;
+            font-weight: 800; font-size: 13px; color: white; cursor: pointer;
+            transition: opacity 0.15s ease; user-select: none;
+        }
+        .tracker-label:hover { opacity: 0.8; }
+        .tracker-label.active { box-shadow: inset 0 0 0 2px rgba(255,255,255,0.55); }
+        .tracker-label.on-light.active { box-shadow: inset 0 0 0 2px rgba(0,0,0,0.28); }
+        .tracker-codes { display: flex; flex: 1; gap: 0; }
+        .tracker-cell {
+            flex: 1; padding: 10px 2px; text-align: center; cursor: pointer;
+            font-family: Georgia, serif; font-weight: 700; font-size: 15px;
+            border-left: 1px solid var(--line-soft); transition: all 0.15s ease;
+            user-select: none; color: var(--ink); background: var(--paper);
+        }
+        .tracker-cell:hover { background: #faf5f0; }
+        .tracker-cell.selected { color: var(--cell-text, white); background: var(--chip, var(--accent)); }
+        .tracker-cell .tc-dots { font-size: 7px; opacity: 0.4; display: block; margin-top: 1px; letter-spacing: 1px; }
+        .tracker-cell.selected .tc-dots { opacity: 0.7; }
+
+        /* ---- Buttons ---- */
+        button.btn { padding: 12px 20px; border: 1px solid var(--line); border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; background: var(--paper); color: var(--ink); }
+        .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+        .btn-primary:hover:not(:disabled) { background: #8c2828; }
+        .btn-primary:disabled { background: var(--line); border-color: var(--line); color: var(--muted); cursor: not-allowed; }
+        .btn-ghost { background: var(--bg); color: var(--muted); }
+        .btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+        .btn-correct { background: var(--correct); color: white; border-color: var(--correct); }
+        .btn-correct:hover { background: #245a33; }
+        .btn-wrong { background: var(--wrong); color: white; border-color: var(--wrong); }
+        .btn-wrong:hover { background: #8c2828; }
+        .start-bar { margin-top: 24px; text-align: center; }
+        .start-bar .btn { width: 100%; max-width: 320px; }
+
+        /* ---- Drill ---- */
+        .progress-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+        .drill-mode-label { font-weight: 700; color: var(--accent); }
+        .progress-track { height: 6px; background: var(--line-soft); border-radius: 3px; overflow: hidden; margin-bottom: 20px; }
+        .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s ease; border-radius: 3px; }
+        .card { border: 1px solid var(--line); border-radius: 10px; padding: 24px; text-align: center; background: var(--paper); }
+
+        .say-grapheme { font-family: Georgia, serif; font-size: 64px; font-weight: 700; color: var(--ink); margin: 12px 0; }
+        .say-hint { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+
+        .listen-btn { background: var(--ink); color: var(--paper); border: none; border-radius: 50px; padding: 16px 28px; font-size: 17px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+        .listen-btn:hover { background: #333; transform: scale(1.02); }
+        .listen-btn.playing { animation: pulse 0.8s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .replay-hint { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+        .mode-toggle { display: inline-flex; background: var(--bg); border: 1px solid var(--line-soft); border-radius: 8px; padding: 3px; margin: 20px 0 14px; }
+        .mode-toggle button { border: none; background: none; padding: 7px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; color: var(--muted); transition: all 0.15s ease; }
+        .mode-toggle button.active { background: var(--paper); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+        #typeInput { width: 100%; max-width: 300px; padding: 14px; border: 1px solid var(--line); border-radius: 8px; font-size: 22px; font-family: Georgia, serif; text-align: center; background: var(--paper); color: var(--ink); outline: none; transition: border-color 0.15s ease; }
+        #typeInput:focus { border-color: var(--accent); }
+        #typeInput.flash-correct { border-color: var(--correct); background: #eaf5ed; }
+        #typeInput.flash-wrong { border-color: var(--wrong); background: #f5eaea; }
+
+        #writeCanvas { border: 1px dashed var(--line); border-radius: 8px; background: var(--paper); touch-action: none; cursor: crosshair; width: 100%; max-width: 420px; height: 200px; }
+        .canvas-tools { margin-top: 6px; }
+        .canvas-tools button { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 13px; text-decoration: underline; }
+
+        .input-wrap { display: none; }
+        .input-wrap.active { display: block; }
+
+        .answer-box { margin-top: 20px; padding: 18px; background: var(--bg); border-radius: 10px; border-left: 3px solid var(--accent); text-align: left; display: none; }
+        .answer-box.show { display: block; }
+        .answer-box .big-grapheme { font-family: Georgia, serif; font-size: 36px; font-weight: 700; color: var(--accent); }
+        .answer-box .sounds-list { color: var(--muted); margin: 8px 0; font-size: 14px; line-height: 1.7; }
+        .answer-box .sounds-list .sym { font-weight: 700; color: var(--ink); }
+        .answer-box .sounds-list .ex { color: var(--muted); font-style: italic; }
+
+        .action-row { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .action-row .btn { flex: 1; min-width: 130px; max-width: 200px; }
+        .type-check-row { margin-top: 12px; }
+
+        /* ---- Mastered shelf ---- */
+        .shelf-section { margin-top: 24px; }
+        .shelf-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+        .shelf { display: flex; flex-wrap: wrap; gap: 6px; min-height: 36px; padding: 10px; background: var(--bg); border: 1px solid var(--line-soft); border-radius: 8px; }
+        .shelf-item { display: inline-block; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; font-family: Georgia, serif; font-weight: 700; font-size: 14px; color: var(--correct); animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .shelf-empty { font-size: 12px; color: var(--muted); font-style: italic; padding: 2px 0; }
+
+        /* ---- Report ---- */
+        .report-title { font-size: 26px; text-align: center; font-family: Georgia, serif; margin-bottom: 14px; }
+        .report-headline { text-align: center; font-size: 15px; color: var(--ink); margin-bottom: 16px; }
+        .report-rows { display: flex; flex-direction: column; gap: 8px; }
+        .report-row { display: flex; gap: 10px; align-items: center; background: var(--bg); border: 1px solid var(--line-soft); border-radius: 8px; padding: 8px 12px; }
+        .report-row .rtry { font-size: 12px; font-weight: 700; color: var(--muted); min-width: 84px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .rcodes { display: flex; flex-wrap: wrap; gap: 5px; }
+        .rcode { font-family: Georgia, serif; font-weight: 700; font-size: 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 5px; padding: 2px 8px; }
+        .report-perfect { text-align: center; color: var(--correct); font-weight: 600; margin-top: 16px; }
+
+        .remedy-title { font-size: 16px; font-weight: 700; margin: 26px 0 4px; font-family: Georgia, serif; }
+        .remedy-sub { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+        .remedy-card { border: 1px solid var(--line-soft); border-left: 4px solid var(--accent); border-radius: 8px; padding: 14px; margin-bottom: 10px; background: var(--paper); }
+        .remedy-head { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 7px; }
+        .remedy-codes { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; }
+        .remedy-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+        .remedy-link { font-size: 12.5px; font-weight: 600; text-decoration: none; color: var(--accent); border: 1px solid var(--line); border-radius: 6px; padding: 6px 11px; background: var(--bg); transition: all 0.15s ease; }
+        .remedy-link:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .report-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+
+        .exit-btn { border: none; background: none; color: var(--muted); cursor: pointer; font-weight: 600; font-size: 13px; padding: 4px 8px; }
+        .exit-btn:hover { color: var(--ink); }
+
+        @media (max-width: 480px) {
+            .container { padding: 16px; }
+            .grapheme-grid { grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); gap: 5px; }
+            .g-chip { padding: 6px 2px; }
+            .g-chip .gr { font-size: 15px; }
+            .level-bar { gap: 4px; }
+            .level-btn { padding: 5px 9px; font-size: 11px; }
+            .tracker-label { width: 34px; font-size: 11px; padding: 8px 0; }
+            .tracker-cell { font-size: 13px; padding: 8px 1px; }
+        }
+
+        /* ---- Print: report only ---- */
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; max-width: 100%; }
+            .screen { display: none !important; }
+            #reportScreen.active { display: block !important; }
+            .report-actions, .exit-btn { display: none !important; }
+            .remedy-link { color: var(--accent) !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Aussie Phonics</h1>
+        <p class="subtitle">Hear it or see it, say it or write it, then check.</p>
+
+        <!-- ===== SCREEN 1: practice mode ===== -->
+        <section class="screen active" id="modeScreen">
+            <div class="choice-grid">
+                <div class="choice-card" id="modeSayBtn">
+                    <span class="emoji">👀</span>
+                    <div class="ttl">Look &amp; Say</div>
+                    <div class="desc">See the code, say the sound, then listen to check yourself.</div>
+                </div>
+                <div class="choice-card" id="modeWriteBtn">
+                    <span class="emoji">👂</span>
+                    <div class="ttl">Listen &amp; Write</div>
+                    <div class="desc">Hear the sound, then type or handwrite the code.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SCREEN 2: view ===== -->
+        <section class="screen" id="viewScreen">
+            <button class="back-link" id="viewBackBtn">&larr; Back</button>
+            <div class="choice-grid">
+                <div class="choice-card" id="viewBookmarkBtn">
+                    <span class="emoji">🔖</span>
+                    <div class="ttl">Bookmark Levels</div>
+                    <div class="desc">The 14 levels — APTIN, SMOBC, GHKDE… with the colour tracker.</div>
+                </div>
+                <div class="choice-card" id="viewYearBtn">
+                    <span class="emoji">📚</span>
+                    <div class="ttl">Year Levels</div>
+                    <div class="desc">Scope &amp; sequence by Pre–Yr 4, grouped by sound type.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SCREEN 3: selection ===== -->
+        <section class="screen" id="selectScreen">
+            <button class="back-link" id="selectBackBtn">&larr; Back</button>
+            <div class="select-title" id="selectTitle"></div>
+            <div class="level-bar" id="levelBar"></div>
+            <div class="cat-bar" id="catBar"></div>
+
+            <div class="select-toolbar">
+                <span class="count-pill"><span id="selCount">0</span> selected</span>
+                <div class="links">
+                    <button id="selectAll">Select all</button>
+                    <button id="selectNone">Clear</button>
+                </div>
+            </div>
+
+            <div id="groupContainer"></div>
+
+            <div class="start-bar">
+                <button class="btn btn-primary" id="startBtn" disabled>Start practising</button>
+            </div>
+        </section>
+
+        <!-- ===== SCREEN 4: drill ===== -->
+        <section class="screen" id="cardScreen">
+            <div class="progress-row">
+                <span><span class="drill-mode-label" id="drillModeLabel"></span> &middot; <span id="remainingLabel">0 left</span></span>
+                <button class="exit-btn" id="quitBtn">Exit</button>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+            <div class="card">
+                <!-- Look & Say panel -->
+                <div id="sayPanel" style="display:none;">
+                    <div class="say-hint">Read this code and say its sound out loud.</div>
+                    <div class="say-grapheme" id="sayGrapheme"></div>
+                    <div class="action-row" id="sayCheckRow">
+                        <button class="btn btn-primary" id="sayCheckBtn">🔊 Listen to check</button>
+                    </div>
+                    <div class="action-row" id="sayGradeRow" style="display:none;">
+                        <button class="btn btn-wrong" id="sayMissedBtn">Missed it</button>
+                        <button class="btn btn-correct" id="sayGotBtn">Got it</button>
+                    </div>
+                </div>
+
+                <!-- Listen & Write panel -->
+                <div id="writePanel" style="display:none;">
+                    <button class="listen-btn" id="listenBtn">🔊 Play sound</button>
+                    <div class="replay-hint">Listen, then type or write the code.</div>
+                    <div class="mode-toggle">
+                        <button id="modeType" class="active">Type</button>
+                        <button id="modeWrite">Handwrite</button>
+                    </div>
+                    <div class="input-wrap active" id="typeWrap">
+                        <input type="text" id="typeInput" placeholder="type here" autocomplete="off" autocapitalize="off" spellcheck="false">
+                        <div class="type-check-row"><button class="btn btn-primary" id="typeCheckBtn">Check</button></div>
+                    </div>
+                    <div class="input-wrap" id="writeWrap">
+                        <canvas id="writeCanvas" width="420" height="200"></canvas>
+                        <div class="canvas-tools"><button id="clearCanvas">clear</button></div>
+                    </div>
+                    <div class="action-row" id="writeCheckRow"><button class="btn btn-primary" id="writeRevealBtn">Show answer</button></div>
+                    <div class="action-row" id="writeGradeRow" style="display:none;">
+                        <button class="btn btn-wrong" id="againBtn">Again</button>
+                        <button class="btn btn-correct" id="gotItBtn">Got it</button>
+                    </div>
+                </div>
+
+                <div class="answer-box" id="answerBox">
+                    <div class="big-grapheme" id="ansGrapheme"></div>
+                    <div class="sounds-list" id="ansSounds"></div>
+                </div>
+            </div>
+
+            <div class="shelf-section">
+                <div class="shelf-label">Mastered</div>
+                <div class="shelf" id="masteredShelf">
+                    <span class="shelf-empty" id="shelfEmpty">Cards you get right appear here</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SCREEN 5: report ===== -->
+        <section class="screen" id="reportScreen">
+            <div class="report-title">Well done!</div>
+            <div id="reportSummary"></div>
+            <div id="reportRemediation"></div>
+            <div class="report-actions">
+                <button class="btn btn-ghost" id="practiceSheetBtn" style="display:none;">🖨️ Print practice sheet</button>
+                <button class="btn btn-ghost" id="printBtn">💾 Save / print report</button>
+                <button class="btn btn-ghost" id="reportReviewBtn">↻ Review missed</button>
+                <button class="btn btn-primary" id="reportRestartBtn">New session</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
