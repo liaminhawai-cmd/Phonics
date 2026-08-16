@@ -1,18 +1,49 @@
 # Sound recordings — drop them in, no renaming needed
 
-One folder per sound of Australian English, named `symbol (example word)` so
-you can find the right one without perfect IPA — `θ (thin)` is the *th* in
-**thin**, `ð (this)` is the *th* in **this**, `ʃ (she)`, `ʒ (vision)`, and so
-on. Watch the two lookalikes: `b (bed)` is the consonant, `e (bed)` is the
-vowel; `s (see)` is the consonant, `iː (see)` is the vowel.
+One folder per sound of Australian English, named `symbol (example word)` with
+**asterisks around the letters that actually make that sound**, so you can find
+the right folder without reading IPA:
 
-**To add a recording: record the sound on its own, then drag the file into
-its folder. That's it.** Any filename, any common format (mp3, m4a, wav, ogg,
+- `θ (*th*in)` — the *th* in **thin**, no voice
+- `ð (*th*is)` — the *th* in **this**, voiced
+- `ŋ (si*ng*)` — the *ng* at the end
+- `ʒ (vi*si*on)` — yes, the *si* is the sound
+- `ɔ (h*o*t)`, `ʉː (f*oo*d)`, `ɜː (h*er*)`
+
+The asterisks also settle the lookalikes at a glance — the same word appears
+twice, marked differently each time:
+
+| Consonant | Vowel |
+|---|---|
+| `b (*b*ed)` | `e (b*e*d)` |
+| `s (*s*ee)` | `iː (s*ee*)` |
+| `g (*g*o)` | `əʉ (g*o*)` |
+
+**To add a recording: say the sound on its own, then drag the file into its
+folder. That's it.** Any filename, any common format (mp3, m4a, wav, ogg,
 webm). When the site deploys, a manifest of every file in here is generated
-automatically and the Pronunciation Hub on the ELC site plays your recording
-instead of its synthesised stand-in. If a folder has several audio files, the
-first alphabetically wins — no harm in extras.
+automatically and the Pronunciation Hub plays your recording instead of its
+synthesised stand-in. If a folder has several audio files, the first
+alphabetically wins — no harm in extras.
 
-Later: word recordings for listening tasks (minimal pairs like ship/sheep)
-can go in a `words/` subfolder inside each sound's folder — same
-drop-and-forget rule.
+Record Australian English. The hub's accent toggle (Kiwi / UK RP / US) only
+moves the synthesised stand-in; a recording is always treated as the Australian
+reference.
+
+Word recordings for listening tasks (minimal pairs like ship/sheep) go in a
+`words/` subfolder inside each sound's folder — same drop-and-forget rule.
+
+## Two things to know
+
+**Windows cannot handle `*` in folder names.** Git for Windows refuses to check
+out a path containing an asterisk, so `git clone` of this repo fails there with
+`error: invalid path`. These names work on macOS and Linux. If you need to work
+on Windows, say so and the folders can be renamed to a safe marker (for example
+`th_in` or `[th]in`) in one pass — the hub reads only the part before the
+bracket, so playback is unaffected either way.
+
+**The 40 folders match the hub exactly** — every sound the Pronunciation Hub
+shows has a folder, and there is no folder the hub cannot play. Three sounds of
+Australian English are missing from *both*, so there is nothing to record for
+them yet: `/j/` (the *y* in **yes**), `/ɪə/` (**near**) and `/eː/` (**square**).
+Adding them means adding them to the hub as well, which is a separate change.
