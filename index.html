@@ -190,6 +190,8 @@
         #typeInput:focus { border-color: var(--accent); }
         #typeInput.flash-correct { border-color: var(--correct); background: #eaf5ed; }
         #typeInput.flash-wrong { border-color: var(--wrong); background: #f5eaea; }
+        #typeInput.flash-almost { border-color: #c8992e; background: #f8f1de; }
+        .sound-alike-hint { max-width: 360px; margin: 10px auto 0; padding: 10px 14px; border: 1px solid #c8992e; border-radius: 8px; background: #f8f1de; color: #6b5316; font-size: 14px; line-height: 1.4; }
 
         #writeCanvas { border: 1px dashed var(--line); border-radius: 8px; background: var(--paper); touch-action: none; cursor: crosshair; width: 100%; max-width: 420px; height: 200px; }
         .canvas-tools { margin-top: 6px; }
@@ -356,6 +358,7 @@
                     </div>
                     <div class="input-wrap active" id="typeWrap">
                         <input type="text" id="typeInput" placeholder="type here" autocomplete="off" autocapitalize="off" spellcheck="false">
+                        <div class="sound-alike-hint" id="soundAlikeHint" style="display:none;"></div>
                         <div class="type-check-row"><button class="btn btn-primary" id="typeCheckBtn">Check</button></div>
                     </div>
                     <div class="input-wrap" id="writeWrap">

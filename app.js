@@ -577,6 +577,7 @@ function resetCardUI() {
   } else {
     $("typeInput").value = "";
     $("typeInput").className = "";
+    clearSoundAlikeHint();
     clearCanvas();
     if (inputMode === "type") {
       $("writeCheckRow").style.display = "none";
@@ -601,6 +602,30 @@ function sayCheck() {
   $("sayGradeRow").style.display = "flex";
 }
 
+// Different graphemes can spell the same sound — er / ir / ur / ear / wor
+// all say "er", and ai / ay / eigh all say "ā" — so the audio alone cannot
+// tell a student which spelling this card wants. A typed sound-alike is not
+// an error: hint at the card's example word and let them try again.
+function soundAlikeOf(typed) {
+  const idx = graphemeIndex[typed];
+  if (idx === undefined) return false;
+  const typedSounds = GRAPHEMES[idx].sounds.map((s) => s.s);
+  return current.sounds.some((s) => typedSounds.includes(s.s));
+}
+
+function showSoundAlikeHint(typed) {
+  const el = $("soundAlikeHint");
+  if (!el) return;
+  el.innerHTML = 'Right sound! But <b>' + typed + '</b> is a different way to spell it. ' +
+    'This card is the spelling you hear in &ldquo;<b>' + current.sounds[0].ex + '</b>&rdquo; &mdash; try again.';
+  el.style.display = "block";
+}
+
+function clearSoundAlikeHint() {
+  const el = $("soundAlikeHint");
+  if (el) { el.textContent = ""; el.style.display = "none"; }
+}
+
 function checkTypedAnswer() {
   if (!current) return;
   const input = $("typeInput");
@@ -609,11 +634,17 @@ function checkTypedAnswer() {
   if (!typed) return;
 
   if (typed === correct) {
-    input.classList.add("flash-correct");
+    input.className = "flash-correct";
+    clearSoundAlikeHint();
     revealAnswer();
     setTimeout(() => gradeCard(true), 1000);
+  } else if (typed !== correct && soundAlikeOf(typed)) {
+    input.className = "flash-almost";
+    showSoundAlikeHint(typed);
+    input.select();
   } else {
-    input.classList.add("flash-wrong");
+    input.className = "flash-wrong";
+    clearSoundAlikeHint();
     revealAnswer();
     setTimeout(() => gradeCard(false), 1200);
   }
