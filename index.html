@@ -207,6 +207,27 @@
         .answer-box .sounds-list .sym { font-weight: 700; color: var(--ink); }
         .answer-box .sounds-list .ex { color: var(--muted); font-style: italic; }
 
+        /* articulation diagrams (same face as the Pronunciation Hub) */
+        .sound-item { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 6px 0; }
+        .sound-item + .sound-item { border-top: 1px dashed var(--line); }
+        .sound-item .sound-text { min-width: 130px; }
+        .mouth-wrap { display: flex; align-items: center; gap: 10px; }
+        .mouth-btn { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 4px; cursor: pointer; line-height: 0; }
+        .mouth-btn:hover { border-color: var(--accent); }
+        .mouth-mini { width: 64px; height: 86px; }
+        .mouth-cap { font-size: 12px; color: var(--muted); max-width: 220px; line-height: 1.45; }
+        .mouth-hub-link { color: var(--accent); text-decoration: none; }
+        .mouth-hub-link:hover { text-decoration: underline; }
+        .mouthface .skin { fill: #f7d7c1; stroke: #8c6a58; stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+        .mouthface .feature { fill: none; stroke: #704b3d; stroke-width: 1.6; vector-effect: non-scaling-stroke; stroke-linecap: round; }
+        .mouthface .feature.bold { stroke-width: 2; }
+        .mouthface .tooth { fill: #fff; stroke: #704b3d; stroke-width: 1; vector-effect: non-scaling-stroke; }
+        .mouthface .tongue { fill: #de7f7d; stroke: #8f4745; stroke-width: 1.4; vector-effect: non-scaling-stroke; fill-opacity: .75; }
+        .mouthface .mouthgap { fill: #6d403a; stroke: #5a3229; stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+        .place-dot { fill: #b03a2e; stroke: #fff; stroke-width: 1.5; animation: pulseDot 1.2s infinite; }
+        @keyframes pulseDot { 0%, 100% { r: 4px; } 50% { r: 6.5px; } }
+        @media (prefers-reduced-motion: reduce) { .place-dot { animation: none; } }
+
         .action-row { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         .action-row .btn { flex: 1; min-width: 130px; max-width: 200px; }
         .type-check-row { margin-top: 12px; }
@@ -400,6 +421,7 @@
         </section>
     </div>
 
+    <script src="mouth.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

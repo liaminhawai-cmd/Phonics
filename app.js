@@ -658,8 +658,11 @@ function showWriteGrade() {
 
 function revealAnswer() {
   $("ansGrapheme").textContent = current.grapheme;
+  if (window.Mouth) Mouth.reset();
   $("ansSounds").innerHTML = current.sounds.map((s) =>
-    '<div class="sound-item"><span class="sym">' + s.s + '</span> <span class="ex">e.g. ' + s.ex + '</span></div>'
+    '<div class="sound-item"><span class="sound-text"><span class="sym">' + s.s + '</span> <span class="ex">e.g. ' + s.ex + '</span></span>' +
+    (window.Mouth ? Mouth.html(s.s, s.ex) : "") +
+    '</div>'
   ).join("");
   $("answerBox").classList.add("show");
 }
