@@ -212,6 +212,9 @@ const screens = {};
 
 function showScreen(name) {
   Object.entries(screens).forEach(([k, el]) => el.classList.toggle("active", k === name));
+  // the wall's diphthongs loop forever, so stop them when it goes out of view
+  document.body.classList.toggle("wall-wide", name === "wall");
+  if (window.SoundWall) { if (name === "wall") SoundWall.open(); else SoundWall.close(); }
 }
 
 function chooseMode(mode) { practiceMode = mode; showScreen("view"); }
@@ -664,6 +667,7 @@ function revealAnswer() {
     (window.Mouth ? Mouth.html(s.s, s.ex) : "") +
     '</div>'
   ).join("");
+  if (window.Mouth) Mouth.activate($("ansSounds"));
   $("answerBox").classList.add("show");
 }
 
@@ -890,11 +894,14 @@ document.addEventListener("DOMContentLoaded", () => {
   screens.select = $("selectScreen");
   screens.card   = $("cardScreen");
   screens.report = $("reportScreen");
+  screens.wall   = $("wallScreen");
 
   initCanvas();
 
   $("modeSayBtn").addEventListener("click", () => chooseMode("say"));
   $("modeWriteBtn").addEventListener("click", () => chooseMode("write"));
+  $("modeWallBtn").addEventListener("click", () => showScreen("wall"));
+  $("wallBackBtn").addEventListener("click", () => showScreen("mode"));
 
   $("viewYearBtn").addEventListener("click", () => chooseView("year"));
   $("viewBookmarkBtn").addEventListener("click", () => chooseView("bookmark"));
