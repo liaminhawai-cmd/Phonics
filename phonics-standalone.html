@@ -1,3 +1,5 @@
+<!-- GENERATED FILE — do not edit by hand.
+     Built from index.html by build-standalone.py; edit those instead. -->
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -16,6 +18,9 @@
             --correct: #2f6a3e;
             --wrong: #a83232;
         }
+        .hub-link { display: inline-block; font-size: 13px; font-weight: 700; color: var(--accent);
+            text-decoration: none; margin-bottom: 4px; }
+        .hub-link:hover { text-decoration: underline; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -48,6 +53,7 @@
         .screen { display: none; }
         .screen.active { display: block; }
 
+        /* ---- Big choice cards (screens 1 & 2) ---- */
         .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0 8px; }
         .choice-card {
             border: 1px solid var(--line); border-radius: 12px; background: var(--paper);
@@ -57,11 +63,14 @@
         .choice-card .emoji { font-size: 38px; display: block; margin-bottom: 12px; }
         .choice-card .ttl { font-family: Georgia, serif; font-size: 20px; font-weight: 700; }
         .choice-card .desc { color: var(--muted); font-size: 13px; margin-top: 8px; line-height: 1.5; }
+        a.choice-card { color: inherit; text-decoration: none; }
+        .choice-card.wide { grid-column: 1 / -1; padding: 24px 20px; }
         @media (max-width: 480px) { .choice-grid { grid-template-columns: 1fr; } }
 
         .back-link { background: none; border: none; color: var(--muted); font-weight: 600; font-size: 13px; cursor: pointer; padding: 4px 0; margin-bottom: 4px; }
         .back-link:hover { color: var(--ink); }
 
+        /* ---- Preset bar (year / bookmark) ---- */
         .level-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; justify-content: center; }
         .level-btn {
             border: 1px solid var(--line); background: var(--paper); color: var(--muted);
@@ -75,6 +84,7 @@
         .level-btn.util { background: var(--bg); color: var(--muted); border-color: var(--line-soft); }
         .level-btn.util:hover { color: var(--ink); border-color: var(--ink); }
 
+        /* ---- Sound category filter bar ---- */
         .cat-bar { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; justify-content: center; }
         .cat-btn {
             border: 1px solid var(--line-soft); background: var(--bg); color: var(--muted);
@@ -83,13 +93,16 @@
         }
         .cat-btn:hover { border-color: var(--accent); color: var(--accent); }
         .cat-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+        .cat-divider { width: 100%; font-size: 10px; color: var(--muted); text-align: center; margin: 2px 0; text-transform: uppercase; letter-spacing: 1px; }
 
+        /* ---- Selection toolbar ---- */
         .select-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .count-pill { background: var(--bg); color: var(--accent); border: 1px solid var(--line); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; }
         .select-toolbar .links button { background: none; border: none; color: var(--accent); font-weight: 600; cursor: pointer; font-size: 13px; padding: 4px 8px; }
         .select-toolbar .links button:hover { text-decoration: underline; }
         .select-title { text-align: center; font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 14px; }
 
+        /* ---- Grid (year view) ---- */
         .group-label {
             font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase;
             letter-spacing: 0.8px; margin: 18px 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--line-soft);
@@ -97,6 +110,7 @@
         }
         .swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
 
+        /* clickable group heading = category toggle (year view) */
         .group-label.group-toggle { cursor: pointer; justify-content: space-between; transition: color 0.15s ease, border-color 0.15s ease; }
         .group-label.group-toggle:hover { color: var(--accent); border-bottom-color: var(--accent); }
         .group-label.group-toggle.active { color: var(--accent); border-bottom-color: var(--accent); }
@@ -114,6 +128,7 @@
         .g-chip .dots { font-size: 8px; opacity: 0.5; margin-top: 2px; display: block; letter-spacing: 1px; }
         .g-chip.selected .dots { opacity: 0.8; }
 
+        /* ---- Bookmark tracker (bookmark view) ---- */
         .tracker { display: flex; flex-direction: column; gap: 4px; }
         .tracker-row {
             display: flex; align-items: center; gap: 0; border: 1px solid var(--line-soft);
@@ -139,6 +154,7 @@
         .tracker-cell .tc-dots { font-size: 7px; opacity: 0.4; display: block; margin-top: 1px; letter-spacing: 1px; }
         .tracker-cell.selected .tc-dots { opacity: 0.7; }
 
+        /* ---- Buttons ---- */
         button.btn { padding: 12px 20px; border: 1px solid var(--line); border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; background: var(--paper); color: var(--ink); }
         .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
         .btn-primary:hover:not(:disabled) { background: #8c2828; }
@@ -152,6 +168,7 @@
         .start-bar { margin-top: 24px; text-align: center; }
         .start-bar .btn { width: 100%; max-width: 320px; }
 
+        /* ---- Drill ---- */
         .progress-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); margin-bottom: 8px; }
         .drill-mode-label { font-weight: 700; color: var(--accent); }
         .progress-track { height: 6px; background: var(--line-soft); border-radius: 3px; overflow: hidden; margin-bottom: 20px; }
@@ -175,6 +192,8 @@
         #typeInput:focus { border-color: var(--accent); }
         #typeInput.flash-correct { border-color: var(--correct); background: #eaf5ed; }
         #typeInput.flash-wrong { border-color: var(--wrong); background: #f5eaea; }
+        #typeInput.flash-almost { border-color: #c8992e; background: #f8f1de; }
+        .sound-alike-hint { max-width: 360px; margin: 10px auto 0; padding: 10px 14px; border: 1px solid #c8992e; border-radius: 8px; background: #f8f1de; color: #6b5316; font-size: 14px; line-height: 1.4; }
 
         #writeCanvas { border: 1px dashed var(--line); border-radius: 8px; background: var(--paper); touch-action: none; cursor: crosshair; width: 100%; max-width: 420px; height: 200px; }
         .canvas-tools { margin-top: 6px; }
@@ -190,10 +209,90 @@
         .answer-box .sounds-list .sym { font-weight: 700; color: var(--ink); }
         .answer-box .sounds-list .ex { color: var(--muted); font-style: italic; }
 
+        /* ---- vocal-tract cutaways (anatomy.js — same diagram as the hub) ---- */
+        .anatomy { --an-tissue:#e3ecf6; --an-tissue-edge:#3c5f78; --an-cavity:#ffffff;
+            --an-cavity-edge:#557489; --an-tongue:#e78d88; --an-tongue-edge:#9b4547;
+            --an-bone:#fffaf0; --an-air:#2f6f9e; --an-contact:#a83232;
+            display: block; width: 100%; height: auto; }
+        .an-tissue { fill: var(--an-tissue); stroke: var(--an-tissue-edge); stroke-width: 1.15; vector-effect: non-scaling-stroke; }
+        .an-cavity { fill: var(--an-cavity); stroke: var(--an-cavity-edge); stroke-width: 1.05; vector-effect: non-scaling-stroke; }
+        .an-outline, .an-palate, .an-pharynx, .an-epiglottis, .an-larynx, .an-jawbone {
+            fill: none; stroke: var(--an-tissue-edge); stroke-width: 1.3; stroke-linecap: round;
+            stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+        .an-palate { stroke-width: 1.8; }
+        .an-tooth { fill: var(--an-bone); stroke: var(--an-tissue-edge); stroke-width: .8; vector-effect: non-scaling-stroke; }
+        .an-tongue { fill: var(--an-tongue); stroke: var(--an-tongue-edge); stroke-width: 1.25; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+        .an-lip { fill: var(--an-tongue); stroke: var(--an-tongue-edge); stroke-width: 1.1; vector-effect: non-scaling-stroke; }
+        .an-velum { fill: none; stroke: var(--an-tongue-edge); stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+        .an-uvula { fill: var(--an-tongue); stroke: var(--an-tongue-edge); stroke-width: .8; vector-effect: non-scaling-stroke; }
+        .an-air { fill: none; stroke: var(--an-air); stroke-width: 1.5; stroke-linecap: round;
+            stroke-dasharray: 3 3; opacity: 0; vector-effect: non-scaling-stroke; }
+        .an-vocal-folds { fill: none; stroke: var(--an-contact); stroke-width: 1.5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+        .an-place { fill: var(--an-contact); stroke: #fff; stroke-width: 1.1; vector-effect: non-scaling-stroke; }
+        .an-place-ring { fill: none; stroke: var(--an-contact); stroke-width: 1; opacity: .4;
+            vector-effect: non-scaling-stroke; transform-origin: center; transform-box: fill-box;
+            animation: anPulse 1.6s ease-in-out infinite; }
+        /* airflow and voicing only run while a sound is actually playing,
+           so a wall of 40 diagrams stays calm to look at */
+        .anatomy.speaking .an-oral-air { opacity: .75; animation: anFlow .55s linear infinite; }
+        .anatomy[data-manner="nasal"].speaking .an-oral-air { opacity: .12; }
+        .anatomy[data-manner="nasal"].speaking .an-nasal-air { opacity: .9; animation: anFlow .65s linear infinite; }
+        .anatomy[data-voiced="1"].speaking .an-vocal-folds { animation: anBuzz .12s ease-in-out infinite alternate;
+            transform-origin: 64px 91px; transform-box: fill-box; }
+        @keyframes anFlow { to { stroke-dashoffset: -6; } }
+        @keyframes anBuzz { from { transform: scaleX(.72); } to { transform: scaleX(1.18); } }
+        @keyframes anPulse { 0%, 100% { opacity: .35; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.35); } }
+        @media (prefers-reduced-motion: reduce) { .an-air, .an-vocal-folds, .an-place-ring { animation: none !important; } }
+
+        /* the diagram beside each revealed answer */
+        .sound-item { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 6px 0; }
+        .sound-item + .sound-item { border-top: 1px dashed var(--line); }
+        .sound-item .sound-text { min-width: 130px; }
+        .mouth-wrap { display: flex; align-items: center; gap: 12px; }
+        .mouth-fig { display: block; border: 1px solid var(--line); border-radius: 10px;
+            background: var(--paper); padding: 4px; cursor: pointer; line-height: 0; }
+        .mouth-fig:hover { border-color: var(--accent); }
+        .mouth-fig.mouth-mini { width: 92px; }
+        .mouth-cap { font-size: 12px; color: var(--muted); max-width: 230px; line-height: 1.45; }
+        .mouth-hub-link { color: var(--accent); text-decoration: none; }
+        .mouth-hub-link:hover { text-decoration: underline; }
+
+        /* ---- the sound wall ---- */
+        .sw-section { margin-bottom: 30px; }
+        .sw-title { font-family: Georgia, serif; font-size: 19px; margin-bottom: 2px; }
+        .sw-count { font-size: 12px; font-family: 'Segoe UI', sans-serif; color: var(--muted);
+            border: 1px solid var(--line); border-radius: 20px; padding: 1px 8px; vertical-align: 3px; }
+        .sw-blurb { color: var(--muted); font-size: 13px; line-height: 1.5; margin-bottom: 14px; }
+        .sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 12px; }
+        .sw-tile { border: 1px solid var(--line); border-radius: 12px; background: var(--paper);
+            padding: 8px 8px 10px; text-align: center; cursor: pointer;
+            transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; }
+        .sw-tile:hover, .sw-tile:focus-visible { border-color: var(--accent); transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,.08); outline: none; }
+        .sw-tile.playing { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(168,50,50,.18); }
+        .sw-tile .mouth-fig { border: 0; padding: 0; background: none; }
+        .sw-ipa { font-family: Georgia, serif; font-size: 17px; font-weight: 700; margin-top: 4px; }
+        .sw-eg { font-size: 12px; color: var(--muted); font-style: italic; }
+        .sw-codes { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; }
+        .sw-code { font-size: 11px; font-weight: 700; background: var(--bg); border: 1px solid var(--line-soft);
+            border-radius: 5px; padding: 1px 5px; color: var(--ink); }
+        .sw-note { font-size: 11px; color: var(--muted); line-height: 1.4; margin-top: 5px; }
+        .sw-voice { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px;
+            margin-top: 5px; }
+        .sw-voice.on { color: var(--correct); }
+        .sw-voice.on::before { content: "\25CF "; }
+        .sw-voice.off { color: var(--muted); }
+        .sw-voice.off::before { content: "\25CB "; }
+        /* the wall wants more width than a flashcard does */
+        body.wall-wide .container { max-width: 1120px; }
+        .sw-legend { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 20px;
+            padding: 12px 14px; background: var(--bg); border-radius: 10px; border-left: 3px solid var(--accent); }
+
         .action-row { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         .action-row .btn { flex: 1; min-width: 130px; max-width: 200px; }
         .type-check-row { margin-top: 12px; }
 
+        /* ---- Mastered shelf ---- */
         .shelf-section { margin-top: 24px; }
         .shelf-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
         .shelf { display: flex; flex-wrap: wrap; gap: 6px; min-height: 36px; padding: 10px; background: var(--bg); border: 1px solid var(--line-soft); border-radius: 8px; }
@@ -201,6 +300,7 @@
         @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .shelf-empty { font-size: 12px; color: var(--muted); font-style: italic; padding: 2px 0; }
 
+        /* ---- Report ---- */
         .report-title { font-size: 26px; text-align: center; font-family: Georgia, serif; margin-bottom: 14px; }
         .report-headline { text-align: center; font-size: 15px; color: var(--ink); margin-bottom: 16px; }
         .report-rows { display: flex; flex-direction: column; gap: 8px; }
@@ -235,6 +335,7 @@
             .tracker-cell { font-size: 13px; padding: 8px 1px; }
         }
 
+        /* ---- Print: report only ---- */
         @media print {
             body { background: white; padding: 0; }
             .container { box-shadow: none; border: none; max-width: 100%; }
@@ -247,9 +348,11 @@
 </head>
 <body>
     <div class="container">
+        <a class="hub-link" href="https://liaminhawai-cmd.github.io/ELC-Pages/index.html">⌂ ELC Hub</a>
         <h1>Aussie Phonics</h1>
         <p class="subtitle">Hear it or see it, say it or write it, then check.</p>
 
+        <!-- ===== SCREEN 1: practice mode ===== -->
         <section class="screen active" id="modeScreen">
             <div class="choice-grid">
                 <div class="choice-card" id="modeSayBtn">
@@ -262,9 +365,27 @@
                     <div class="ttl">Listen &amp; Write</div>
                     <div class="desc">Hear the sound, then type or handwrite the code.</div>
                 </div>
+                <div class="choice-card wide" id="modeWallBtn">
+                    <span class="emoji">🗣️</span>
+                    <div class="ttl">Sound Wall</div>
+                    <div class="desc">Every sound of Australian English side by side — see inside the mouth for each one, and which codes spell it.</div>
+                </div>
             </div>
         </section>
 
+        <!-- ===== SCREEN 1b: sound wall ===== -->
+        <section class="screen" id="wallScreen">
+            <button class="back-link" id="wallBackBtn">&larr; Back</button>
+            <div class="sw-legend">
+                <b>Every sound, and what your mouth does to make it.</b> Each picture is a side view — the
+                head faces left, so the lips are on the left and the throat is on the right. The red dot
+                marks where the sound is made. <b>Tap a sound</b> to hear it and replay the movement.
+                The little boxes underneath are the codes that spell it.
+            </div>
+            <div id="wallBody"></div>
+        </section>
+
+        <!-- ===== SCREEN 2: view ===== -->
         <section class="screen" id="viewScreen">
             <button class="back-link" id="viewBackBtn">&larr; Back</button>
             <div class="choice-grid">
@@ -281,6 +402,7 @@
             </div>
         </section>
 
+        <!-- ===== SCREEN 3: selection ===== -->
         <section class="screen" id="selectScreen">
             <button class="back-link" id="selectBackBtn">&larr; Back</button>
             <div class="select-title" id="selectTitle"></div>
@@ -302,6 +424,7 @@
             </div>
         </section>
 
+        <!-- ===== SCREEN 4: drill ===== -->
         <section class="screen" id="cardScreen">
             <div class="progress-row">
                 <span><span class="drill-mode-label" id="drillModeLabel"></span> &middot; <span id="remainingLabel">0 left</span></span>
@@ -310,6 +433,7 @@
             <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
 
             <div class="card">
+                <!-- Look & Say panel -->
                 <div id="sayPanel" style="display:none;">
                     <div class="say-hint">Read this code and say its sound out loud.</div>
                     <div class="say-grapheme" id="sayGrapheme"></div>
@@ -322,6 +446,7 @@
                     </div>
                 </div>
 
+                <!-- Listen & Write panel -->
                 <div id="writePanel" style="display:none;">
                     <button class="listen-btn" id="listenBtn">🔊 Play sound</button>
                     <div class="replay-hint">Listen, then type or write the code.</div>
@@ -331,6 +456,7 @@
                     </div>
                     <div class="input-wrap active" id="typeWrap">
                         <input type="text" id="typeInput" placeholder="type here" autocomplete="off" autocapitalize="off" spellcheck="false">
+                        <div class="sound-alike-hint" id="soundAlikeHint" style="display:none;"></div>
                         <div class="type-check-row"><button class="btn btn-primary" id="typeCheckBtn">Check</button></div>
                     </div>
                     <div class="input-wrap" id="writeWrap">
@@ -358,6 +484,7 @@
             </div>
         </section>
 
+        <!-- ===== SCREEN 5: report ===== -->
         <section class="screen" id="reportScreen">
             <div class="report-title">Well done!</div>
             <div id="reportSummary"></div>
@@ -371,7 +498,468 @@
         </section>
     </div>
 
-    <script>
+    <!-- anatomy.js -->
+<script>
+// ============================================================
+// anatomy.js — the animated vocal-tract cutaway.
+//
+// This is the SAME diagram the Pronunciation Hub shows live
+// (ELC-Pages/pronunciation-enhancer.part*.txt — the "anatomy"
+// enhancement). Ported here so the phonics trainer and the hub
+// show students one consistent picture of the mouth. If the
+// artwork changes in one place, change it in the other.
+//
+// Coordinate system: viewBox 0 0 88 110, head facing LEFT.
+// Tongue position uses the vowel-chart axes the hub uses:
+//   x  0 = front (towards the teeth) -> 100 = back (pharynx)
+//   y  0 = close (tongue near the palate) -> 100 = open (jaw down)
+// ============================================================
+
+window.Anatomy = (() => {
+
+  /* where each consonant is made, in viewBox coordinates */
+  const SPOTS = {
+    "Bilabial":[7.5,41.5], "Labio-dental":[12.5,42.2], "Dental":[18.2,40.2],
+    "Alveolar":[25.6,34.3], "Post-alveolar":[34.5,31.5], "Palatal":[42,29],
+    "Velar":[56.5,34.5], "Glottal":[64,91]
+  };
+
+  const esc = (v) => String(v).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+
+  /* the cutaway itself — head, cavities, palate, teeth, lips, jaw,
+     tongue, velum, pharynx, larynx, vocal folds and the airflow paths */
+  function parts(place) {
+    const spot = place && SPOTS[place];
+    const marker = spot ? `
+      <circle class="an-place-ring" cx="${spot[0]}" cy="${spot[1]}" r="4.8"/>
+      <circle class="an-place" cx="${spot[0]}" cy="${spot[1]}" r="2.2"/>` : "";
+    return `
+      <path class="an-tissue" d="M38,2 C22,2 11,9 8,22 C7,26 8,29 3,32 C1,34 2,37 7,38
+        C5,40 5,43 8,45 C6,49 7,54 11,57 C8,63 11,71 18,77 C24,83 29,90 30,108
+        L79,108 C78,96 77,86 79,73 C82,57 87,42 85,26 C83,10 69,2 54,2 Z"/>
+      <path class="an-cavity" d="M7,29 C16,19 29,14 44,15 C53,15 60,18 65,23 C59,24 55,27 52,31
+        C42,29 31,30 23,33 C17,35 12,35 7,34 Z"/>
+      <path class="an-cavity" d="M10,39 C18,35 26,34 36,34 C47,34 57,38 61,46 C64,52 65,61 64,68
+        C60,66 56,63 51,60 C40,56 27,55 16,58 C12,54 10,48 10,39 Z"/>
+      <path class="an-cavity" d="M61,43 C68,44 71,51 70,61 L69,78 C69,84 72,90 72,108 L58,108
+        C58,96 60,88 59,80 C58,71 57,61 58,53 C58,49 59,46 61,43 Z"/>
+      <path class="an-palate" d="M21,35 Q34,25 49,26 Q55,27 59,31"/>
+      <path class="an-outline" d="M8,33 Q14,36 21,35"/>
+      <rect class="an-tooth" x="17" y="34" width="4.2" height="8" rx="1"/>
+      <rect class="an-tooth" x="17.7" y="48" width="4.1" height="7" rx="1" transform="rotate(5 19.7 51.5)"/>
+      <path class="an-lip an-upper-lip" d="M8,38 Q4.8,39.6 7.8,42 Q12,42.4 16,41"/>
+      <path class="an-lip an-lower-lip" d="M8,45 Q4.8,43.5 8,42.2 Q12,42 16,43.4"/>
+      <g class="an-jaw">
+        <path class="an-jawbone" d="M20,52 Q26,69 43,74 Q55,76 66,63"/>
+      </g>
+      <path class="an-tongue" d="M20,49 C25,43 34,41 43,42 C52,43 58,49 59,59
+        C60,68 57,73 50,75 C39,78 26,69 21,59 C19,55 18,52 20,49 Z"/>
+      <path class="an-velum" d="M58,31 Q65,34 63,42"/>
+      <ellipse class="an-uvula" cx="62.3" cy="43.5" rx="1.5" ry="2.6"/>
+      <path class="an-pharynx" d="M68,43 Q71,56 68,72 Q66,80 67,87"/>
+      <path class="an-epiglottis" d="M58,78 Q63,73 66,79 Q62,82 60,87"/>
+      <path class="an-larynx" d="M58,88 Q64,85 71,89 M58,94 L72,94 M58,100 L72,100"/>
+      <g class="an-vocal-folds"><path d="M61,90.5 L65,92.3"/><path d="M68,90.5 L65,92.3"/></g>
+      <path class="an-air an-oral-air" d="M65,101 C65,88 64,75 64,63 C61,54 52,47 43,44 C32,41 20,42 8,42"/>
+      <path class="an-air an-nasal-air" d="M65,101 C65,84 68,69 67,52 C66,38 58,25 45,22 C31,19 17,24 7,32"/>
+      ${marker}`;
+  }
+
+  // One cutaway. `place` draws the contact marker (consonants only).
+  function svg(opts) {
+    const o = opts || {};
+    const place = o.place || null;
+    const label = o.label || (place ? place + " place of articulation" : "vocal tract");
+    return `<svg class="anatomy ${o.cls || ""}" viewBox="0 0 88 110" role="img"
+      aria-label="${esc("Side view of the mouth: " + label)}"
+      ${place ? `data-place="${esc(place)}"` : ""}
+      ${o.manner ? `data-manner="${esc(o.manner)}"` : ""}
+      data-voiced="${o.voiced ? 1 : 0}">${parts(place)}</svg>`;
+  }
+
+  /* ---- consonants: hold a fixed tongue shape rather than animate ---- */
+  function consonantTongue(place, manner) {
+    const near = manner === "fricative" || manner === "approximant";
+    const gap = near ? 2.1 : .2;
+    switch (place) {
+      case "Dental":
+        return `M15.5,43 C20,39 25,40 33,43 C46,44 57,49 59,60 C60,69 56,74 49,75 C37,77 25,69 20,59 C18,54 16,48 15.5,43 Z`;
+      case "Alveolar":
+        return `M20,49 C21,${(35 + gap).toFixed(1)} 24,${(33.6 + gap).toFixed(1)} 27,${(34 + gap).toFixed(1)} C35,36 49,39 56,49 C61,58 61,69 54,74 C45,80 31,72 24,63 C20,58 19,53 20,49 Z`;
+      case "Post-alveolar":
+        return `M20,49 C23,41 28,${(33 + gap).toFixed(1)} 35,${(31.7 + gap).toFixed(1)} C43,31 54,39 58,50 C62,61 59,71 51,75 C40,79 27,69 22,60 C19,55 19,52 20,49 Z`;
+      case "Palatal":
+        return `M20,49 C24,44 31,37 40,${(32.5 + gap).toFixed(1)} C47,31 55,38 58,49 C61,60 59,71 51,75 C40,79 27,69 22,60 C19,55 19,52 20,49 Z`;
+      case "Velar":
+        return `M20,49 C28,45 38,44 47,${(39 + gap).toFixed(1)} C52,${(35 + gap).toFixed(1)} 56,${(34 + gap).toFixed(1)} 59,${(37 + gap).toFixed(1)} C62,45 61,61 57,69 C53,77 41,78 31,70 C23,64 18,55 20,49 Z`;
+      default:
+        return `M20,49 C26,43 35,41 44,42 C53,43 58,49 59,59 C60,68 57,73 50,75 C39,78 26,69 21,59 C19,55 18,52 20,49 Z`;
+    }
+  }
+
+  // Freeze a cutaway into one consonant's shape: tongue, lips and velum.
+  function poseConsonant(el, place, manner) {
+    if (!el) return;
+    const q = (sel) => el.querySelector(sel);
+    const tongue = q(".an-tongue");
+    if (tongue) tongue.setAttribute("d", consonantTongue(place, manner));
+    const upper = q(".an-upper-lip"), lower = q(".an-lower-lip");
+    if (place === "Bilabial") {
+      if (upper) upper.setAttribute("d", "M8,38 Q4,40 7,42 Q11,42 15,41.5");
+      if (lower) lower.setAttribute("d", "M8,45 Q4,43.5 7,42.2 Q11,42.1 15,42.5");
+    } else if (place === "Labio-dental") {
+      if (lower) lower.setAttribute("d", "M8,46 Q7,42 12.4,39.8 Q14,40.5 16,42.5");
+    }
+    if (manner === "nasal") {
+      const velum = q(".an-velum"), uvula = q(".an-uvula");
+      if (velum) velum.setAttribute("d", "M58,31 Q61,38 59,46");
+      if (uvula) { uvula.setAttribute("cx", "58.8"); uvula.setAttribute("cy", "47"); }
+    }
+  }
+
+  /* ---- vowels and diphthongs: the tract moves ----
+     Jaw hinges, the tongue hump travels to the chart position, and the
+     lips round on their own axis (so /ʉː/ food is rounded but /iː/ see
+     is spread at the same jaw height). */
+  const REDUCED = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function rounding(x, y) {
+    const back = Math.max(0, Math.min(1, (x - 46) / 38));
+    const openness = Math.max(0, Math.min(1, (y - 55) / 45));
+    return back * (1 - Math.pow(openness, .85));
+  }
+
+  // Controller for one cutaway. `pose` eases to a position and stops;
+  // `set` does the same but keeps the voicing/airflow animation running.
+  function makeCtl(el) {
+    if (!el) return null;
+    const jaw = el.querySelector(".an-jaw");
+    const tongue = el.querySelector(".an-tongue");
+    const upperLip = el.querySelector(".an-upper-lip");
+    const lowerLip = el.querySelector(".an-lower-lip");
+    if (!jaw || !tongue || !upperLip || !lowerLip) return null;
+
+    const IDLE = { x: 50, y: 42 };
+    let cur = { ...IDLE }, target = { ...IDLE }, speaking = false, raf = 0;
+
+    function draw() {
+      const ease = REDUCED() ? 1 : .25;
+      cur.x += (target.x - cur.x) * ease;
+      cur.y += (target.y - cur.y) * ease;
+
+      const open = Math.max(0, Math.min(1, cur.y / 100));
+      const angle = .8 + Math.pow(open, 1.12) * 10.5;
+      jaw.setAttribute("transform", `rotate(${angle.toFixed(2)} 66 54)`);
+
+      const humpX = 32 + (cur.x / 100) * 26;
+      const humpY = 34 + (cur.y / 100) * 27;
+      const width = 6 + open * 8;
+      const tipY = 48 + open * 2.2;
+      const rootX = 59 + (cur.x - 50) * .035;
+      const rootY = 61 + open * 6;
+      tongue.setAttribute("d",
+        `M20,${tipY.toFixed(1)} ` +
+        `C${(24 + open * 2).toFixed(1)},${(44 + open * 4).toFixed(1)} ${(humpX - width).toFixed(1)},${(humpY + 1).toFixed(1)} ${humpX.toFixed(1)},${humpY.toFixed(1)} ` +
+        `C${(humpX + width).toFixed(1)},${(humpY - 1).toFixed(1)} ${rootX.toFixed(1)},${(rootY - 8).toFixed(1)} ${rootX.toFixed(1)},${rootY.toFixed(1)} ` +
+        `C${rootX.toFixed(1)},${(rootY + 10).toFixed(1)} 52,76 43,75 ` +
+        `C32,74 23,65 20,56 C19,53 19,51 20,${tipY.toFixed(1)} Z`);
+
+      const round = rounding(cur.x, cur.y);
+      const protrude = 3.2 * round;
+      const gap = 3.2 + open * 3.1 - round * 2.2;
+      upperLip.setAttribute("d", `M8,38 Q${(4.8 - protrude).toFixed(1)},${(39.5 - round).toFixed(1)} ${(7.8 - protrude).toFixed(1)},${(40.5 - gap * .16).toFixed(1)} Q12,41.4 16,41`);
+      lowerLip.setAttribute("d", `M8,${(42 + gap).toFixed(1)} Q${(4.8 - protrude).toFixed(1)},${(43.5 + gap * .25).toFixed(1)} ${(8 - protrude).toFixed(1)},${(42.3 + gap * .35).toFixed(1)} Q12,42.2 16,43.4`);
+
+      el.classList.toggle("speaking", speaking);
+      const moving = Math.abs(target.x - cur.x) + Math.abs(target.y - cur.y) > .25;
+      if (speaking || moving) raf = requestAnimationFrame(draw); else raf = 0;
+    }
+    const kick = () => { if (!raf) raf = requestAnimationFrame(draw); };
+    draw();
+
+    return {
+      el,
+      pose(x, y) { target = { x, y }; kick(); },
+      set(x, y) { target = { x, y }; speaking = true; kick(); },
+      idle() { target = { ...IDLE }; speaking = false; kick(); },
+      quiet() { speaking = false; kick(); },
+      stop() { if (raf) cancelAnimationFrame(raf); raf = 0; speaking = false; el.classList.remove("speaking"); }
+    };
+  }
+
+  // Glide from one vowel position to another, once. Returns a cancel fn.
+  function glide(ctl, from, to, ms, done) {
+    if (!ctl) return () => {};
+    if (REDUCED()) { ctl.pose(to[0], to[1]); if (done) done(); return () => {}; }
+    const t0 = performance.now();
+    const ease = (k) => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+    let raf = 0, cancelled = false;
+    ctl.pose(from[0], from[1]);
+    const step = (now) => {
+      if (cancelled) return;
+      const k = Math.min(1, (now - t0) / ms), e = ease(k);
+      ctl.pose(from[0] + (to[0] - from[0]) * e, from[1] + (to[1] - from[1]) * e);
+      if (k < 1) raf = requestAnimationFrame(step);
+      else if (done) done();
+    };
+    raf = requestAnimationFrame(step);
+    return () => { cancelled = true; if (raf) cancelAnimationFrame(raf); };
+  }
+
+  // A diphthong tile that glides start -> end, pauses, and repeats.
+  function loopGlide(ctl, from, to, opts) {
+    const o = opts || {};
+    const ms = o.ms || 900, hold = o.hold || 700;
+    let stop = null, timer = 0, dead = false;
+    if (REDUCED()) { ctl.pose(from[0], from[1]); return { stop() {} }; }
+    const run = () => {
+      if (dead) return;
+      stop = glide(ctl, from, to, ms, () => {
+        timer = setTimeout(() => { if (!dead) { ctl.pose(from[0], from[1]); timer = setTimeout(run, 420); } }, hold);
+      });
+    };
+    run();
+    return { stop() { dead = true; if (stop) stop(); clearTimeout(timer); } };
+  }
+
+  return { svg, parts, makeCtl, poseConsonant, consonantTongue, glide, loopGlide, SPOTS, reduced: REDUCED };
+})();
+
+</script>
+    <!-- mouth.js -->
+<script>
+// ============================================================
+// mouth.js — maps the trainer's sound labels onto real phonemes
+// and draws each one as a vocal-tract cutaway (see anatomy.js).
+//
+// The trainer's labels are teacher notation (ă, ā, er, ch...),
+// not IPA, and one label can stand for two different phonemes
+// ("oo" is /ʉː/ in do but /ʊ/ in put; "th" is /θ/ in thin but
+// /ð/ in this) — so lookups key on label + example word.
+//
+// Positions are the Pronunciation Hub's Australian English
+// values, so a sound looks the same in both apps.
+// ============================================================
+
+window.Mouth = (() => {
+
+  const HUB_URL = "https://liaminhawai-cmd.github.io/ELC-Pages/pronunciation.html";
+
+  /* ---- the phoneme inventory ---- */
+  // consonants: [example, place, manner, voiced]
+  const CONS = {
+    "p":["pen","Bilabial","plosive",0],      "b":["bed","Bilabial","plosive",1],
+    "t":["two","Alveolar","plosive",0],      "d":["do","Alveolar","plosive",1],
+    "k":["kite","Velar","plosive",0],        "g":["go","Velar","plosive",1],
+    "f":["fish","Labio-dental","fricative",0], "v":["very","Labio-dental","fricative",1],
+    "θ":["thin","Dental","fricative",0],     "ð":["this","Dental","fricative",1],
+    "s":["see","Alveolar","fricative",0],    "z":["zoo","Alveolar","fricative",1],
+    "ʃ":["she","Post-alveolar","fricative",0], "ʒ":["vision","Post-alveolar","fricative",1],
+    "h":["hat","Glottal","fricative",0],
+    "tʃ":["chair","Post-alveolar","affricate",0], "dʒ":["jam","Post-alveolar","affricate",1],
+    "m":["me","Bilabial","nasal",1],         "n":["no","Alveolar","nasal",1],
+    "ŋ":["sing","Velar","nasal",1],
+    "w":["we","Bilabial","approximant",1],   "l":["look","Alveolar","approximant",1],
+    "r":["red","Post-alveolar","approximant",1], "j":["yes","Palatal","approximant",1]
+  };
+  // vowels: [example, x, y]   x front->back, y close->open
+  const VOW = {
+    "iː":["see",6,6],   "ɪ":["sit",20,18],  "e":["bed",16,42],  "æ":["cat",20,82],
+    "ɜː":["her",50,44], "ə":["about",52,52], "ɐ":["cut",54,72], "ʉː":["food",72,8],
+    "ʊ":["put",78,22],  "ɔ":["hot",88,70],  "ɔː":["door",92,48], "aː":["spa",80,90]
+  };
+  // diphthongs: [example, from, to]
+  const DIP = {
+    "eɪ":["day",[16,42],[20,18]], "aɪ":["my",[60,90],[20,18]], "ɔɪ":["boy",[90,58],[20,18]],
+    "əʉ":["go",[52,52],[72,8]],   "aʊ":["now",[45,88],[78,22]]
+  };
+
+  /* sounds the Pronunciation Hub has a page for (it has no /j/ yet) */
+  const HUB_HAS = (ipa) => ipa !== "j" && (CONS[ipa] || VOW[ipa] || DIP[ipa]);
+
+  const PLACE_HOW = {
+    "Bilabial":"both lips together",
+    "Labio-dental":"top teeth on your bottom lip",
+    "Dental":"tongue tip between your teeth",
+    "Alveolar":"tongue tip on the ridge behind your top teeth",
+    "Post-alveolar":"tongue curled just behind the ridge",
+    "Palatal":"middle of the tongue near the roof",
+    "Velar":"back of your tongue against the soft roof",
+    "Glottal":"just your throat — mouth relaxed and open"
+  };
+  const MANNER_HOW = {
+    plosive:"block the air completely, then let it pop out",
+    fricative:"leave a tiny gap and squeeze the air through so it hisses",
+    affricate:"block the air, then release it into a hiss",
+    nasal:"block the mouth and hum out through your nose",
+    approximant:"glide — the parts come close but never quite touch"
+  };
+
+  const cDesc = (ipa) => ({ kind:"c", ipa, eg:CONS[ipa][0], place:CONS[ipa][1], manner:CONS[ipa][2], voiced:CONS[ipa][3] });
+  const vDesc = (ipa) => ({ kind:"v", ipa, eg:VOW[ipa][0], at:[VOW[ipa][1], VOW[ipa][2]] });
+  const dDesc = (ipa) => ({ kind:"d", ipa, eg:DIP[ipa][0], from:DIP[ipa][1], to:DIP[ipa][2] });
+  const seq = (...parts) => ({ kind:"seq", ipa:parts.map((p) => p.ipa).join(""), parts });
+
+  /* trainer sound label -> phoneme. Ambiguous labels resolve on the
+     example word in descFor() below. */
+  const LABEL = {
+    "ă":() => vDesc("æ"),  "ah":() => vDesc("aː"), "ĕ":() => vDesc("e"),   "ē":() => vDesc("iː"),
+    "ĭ":() => vDesc("ɪ"),  "ŏ":() => vDesc("ɔ"),   "ŭ":() => vDesc("ɐ"),   "ōō":() => vDesc("ʉː"),
+    "ŏŏ":() => vDesc("ʊ"), "er":() => vDesc("ɜː"), "ar":() => vDesc("aː"), "or":() => vDesc("ɔː"),
+    "aw":() => vDesc("ɔː"), "au":() => vDesc("ɔː"),
+    "ā":() => dDesc("eɪ"), "ī":() => dDesc("aɪ"),  "ō":() => dDesc("əʉ"),  "ow":() => dDesc("aʊ"),
+    "oi":() => dDesc("ɔɪ"), "oy":() => dDesc("ɔɪ"),
+    /* ū as in music — a /j/ glide onto /ʉː/, taught as a fast "yoo" */
+    "ū":() => seq(cDesc("j"), vDesc("ʉː")),
+    "b":() => cDesc("b"), "d":() => cDesc("d"), "f":() => cDesc("f"), "g":() => cDesc("g"),
+    "h":() => cDesc("h"), "j":() => cDesc("dʒ"), "k":() => cDesc("k"), "l":() => cDesc("l"),
+    "m":() => cDesc("m"), "n":() => cDesc("n"), "ng":() => cDesc("ŋ"), "p":() => cDesc("p"),
+    "r":() => cDesc("r"), "s":() => cDesc("s"), "t":() => cDesc("t"), "v":() => cDesc("v"),
+    "w":() => cDesc("w"), "y":() => cDesc("j"), "z":() => cDesc("z"),
+    "ch":() => cDesc("tʃ"), "sh":() => cDesc("ʃ"), "zh":() => cDesc("ʒ"),
+    "kw":() => seq(cDesc("k"), cDesc("w")),
+    "ks":() => seq(cDesc("k"), cDesc("s")),
+    "hw":() => seq(cDesc("h"), cDesc("w")),
+    "ĕd":() => seq(vDesc("e"), cDesc("d")),
+    "ŭf":() => seq(vDesc("ɐ"), cDesc("f")),
+    "ŏff":() => seq(vDesc("ɔ"), cDesc("f"))
+  };
+
+  function descFor(label, ex) {
+    if (label === "oo") return vDesc(ex === "put" ? "ʊ" : "ʉː");
+    if (label === "th") return cDesc(ex === "this" ? "ð" : "θ");
+    const make = LABEL[label];
+    return make ? make() : null;
+  }
+  // The phoneme a trainer label stands for — "th"+"this" -> "ð".
+  function ipaFor(label, ex) {
+    const d = descFor(label, ex);
+    return d ? d.ipa : null;
+  }
+
+  // Everything, grouped the way the hub groups it.
+  function inventory() {
+    return {
+      consonants: Object.keys(CONS).map(cDesc),
+      vowels: Object.keys(VOW).map(vDesc),
+      diphthongs: Object.keys(DIP).map(dDesc)
+    };
+  }
+
+  function howTo(d) {
+    if (d.kind === "c") {
+      return PLACE_HOW[d.place] + " — " + MANNER_HOW[d.manner] +
+        (d.voiced ? ", with your throat buzzing" : ", with no buzz — just air");
+    }
+    if (d.kind === "d") return "two vowels in one — your mouth moves as you say it";
+    if (d.kind === "seq") return "two sounds in a row — watch both";
+    return "hold your tongue here and let your voice out";
+  }
+
+  function hubLink(ipa, text) {
+    if (!HUB_HAS(ipa)) return "";
+    return `<a class="mouth-hub-link" href="${HUB_URL}?sound=${encodeURIComponent(ipa)}" target="_blank" rel="noopener">${text || ("/" + ipa + "/ in the Pronunciation Hub ↗")}</a>`;
+  }
+
+  /* ---- controllers ---- */
+  let uid = 0;
+  const store = {};   // id -> {desc, ctl, loop}
+
+  // Draw one cutaway for a descriptor and register it for animation.
+  function figure(desc, cls) {
+    const id = "m" + (uid++);
+    store[id] = { desc, ctl: null, loop: null };
+    const first = desc.kind === "seq" ? desc.parts[0] : desc;
+    return `<span class="mouth-fig ${cls || ""}" data-mouth="${id}">${Anatomy.svg({
+      place: first.kind === "c" ? first.place : null,
+      manner: first.kind === "c" ? first.manner : null,
+      voiced: first.kind === "c" ? first.voiced : 1,
+      label: desc.ipa
+    })}</span>`;
+  }
+
+  // Pose/animate every cutaway inside `root` that hasn't been wired yet.
+  function activate(root) {
+    (root || document).querySelectorAll("[data-mouth]").forEach((wrap) => {
+      const rec = store[wrap.dataset.mouth];
+      if (!rec || rec.ctl) return;
+      const svg = wrap.querySelector("svg");
+      rec.ctl = Anatomy.makeCtl(svg);
+      apply(rec);
+    });
+  }
+
+  // Put a cutaway into its resting state for that sound: consonants freeze
+  // in position, vowels hold their tongue height, diphthongs loop silently.
+  function apply(rec) {
+    const d = rec.desc, ctl = rec.ctl;
+    if (!ctl) return;
+    if (rec.loop) { rec.loop.stop(); rec.loop = null; }
+    const first = d.kind === "seq" ? d.parts[0] : d;
+    if (first.kind === "c") {
+      Anatomy.poseConsonant(ctl.el, first.place, first.manner);
+      ctl.stop();
+    } else if (first.kind === "v") {
+      ctl.pose(first.at[0], first.at[1]);
+    }
+    if (d.kind === "d") rec.loop = Anatomy.loopGlide(ctl, d.from, d.to, { ms: 900, hold: 650 });
+  }
+
+  // Tapping a cutaway replays it: a glide for diphthongs, a burst of
+  // airflow/voicing for consonants, a held position for vowels.
+  function play(id) {
+    const rec = store[id];
+    if (!rec || !rec.ctl) return;
+    const d = rec.desc, ctl = rec.ctl;
+    if (rec.loop) { rec.loop.stop(); rec.loop = null; }
+    const parts = d.kind === "seq" ? d.parts : [d];
+    let i = 0;
+    const next = () => {
+      if (i >= parts.length) { setTimeout(() => apply(rec), 300); return; }
+      const p = parts[i++];
+      if (p.kind === "d") { Anatomy.glide(ctl, p.from, p.to, 900, next); }
+      else if (p.kind === "v") { ctl.set(p.at[0], p.at[1]); setTimeout(next, 800); }
+      else {
+        Anatomy.poseConsonant(ctl.el, p.place, p.manner);
+        ctl.el.classList.add("speaking");
+        setTimeout(() => { ctl.el.classList.remove("speaking"); next(); }, 750);
+      }
+    };
+    next();
+  }
+
+  /* ---- the answer-reveal diagram (Look & Say / Listen & Write) ---- */
+  function html(label, ex) {
+    const desc = descFor(label, ex);
+    if (!desc) return "";
+    const first = desc.kind === "seq" ? desc.parts[0] : desc;
+    return `<div class="mouth-wrap">${figure(desc, "mouth-mini")}
+      <div class="mouth-cap">${howTo(first)}<br>${hubLink(first.ipa)}</div></div>`;
+  }
+
+  function reset() {
+    Object.keys(store).forEach((k) => {
+      if (store[k].loop) store[k].loop.stop();
+      if (store[k].ctl) store[k].ctl.stop();
+      delete store[k];
+    });
+  }
+  // Stop/restart every loop at once — used when a screen goes out of view.
+  function pauseAll() { Object.values(store).forEach((r) => { if (r.loop) { r.loop.stop(); r.loop = null; } }); }
+  function resumeAll() { Object.values(store).forEach((r) => { if (r.ctl) apply(r); }); }
+
+  document.addEventListener("click", (e) => {
+    const fig = e.target.closest("[data-mouth]");
+    if (fig) play(fig.dataset.mouth);
+  });
+
+  return { html, figure, activate, play, reset, pauseAll, resumeAll,
+           inventory, ipaFor, descFor, howTo, hubLink, HUB_URL };
+})();
+
+</script>
+    <!-- app.js -->
+<script>
 // ============================================================
 // Aussie Phonics Trainer (unified)
 //
@@ -586,6 +1174,9 @@ const screens = {};
 
 function showScreen(name) {
   Object.entries(screens).forEach(([k, el]) => el.classList.toggle("active", k === name));
+  // the wall's diphthongs loop forever, so stop them when it goes out of view
+  document.body.classList.toggle("wall-wide", name === "wall");
+  if (window.SoundWall) { if (name === "wall") SoundWall.open(); else SoundWall.close(); }
 }
 
 function chooseMode(mode) { practiceMode = mode; showScreen("view"); }
@@ -951,6 +1542,7 @@ function resetCardUI() {
   } else {
     $("typeInput").value = "";
     $("typeInput").className = "";
+    clearSoundAlikeHint();
     clearCanvas();
     if (inputMode === "type") {
       $("writeCheckRow").style.display = "none";
@@ -975,6 +1567,30 @@ function sayCheck() {
   $("sayGradeRow").style.display = "flex";
 }
 
+// Different graphemes can spell the same sound — er / ir / ur / ear / wor
+// all say "er", and ai / ay / eigh all say "ā" — so the audio alone cannot
+// tell a student which spelling this card wants. A typed sound-alike is not
+// an error: hint at the card's example word and let them try again.
+function soundAlikeOf(typed) {
+  const idx = graphemeIndex[typed];
+  if (idx === undefined) return false;
+  const typedSounds = GRAPHEMES[idx].sounds.map((s) => s.s);
+  return current.sounds.some((s) => typedSounds.includes(s.s));
+}
+
+function showSoundAlikeHint(typed) {
+  const el = $("soundAlikeHint");
+  if (!el) return;
+  el.innerHTML = 'Right sound! But <b>' + typed + '</b> is a different way to spell it. ' +
+    'This card is the spelling you hear in &ldquo;<b>' + current.sounds[0].ex + '</b>&rdquo; &mdash; try again.';
+  el.style.display = "block";
+}
+
+function clearSoundAlikeHint() {
+  const el = $("soundAlikeHint");
+  if (el) { el.textContent = ""; el.style.display = "none"; }
+}
+
 function checkTypedAnswer() {
   if (!current) return;
   const input = $("typeInput");
@@ -983,11 +1599,17 @@ function checkTypedAnswer() {
   if (!typed) return;
 
   if (typed === correct) {
-    input.classList.add("flash-correct");
+    input.className = "flash-correct";
+    clearSoundAlikeHint();
     revealAnswer();
     setTimeout(() => gradeCard(true), 1000);
+  } else if (typed !== correct && soundAlikeOf(typed)) {
+    input.className = "flash-almost";
+    showSoundAlikeHint(typed);
+    input.select();
   } else {
-    input.classList.add("flash-wrong");
+    input.className = "flash-wrong";
+    clearSoundAlikeHint();
     revealAnswer();
     setTimeout(() => gradeCard(false), 1200);
   }
@@ -1001,9 +1623,13 @@ function showWriteGrade() {
 
 function revealAnswer() {
   $("ansGrapheme").textContent = current.grapheme;
+  if (window.Mouth) Mouth.reset();
   $("ansSounds").innerHTML = current.sounds.map((s) =>
-    '<div class="sound-item"><span class="sym">' + s.s + '</span> <span class="ex">e.g. ' + s.ex + '</span></div>'
+    '<div class="sound-item"><span class="sound-text"><span class="sym">' + s.s + '</span> <span class="ex">e.g. ' + s.ex + '</span></span>' +
+    (window.Mouth ? Mouth.html(s.s, s.ex) : "") +
+    '</div>'
   ).join("");
+  if (window.Mouth) Mouth.activate($("ansSounds"));
   $("answerBox").classList.add("show");
 }
 
@@ -1224,18 +1850,20 @@ function shuffle(arr) {
   }
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
   screens.mode   = $("modeScreen");
   screens.view   = $("viewScreen");
   screens.select = $("selectScreen");
   screens.card   = $("cardScreen");
   screens.report = $("reportScreen");
+  screens.wall   = $("wallScreen");
 
   initCanvas();
 
   $("modeSayBtn").addEventListener("click", () => chooseMode("say"));
   $("modeWriteBtn").addEventListener("click", () => chooseMode("write"));
+  $("modeWallBtn").addEventListener("click", () => showScreen("wall"));
+  $("wallBackBtn").addEventListener("click", () => showScreen("mode"));
 
   $("viewYearBtn").addEventListener("click", () => chooseView("year"));
   $("viewBookmarkBtn").addEventListener("click", () => chooseView("bookmark"));
@@ -1275,6 +1903,164 @@ document.addEventListener("DOMContentLoaded", () => {
   $("reportReviewBtn").addEventListener("click", reviewMissed);
   $("reportRestartBtn").addEventListener("click", () => showScreen("mode"));
 });
-    </script>
+
+</script>
+    <!-- soundwall.js -->
+<script>
+// ============================================================
+// soundwall.js — every sound of Australian English on one page,
+// each with its own vocal-tract cutaway.
+//
+// Consonants and vowels hold the position you make them in;
+// diphthongs glide on a silent loop, because the whole point of
+// a diphthong is that the mouth MOVES. Tap any sound to hear it
+// and replay the movement.
+//
+// The codes under each sound are the trainer's own graphemes,
+// worked out from GRAPHEMES in app.js — so students can see at a
+// glance that er, ir, ur, ear and wor are five spellings of one
+// sound, which is exactly what makes them hard to write down.
+// ============================================================
+
+window.SoundWall = (() => {
+
+  const SECTIONS = [
+    { key:"consonants", title:"Consonants",
+      blurb:"The pulsing dot is where the sound happens — lips, teeth, the ridge behind your teeth, or the soft roof at the back." },
+    { key:"vowels", title:"Vowels",
+      blurb:"No blocking, just an open tube. What changes is where the tongue humps up and whether your lips round." },
+    { key:"diphthongs", title:"Diphthongs",
+      blurb:"Two vowels in one. Watch each mouth glide from the first position to the second, over and over." }
+  ];
+
+  /* Sounds whose spelling can't be shown as a tidy list of codes. */
+  const NOTES = {
+    "ə": "any vowel letter, in a syllable you don't stress — the commonest sound in English"
+  };
+
+  let built = false;
+  let RECORDINGS = null;    // ipa -> teacher recording url (if any)
+  let audioEl = null;
+
+  /* which trainer codes spell each phoneme */
+  function codesByPhoneme() {
+    const map = {};
+    if (typeof GRAPHEMES === "undefined") return map;
+    GRAPHEMES.forEach((g) => {
+      g.sounds.forEach((s) => {
+        const d = Mouth.descFor(s.s, s.ex);
+        if (!d) return;
+        (d.kind === "seq" ? d.parts : [d]).forEach((p) => {
+          (map[p.ipa] = map[p.ipa] || []).push(g.grapheme);
+        });
+      });
+    });
+    Object.keys(map).forEach((k) => { map[k] = [...new Set(map[k])]; });
+    return map;
+  }
+
+  /* teacher recordings, if the deploy has built a manifest */
+  function loadRecordings() {
+    return fetch("sounds/manifest.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((m) => {
+        if (!m) return;
+        RECORDINGS = {};
+        Object.keys(m).forEach((folder) => {
+          const ipa = folder.split(" (")[0];
+          const file = m[folder].files && m[folder].files[0];
+          if (file) RECORDINGS[ipa] = "sounds/" + encodeURIComponent(folder) + "/" + encodeURIComponent(file);
+        });
+      })
+      .catch(() => {});
+  }
+
+  // A teacher recording of the sound itself beats a recording of a code
+  // that happens to spell it, so it wins when one exists.
+  function audioFor(ipa, codes) {
+    if (RECORDINGS && RECORDINGS[ipa]) return RECORDINGS[ipa];
+    if (typeof GRAPHEMES === "undefined") return null;
+    for (const c of codes || []) {
+      const g = GRAPHEMES.find((x) => x.grapheme === c);
+      if (g && g.audio) return g.audio + ".mp4";
+    }
+    return null;
+  }
+
+  function playSound(url, tile) {
+    if (!url) return;
+    if (audioEl) audioEl.pause();
+    audioEl = new Audio(url);
+    if (tile) {
+      tile.classList.add("playing");
+      const off = () => tile.classList.remove("playing");
+      audioEl.addEventListener("ended", off);
+      audioEl.addEventListener("error", off);
+    }
+    audioEl.play().catch(() => {});
+  }
+
+  function tile(d, codes) {
+    const url = audioFor(d.ipa, codes);
+    // /p/ and /b/ are made in exactly the same place — the only difference is
+    // whether the voice is switched on, and that can't be drawn, so say it.
+    const voice = d.kind === "c"
+      ? `<div class="sw-voice ${d.voiced ? "on" : "off"}">${d.voiced ? "voice on" : "no voice"}</div>` : "";
+    const codeChips = (codes || []).map((c) => `<span class="sw-code">${c}</span>`).join("");
+    const spelling = codeChips
+      ? `<div class="sw-codes">${codeChips}</div>`
+      : `<div class="sw-note">${NOTES[d.ipa] || "–"}</div>`;
+    return `<div class="sw-tile" data-ipa="${d.ipa}" ${url ? `data-audio="${url}"` : ""} tabindex="0"
+                 role="button" aria-label="/${d.ipa}/ as in ${d.eg}">
+      ${Mouth.figure(d, "sw-fig")}
+      <div class="sw-ipa">/${d.ipa}/</div>
+      <div class="sw-eg">${d.eg}</div>
+      ${voice}${spelling}
+    </div>`;
+  }
+
+  function build() {
+    const root = document.getElementById("wallBody");
+    if (!root) return;
+    const inv = Mouth.inventory();
+    const codes = codesByPhoneme();
+    root.innerHTML = SECTIONS.map((sec) => `
+      <div class="sw-section">
+        <h2 class="sw-title">${sec.title} <span class="sw-count">${inv[sec.key].length}</span></h2>
+        <p class="sw-blurb">${sec.blurb}</p>
+        <div class="sw-grid">${inv[sec.key].map((d) => tile(d, codes[d.ipa])).join("")}</div>
+      </div>`).join("");
+    Mouth.activate(root);
+    built = true;
+  }
+
+  function open() {
+    if (!built) {
+      // recordings first so tiles are built knowing what audio exists
+      loadRecordings().then(build);
+    } else {
+      Mouth.resumeAll();
+    }
+  }
+  function close() { Mouth.pauseAll(); if (audioEl) audioEl.pause(); }
+
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest(".sw-tile");
+    if (t && t.dataset.audio) playSound(t.dataset.audio, t);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const t = e.target.closest && e.target.closest(".sw-tile");
+    if (!t) return;
+    e.preventDefault();
+    const fig = t.querySelector("[data-mouth]");
+    if (fig) Mouth.play(fig.dataset.mouth);
+    if (t.dataset.audio) playSound(t.dataset.audio, t);
+  });
+
+  return { open, close, build };
+})();
+
+</script>
 </body>
 </html>
