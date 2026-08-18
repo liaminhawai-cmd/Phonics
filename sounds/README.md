@@ -1,23 +1,23 @@
 # Sound recordings — drop them in, no renaming needed
 
 One folder per sound of Australian English, named `symbol (example word)` with
-**asterisks around the letters that actually make that sound**, so you can find
-the right folder without reading IPA:
+**square brackets around the letters that actually make that sound**, so you
+can find the right folder without reading IPA:
 
-- `θ (*th*in)` — the *th* in **thin**, no voice
-- `ð (*th*is)` — the *th* in **this**, voiced
-- `ŋ (si*ng*)` — the *ng* at the end
-- `ʒ (vi*si*on)` — yes, the *si* is the sound
-- `ɔ (h*o*t)`, `ʉː (f*oo*d)`, `ɜː (h*er*)`
+- `θ ([th]in)` — the *th* in **thin**, no voice
+- `ð ([th]is)` — the *th* in **this**, voiced
+- `ŋ (si[ng])` — the *ng* at the end
+- `ʒ (vi[si]on)` — yes, the *si* is the sound
+- `ɔ (h[o]t)`, `ʉː (f[oo]d)`, `ɜː (h[er])`
 
-The asterisks also settle the lookalikes at a glance — the same word appears
+The brackets also settle the lookalikes at a glance — the same word appears
 twice, marked differently each time:
 
 | Consonant | Vowel |
 |---|---|
-| `b (*b*ed)` | `e (b*e*d)` |
-| `s (*s*ee)` | `iː (s*ee*)` |
-| `g (*g*o)` | `əʉ (g*o*)` |
+| `b ([b]ed)` | `e (b[e]d)` |
+| `s ([s]ee)` | `iː (s[ee])` |
+| `g ([g]o)` | `əʉ (g[o])` |
 
 **To add a recording: say the sound on its own, then drag the file into its
 folder. That's it.** Any filename, any common format (mp3, m4a, wav, ogg,
@@ -35,12 +35,12 @@ Word recordings for listening tasks (minimal pairs like ship/sheep) go in a
 
 ## Two things to know
 
-**Windows cannot handle `*` in folder names.** Git for Windows refuses to check
-out a path containing an asterisk, so `git clone` of this repo fails there with
-`error: invalid path`. These names work on macOS and Linux. If you need to work
-on Windows, say so and the folders can be renamed to a safe marker (for example
-`th_in` or `[th]in`) in one pass — the hub reads only the part before the
-bracket, so playback is unaffected either way.
+**These names are Windows-safe.** The folders used to mark the target letters
+with asterisks (`θ (*th*in)`), but Windows cannot create a path containing `*`,
+so `git clone` failed there with `error: invalid path`. The brackets carry the
+same meaning and clone cleanly on Windows, macOS and Linux. The hub reads only
+the symbol before the ` (`, so playback is unaffected — don't reintroduce `*`,
+`?`, `:`, `"`, `<`, `>` or `|` in folder or file names.
 
 **The 40 folders match the hub exactly** — every sound the Pronunciation Hub
 shows has a folder, and there is no folder the hub cannot play. Three sounds of
