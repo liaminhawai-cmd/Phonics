@@ -338,10 +338,12 @@ window.PhonicsTasks = window.PhonicsTasks || {
         }
         if (!firstRule && res.ruleId) firstRule = res.ruleId;
 
-        // one encode attempt per box on its GPC
+        // one encode attempt per box on its GPC — keyed by the BANK's gpc id
+        // (bank.wordGPCs) so report heatmaps light up; the naive formula is
+        // only a fallback and can mis-spell composite ids (u.yoo vs u.yoolong).
         boxesTotal += 1;
         if (good) { boxesRight += 1; }
-        record(gpcKeyOf(seg) + "|encode", good, latency);
+        record(((gpcIds && gpcIds[i]) || gpcKeyOf(seg)) + "|encode", good, latency);
         if (res.code === "SUB-GRAPH-LEGAL" && res.ruleId) {
           record("rule:" + res.ruleId, false, latency);
         }
