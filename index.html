@@ -48,6 +48,14 @@
         }
         .subtitle { color: var(--muted); text-align: center; margin: 6px 0 20px; font-size: 13px; }
 
+        /* ---- Program picker (data-bank sequence switcher) ---- */
+        .seq-picker-row { display: flex; align-items: center; justify-content: center; gap: 6px; margin: -10px 0 18px; }
+        .seq-picker-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+        .seq-picker { border: 1px solid var(--line); background: var(--paper); color: var(--ink);
+            font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 6px; cursor: pointer; max-width: 220px; }
+        .seq-picker:hover { border-color: var(--accent); }
+        .seq-picker:focus { outline: none; border-color: var(--accent); }
+
         .screen { display: none; }
         .screen.active { display: block; }
 
@@ -349,6 +357,11 @@
         <a class="hub-link" href="https://liaminhawai-cmd.github.io/ELC-Pages/index.html">⌂ ELC Hub</a>
         <h1>Aussie Phonics</h1>
         <p class="subtitle">Hear it or see it, say it or write it, then check.</p>
+        <div class="seq-picker-row">
+            <label class="seq-picker-label" for="seqPicker">Program</label>
+            <select id="seqPicker" class="seq-picker"></select>
+            <a class="seq-picker-label" href="explorer.html" style="text-decoration:none;">Explore&nbsp;→</a>
+        </div>
 
         <!-- ===== SCREEN 1: practice mode ===== -->
         <section class="screen active" id="modeScreen">
@@ -498,6 +511,9 @@
 
     <script src="anatomy.js"></script>
     <script src="mouth.js"></script>
+    <script src="js/core/data.js"></script>
+    <script src="js/core/audio.js"></script>
+    <script src="js/core/bank-adapt.js"></script>
     <script src="app.js"></script>
     <script src="soundwall.js"></script>
 </body>
