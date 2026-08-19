@@ -1,5 +1,12 @@
 # 🇦🇺 Australian English Vowel Trainer
 
+> **Where this is going:** this repo is growing into a full phonics platform —
+> one scope-and-sequence-agnostic data bank (`data/`: 44 phonemes with
+> AU/UK/US pronunciations, every grapheme-phoneme correspondence, a segmented
+> word bank, spelling rules, morpheme matrices), a recordings pipeline
+> (`recordings/`), and a task engine with per-child mastery tracking.
+> The master plan lives in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+
 A flashcard-style drill for learning Australian English vowel sounds — modelled
 on bopomofo practice. You **pick the sounds you want to work on**, then go into
 **flashcard mode**: hear the sound, write or type your answer, check it, and

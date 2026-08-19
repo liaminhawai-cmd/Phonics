@@ -1,0 +1,13 @@
+name: Validate data bank
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate data bank integrity
+        run: python3 scripts/validate_data.py

@@ -1,0 +1,33 @@
+{
+  "id": "letters-and-sounds",
+  "name": "Letters and Sounds",
+  "region": "UK",
+  "native_view": "grapheme_first",
+  "source": "DfES/DfE 'Letters and Sounds: Principles and Practice of High Quality Phonics' (2007), Phases 2–5",
+  "licence_note": "Contains public sector information licensed under the Open Government Licence v3.0",
+  "notes": "Phase 4 introduces no new graphemes at all (it is purely CVCC/CCVC/CCVCC blending practice) so its unit has an empty teaches array, matching the same convention used for blend lessons in ufli-foundations.json. Tricky/heart words are attached to the phase in which they are officially introduced.",
+  "units": [
+    { "n": 1, "label": "Phase 2, Set 1 – s, a, t, p", "colour": "", "teaches": ["s.s","a.a","t.t","p.p"], "review": [], "heart_words": [], "notes": "" },
+    { "n": 2, "label": "Phase 2, Set 2 – i, n, m, d", "colour": "", "teaches": ["i.i","n.n","m.m","d.d"], "review": [], "heart_words": [], "notes": "" },
+    { "n": 3, "label": "Phase 2, Set 3 – g, o, c, k", "colour": "", "teaches": ["g.g","o.o","c.k","k.k"], "review": [], "heart_words": [], "notes": "" },
+    { "n": 4, "label": "Phase 2, Set 4 – ck, e, u, r", "colour": "", "teaches": ["ck.k","e.e","u.u","r.r"], "review": [], "heart_words": [], "notes": "" },
+    { "n": 5, "label": "Phase 2, Set 5 – h, b, f, ff, l, ll, ss", "colour": "", "teaches": ["h.h","b.b","f.f","ff.f","l.l","ll.l","ss.s"], "review": [], "heart_words": ["the","to","I","no","go","into"], "notes": "ff, ll, ss (doubled-letter graphemes) are not in app.js's GRAPHEMES table — see NEEDED_GPCS.md. End of Phase 2." },
+    { "n": 6, "label": "Phase 3, Set 6 – j, v, w, x", "colour": "", "teaches": ["j.j","v.v","w.w","x.ks"], "review": [], "heart_words": [], "notes": "" },
+    { "n": 7, "label": "Phase 3, Set 7 – y, z, zz, qu", "colour": "", "teaches": ["y.y","z.z","zz.z","qu.kw"], "review": [], "heart_words": [], "notes": "zz is not in app.js's GRAPHEMES table — see NEEDED_GPCS.md." },
+    { "n": 8, "label": "Phase 3 – ch, sh, th, ng", "colour": "", "teaches": ["ch.ch","sh.sh","th.th","th.dh","ng.ng"], "review": [], "heart_words": [], "notes": "Unlike elc-bookmarks, both th sounds (thin/this) are taught together here, per official Letters & Sounds practice." },
+    { "n": 9, "label": "Phase 3 – ai, ee, igh, oa, oo", "colour": "", "teaches": ["ai.ay","ee.ee","igh.igh","oa.oa","oo.oo_long","oo.oo_short"], "review": [], "heart_words": [], "notes": "oo's two sounds (moon/book) are taught together, per official practice." },
+    { "n": 10, "label": "Phase 3 – ar, or, ur, ow, oi", "colour": "", "teaches": ["ar.ar","or.or","ur.er","ow.ow","ow.oa","oi.oy"], "review": [], "heart_words": [], "notes": "ow's two sounds (cow/blow) are taught together." },
+    { "n": 11, "label": "Phase 3 – ear, air, ure, er", "colour": "", "teaches": ["ear.ear","air.air","ure.ure","er.er"], "review": [], "heart_words": ["he","she","we","me","be","was","you","they","all","are","my","her"],
+      "notes": "ear.ear (hear/near, the NEAR vowel) is the standard Letters & Sounds reading of this grapheme. This differs from elc-bookmarks.json's ear.er, which follows app.js's atypical single example 'early' — see accuracy caveats in the coordinator report. End of Phase 3." },
+    { "n": 12, "label": "Phase 4 – adjacent consonants (CVCC / CCVC / CCVCC)", "colour": "", "teaches": [], "review": ["s.s","t.t","r.r","p.p","l.l","m.m","n.n","d.d","f.f","k.k"],
+      "heart_words": ["said","have","like","so","do","some","come","were","there","little","one","when","out","what"],
+      "notes": "No new graphemes — Phase 4 is entirely about blending already-taught single-letter GPCs into consonant clusters (trap = t+r+a+p, jump = j+u+m+p)." },
+    { "n": 13, "label": "Phase 5 – new graphemes: ay, ou, ie, ea, oy", "colour": "", "teaches": ["ay.ay","ou.ow","ie.igh","ea.ee","oy.oy"], "review": [], "heart_words": [], "notes": "" },
+    { "n": 14, "label": "Phase 5 – new graphemes: ir, ue, aw, wh, ph, ew", "colour": "", "teaches": ["ir.er","ue.oo_long","ue.yoo","aw.or","wh.w","ph.f","ew.oo_long","ew.yoo"], "review": [], "heart_words": [], "notes": "ue is not in app.js's GRAPHEMES table — see NEEDED_GPCS.md." },
+    { "n": 15, "label": "Phase 5 – new graphemes: oe, au, split digraphs (a-e, e-e, i-e, o-e, u-e)", "colour": "", "teaches": ["oe.oa","au.or","a_e.ay","e_e.ee","i_e.igh","o_e.oa","u_e.oo_long","u_e.yoo"], "review": [], "heart_words": [], "notes": "" },
+    { "n": 16, "label": "Phase 5 – alternative pronunciations", "colour": "",
+      "teaches": ["i.igh","o.oa","o.u","u.oo_short","ow.oa","ie.ee","ea.e","ea.ay","a.o","y.igh","y.ee","y.i","c.s","g.j","ch.k","ch.sh"],
+      "review": [], "heart_words": ["oh","their","people","water","where","who","again","because","many"],
+      "notes": "Existing graphemes read with a different, less-common sound (i in 'find', o in 'cold'/'mother', ow in 'blow', ea in 'head'/'break', a in 'wasp', y in 'fly'/'happy'/'gym', soft c/g, ch as /k/ or /sh/). Not exhaustive — Phase 5 runs all of Year 1, so more heart words are introduced across the year than listed here; verify the full list against the official document." }
+  ]
+}

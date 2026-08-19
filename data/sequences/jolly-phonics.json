@@ -1,0 +1,18 @@
+{
+  "id": "jolly-phonics",
+  "name": "Jolly Phonics",
+  "region": "UK/AU",
+  "native_view": "grapheme_first",
+  "source": "Public letter-group teaching order of Jolly Phonics (Lloyd & Wernham, Jolly Learning Ltd)",
+  "licence_note": "Jolly Phonics is a commercial, trademarked programme (Jolly Learning Ltd). This file encodes only the public order of the 7 letter-sound groups — no proprietary stories, actions, mnemonics, or song content is included.",
+  "notes": "Group 4's 'ie' and Group 6's second 'th' follow Jolly Phonics' own grouping, which (like Letters & Sounds) teaches oo's two sounds and th's two sounds side by side in one group.",
+  "units": [
+    { "n": 1, "label": "Group 1 – s, a, t, i, p, n", "teaches": ["s.s","a.a","t.t","i.i","p.p","n.n"], "review": [], "heart_words": [], "notes": "" },
+    { "n": 2, "label": "Group 2 – ck, e, h, r, m, d", "teaches": ["ck.k","e.e","h.h","r.r","m.m","d.d"], "review": [], "heart_words": [], "notes": "" },
+    { "n": 3, "label": "Group 3 – g, o, u, l, f, b", "teaches": ["g.g","o.o","u.u","l.l","f.f","b.b"], "review": [], "heart_words": [], "notes": "" },
+    { "n": 4, "label": "Group 4 – ai, j, oa, ie, ee, or", "teaches": ["ai.ay","j.j","oa.oa","ie.igh","ee.ee","or.or"], "review": [], "heart_words": [], "notes": "" },
+    { "n": 5, "label": "Group 5 – z, w, ng, v, oo, oo", "teaches": ["z.z","w.w","ng.ng","v.v","oo.oo_long","oo.oo_short"], "review": [], "heart_words": [], "notes": "oo's two sounds (food/book) are taught together as one group entry." },
+    { "n": 6, "label": "Group 6 – y, x, ch, sh, th, th", "teaches": ["y.y","x.ks","ch.ch","sh.sh","th.th","th.dh"], "review": [], "heart_words": [], "notes": "th's two sounds (thin/this) are taught together as one group entry." },
+    { "n": 7, "label": "Group 7 – qu, ou, oi, ue, er, ar", "teaches": ["qu.kw","ou.ow","oi.oy","ue.oo_long","ue.yoo","er.er","ar.ar"], "review": [], "heart_words": [], "notes": "ue is not in app.js's GRAPHEMES table — see NEEDED_GPCS.md." }
+  ]
+}
