@@ -83,7 +83,14 @@ See `data/README.md` for id conventions and the segment format. Entities:
   unlocks and sheet generation automatic for ANY sequence.
 - **Sequence** (`sequences/*.json`) — ordered units of GPC ids + heart words,
   with a native view flag and print colours (bookmarks keep their exact
-  printed colours).
+  printed colours). **Adding sequence #7 or #57 is the same three steps**
+  (`sequences/HOW_TO_ADD.md`): write a plain-text shorthand
+  (`src/<id>.seq.txt`), run `scripts/new_sequence.py` (resolves graphemes to
+  GPC ids, warns on ambiguity, regenerates `sequences/index.json`), run the
+  validator. The app discovers programs ONLY through `index.json` — no
+  program names in code, ever — and CI fails if the index is stale, a
+  sequence references an unknown GPC, or a file breaks schema. Fifty more
+  programs = fifty shorthand files.
 - **Rule** (`rules/rules.json`) — teacher + kid statements, lesson, practice
   words, and `toggle_sets` that feed the grapheme-toggle task directly.
 - **Morphemes** (`morphemes/*.json`) — prefixes/suffixes/Latin roots/Greek

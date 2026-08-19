@@ -1,0 +1,30 @@
+# Compiled by scripts/new_sequence.py — see HOW_TO_ADD.md
+id: little-learners-love-literacy
+name: Little Learners Love Literacy
+region: AU
+view: grapheme_first
+source: LLLL (Pip and Tim) staged sequence, widely used in Victorian schools
+licence: Ordering of taught correspondences only (facts); no LLLL lesson text, characters or materials included
+accuracy: Stage contents reconstructed from general knowledge of the published stages — verify against the official LLLL scope & sequence chart before classroom use.
+
+unit Stage 1: m s f a p t
+heart: the, a, is
+
+unit Stage 2: i c b g o d
+heart: was, to
+
+unit Stage 3: n r e h l u
+heart: you, are
+
+unit Stage 4: j k v w z x y qu
+heart: they, for
+
+unit Stage 5: ck sh ch th=* wh
+heart: said, have
+note: both th sounds taught together (thin/this)
+
+unit Stage 6: ng ll ss ff zz
+note: floss-pattern doubles and ng
+
+unit Stage 7: ee ai oa ar or er
+note: first long-vowel and r-controlled spellings; later LLLL stages continue alternative spellings — extend this file from the official chart
