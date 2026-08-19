@@ -178,6 +178,8 @@
         .gg-chip .gg-g { font-size: 16px; position: relative; z-index: 1; }
         .gg-chip .gg-u { font-size: 9px; color: rgba(31,31,31,0.6); text-transform: uppercase;
             letter-spacing: 0.4px; font-family: 'Segoe UI', sans-serif; position: relative; z-index: 1; }
+        /* screen: the print-only duplicate-grapheme hint stays hidden here */
+        .gg-chip .gg-u.gg-u-dup { display: none; }
 
         /* ---- grapheme grid units ---- */
         .rg-unit { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
@@ -279,6 +281,9 @@
             .gg-chip { min-width: 36px; min-height: 26px; padding: 2px 7px; border-radius: 5px; }
             .gg-chip .gg-g { font-size: 11px; }
             .gg-chip .gg-u { display: none; }
+            /* duplicate graphemes in one unit row (a.a/a.ay/a.ar) look
+               identical on paper — show a tiny phoneme hint for those only */
+            .gg-chip .gg-u.gg-u-dup { display: block; font-size: 7px; color: rgba(31,31,31,0.75); }
             .tot b { font-size: 18px; }
             .totals { grid-template-columns: repeat(4, 1fr); }
             .ov-summary { font-size: 12px; }

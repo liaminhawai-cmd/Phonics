@@ -155,7 +155,11 @@
         .ek-box { width: var(--box); height: var(--box); border: 0.45mm solid #3a352c; border-radius: 1.5mm;
             display: flex; align-items: center; justify-content: center; flex-shrink: 0;
             font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: var(--rowfont); }
-        .ek-box.blank { border-width: 0.9mm; border-color: var(--unit); }
+        .ek-box.blank { border-width: 0.9mm; border-color: var(--unit); position: relative; }
+        /* pale unit colours print near-invisible — a guaranteed-contrast
+           dashed inner outline keeps the box visible on paper regardless. */
+        .ek-box.blank::after { content: ""; position: absolute; inset: 1.4mm;
+            border: 0.35mm dashed #6b6256; border-radius: 1mm; pointer-events: none; }
 
         .syl-circles { display: flex; gap: 1.6mm; flex: 0 0 auto; }
         .syl-dot { display: block; width: 5mm; height: 5mm; border: 0.4mm solid #6b6256; border-radius: 50%; }

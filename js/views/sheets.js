@@ -142,17 +142,22 @@ window.PhonicsSheetsModel = (() => {
       const tail = dash[1].trim();
       if (/^[A-Za-z]{2,14}$/.test(tail)) return tail;
     }
+    // Split digraphs (a_e/"a-e") mash together into unreadable soup when
+    // concatenated ("O-eU-eE-e") — bail to "Unit <n>" for those, and for
+    // any abbreviation that's grown too long to read as a unit name.
+    const hasHyphen = (graphemes || []).some(g => /-/.test(String(g || "")));
     const seen = [];
     for (const g of graphemes || []) {
-      const disp = String(g || "").replace(/_/g, "");
+      const disp = String(g || "").replace(/[_-]/g, "");
       if (!disp || seen.includes(disp)) continue;
       seen.push(disp);
     }
-    if (seen.length) {
-      return seen
+    if (seen.length && !hasHyphen) {
+      const key = seen
         .slice(0, 6)
         .map(g => g.charAt(0).toUpperCase() + g.slice(1))
         .join("");
+      if (key.length <= 10) return key;
     }
     return "Unit " + (unit && unit.n != null ? unit.n : "?");
   }

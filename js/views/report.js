@@ -354,7 +354,7 @@ if (typeof document !== "undefined") {
       renderRules();
       renderRecent();
       syncDataControls(profile);
-      els.printNote.textContent = "Printed " + new Date().toLocaleDateString() +
+      els.printNote.textContent = "Printed " + new Date().toLocaleDateString("en-AU") +
         " — Aussie Phonics teacher report for " + (profile.name || "Learner") + ".";
     }
 
@@ -418,7 +418,9 @@ if (typeof document !== "undefined") {
       const title = (g.display || g.grapheme) + " — reading: " + M.STATE_WORDS[st.decode.state] +
         ", spelling: " + M.STATE_WORDS[st.encode.state];
       const unitTag = opts && opts.unitN != null
-        ? `<span class="gg-u">unit ${opts.unitN}</span>` : "";
+        ? `<span class="gg-u">unit ${opts.unitN}</span>`
+        : (opts && opts.dupHint
+          ? `<span class="gg-u gg-u-dup">${escapeHtml(opts.dupHint)}</span>` : "");
       return `<button type="button" class="gg-chip" data-role="gg-chip"
         data-gpc="${escapeHtml(gpcId)}" data-grapheme="${escapeHtml(g.grapheme)}"
         style="--chip-l:${l};--chip-r:${r}" title="${escapeHtml(title)}">
@@ -444,7 +446,27 @@ if (typeof document !== "undefined") {
       const units = (seq && seq.units) || [];
       const rows = units.map((u, i) => {
         const colour = u.colour || M.FALLBACK_PALETTE[i % M.FALLBACK_PALETTE.length];
-        const chips = (u.teaches || []).map((gid) => chipHtml(gid)).join("");
+        const ids = u.teaches || [];
+        // Same grapheme can teach >1 phoneme in one unit (a.a/a.ay/a.ar all
+        // look like bare "a") — on paper those tiles are indistinguishable,
+        // so a repeated display text earns a tiny phoneme hint (print only).
+        const dispCounts = {};
+        ids.forEach((gid) => {
+          const g = PhonicsBank.gpc(gid);
+          if (!g) return;
+          const disp = g.display || g.grapheme;
+          dispCounts[disp] = (dispCounts[disp] || 0) + 1;
+        });
+        const chips = ids.map((gid) => {
+          const g = PhonicsBank.gpc(gid);
+          const disp = g && (g.display || g.grapheme);
+          let dupHint = null;
+          if (g && dispCounts[disp] > 1) {
+            const firstP = Array.isArray(g.phonemes) ? g.phonemes[0] : g.phonemes;
+            try { dupHint = PhonicsBank.phonemeLabel(firstP); } catch (e) { dupHint = null; }
+          }
+          return chipHtml(gid, dupHint ? { dupHint } : null);
+        }).join("");
         return `<article class="rg-unit">
           <div class="rg-unit-bar" style="background:${colour};color:${M.textColourFor(colour)}">
             ${escapeHtml(u.label || ("Unit " + u.n))}

@@ -247,6 +247,10 @@ window.PhonicsTasks = window.PhonicsTasks || {
       feedback("", "");
     }
 
+    // Same amber-vs-red split as T4: a legal-but-wrong or position/heart
+    // mistake is a near-miss (amber), not a flat wrong answer (red).
+    const AMBER = new Set(["SUB-GRAPH-LEGAL", "POS-ILLEGAL", "HEART"]);
+
     function onCheck() {
       const r = round;
       if (!r || r.done) return;
@@ -286,6 +290,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
       }
       // one retry left: a §7-shaped hint about what the tried spelling does
       let line = "Not this one — try another spelling.";
+      let cls = "bad";
       try {
         const res = ctx.errors.classifyBox({
           target: r.seg, tried, index: r.boxIndex, total: r.boxTotal,
@@ -293,8 +298,9 @@ window.PhonicsTasks = window.PhonicsTasks || {
           heartParts: (r.wordEntry && r.wordEntry.heart_parts) || [],
         });
         line = ctx.errors.feedbackFor(res, { phonemeLabel: bank.phonemeLabel }) + " Try another spelling.";
+        if (AMBER.has(res.code)) cls = "warn";
       } catch (e) { /* keep the generic line */ }
-      feedback("bad", line);
+      feedback(cls, line);
       playCurrentWord();
     }
 

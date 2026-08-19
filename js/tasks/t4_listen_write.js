@@ -327,7 +327,10 @@ window.PhonicsTasks = window.PhonicsTasks || {
           el.classList.add(good ? "good" : (AMBER.has(res.code) ? "warn" : "bad"));
           if (!good && mode === "chips") {
             const fix = el.querySelector('[data-role="fix"]');
-            if (fix) { fix.hidden = false; fix.textContent = "uses " + seg.g.replace(/_/g, "-"); }
+            if (fix) {
+              fix.hidden = false;
+              fix.innerHTML = "uses <b class=\"pt-fix-g\">" + escapeHtml(seg.g.replace(/_/g, "-")) + "</b>";
+            }
           }
         }
         if (!good && lines.length < 2) {

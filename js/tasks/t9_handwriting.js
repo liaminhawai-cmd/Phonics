@@ -234,7 +234,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
 .hw-bar { display: grid; grid-template-columns: 84px 1fr 30px; align-items: center; gap: 8px; font-size: 12px; }
 .hw-bar-label { color: var(--hw-muted); font-weight: 700; }
 .hw-bar-track { height: 9px; border-radius: 6px; background: var(--hw-soft); overflow: hidden; }
-.hw-bar-fill { display: block; height: 100%; border-radius: 6px; background: var(--hw-good); transition: width 0.45s ease; }
+.hw-bar-fill { display: block; height: 100%; min-width: 6px; border-radius: 6px; background: var(--hw-good); transition: width 0.45s ease; }
 .hw-bar[data-level="mid"] .hw-bar-fill { background: var(--hw-warn); }
 .hw-bar[data-level="low"] .hw-bar-fill { background: var(--hw-bad); }
 .hw-bar-num { text-align: right; font-weight: 700; color: var(--hw-muted); font-variant-numeric: tabular-nums; }
