@@ -349,22 +349,29 @@ repo/CDN and keep paths identical via a base-URL config. Not needed yet.
 
 ## 13. Roadmap
 
-- **M0 — Foundations (this branch).** Data bank (phonemes, GPCs, words,
-  sequences, rules, morphemes), validator, recordings folder + manifests, TTS
+- ✅ **M0 — Foundations.** Data bank (phonemes, GPCs, words, sequences,
+  rules, morphemes), validator + CI, recordings folder + manifests, TTS
   stand-in script, repo cleanup, this document.
-- **M1 — One bank, many sequences.** Refactor app.js onto `core/data.js`;
-  sequence picker with dual views + custom builder; sound wall reads the bank.
-- **M2 — Ears and boxes.** T3 sound/syllable counting, T4 listen & write with
-  full error taxonomy + per-box feedback, recordings fallback chain, first
-  rule micro-lessons (T5 toggle sets).
-- **M3 — Tracker.** IndexedDB profiles, mastery model, unlock predicates,
-  drag-and-drop T6 with mastered-tray default, teacher report v1.
-- **M4 — Paper parity.** T11 sheet generator replaces hand-made PDFs;
-  generates for any sequence/accent; QR audio links.
-- **M5 — Hands.** Handwriting capture + scoring + family lessons, Vic Modern
-  Cursive first, then UK/US styles.
-- **M6 — Accents complete.** UK/US recording drops, yod/BATH handling
-  verified end-to-end, accent switch in profile.
-- **M7 — Word parts.** Morpheme matrix tasks + morphology tracking.
-- **M8 — Nice-to-haves.** Optional sync backend, class dashboards,
-  self-record-and-compare decoding, formant-based vowel feedback.
+- ✅ **M1 — One bank, many sequences.** app.js runs on `core/data.js`;
+  program picker; Sequence Explorer with dual views + taught-up-to slider;
+  standalone build embeds the bank. (Custom-builder UI still pending.)
+- ✅ **M2 — Ears and boxes.** practice.html: T3 sound/syllable counting,
+  T4 listen & write with the full §7 taxonomy + per-box feedback + rule
+  micro-lesson interrupts, T5 grapheme toggle, audio fallback chain.
+- ✅ **M3 — Tracker.** core/tracker.js (IndexedDB + localStorage fallback),
+  core/mastery.js, unlock predicates, T6 build-a-word with mastered tray,
+  report.html (dual heatmaps, auto strengths/weaknesses, export/import).
+- ✅ **M4 — Paper parity.** sheets.html: four A4 sheet types for any
+  program/unit/accent, deterministic seeds, QR audio links to play.html.
+- ✅ **M5 — Hands (Vic first).** core/handwriting/score.js ($P + feature
+  gates), full Vic Modern Cursive letterform bank, T9 trace/copy/memory
+  with ghost replay on handwriting.html + practice.html. UK/US letterform
+  styles still pending.
+- **M6 — Accents complete.** UK/US recording drops (checklists ready),
+  yod/BATH handling verified end-to-end, per-profile accent switch (basic
+  switch shipped in report.html).
+- ✅ **M7 — Word parts.** T10 morpheme matrix builder + word sums over the
+  ATLAS matrices, morph:* mastery tracking.
+- **M8 — Nice-to-haves.** Custom-sequence builder UI, optional sync
+  backend, class dashboards, self-record-and-compare decoding,
+  formant-based vowel feedback.

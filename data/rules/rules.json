@@ -1,1475 +1,1549 @@
 {
-  "rules": [
+ "rules": [
+  {
+   "id": "ai_ay_position",
+   "name": "ai vs ay: position in the word",
+   "category": "position",
+   "statement_teacher": "ai spells /ay/ within a word or syllable; ay spells /ay/ at the end of a word or syllable. English spelling almost never ends a word in ai.",
+   "statement_kid": "ai lives in the middle of a word, ay lives at the end. If the /ay/ sound is the very last sound you hear, reach for ay.",
+   "gpcs": [
+    "ai.ay",
+    "ay.ay"
+   ],
+   "lesson": {
+    "explanation": "Both graphemes spell the same FACE vowel. The choice between them is purely about position: ai is used at the start or in the middle of a syllable (rain, paint, train), ay is used at the end (day, play, stay, tray).",
+    "steps": [
+     "Say the target word and listen for where /ay/ falls.",
+     "If /ay/ is followed by more letters in the same syllable, write ai.",
+     "If /ay/ is the last sound in the word or syllable, write ay.",
+     "Sort a mixed list of ai/ay words into 'middle' and 'end' columns to prove the rule."
+    ],
+    "practice_words": [
+     "rain",
+     "day",
+     "paint",
+     "play",
+     "train",
+     "stay",
+     "mail",
+     "tray",
+     "afraid",
+     "today"
+    ]
+   },
+   "choose_between": {
+    "ai.ay": "middle",
+    "ay.ay": "end"
+   },
+   "toggle_sets": [
     {
-      "id": "ai_ay_position",
-      "name": "ai vs ay: position in the word",
-      "category": "position",
-      "statement_teacher": "ai spells /ay/ within a word or syllable; ay spells /ay/ at the end of a word or syllable. English spelling almost never ends a word in ai.",
-      "statement_kid": "ai lives in the middle of a word, ay lives at the end. If the /ay/ sound is the very last sound you hear, reach for ay.",
-      "gpcs": [
-        "ai.ay",
-        "ay.ay"
-      ],
-      "lesson": {
-        "explanation": "Both graphemes spell the same FACE vowel. The choice between them is purely about position: ai is used at the start or in the middle of a syllable (rain, paint, train), ay is used at the end (day, play, stay, tray).",
-        "steps": [
-          "Say the target word and listen for where /ay/ falls.",
-          "If /ay/ is followed by more letters in the same syllable, write ai.",
-          "If /ay/ is the last sound in the word or syllable, write ay.",
-          "Sort a mixed list of ai/ay words into 'middle' and 'end' columns to prove the rule."
-        ],
-        "practice_words": [
-          "rain",
-          "day",
-          "paint",
-          "play",
-          "train",
-          "stay",
-          "mail",
-          "tray",
-          "afraid",
-          "today"
-        ]
-      },
-      "choose_between": {
-        "ai.ay": "middle",
-        "ay.ay": "end"
-      },
-      "toggle_sets": [
-        {
-          "word": "rain",
-          "target_gpc": "ai.ay",
-          "distractors": [
-            "ay.ay",
-            "a_e.ay",
-            "eigh.ay"
-          ]
-        },
-        {
-          "word": "play",
-          "target_gpc": "ay.ay",
-          "distractors": [
-            "ai.ay",
-            "ea.ay",
-            "ey.ay"
-          ]
-        }
-      ]
+     "word": "rain",
+     "target_gpc": "ai.ay",
+     "distractors": [
+      "ay.ay",
+      "a_e.ay",
+      "eigh.ay"
+     ]
     },
     {
-      "id": "oi_oy_position",
-      "name": "oi vs oy: position in the word",
-      "category": "position",
-      "statement_teacher": "oi spells /oy/ within a word or syllable; oy spells /oy/ at the end of a word or syllable.",
-      "statement_kid": "oi lives in the middle, oy lives at the end — just like ai and ay.",
-      "gpcs": [
-        "oi.oy",
-        "oy.oy"
-      ],
-      "lesson": {
-        "explanation": "Same positional pattern as ai/ay: oi is for the middle of a syllable (point, coin, voice), oy is for the end (boy, toy, enjoy).",
-        "steps": [
-          "Listen for the /oy/ sound in the word.",
-          "Middle of the syllable → oi.",
-          "End of the word/syllable → oy.",
-          "Practise with a sort: coin/toy, point/boy, voice/enjoy."
-        ],
-        "practice_words": [
-          "point",
-          "boy",
-          "coin",
-          "toy",
-          "voice",
-          "enjoy",
-          "soil",
-          "annoy",
-          "noise",
-          "royal"
-        ]
-      },
-      "choose_between": {
-        "oi.oy": "middle",
-        "oy.oy": "end"
-      },
-      "toggle_sets": [
-        {
-          "word": "coin",
-          "target_gpc": "oi.oy",
-          "distractors": [
-            "oy.oy"
-          ]
-        },
-        {
-          "word": "boy",
-          "target_gpc": "oy.oy",
-          "distractors": [
-            "oi.oy"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ou_ow_position",
-      "name": "ou vs ow: position in the word",
-      "category": "position",
-      "statement_teacher": "ou spells /ow/ within a word or syllable; ow spells /ow/ most often at the end of a word or syllable, or before a final l/n.",
-      "statement_kid": "ou usually lives in the middle, ow usually lives at the end (or right before n or l).",
-      "gpcs": [
-        "ou.ow",
-        "ow.ow"
-      ],
-      "lesson": {
-        "explanation": "The MOUTH diphthong is most often spelled ou mid-word (round, loud, house, found) and ow at the end of a word/syllable or before l/n (how, cow, town, brown). Unlike ai/ay this pattern has more exceptions (e.g. 'about', 'flower'), so treat it as a strong tendency, not an absolute rule.",
-        "steps": [
-          "Listen for /ow/ in the word.",
-          "Check whether it's mid-word (try ou first) or at the very end / before l or n (try ow).",
-          "Sort a mixed list to see the pattern, then flag the exceptions (e.g. town isn't at the very end but still uses ow)."
-        ],
-        "practice_words": [
-          "round",
-          "how",
-          "loud",
-          "cow",
-          "house",
-          "town",
-          "found",
-          "brown",
-          "shout",
-          "growl"
-        ]
-      },
-      "choose_between": {
-        "ou.ow": "middle",
-        "ow.ow": "end"
-      },
-      "toggle_sets": [
-        {
-          "word": "house",
-          "target_gpc": "ou.ow",
-          "distractors": [
-            "ow.ow"
-          ]
-        },
-        {
-          "word": "brown",
-          "target_gpc": "ow.ow",
-          "distractors": [
-            "ou.ow"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "au_aw_augh_position",
-      "name": "au vs aw vs augh: position in the word",
-      "category": "position",
-      "statement_teacher": "au spells /or/ at the start or in the middle of a word and never ends a word; aw spells /or/ at the end of a word or syllable; augh is a rarer variant seen in a small closed set of words (caught, taught, daughter).",
-      "statement_kid": "au never finishes a word off — aw does that job. augh only shows up in a handful of words you just have to learn by sight.",
-      "gpcs": [
-        "au.or",
-        "aw.or",
-        "augh.or"
-      ],
-      "lesson": {
-        "explanation": "All three spell the THOUGHT/NORTH vowel /or/. au starts or sits in the middle of a word (sauce, author, haul) and is never word-final. aw is the end-of-word spelling (jaw, straw, crawl). augh is an old, low-frequency spelling locked into a small set of words (caught, taught, naughty, daughter) — best taught as sight/heart words rather than by rule.",
-        "steps": [
-          "Show au and aw words side by side and ask: which one ends the word?",
-          "Establish: au = start/middle, never the end; aw = end (and sometimes middle, e.g. crawl).",
-          "Introduce augh as a 'rule breaker' spelling for a short list of high-utility words.",
-          "Sort practice words into three columns: au, aw, augh."
-        ],
-        "practice_words": [
-          "sauce",
-          "jaw",
-          "haul",
-          "straw",
-          "author",
-          "yawn",
-          "caught",
-          "taught",
-          "daughter",
-          "naughty"
-        ]
-      },
-      "choose_between": {
-        "au.or": "middle",
-        "aw.or": "end"
-      },
-      "toggle_sets": [
-        {
-          "word": "sauce",
-          "target_gpc": "au.or",
-          "distractors": [
-            "aw.or",
-            "or.or"
-          ]
-        },
-        {
-          "word": "jaw",
-          "target_gpc": "aw.or",
-          "distractors": [
-            "au.or",
-            "ore.or"
-          ]
-        },
-        {
-          "word": "caught",
-          "target_gpc": "augh.or",
-          "distractors": [
-            "au.or",
-            "aw.or"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ee_ea_ey_y_long_e",
-      "name": "Spelling choices for /ee/",
-      "category": "choice",
-      "statement_teacher": "The FLEECE vowel /ee/ has several common spellings that compete for the same sound: ee and ea in stressed syllables, and unstressed final y or ey at the end of longer words.",
-      "statement_kid": "There's more than one way to write the /ee/ sound. ee and ea do it in the middle of words; a lonely y or ey does it at the end of longer words like happy and monkey.",
-      "gpcs": [
-        "ee.ee",
-        "ea.ee",
-        "ey.ee",
-        "y.ee"
-      ],
-      "lesson": {
-        "explanation": "ee (see, tree) and ea (eat, team) are the two main mid-word spellings and must be learned word-by-word since both are common. Unstressed word-final /ee/ is spelled y after a consonant in most words (happy, funny) and ey in a smaller set (key, monkey, honey).",
-        "steps": [
-          "Sort a mixed list of /ee/ words by spelling: ee, ea, y, ey.",
-          "Notice ee/ea are for stressed mid-word /ee/; y/ey are for the unstressed final sound.",
-          "Build a personal 'ea or ee?' word bank as new words are met, since there's no reliable rule to choose between them."
-        ],
-        "practice_words": [
-          "see",
-          "eat",
-          "happy",
-          "key",
-          "tree",
-          "team",
-          "funny",
-          "monkey",
-          "sleep",
-          "read"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "tree",
-          "target_gpc": "ee.ee",
-          "distractors": [
-            "ea.ee",
-            "e_e.ee",
-            "ie.ee"
-          ]
-        },
-        {
-          "word": "team",
-          "target_gpc": "ea.ee",
-          "distractors": [
-            "ee.ee",
-            "ey.ee"
-          ]
-        },
-        {
-          "word": "happy",
-          "target_gpc": "y.ee",
-          "distractors": [
-            "ey.ee",
-            "ee.ee"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ck_k_c_spelling_of_k",
-      "name": "Spelling /k/: c, k, or ck",
-      "category": "choice",
-      "statement_teacher": "/k/ is spelled c before a, o, u or a consonant; k before e, i or y; and ck immediately after a short vowel at the end of a word or syllable.",
-      "statement_kid": "Use c before a, o, u. Use k before e, i, y. Use ck right after a short vowel bump at the end of a word — never at the very start.",
-      "gpcs": [
-        "c.k",
-        "k.k",
-        "ck.k"
-      ],
-      "lesson": {
-        "explanation": "English spelling avoids c before e/i/y because c would then be read as /s/ (soft c). So /k/ before e, i, y is spelled k (kit, key, kind). Before a, o, u it's spelled c (cat, cot, cup). Straight after a short vowel, at the end of a one-syllable word, /k/ is spelled ck (neck, duck, rock) — never just k or c.",
-        "steps": [
-          "Show three columns headed c, k, ck.",
-          "Sort words by the letter that follows (a/o/u → c; e/i/y → k) or by whether /k/ follows an immediate short vowel at the end (→ ck).",
-          "Test with nonsense words (e.g. 'kob' vs 'cob') to check the rule, not just memory."
-        ],
-        "practice_words": [
-          "cat",
-          "kit",
-          "duck",
-          "cot",
-          "key",
-          "neck",
-          "cup",
-          "kind",
-          "rock",
-          "kettle"
-        ]
-      },
-      "choose_between": {
-        "c.k": "before a/o/u",
-        "k.k": "before e/i/y",
-        "ck.k": "after a short vowel, word-final"
-      },
-      "toggle_sets": [
-        {
-          "word": "cat",
-          "target_gpc": "c.k",
-          "distractors": [
-            "k.k",
-            "ck.k"
-          ]
-        },
-        {
-          "word": "kit",
-          "target_gpc": "k.k",
-          "distractors": [
-            "c.k",
-            "ck.k"
-          ]
-        },
-        {
-          "word": "duck",
-          "target_gpc": "ck.k",
-          "distractors": [
-            "c.k",
-            "k.k"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "tch_vs_ch",
-      "name": "tch vs ch after a short vowel",
-      "category": "choice",
-      "statement_teacher": "tch is used for /ch/ immediately after a short vowel at the end of a word (match, catch); plain ch is used everywhere else (chop, much, bench, teach). Exceptions: rich, which, such, much.",
-      "statement_kid": "Straight after a quick short vowel, /ch/ is spelled tch. Everywhere else — at the start, or after a consonant or long vowel — it's just ch.",
-      "gpcs": [
-        "tch.ch",
-        "ch.ch"
-      ],
-      "lesson": {
-        "explanation": "Like ck, tch is a 'short vowel guard' spelling: catch, match, kitchen, witch all have a short vowel right before /ch/. Plain ch is used at the start of words (chop, chair) and after consonants or long vowels/teams (bench, lunch, teach, beach). A handful of common exceptions (much, such, rich, which) keep plain ch even after a short vowel.",
-        "steps": [
-          "Sort words into 'tch' and 'ch' columns by what comes right before the /ch/ sound.",
-          "Highlight the short-vowel-then-tch pattern.",
-          "Call out the exception club: much, such, rich, which — no tch needed."
-        ],
-        "practice_words": [
-          "match",
-          "chop",
-          "catch",
-          "chair",
-          "kitchen",
-          "bench",
-          "witch",
-          "teach",
-          "much",
-          "which"
-        ]
-      },
-      "choose_between": {
-        "tch.ch": "after a short vowel, word-final",
-        "ch.ch": "elsewhere"
-      },
-      "toggle_sets": [
-        {
-          "word": "match",
-          "target_gpc": "tch.ch",
-          "distractors": [
-            "ch.ch"
-          ]
-        },
-        {
-          "word": "teach",
-          "target_gpc": "ch.ch",
-          "distractors": [
-            "tch.ch"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "dge_vs_ge",
-      "name": "dge vs ge after a short vowel",
-      "category": "choice",
-      "statement_teacher": "dge is used for /j/ immediately after a short vowel at the end of a word (bridge, judge); ge is used after a consonant or long vowel/team (large, huge, orange, cage).",
-      "statement_kid": "Straight after a quick short vowel, /j/ is spelled dge. After a consonant or a long vowel, it's just ge.",
-      "gpcs": [
-        "dge.j",
-        "ge.j"
-      ],
-      "lesson": {
-        "explanation": "Same short-vowel-guard logic as tch/ch: dge appears right after a short vowel (bridge, judge, badge), while ge appears after a consonant (large, orange) or a long vowel/silent-e pattern (cage, huge). English words also never end in a bare j — see the 'no word ends in j' rule.",
-        "steps": [
-          "Sort words into dge and ge columns based on what comes just before /j/.",
-          "Confirm: short vowel right before → dge; consonant or long vowel before → ge.",
-          "Cross-reference with the silent-e rule for cage/huge-type words."
-        ],
-        "practice_words": [
-          "bridge",
-          "cage",
-          "judge",
-          "large",
-          "badge",
-          "huge",
-          "fridge",
-          "orange",
-          "budge",
-          "stage"
-        ]
-      },
-      "choose_between": {
-        "dge.j": "after a short vowel, word-final",
-        "ge.j": "after a consonant or long vowel"
-      },
-      "toggle_sets": [
-        {
-          "word": "bridge",
-          "target_gpc": "dge.j",
-          "distractors": [
-            "ge.j"
-          ]
-        },
-        {
-          "word": "cage",
-          "target_gpc": "ge.j",
-          "distractors": [
-            "dge.j"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "k_not_c_before_e_i_y",
-      "name": "k, not c, before e, i or y",
-      "category": "choice",
-      "statement_teacher": "When spelling /k/ immediately before e, i or y, use k (or ck after a short vowel) — c before e, i or y would be read as soft c, /s/.",
-      "statement_kid": "Never put c in front of e, i or y if you want it to say /k/ — c gets soft and turns into /s/ there. Use k instead.",
-      "gpcs": [
-        "k.k",
-        "c.s",
-        "c.k"
-      ],
-      "lesson": {
-        "explanation": "c has two jobs: hard /k/ before a, o, u and most consonants, and soft /s/ before e, i, y. Because c automatically softens before e/i/y, English spelling routes /k/ before those letters through k instead (kit, kettle, sky), keeping the soft-c pattern reliable and readable.",
-        "steps": [
-          "Show that ceb/cid/cym would read as soft c — demonstrate with real words like cent, city, cycle.",
-          "Establish: to keep /k/ before e/i/y, swap to k.",
-          "Practise spelling /k/ words that start with e, i or y sounds using k, not c."
-        ],
-        "practice_words": [
-          "kit",
-          "kettle",
-          "sky",
-          "cent",
-          "city",
-          "cycle",
-          "kind",
-          "key",
-          "cell",
-          "kick"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "kettle",
-          "target_gpc": "k.k",
-          "distractors": [
-            "c.k",
-            "c.s"
-          ]
-        },
-        {
-          "word": "cent",
-          "target_gpc": "c.s",
-          "distractors": [
-            "c.k",
-            "k.k"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "soft_c",
-      "name": "Soft c says /s/",
-      "category": "choice",
-      "statement_teacher": "c represents /s/ (soft c) when followed by e, i or y; it represents /k/ (hard c) elsewhere. A word-final soft c is spelled ce (ice, race).",
-      "statement_kid": "c turns soft and says /s/ when e, i or y comes right after it. At the end of a word, soft c always brings a silent e along: ice, race, dance.",
-      "gpcs": [
-        "c.s",
-        "ce.s",
-        "c.k"
-      ],
-      "lesson": {
-        "explanation": "This is the flip side of hard c: cent, city, cycle all have soft c before e/i/y. At the end of a word, /s/ after c is spelled ce, not a bare c (ice, dance, mice) — the silent e is required.",
-        "steps": [
-          "Sort words with c into 'hard /k/' and 'soft /s/' columns.",
-          "Circle the letter right after c each time to find the pattern.",
-          "Practise word-final ce words and check the silent e is always there."
-        ],
-        "practice_words": [
-          "cent",
-          "city",
-          "cycle",
-          "ice",
-          "race",
-          "dance",
-          "cat",
-          "cot",
-          "mice",
-          "cell"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "city",
-          "target_gpc": "c.s",
-          "distractors": [
-            "c.k"
-          ]
-        },
-        {
-          "word": "ice",
-          "target_gpc": "ce.s",
-          "distractors": [
-            "c.s"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "soft_g",
-      "name": "Soft g says /j/",
-      "category": "choice",
-      "statement_teacher": "g often represents /j/ (soft g) when followed by e, i or y (gem, giant, gym); it represents /g/ (hard g) elsewhere. There are many common exceptions (get, give, girl, gift, tiger).",
-      "statement_kid": "g can turn soft and say /j/ before e, i or y — but watch out, g breaks this rule a lot more than c does (get, give, girl are all hard g).",
-      "gpcs": [
-        "g.g",
-        "g.j",
-        "ge.j"
-      ],
-      "lesson": {
-        "explanation": "Like soft c, soft g is triggered by a following e, i or y (gem, giant, gym, danger). Unlike soft c, this pattern is unreliable — many very common words (get, give, girl, gift, tiger has soft g though) keep g hard before e/i. Teach it as a tendency to check, not a guarantee, and build a sight-word list of the exceptions.",
-        "steps": [
-          "Sort g words by hard /g/ and soft /j/.",
-          "Notice most soft g words have e, i or y after g — but flag get/give/girl/gift as exceptions to learn by heart.",
-          "Introduce ge as the word-final spelling of soft g (cage, huge, orange)."
-        ],
-        "practice_words": [
-          "gem",
-          "go",
-          "giant",
-          "get",
-          "gym",
-          "give",
-          "danger",
-          "girl",
-          "cage",
-          "gift"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "gem",
-          "target_gpc": "g.j",
-          "distractors": [
-            "g.g"
-          ]
-        },
-        {
-          "word": "go",
-          "target_gpc": "g.g",
-          "distractors": [
-            "g.j"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "floss_rule",
-      "name": "The Floss rule: ff, ll, ss, zz",
-      "category": "position",
-      "statement_teacher": "In a short one-syllable word, immediately after a single short vowel, the consonants f, l, s and (sometimes) z are doubled at the end of the word.",
-      "statement_kid": "In a short word, straight after one short vowel bump, f, l, s and z like to double up at the end: off, well, miss, buzz.",
-      "gpcs": [
-        "ff.f",
-        "ll.l",
-        "ss.s",
-        "zz.z"
-      ],
-      "lesson": {
-        "explanation": "Named after the word 'floss', this rule covers four consonants that double at the end of short words right after a single short vowel: staff, bell, grass, buzz. z is the least reliable of the four (quiz, fez exist without doubling).",
-        "steps": [
-          "Show a short CVC word ending in f/l/s/z and ask if one letter or two is needed.",
-          "Establish the pattern: one short vowel + f/l/s/z at the very end of a short word → double it.",
-          "Contrast with longer or multisyllabic words where doubling doesn't apply the same way (bus, gas, yes are common exceptions to flag)."
-        ],
-        "practice_words": [
-          "off",
-          "well",
-          "miss",
-          "buzz",
-          "staff",
-          "bell",
-          "grass",
-          "fizz",
-          "cliff",
-          "doll"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "off",
-          "target_gpc": "ff.f",
-          "distractors": [
-            "f.f"
-          ]
-        },
-        {
-          "word": "bell",
-          "target_gpc": "ll.l",
-          "distractors": [
-            "l.l"
-          ]
-        },
-        {
-          "word": "miss",
-          "target_gpc": "ss.s",
-          "distractors": [
-            "s.s"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "no_word_ends_v",
-      "name": "English words don't end in v",
-      "category": "position",
-      "statement_teacher": "No standard English word ends in a bare v; a silent e is added after final v (have, give, love, live).",
-      "statement_kid": "You can't finish an English word with v on its own — it always needs a silent e riding along behind it: have, give, love.",
-      "gpcs": [
-        "ve.v"
-      ],
-      "lesson": {
-        "explanation": "This is a pure spelling convention, not a sound rule — the silent e after v doesn't make the vowel long (have does not rhyme with cave). It's simply that v is never the very last letter of an English word.",
-        "steps": [
-          "Show v words and ask what's always stuck on the end.",
-          "Establish: v always needs a silent e after it, no exceptions.",
-          "Contrast have/gave to show the silent e here does NOT always mean 'long vowel'."
-        ],
-        "practice_words": [
-          "have",
-          "give",
-          "love",
-          "live",
-          "five",
-          "wave",
-          "dove",
-          "glove",
-          "drive",
-          "curve"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "have",
-          "target_gpc": "ve.v",
-          "distractors": [
-            "v.v"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "no_word_ends_u",
-      "name": "English words don't end in u",
-      "category": "position",
-      "statement_teacher": "No standard English word ends in a bare u; final /oo_long/ or /yoo/ is spelled ue, ew or oo instead.",
-      "statement_kid": "English words don't finish on a lonely u. If you hear /oo/ or /yoo/ at the very end, reach for ue, ew or oo.",
-      "gpcs": [
-        "ue.oo_long",
-        "ue.yoo",
-        "ew.oo_long",
-        "ew.yoo"
-      ],
-      "lesson": {
-        "explanation": "Just as words don't end in bare v, they don't end in bare u either. Word-final /oo_long/ is usually spelled ue (blue, true, glue) or ew (grew, flew, chew); word-final /yoo/ is usually ue (rescue, value) or ew (new, few, stew).",
-        "steps": [
-          "Show that 'blu' and 'gru' aren't real spellings.",
-          "Sort real words by their word-final /oo/ or /yoo/ spelling: ue or ew.",
-          "Practise writing the ending correctly from dictation."
-        ],
-        "practice_words": [
-          "blue",
-          "grew",
-          "true",
-          "new",
-          "glue",
-          "flew",
-          "rescue",
-          "few",
-          "clue",
-          "stew"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "blue",
-          "target_gpc": "ue.oo_long",
-          "distractors": [
-            "ew.oo_long"
-          ]
-        },
-        {
-          "word": "grew",
-          "target_gpc": "ew.oo_long",
-          "distractors": [
-            "ue.oo_long"
-          ]
-        },
-        {
-          "word": "new",
-          "target_gpc": "ew.yoo",
-          "distractors": [
-            "ue.yoo"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "no_word_ends_i",
-      "name": "English words don't end in i",
-      "category": "position",
-      "statement_teacher": "No standard English word ends in a bare i; word-final /igh/ or unstressed /ee/ is spelled y instead.",
-      "statement_kid": "English words don't finish on a lonely i — y takes over at the end of the word, whether it's saying /igh/ (my, fly) or /ee/ (happy, funny).",
-      "gpcs": [
-        "y.igh",
-        "y.ee"
-      ],
-      "lesson": {
-        "explanation": "Word-final i is replaced by y across English spelling: my, by, fly, try all use y for /igh/, and happy, funny, family all use y for unstressed final /ee/. This is one of the most productive 'don't end in ___' conventions.",
-        "steps": [
-          "Show that 'mi' and 'happi' aren't real spellings.",
-          "Establish: final i becomes y, whichever sound it's making.",
-          "Practise sorting y words by their sound: /igh/ or /ee/."
-        ],
-        "practice_words": [
-          "my",
-          "fly",
-          "try",
-          "happy",
-          "funny",
-          "sky",
-          "cry",
-          "baby",
-          "family",
-          "shy"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "fly",
-          "target_gpc": "y.igh",
-          "distractors": [
-            "y.ee",
-            "y.i"
-          ]
-        },
-        {
-          "word": "happy",
-          "target_gpc": "y.ee",
-          "distractors": [
-            "y.igh",
-            "y.i"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "no_word_ends_j",
-      "name": "English words don't end in j",
-      "category": "position",
-      "statement_teacher": "No standard English word ends in a bare j; word-final /j/ is spelled dge (after a short vowel) or ge (after a consonant or long vowel).",
-      "statement_kid": "English words never finish with j — that job is shared between dge and ge, depending on the vowel sound just before it.",
-      "gpcs": [
-        "dge.j",
-        "ge.j"
-      ],
-      "lesson": {
-        "explanation": "j is common at the start of words (jam, jump) but never appears at the end. Word-final /j/ is spelled dge right after a short vowel (bridge, judge) and ge after a consonant or long vowel/silent-e pattern (large, cage, huge).",
-        "steps": [
-          "Show that 'brij' and 'caj' aren't real spellings.",
-          "Link back to the dge-vs-ge rule to choose the right one.",
-          "Practise spelling word-final /j/ words correctly."
-        ],
-        "practice_words": [
-          "bridge",
-          "cage",
-          "judge",
-          "large",
-          "huge",
-          "badge",
-          "orange",
-          "fridge",
-          "stage",
-          "budge"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "judge",
-          "target_gpc": "dge.j",
-          "distractors": [
-            "ge.j"
-          ]
-        },
-        {
-          "word": "huge",
-          "target_gpc": "ge.j",
-          "distractors": [
-            "dge.j"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "qu_not_q_alone",
-      "name": "q is always paired with u",
-      "category": "position",
-      "statement_teacher": "The letter q does not stand alone in English spelling; it is always followed by u, and together qu spells /kw/.",
-      "statement_kid": "q never goes anywhere without its buddy u. Together, qu says /kw/ — like at the start of queen and quick.",
-      "gpcs": [
-        "qu.kw"
-      ],
-      "lesson": {
-        "explanation": "Unlike most consonants, q cannot appear without a following u in standard English spelling. The pair qu is taught and blended as a single unit spelling /kw/.",
-        "steps": [
-          "Show that 'q' alone never appears in English words.",
-          "Introduce qu as a fixed pair spelling /kw/.",
-          "Blend qu + rest of word together (qu-it, qu-een, qu-ick)."
-        ],
-        "practice_words": [
-          "quit",
-          "queen",
-          "quick",
-          "quiz",
-          "squid",
-          "square",
-          "quiet",
-          "equal",
-          "quack",
-          "question"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "queen",
-          "target_gpc": "qu.kw",
-          "distractors": []
-        }
-      ]
-    },
-    {
-      "id": "w_changes_a_to_o",
-      "name": "w changes a from /a/ to /o/",
-      "category": "choice",
-      "statement_teacher": "When a follows w (and is not part of a vowel team), it is pronounced /o/ rather than the usual short /a/: want, wash, swan, what.",
-      "statement_kid": "w is a bully to the letter a — it pushes a from its usual /a/ sound over to /o/. That's why want doesn't rhyme with ant.",
-      "gpcs": [
-        "a.a",
-        "a.o"
-      ],
-      "lesson": {
-        "explanation": "After w, short a regularly shifts to /o/: want, wash, wander, swan, what, watch. This only applies to plain a — a vowel team after w (like ay in sway) keeps its usual sound.",
-        "steps": [
-          "Compare 'cat' and 'want' — same letter a, different sound.",
-          "Establish: w changes the sound of a plain a that follows it, from /a/ to /o/.",
-          "Practise reading and sorting w+a words against ordinary short-a words."
-        ],
-        "practice_words": [
-          "want",
-          "wash",
-          "swan",
-          "what",
-          "wander",
-          "watch",
-          "wallet",
-          "cat",
-          "hat",
-          "sat"
-        ]
-      },
-      "choose_between": {
-        "a.a": "not after w",
-        "a.o": "after w"
-      },
-      "toggle_sets": [
-        {
-          "word": "want",
-          "target_gpc": "a.o",
-          "distractors": [
-            "a.a"
-          ]
-        },
-        {
-          "word": "cat",
-          "target_gpc": "a.a",
-          "distractors": [
-            "a.o"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "w_changes_ar_and_or",
-      "name": "w changes ar to /or/ and or to /er/",
-      "category": "choice",
-      "statement_teacher": "After w, ar is pronounced /or/ (war, warm, ward) and or is pronounced /er/ (word, work, worm, worship).",
-      "statement_kid": "w changes ar's sound to /or/ (war, warm) — and it flips or's sound the other way, to /er/ (word, work, worm)!",
-      "gpcs": [
-        "war.or",
-        "wor.er"
-      ],
-      "lesson": {
-        "explanation": "w has a second, opposite effect on r-controlled vowels: it pushes ar towards /or/ (war, ward, towards) and pulls or towards /er/ (word, work, worm, worship). Both are w-conditioned shifts away from the 'expected' sound of the vowel spelling.",
-        "steps": [
-          "Compare 'car' (plain ar) with 'war' (w + ar) — different sound.",
-          "Compare 'for' (plain or) with 'work' (w + or) — different sound.",
-          "Sort war-words and wor-words separately and read them aloud to hear the shift."
-        ],
-        "practice_words": [
-          "war",
-          "warm",
-          "ward",
-          "towards",
-          "word",
-          "work",
-          "worm",
-          "worship",
-          "car",
-          "for"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "warm",
-          "target_gpc": "war.or",
-          "distractors": [
-            "ar.ar"
-          ]
-        },
-        {
-          "word": "work",
-          "target_gpc": "wor.er",
-          "distractors": [
-            "or.or"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "all_oll_ull",
-      "name": "all, oll and ull endings",
-      "category": "position",
-      "statement_teacher": "At the end of a one-syllable word, /or/+l is spelled all, /oa/+l is spelled oll, and /oo_short/+l is spelled ull — each written with a single l after the doubled-letter pattern of the rime.",
-      "statement_kid": "Three little endings to learn by ear: all says /orl/ (ball), oll says /oal/ (roll), ull says /ool/ (full, bull).",
-      "gpcs": [
-        "all.or",
-        "oll.oa",
-        "ull.oo_short"
-      ],
-      "lesson": {
-        "explanation": "These are whole-rime spelling patterns rather than single-letter GPCs: all (ball, call, small), oll (roll, toll, stroll) and ull (full, bull, pull) each pair a vowel sound with a following l as one chunk, useful for older beginning readers tackling longer word families.",
-        "steps": [
-          "Introduce each rime as a chunk: all, oll, ull.",
-          "Read and sort words by rime family.",
-          "Build new words by swapping the onset (b-all, c-all, t-all; r-oll, t-oll; f-ull, b-ull, p-ull)."
-        ],
-        "practice_words": [
-          "ball",
-          "call",
-          "small",
-          "roll",
-          "toll",
-          "stroll",
-          "full",
-          "bull",
-          "pull",
-          "tall"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "ball",
-          "target_gpc": "all.or",
-          "distractors": [
-            "al.or",
-            "or.or"
-          ]
-        },
-        {
-          "word": "roll",
-          "target_gpc": "oll.oa",
-          "distractors": [
-            "oa.oa"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "old_ild_ind_ost_olt",
-      "name": "Long-vowel teams: old, ild, ind, ost, olt",
-      "category": "position",
-      "statement_teacher": "In the closed-syllable endings old, ild, ind, ost and olt, the vowel is long even though the syllable ends in a consonant (cold, child, find, most, bolt). Common exceptions with a short vowel: cost, lost, frost.",
-      "statement_kid": "These five little endings break the usual 'closed syllable = short vowel' rule — the vowel says its long name instead: cold, wild, find, most, bolt.",
-      "gpcs": [
-        "old.oa",
-        "ild.igh",
-        "ind.igh",
-        "ost.oa",
-        "olt.oa"
-      ],
-      "lesson": {
-        "explanation": "Normally a vowel followed by a consonant in the same syllable is short (cat, hop). These five endings are exceptions: the single vowel letter says its long name before ld, nd, or st/lt in this specific set of rimes. cost/lost/frost/cross are common exceptions that keep the short o.",
-        "steps": [
-          "Contrast a regular closed syllable (hot) with an old-family word (hold) — same short-looking spelling, different vowel length.",
-          "Introduce each rime family: old, ild, ind, ost, olt.",
-          "Flag the cost/lost/frost exceptions explicitly so they aren't over-generalised."
-        ],
-        "practice_words": [
-          "cold",
-          "gold",
-          "child",
-          "wild",
-          "find",
-          "kind",
-          "most",
-          "post",
-          "bolt",
-          "cost"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "cold",
-          "target_gpc": "old.oa",
-          "distractors": [
-            "o.o"
-          ]
-        },
-        {
-          "word": "find",
-          "target_gpc": "ind.igh",
-          "distractors": [
-            "i.i"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "silent_e_jobs",
-      "name": "The jobs of silent e",
-      "category": "silent-e",
-      "statement_teacher": "A final silent e has several distinct jobs: (1) it marks the preceding vowel as long in a split digraph (cake, these, time, home, tune); (2) it stops a word ending in a bare v or u (have, blue); (3) it keeps c or g soft before the silent e (race, cage).",
-      "statement_kid": "Silent e at the end of a word is doing one of three jobs: making the vowel say its name (cake), stopping the word ending in v or u (have, blue), or keeping c/g soft (race, cage).",
-      "gpcs": [
-        "a_e.ay",
-        "e_e.ee",
-        "i_e.igh",
-        "o_e.oa",
-        "u_e.oo_long",
-        "ve.v",
-        "ce.s",
-        "ge.j"
-      ],
-      "lesson": {
-        "explanation": "Silent e is one spelling, three jobs. Job 1 — long vowel marker: cake, Pete, time, hope, cute. Job 2 — 'no bare v or u' spelling convention: have, give, blue, true. Job 3 — softener: keeps c as /s/ and g as /j/ right before it: race, cage. Explicitly separating the three jobs stops students assuming every silent e means 'long vowel'.",
-        "steps": [
-          "Sort a mixed list of silent-e words into the three job categories.",
-          "For each word, ask: does removing the e change the vowel sound (job 1), is it just there because v/u can't end a word (job 2), or is it keeping c/g soft (job 3)?",
-          "Contrast 'have' (job 2, short vowel) with 'cave' (job 1, long vowel) to prove silent e doesn't always mean long vowel."
-        ],
-        "practice_words": [
-          "cake",
-          "time",
-          "home",
-          "have",
-          "blue",
-          "race",
-          "cage",
-          "these",
-          "tune",
-          "give"
-        ]
-      }
-    },
-    {
-      "id": "plural_s_s_or_z",
-      "name": "Plural -s says /s/ or /z/",
-      "category": "suffix",
-      "statement_teacher": "The plural/3rd-person suffix -s is pronounced /s/ after an unvoiced sound and /z/ after a voiced sound; both are spelled s.",
-      "statement_kid": "The letter s on the end of a plural sometimes says /s/ (cats) and sometimes says /z/ (dogs) — but it's always just spelled s.",
-      "gpcs": [
-        "s.s",
-        "s.z"
-      ],
-      "lesson": {
-        "explanation": "Plural -s is a single spelling with two pronunciations, determined by the sound right before it: after unvoiced sounds (p, t, k, f) it says /s/ (cats, hats, books); after voiced sounds (b, d, g, m, n, l, vowels) it says /z/ (dogs, beds, balls, cars).",
-        "steps": [
-          "Say pairs like cats/dogs and ask what's different.",
-          "Feel the throat buzz on dogs but not cats — voiced vs unvoiced.",
-          "Sort a plural word list by whether -s says /s/ or /z/."
-        ],
-        "practice_words": [
-          "cats",
-          "dogs",
-          "hats",
-          "beds",
-          "books",
-          "balls",
-          "caps",
-          "cars",
-          "ducks",
-          "pens"
-        ]
-      },
-      "choose_between": {
-        "s.s": "after an unvoiced sound",
-        "s.z": "after a voiced sound"
-      },
-      "toggle_sets": [
-        {
-          "word": "cats",
-          "target_gpc": "s.s",
-          "distractors": [
-            "s.z"
-          ]
-        },
-        {
-          "word": "dogs",
-          "target_gpc": "s.z",
-          "distractors": [
-            "s.s"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "es_after_hissing_sounds",
-      "name": "-es after hissing/buzzing sounds",
-      "category": "suffix",
-      "statement_teacher": "When a base word already ends in a sibilant (s, ss, x, z, ch, sh), the plural/3rd-person suffix is spelled es and adds an extra syllable, /iz/.",
-      "statement_kid": "If a word already ends in a hissing or buzzing sound — s, x, z, ch, sh — you can't just add s, your mouth needs a whole extra beat: box-es, wish-es, watch-es.",
-      "gpcs": [
-        "es.iz"
-      ],
-      "lesson": {
-        "explanation": "Adding plain -s after another sibilant would be nearly unpronounceable (boxs), so English inserts a vowel and spells the whole ending -es, pronounced as an extra syllable /iz/: boxes, buses, dishes, watches, buzzes.",
-        "steps": [
-          "Try saying 'boxs' out loud — notice it doesn't work.",
-          "Clap out the syllables in box (1) vs boxes (2) to feel the extra beat.",
-          "Sort words by their base-word ending to predict which take -es."
-        ],
-        "practice_words": [
-          "boxes",
-          "buses",
-          "dishes",
-          "watches",
-          "wishes",
-          "buzzes",
-          "glasses",
-          "foxes",
-          "brushes",
-          "churches"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "boxes",
-          "target_gpc": "es.iz",
-          "distractors": [
-            "s.s",
-            "s.z"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ed_three_sounds",
-      "name": "-ed says /t/, /d/ or /ed/",
-      "category": "suffix",
-      "statement_teacher": "The past-tense suffix -ed is pronounced /t/ after an unvoiced sound, /d/ after a voiced sound, and /id/ (an extra syllable) after a base word ending in /t/ or /d/ — always spelled ed.",
-      "statement_kid": "-ed can say three different things depending on the word: /t/ (picked), /d/ (loved) or a whole extra beat /id/ (landed) — but it's always spelled the same way, e-d.",
-      "gpcs": [
-        "ed.t",
-        "ed.d",
-        "ed.ed"
-      ],
-      "lesson": {
-        "explanation": "Like plural -s, past-tense -ed is one spelling with three pronunciations. After unvoiced sounds it's /t/ (picked, jumped, looked). After voiced sounds it's /d/ (loved, played, opened). After a base word already ending in /t/ or /d/, English inserts a vowel and adds a syllable, /id/ (landed, wanted, painted).",
-        "steps": [
-          "Sort -ed words into three piles by ear: /t/, /d/, /id/.",
-          "Notice the /id/ pile always has base words ending in t or d.",
-          "Clap syllables to confirm landed has 2 beats but played has 1."
-        ],
-        "practice_words": [
-          "picked",
-          "loved",
-          "landed",
-          "jumped",
-          "played",
-          "wanted",
-          "looked",
-          "opened",
-          "painted",
-          "walked"
-        ]
-      },
-      "choose_between": {
-        "ed.t": "after unvoiced",
-        "ed.d": "after voiced",
-        "ed.ed": "after /t/ or /d/"
-      },
-      "toggle_sets": [
-        {
-          "word": "picked",
-          "target_gpc": "ed.t",
-          "distractors": [
-            "ed.d",
-            "ed.ed"
-          ]
-        },
-        {
-          "word": "loved",
-          "target_gpc": "ed.d",
-          "distractors": [
-            "ed.t",
-            "ed.ed"
-          ]
-        },
-        {
-          "word": "landed",
-          "target_gpc": "ed.ed",
-          "distractors": [
-            "ed.t",
-            "ed.d"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "doubling_rule_1_1_1",
-      "name": "The doubling (1-1-1) rule",
-      "category": "suffix",
-      "statement_teacher": "In a one-syllable word with one short vowel ending in one consonant, double the final consonant before adding a vowel suffix (run→running, stop→stopped, big→bigger).",
-      "statement_kid": "One syllable, one short vowel, one consonant on the end? Double that last letter before you add -ing, -ed or -er: run becomes running, not runing.",
-      "gpcs": [
-        "a.a",
-        "e.e",
-        "i.i",
-        "o.o",
-        "u.u"
-      ],
-      "lesson": {
-        "explanation": "Doubling protects the short vowel sound: without it, 'runing' looks like it should have a long u (like tuning). Doubling the final consonant keeps the vowel closed in and short. Applies only when all three conditions are met — 1 syllable, 1 short vowel, 1 final consonant — before a suffix that starts with a vowel.",
-        "steps": [
-          "Show 'runing' vs 'running' and ask which looks like it has a long u.",
-          "Check the 1-1-1 conditions on the whiteboard for a few base words.",
-          "Practise adding -ing/-ed/-er to a mixed list, doubling only where the rule applies (compare run vs jump — jump ends in 2 consonants so no doubling)."
-        ],
-        "practice_words": [
-          "running",
-          "stopped",
-          "bigger",
-          "swimming",
-          "hopped",
-          "sadder",
-          "getting",
-          "planning",
-          "jumping",
-          "landed"
-        ]
-      }
-    },
-    {
-      "id": "drop_e_rule",
-      "name": "The drop-e rule",
-      "category": "suffix",
-      "statement_teacher": "When a base word ends in a silent e and the suffix begins with a vowel, drop the e before adding the suffix (make→making, hope→hoping, use→using).",
-      "statement_kid": "If a word ends in a silent e and the ending you're adding starts with a vowel, kick the e out first: make + ing = making, not makeing.",
-      "gpcs": [
-        "a_e.ay",
-        "e_e.ee",
-        "i_e.igh",
-        "o_e.oa",
-        "u_e.oo_long"
-      ],
-      "lesson": {
-        "explanation": "Silent e's job of marking a long vowel is taken over by the vowel suffix itself once it's attached, so the e is no longer needed and is dropped: make→making, hope→hoping, smile→smiling. If the suffix starts with a consonant (like -ly or -ment), the e usually stays: hope→hopeful.",
-        "steps": [
-          "Show make+ing = makeing and ask if that looks right.",
-          "Establish: silent e + vowel suffix → drop the e.",
-          "Contrast with a consonant suffix (hope+ful) where the e stays."
-        ],
-        "practice_words": [
-          "making",
-          "hoping",
-          "using",
-          "smiling",
-          "shining",
-          "riding",
-          "coming",
-          "writing",
-          "closing",
-          "baking"
-        ]
-      }
-    },
-    {
-      "id": "y_to_i_rule",
-      "name": "The y-to-i rule",
-      "category": "suffix",
-      "statement_teacher": "When a base word ends in a consonant + y, change the y to i before adding most suffixes (happy→happier, baby→babies, cry→cried). Keep the y before -ing (crying).",
-      "statement_kid": "If a word ends in a consonant then y, swap the y for an i before most endings — happy becomes happier, baby becomes babies. But keep the y in front of -ing: crying, not criing.",
-      "gpcs": [
-        "y.ee",
-        "y.igh",
-        "ie.i"
-      ],
-      "lesson": {
-        "explanation": "Final y after a consonant (happy, baby, cry) changes to i before most suffixes: happy→happiness, happier; baby→babies; cry→cried. The exception is -ing, where the y stays to avoid an awkward double-i: cry→crying, not cryiing. After a vowel, y usually stays as-is (play→played).",
-        "steps": [
-          "Sort base words by consonant+y vs vowel+y.",
-          "Add -ed/-es/-er to consonant+y words and watch the y become i.",
-          "Add -ing to the same words and notice the y stays."
-        ],
-        "practice_words": [
-          "happier",
-          "babies",
-          "cried",
-          "crying",
-          "funnier",
-          "carries",
-          "studied",
-          "studying",
-          "flies",
-          "flying"
-        ]
-      }
-    },
-    {
-      "id": "le_final_stable_syllable",
-      "name": "Final stable syllable: le",
-      "category": "syllable",
-      "statement_teacher": "An unstressed final syllable spelled le (after a consonant) is pronounced with a schwa and a syllabic l, roughly /el/; the e is silent and the syllable is always unstressed.",
-      "statement_kid": "When a word ends in a consonant then le, that little syllable is always unstressed and says /el/ — think candle, table, apple.",
-      "gpcs": [
-        "le.el"
-      ],
-      "lesson": {
-        "explanation": "The 'final stable syllable' le is common in two-syllable words (table, candle, little, apple) and is always the unstressed syllable, always pronounced roughly /el/, regardless of what came before. It's called 'stable' because, unlike most syllable types, its spelling-to-sound mapping barely varies.",
-        "steps": [
-          "Clap the syllables in candle and notice which one is stressed (the first).",
-          "Show the le chunk always sounds the same: /el/.",
-          "Practise dividing le-words into syllables: can-dle, ta-ble, ap-ple."
-        ],
-        "practice_words": [
-          "candle",
-          "table",
-          "apple",
-          "little",
-          "purple",
-          "simple",
-          "bubble",
-          "handle",
-          "puddle",
-          "uncle"
-        ]
-      },
-      "toggle_sets": [
-        {
-          "word": "candle",
-          "target_gpc": "le.el",
-          "distractors": [
-            "l.l"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "tion_sion_shun_zhun",
-      "name": "tion and sion say /shun/ or /zhun/",
-      "category": "syllable",
-      "statement_teacher": "The unstressed final syllables ti, ci and si before a vowel say /sh/ (nation, special, mansion), and si sometimes says /zh/ (vision) — combined with the following -on, these spell the very common /shun/ and /zhun/ endings.",
-      "statement_kid": "When you spot -tion or -sion at the end of a word, don't sound out each letter — the whole chunk just says /shun/ (nation, mansion) or, sometimes, /zhun/ (vision).",
-      "gpcs": [
-        "ti.sh",
-        "ci.sh",
-        "si.sh",
-        "si.zh"
-      ],
-      "lesson": {
-        "explanation": "ti, ci and si before a vowel regularly spell /sh/ in this unstressed final syllable: nation, special, mansion, expansion. A smaller set of -sion words are pronounced with /zh/ instead of /sh/, usually when the base word ends in a vowel or has a voiced consonant before it: vision, television, decision. Teach -tion/-sion as whole recognisable chunks rather than sounding out t-i-o-n.",
-        "steps": [
-          "Show that sounding out 't-i-o-n' doesn't match how nation is said.",
-          "Introduce -tion, -sion (shun) and -sion (zhun) as whole-chunk spellings.",
-          "Sort a list of -tion/-sion/-cian words by their ending sound."
-        ],
-        "practice_words": [
-          "nation",
-          "station",
-          "special",
-          "mansion",
-          "expansion",
-          "vision",
-          "television",
-          "musician",
-          "action",
-          "decision"
-        ]
-      }
-    },
-    {
-      "id": "schwa_unstressed_syllables",
-      "name": "Schwa in unstressed syllables",
-      "category": "syllable",
-      "statement_teacher": "In an unstressed syllable, almost any vowel letter can reduce to the neutral schwa sound /uh/; this is the single most common vowel sound in English and explains many 'tricky' spellings.",
-      "statement_kid": "In the parts of a word you say quietly (not the stressed beat), almost any vowel can turn into a lazy little /uh/ sound — that's schwa, and it's why about, lemon and doctor are tricky to spell.",
-      "gpcs": [
-        "a.schwa",
-        "o.schwa",
-        "er.schwa_r",
-        "or.schwa",
-        "ou.schwa"
-      ],
-      "lesson": {
-        "explanation": "Schwa is the reduced, unstressed vowel /uh/ heard in about, sofa, lemon, doctor, famous. Because almost every vowel letter can spell it, and it gives no clue which letter was 'meant', schwa syllables are best taught as heart-word patterns — say the word carefully and think about a related word with the syllable stressed to recover the correct spelling (e.g. define ~ definite).",
-        "steps": [
-          "Clap the stressed and unstressed syllables in about, lemon, doctor.",
-          "Notice the unstressed syllable sounds the same (/uh/) no matter which vowel letter spells it.",
-          "Use a related, stressed-syllable word to recover tricky spellings (sign→signature)."
-        ],
-        "practice_words": [
-          "about",
-          "sofa",
-          "lemon",
-          "doctor",
-          "famous",
-          "again",
-          "gallon",
-          "actor",
-          "circus",
-          "problem"
-        ]
-      }
+     "word": "play",
+     "target_gpc": "ay.ay",
+     "distractors": [
+      "ai.ay",
+      "ea.ay",
+      "ey.ay"
+     ]
     }
-  ]
+   ]
+  },
+  {
+   "id": "oi_oy_position",
+   "name": "oi vs oy: position in the word",
+   "category": "position",
+   "statement_teacher": "oi spells /oy/ within a word or syllable; oy spells /oy/ at the end of a word or syllable.",
+   "statement_kid": "oi lives in the middle, oy lives at the end — just like ai and ay.",
+   "gpcs": [
+    "oi.oy",
+    "oy.oy"
+   ],
+   "lesson": {
+    "explanation": "Same positional pattern as ai/ay: oi is for the middle of a syllable (point, coin, voice), oy is for the end (boy, toy, enjoy).",
+    "steps": [
+     "Listen for the /oy/ sound in the word.",
+     "Middle of the syllable → oi.",
+     "End of the word/syllable → oy.",
+     "Practise with a sort: coin/toy, point/boy, voice/enjoy."
+    ],
+    "practice_words": [
+     "point",
+     "boy",
+     "coin",
+     "toy",
+     "voice",
+     "enjoy",
+     "soil",
+     "annoy",
+     "noise",
+     "royal"
+    ]
+   },
+   "choose_between": {
+    "oi.oy": "middle",
+    "oy.oy": "end"
+   },
+   "toggle_sets": [
+    {
+     "word": "coin",
+     "target_gpc": "oi.oy",
+     "distractors": [
+      "oy.oy"
+     ]
+    },
+    {
+     "word": "boy",
+     "target_gpc": "oy.oy",
+     "distractors": [
+      "oi.oy"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ou_ow_position",
+   "name": "ou vs ow: position in the word",
+   "category": "position",
+   "statement_teacher": "ou spells /ow/ within a word or syllable; ow spells /ow/ most often at the end of a word or syllable, or before a final l/n.",
+   "statement_kid": "ou usually lives in the middle, ow usually lives at the end (or right before n or l).",
+   "gpcs": [
+    "ou.ow",
+    "ow.ow"
+   ],
+   "lesson": {
+    "explanation": "The MOUTH diphthong is most often spelled ou mid-word (round, loud, house, found) and ow at the end of a word/syllable or before l/n (how, cow, town, brown). Unlike ai/ay this pattern has more exceptions (e.g. 'about', 'flower'), so treat it as a strong tendency, not an absolute rule.",
+    "steps": [
+     "Listen for /ow/ in the word.",
+     "Check whether it's mid-word (try ou first) or at the very end / before l or n (try ow).",
+     "Sort a mixed list to see the pattern, then flag the exceptions (e.g. town isn't at the very end but still uses ow)."
+    ],
+    "practice_words": [
+     "round",
+     "how",
+     "loud",
+     "cow",
+     "house",
+     "town",
+     "found",
+     "brown",
+     "shout",
+     "growl"
+    ]
+   },
+   "choose_between": {
+    "ou.ow": "middle",
+    "ow.ow": "end"
+   },
+   "toggle_sets": [
+    {
+     "word": "house",
+     "target_gpc": "ou.ow",
+     "distractors": [
+      "ow.ow"
+     ]
+    },
+    {
+     "word": "brown",
+     "target_gpc": "ow.ow",
+     "distractors": [
+      "ou.ow"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "au_aw_augh_position",
+   "name": "au vs aw vs augh: position in the word",
+   "category": "position",
+   "statement_teacher": "au spells /or/ at the start or in the middle of a word and never ends a word; aw spells /or/ at the end of a word or syllable; augh is a rarer variant seen in a small closed set of words (caught, taught, daughter).",
+   "statement_kid": "au never finishes a word off — aw does that job. augh only shows up in a handful of words you just have to learn by sight.",
+   "gpcs": [
+    "au.or",
+    "aw.or",
+    "augh.or"
+   ],
+   "lesson": {
+    "explanation": "All three spell the THOUGHT/NORTH vowel /or/. au starts or sits in the middle of a word (sauce, author, haul) and is never word-final. aw is the end-of-word spelling (jaw, straw, crawl). augh is an old, low-frequency spelling locked into a small set of words (caught, taught, naughty, daughter) — best taught as sight/heart words rather than by rule.",
+    "steps": [
+     "Show au and aw words side by side and ask: which one ends the word?",
+     "Establish: au = start/middle, never the end; aw = end (and sometimes middle, e.g. crawl).",
+     "Introduce augh as a 'rule breaker' spelling for a short list of high-utility words.",
+     "Sort practice words into three columns: au, aw, augh."
+    ],
+    "practice_words": [
+     "sauce",
+     "jaw",
+     "haul",
+     "straw",
+     "author",
+     "yawn",
+     "caught",
+     "taught",
+     "daughter",
+     "naughty"
+    ]
+   },
+   "choose_between": {
+    "au.or": "middle",
+    "aw.or": "end"
+   },
+   "toggle_sets": [
+    {
+     "word": "sauce",
+     "target_gpc": "au.or",
+     "distractors": [
+      "aw.or",
+      "or.or"
+     ]
+    },
+    {
+     "word": "jaw",
+     "target_gpc": "aw.or",
+     "distractors": [
+      "au.or",
+      "ore.or"
+     ]
+    },
+    {
+     "word": "caught",
+     "target_gpc": "augh.or",
+     "distractors": [
+      "au.or",
+      "aw.or"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ee_ea_ey_y_long_e",
+   "name": "Spelling choices for /ee/",
+   "category": "choice",
+   "statement_teacher": "The FLEECE vowel /ee/ has several common spellings that compete for the same sound: ee and ea in stressed syllables, and unstressed final y or ey at the end of longer words.",
+   "statement_kid": "There's more than one way to write the /ee/ sound. ee and ea do it in the middle of words; a lonely y or ey does it at the end of longer words like happy and monkey.",
+   "gpcs": [
+    "ee.ee",
+    "ea.ee",
+    "ey.ee",
+    "y.ee"
+   ],
+   "lesson": {
+    "explanation": "ee (see, tree) and ea (eat, team) are the two main mid-word spellings and must be learned word-by-word since both are common. Unstressed word-final /ee/ is spelled y after a consonant in most words (happy, funny) and ey in a smaller set (key, monkey, honey).",
+    "steps": [
+     "Sort a mixed list of /ee/ words by spelling: ee, ea, y, ey.",
+     "Notice ee/ea are for stressed mid-word /ee/; y/ey are for the unstressed final sound.",
+     "Build a personal 'ea or ee?' word bank as new words are met, since there's no reliable rule to choose between them."
+    ],
+    "practice_words": [
+     "see",
+     "eat",
+     "happy",
+     "key",
+     "tree",
+     "team",
+     "funny",
+     "monkey",
+     "sleep",
+     "read"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "tree",
+     "target_gpc": "ee.ee",
+     "distractors": [
+      "ea.ee",
+      "e_e.ee",
+      "ie.ee"
+     ]
+    },
+    {
+     "word": "team",
+     "target_gpc": "ea.ee",
+     "distractors": [
+      "ee.ee",
+      "ey.ee"
+     ]
+    },
+    {
+     "word": "happy",
+     "target_gpc": "y.ee",
+     "distractors": [
+      "ey.ee",
+      "ee.ee"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ck_k_c_spelling_of_k",
+   "name": "Spelling /k/: c, k, or ck",
+   "category": "choice",
+   "statement_teacher": "/k/ is spelled c before a, o, u or a consonant; k before e, i or y; and ck immediately after a short vowel at the end of a word or syllable.",
+   "statement_kid": "Use c before a, o, u. Use k before e, i, y. Use ck right after a short vowel bump at the end of a word — never at the very start.",
+   "gpcs": [
+    "c.k",
+    "k.k",
+    "ck.k"
+   ],
+   "lesson": {
+    "explanation": "English spelling avoids c before e/i/y because c would then be read as /s/ (soft c). So /k/ before e, i, y is spelled k (kit, key, kind). Before a, o, u it's spelled c (cat, cot, cup). Straight after a short vowel, at the end of a one-syllable word, /k/ is spelled ck (neck, duck, rock) — never just k or c.",
+    "steps": [
+     "Show three columns headed c, k, ck.",
+     "Sort words by the letter that follows (a/o/u → c; e/i/y → k) or by whether /k/ follows an immediate short vowel at the end (→ ck).",
+     "Test with nonsense words (e.g. 'kob' vs 'cob') to check the rule, not just memory."
+    ],
+    "practice_words": [
+     "cat",
+     "kit",
+     "duck",
+     "cot",
+     "key",
+     "neck",
+     "cup",
+     "kind",
+     "rock",
+     "kettle"
+    ]
+   },
+   "choose_between": {
+    "c.k": "before a/o/u",
+    "k.k": "before e/i/y",
+    "ck.k": "after a short vowel, word-final"
+   },
+   "toggle_sets": [
+    {
+     "word": "cat",
+     "target_gpc": "c.k",
+     "distractors": [
+      "k.k",
+      "ck.k"
+     ]
+    },
+    {
+     "word": "kit",
+     "target_gpc": "k.k",
+     "distractors": [
+      "c.k",
+      "ck.k"
+     ]
+    },
+    {
+     "word": "duck",
+     "target_gpc": "ck.k",
+     "distractors": [
+      "c.k",
+      "k.k"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tch_vs_ch",
+   "name": "tch vs ch after a short vowel",
+   "category": "choice",
+   "statement_teacher": "tch is used for /ch/ immediately after a short vowel at the end of a word (match, catch); plain ch is used everywhere else (chop, much, bench, teach). Exceptions: rich, which, such, much.",
+   "statement_kid": "Straight after a quick short vowel, /ch/ is spelled tch. Everywhere else — at the start, or after a consonant or long vowel — it's just ch.",
+   "gpcs": [
+    "tch.ch",
+    "ch.ch"
+   ],
+   "lesson": {
+    "explanation": "Like ck, tch is a 'short vowel guard' spelling: catch, match, kitchen, witch all have a short vowel right before /ch/. Plain ch is used at the start of words (chop, chair) and after consonants or long vowels/teams (bench, lunch, teach, beach). A handful of common exceptions (much, such, rich, which) keep plain ch even after a short vowel.",
+    "steps": [
+     "Sort words into 'tch' and 'ch' columns by what comes right before the /ch/ sound.",
+     "Highlight the short-vowel-then-tch pattern.",
+     "Call out the exception club: much, such, rich, which — no tch needed."
+    ],
+    "practice_words": [
+     "match",
+     "chop",
+     "catch",
+     "chair",
+     "kitchen",
+     "bench",
+     "witch",
+     "teach",
+     "much",
+     "which"
+    ]
+   },
+   "choose_between": {
+    "tch.ch": "after a short vowel, word-final",
+    "ch.ch": "elsewhere"
+   },
+   "toggle_sets": [
+    {
+     "word": "match",
+     "target_gpc": "tch.ch",
+     "distractors": [
+      "ch.ch"
+     ]
+    },
+    {
+     "word": "teach",
+     "target_gpc": "ch.ch",
+     "distractors": [
+      "tch.ch"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "dge_vs_ge",
+   "name": "dge vs ge after a short vowel",
+   "category": "choice",
+   "statement_teacher": "dge is used for /j/ immediately after a short vowel at the end of a word (bridge, judge); ge is used after a consonant or long vowel/team (large, huge, orange, cage).",
+   "statement_kid": "Straight after a quick short vowel, /j/ is spelled dge. After a consonant or a long vowel, it's just ge.",
+   "gpcs": [
+    "dge.j",
+    "ge.j"
+   ],
+   "lesson": {
+    "explanation": "Same short-vowel-guard logic as tch/ch: dge appears right after a short vowel (bridge, judge, badge), while ge appears after a consonant (large, orange) or a long vowel/silent-e pattern (cage, huge). English words also never end in a bare j — see the 'no word ends in j' rule.",
+    "steps": [
+     "Sort words into dge and ge columns based on what comes just before /j/.",
+     "Confirm: short vowel right before → dge; consonant or long vowel before → ge.",
+     "Cross-reference with the silent-e rule for cage/huge-type words."
+    ],
+    "practice_words": [
+     "bridge",
+     "cage",
+     "judge",
+     "large",
+     "badge",
+     "huge",
+     "fridge",
+     "orange",
+     "budge",
+     "stage"
+    ]
+   },
+   "choose_between": {
+    "dge.j": "after a short vowel, word-final",
+    "ge.j": "after a consonant or long vowel"
+   },
+   "toggle_sets": [
+    {
+     "word": "bridge",
+     "target_gpc": "dge.j",
+     "distractors": [
+      "ge.j"
+     ]
+    },
+    {
+     "word": "cage",
+     "target_gpc": "ge.j",
+     "distractors": [
+      "dge.j"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "k_not_c_before_e_i_y",
+   "name": "k, not c, before e, i or y",
+   "category": "choice",
+   "statement_teacher": "When spelling /k/ immediately before e, i or y, use k (or ck after a short vowel) — c before e, i or y would be read as soft c, /s/.",
+   "statement_kid": "Never put c in front of e, i or y if you want it to say /k/ — c gets soft and turns into /s/ there. Use k instead.",
+   "gpcs": [
+    "k.k",
+    "c.s",
+    "c.k"
+   ],
+   "lesson": {
+    "explanation": "c has two jobs: hard /k/ before a, o, u and most consonants, and soft /s/ before e, i, y. Because c automatically softens before e/i/y, English spelling routes /k/ before those letters through k instead (kit, kettle, sky), keeping the soft-c pattern reliable and readable.",
+    "steps": [
+     "Show that ceb/cid/cym would read as soft c — demonstrate with real words like cent, city, cycle.",
+     "Establish: to keep /k/ before e/i/y, swap to k.",
+     "Practise spelling /k/ words that start with e, i or y sounds using k, not c."
+    ],
+    "practice_words": [
+     "kit",
+     "kettle",
+     "sky",
+     "cent",
+     "city",
+     "cycle",
+     "kind",
+     "key",
+     "cell",
+     "kick"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "kettle",
+     "target_gpc": "k.k",
+     "distractors": [
+      "c.k",
+      "c.s"
+     ]
+    },
+    {
+     "word": "cent",
+     "target_gpc": "c.s",
+     "distractors": [
+      "c.k",
+      "k.k"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "soft_c",
+   "name": "Soft c says /s/",
+   "category": "choice",
+   "statement_teacher": "c represents /s/ (soft c) when followed by e, i or y; it represents /k/ (hard c) elsewhere. A word-final soft c is spelled ce (ice, race).",
+   "statement_kid": "c turns soft and says /s/ when e, i or y comes right after it. At the end of a word, soft c always brings a silent e along: ice, race, dance.",
+   "gpcs": [
+    "c.s",
+    "ce.s",
+    "c.k"
+   ],
+   "lesson": {
+    "explanation": "This is the flip side of hard c: cent, city, cycle all have soft c before e/i/y. At the end of a word, /s/ after c is spelled ce, not a bare c (ice, dance, mice) — the silent e is required.",
+    "steps": [
+     "Sort words with c into 'hard /k/' and 'soft /s/' columns.",
+     "Circle the letter right after c each time to find the pattern.",
+     "Practise word-final ce words and check the silent e is always there."
+    ],
+    "practice_words": [
+     "cent",
+     "city",
+     "cycle",
+     "ice",
+     "race",
+     "dance",
+     "cat",
+     "cot",
+     "mice",
+     "cell"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "city",
+     "target_gpc": "c.s",
+     "distractors": [
+      "c.k"
+     ]
+    },
+    {
+     "word": "ice",
+     "target_gpc": "ce.s",
+     "distractors": [
+      "c.s"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "soft_g",
+   "name": "Soft g says /j/",
+   "category": "choice",
+   "statement_teacher": "g often represents /j/ (soft g) when followed by e, i or y (gem, giant, gym); it represents /g/ (hard g) elsewhere. There are many common exceptions (get, give, girl, gift, tiger).",
+   "statement_kid": "g can turn soft and say /j/ before e, i or y — but watch out, g breaks this rule a lot more than c does (get, give, girl are all hard g).",
+   "gpcs": [
+    "g.g",
+    "g.j",
+    "ge.j"
+   ],
+   "lesson": {
+    "explanation": "Like soft c, soft g is triggered by a following e, i or y (gem, giant, gym, danger). Unlike soft c, this pattern is unreliable — many very common words (get, give, girl, gift, tiger has soft g though) keep g hard before e/i. Teach it as a tendency to check, not a guarantee, and build a sight-word list of the exceptions.",
+    "steps": [
+     "Sort g words by hard /g/ and soft /j/.",
+     "Notice most soft g words have e, i or y after g — but flag get/give/girl/gift as exceptions to learn by heart.",
+     "Introduce ge as the word-final spelling of soft g (cage, huge, orange)."
+    ],
+    "practice_words": [
+     "gem",
+     "go",
+     "giant",
+     "get",
+     "gym",
+     "give",
+     "danger",
+     "girl",
+     "cage",
+     "gift"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "gem",
+     "target_gpc": "g.j",
+     "distractors": [
+      "g.g"
+     ]
+    },
+    {
+     "word": "go",
+     "target_gpc": "g.g",
+     "distractors": [
+      "g.j"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "floss_rule",
+   "name": "The Floss rule: ff, ll, ss, zz",
+   "category": "position",
+   "statement_teacher": "In a short one-syllable word, immediately after a single short vowel, the consonants f, l, s and (sometimes) z are doubled at the end of the word.",
+   "statement_kid": "In a short word, straight after one short vowel bump, f, l, s and z like to double up at the end: off, well, miss, buzz.",
+   "gpcs": [
+    "ff.f",
+    "ll.l",
+    "ss.s",
+    "zz.z"
+   ],
+   "lesson": {
+    "explanation": "Named after the word 'floss', this rule covers four consonants that double at the end of short words right after a single short vowel: staff, bell, grass, buzz. z is the least reliable of the four (quiz, fez exist without doubling).",
+    "steps": [
+     "Show a short CVC word ending in f/l/s/z and ask if one letter or two is needed.",
+     "Establish the pattern: one short vowel + f/l/s/z at the very end of a short word → double it.",
+     "Contrast with longer or multisyllabic words where doubling doesn't apply the same way (bus, gas, yes are common exceptions to flag)."
+    ],
+    "practice_words": [
+     "off",
+     "well",
+     "miss",
+     "buzz",
+     "staff",
+     "bell",
+     "grass",
+     "fizz",
+     "cliff",
+     "doll"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "off",
+     "target_gpc": "ff.f",
+     "distractors": [
+      "f.f"
+     ]
+    },
+    {
+     "word": "bell",
+     "target_gpc": "ll.l",
+     "distractors": [
+      "l.l"
+     ]
+    },
+    {
+     "word": "miss",
+     "target_gpc": "ss.s",
+     "distractors": [
+      "s.s"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "no_word_ends_v",
+   "name": "English words don't end in v",
+   "category": "position",
+   "statement_teacher": "No standard English word ends in a bare v; a silent e is added after final v (have, give, love, live).",
+   "statement_kid": "You can't finish an English word with v on its own — it always needs a silent e riding along behind it: have, give, love.",
+   "gpcs": [
+    "ve.v"
+   ],
+   "lesson": {
+    "explanation": "This is a pure spelling convention, not a sound rule — the silent e after v doesn't make the vowel long (have does not rhyme with cave). It's simply that v is never the very last letter of an English word.",
+    "steps": [
+     "Show v words and ask what's always stuck on the end.",
+     "Establish: v always needs a silent e after it, no exceptions.",
+     "Contrast have/gave to show the silent e here does NOT always mean 'long vowel'."
+    ],
+    "practice_words": [
+     "have",
+     "give",
+     "love",
+     "live",
+     "five",
+     "wave",
+     "dove",
+     "glove",
+     "drive",
+     "curve"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "have",
+     "target_gpc": "ve.v",
+     "distractors": [
+      "v.v"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "no_word_ends_u",
+   "name": "English words don't end in u",
+   "category": "position",
+   "statement_teacher": "No standard English word ends in a bare u; final /oo_long/ or /yoo/ is spelled ue, ew or oo instead.",
+   "statement_kid": "English words don't finish on a lonely u. If you hear /oo/ or /yoo/ at the very end, reach for ue, ew or oo.",
+   "gpcs": [
+    "ue.oo_long",
+    "ue.yoo",
+    "ew.oo_long",
+    "ew.yoo"
+   ],
+   "lesson": {
+    "explanation": "Just as words don't end in bare v, they don't end in bare u either. Word-final /oo_long/ is usually spelled ue (blue, true, glue) or ew (grew, flew, chew); word-final /yoo/ is usually ue (rescue, value) or ew (new, few, stew).",
+    "steps": [
+     "Show that 'blu' and 'gru' aren't real spellings.",
+     "Sort real words by their word-final /oo/ or /yoo/ spelling: ue or ew.",
+     "Practise writing the ending correctly from dictation."
+    ],
+    "practice_words": [
+     "blue",
+     "grew",
+     "true",
+     "new",
+     "glue",
+     "flew",
+     "rescue",
+     "few",
+     "clue",
+     "stew"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "blue",
+     "target_gpc": "ue.oo_long",
+     "distractors": [
+      "ew.oo_long"
+     ]
+    },
+    {
+     "word": "grew",
+     "target_gpc": "ew.oo_long",
+     "distractors": [
+      "ue.oo_long"
+     ]
+    },
+    {
+     "word": "new",
+     "target_gpc": "ew.yoo",
+     "distractors": [
+      "ue.yoo"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "no_word_ends_i",
+   "name": "English words don't end in i",
+   "category": "position",
+   "statement_teacher": "No standard English word ends in a bare i; word-final /igh/ or unstressed /ee/ is spelled y instead.",
+   "statement_kid": "English words don't finish on a lonely i — y takes over at the end of the word, whether it's saying /igh/ (my, fly) or /ee/ (happy, funny).",
+   "gpcs": [
+    "y.igh",
+    "y.ee"
+   ],
+   "lesson": {
+    "explanation": "Word-final i is replaced by y across English spelling: my, by, fly, try all use y for /igh/, and happy, funny, family all use y for unstressed final /ee/. This is one of the most productive 'don't end in ___' conventions.",
+    "steps": [
+     "Show that 'mi' and 'happi' aren't real spellings.",
+     "Establish: final i becomes y, whichever sound it's making.",
+     "Practise sorting y words by their sound: /igh/ or /ee/."
+    ],
+    "practice_words": [
+     "my",
+     "fly",
+     "try",
+     "happy",
+     "funny",
+     "sky",
+     "cry",
+     "baby",
+     "family",
+     "shy"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "fly",
+     "target_gpc": "y.igh",
+     "distractors": [
+      "y.ee",
+      "y.i"
+     ]
+    },
+    {
+     "word": "happy",
+     "target_gpc": "y.ee",
+     "distractors": [
+      "y.igh",
+      "y.i"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "no_word_ends_j",
+   "name": "English words don't end in j",
+   "category": "position",
+   "statement_teacher": "No standard English word ends in a bare j; word-final /j/ is spelled dge (after a short vowel) or ge (after a consonant or long vowel).",
+   "statement_kid": "English words never finish with j — that job is shared between dge and ge, depending on the vowel sound just before it.",
+   "gpcs": [
+    "dge.j",
+    "ge.j"
+   ],
+   "lesson": {
+    "explanation": "j is common at the start of words (jam, jump) but never appears at the end. Word-final /j/ is spelled dge right after a short vowel (bridge, judge) and ge after a consonant or long vowel/silent-e pattern (large, cage, huge).",
+    "steps": [
+     "Show that 'brij' and 'caj' aren't real spellings.",
+     "Link back to the dge-vs-ge rule to choose the right one.",
+     "Practise spelling word-final /j/ words correctly."
+    ],
+    "practice_words": [
+     "bridge",
+     "cage",
+     "judge",
+     "large",
+     "huge",
+     "badge",
+     "orange",
+     "fridge",
+     "stage",
+     "budge"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "judge",
+     "target_gpc": "dge.j",
+     "distractors": [
+      "ge.j"
+     ]
+    },
+    {
+     "word": "huge",
+     "target_gpc": "ge.j",
+     "distractors": [
+      "dge.j"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "qu_not_q_alone",
+   "name": "q is always paired with u",
+   "category": "position",
+   "statement_teacher": "The letter q does not stand alone in English spelling; it is always followed by u, and together qu spells /kw/.",
+   "statement_kid": "q never goes anywhere without its buddy u. Together, qu says /kw/ — like at the start of queen and quick.",
+   "gpcs": [
+    "qu.kw"
+   ],
+   "lesson": {
+    "explanation": "Unlike most consonants, q cannot appear without a following u in standard English spelling. The pair qu is taught and blended as a single unit spelling /kw/.",
+    "steps": [
+     "Show that 'q' alone never appears in English words.",
+     "Introduce qu as a fixed pair spelling /kw/.",
+     "Blend qu + rest of word together (qu-it, qu-een, qu-ick)."
+    ],
+    "practice_words": [
+     "quit",
+     "queen",
+     "quick",
+     "quiz",
+     "squid",
+     "square",
+     "quiet",
+     "equal",
+     "quack",
+     "question"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "queen",
+     "target_gpc": "qu.kw",
+     "distractors": []
+    }
+   ]
+  },
+  {
+   "id": "w_changes_a_to_o",
+   "name": "w changes a from /a/ to /o/",
+   "category": "choice",
+   "statement_teacher": "When a follows w (and is not part of a vowel team), it is pronounced /o/ rather than the usual short /a/: want, wash, swan, what.",
+   "statement_kid": "w is a bully to the letter a — it pushes a from its usual /a/ sound over to /o/. That's why want doesn't rhyme with ant.",
+   "gpcs": [
+    "a.a",
+    "a.o"
+   ],
+   "lesson": {
+    "explanation": "After w, short a regularly shifts to /o/: want, wash, wander, swan, what, watch. This only applies to plain a — a vowel team after w (like ay in sway) keeps its usual sound.",
+    "steps": [
+     "Compare 'cat' and 'want' — same letter a, different sound.",
+     "Establish: w changes the sound of a plain a that follows it, from /a/ to /o/.",
+     "Practise reading and sorting w+a words against ordinary short-a words."
+    ],
+    "practice_words": [
+     "want",
+     "wash",
+     "swan",
+     "what",
+     "wander",
+     "watch",
+     "wallet",
+     "cat",
+     "hat",
+     "sat"
+    ]
+   },
+   "choose_between": {
+    "a.a": "not after w",
+    "a.o": "after w"
+   },
+   "toggle_sets": [
+    {
+     "word": "want",
+     "target_gpc": "a.o",
+     "distractors": [
+      "a.a"
+     ]
+    },
+    {
+     "word": "cat",
+     "target_gpc": "a.a",
+     "distractors": [
+      "a.o"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "w_changes_ar_and_or",
+   "name": "w changes ar to /or/ and or to /er/",
+   "category": "choice",
+   "statement_teacher": "After w, ar is pronounced /or/ (war, warm, ward) and or is pronounced /er/ (word, work, worm, worship).",
+   "statement_kid": "w changes ar's sound to /or/ (war, warm) — and it flips or's sound the other way, to /er/ (word, work, worm)!",
+   "gpcs": [
+    "war.or",
+    "wor.er"
+   ],
+   "lesson": {
+    "explanation": "w has a second, opposite effect on r-controlled vowels: it pushes ar towards /or/ (war, ward, towards) and pulls or towards /er/ (word, work, worm, worship). Both are w-conditioned shifts away from the 'expected' sound of the vowel spelling.",
+    "steps": [
+     "Compare 'car' (plain ar) with 'war' (w + ar) — different sound.",
+     "Compare 'for' (plain or) with 'work' (w + or) — different sound.",
+     "Sort war-words and wor-words separately and read them aloud to hear the shift."
+    ],
+    "practice_words": [
+     "war",
+     "warm",
+     "ward",
+     "towards",
+     "word",
+     "work",
+     "worm",
+     "worship",
+     "car",
+     "for"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "warm",
+     "target_gpc": "war.or",
+     "distractors": [
+      "ar.ar"
+     ]
+    },
+    {
+     "word": "work",
+     "target_gpc": "wor.er",
+     "distractors": [
+      "or.or"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "all_oll_ull",
+   "name": "all, oll and ull endings",
+   "category": "position",
+   "statement_teacher": "At the end of a one-syllable word, /or/+l is spelled all, /oa/+l is spelled oll, and /oo_short/+l is spelled ull — each written with a single l after the doubled-letter pattern of the rime.",
+   "statement_kid": "Three little endings to learn by ear: all says /orl/ (ball), oll says /oal/ (roll), ull says /ool/ (full, bull).",
+   "gpcs": [
+    "all.or",
+    "oll.oa",
+    "ull.oo_short"
+   ],
+   "lesson": {
+    "explanation": "These are whole-rime spelling patterns rather than single-letter GPCs: all (ball, call, small), oll (roll, toll, stroll) and ull (full, bull, pull) each pair a vowel sound with a following l as one chunk, useful for older beginning readers tackling longer word families.",
+    "steps": [
+     "Introduce each rime as a chunk: all, oll, ull.",
+     "Read and sort words by rime family.",
+     "Build new words by swapping the onset (b-all, c-all, t-all; r-oll, t-oll; f-ull, b-ull, p-ull)."
+    ],
+    "practice_words": [
+     "ball",
+     "call",
+     "small",
+     "roll",
+     "toll",
+     "stroll",
+     "full",
+     "bull",
+     "pull",
+     "tall"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "ball",
+     "target_gpc": "all.or",
+     "distractors": [
+      "al.or",
+      "or.or"
+     ]
+    },
+    {
+     "word": "roll",
+     "target_gpc": "oll.oa",
+     "distractors": [
+      "oa.oa"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "old_ild_ind_ost_olt",
+   "name": "Long-vowel teams: old, ild, ind, ost, olt",
+   "category": "position",
+   "statement_teacher": "In the closed-syllable endings old, ild, ind, ost and olt, the vowel is long even though the syllable ends in a consonant (cold, child, find, most, bolt). Common exceptions with a short vowel: cost, lost, frost.",
+   "statement_kid": "These five little endings break the usual 'closed syllable = short vowel' rule — the vowel says its long name instead: cold, wild, find, most, bolt.",
+   "gpcs": [
+    "old.oa",
+    "ild.igh",
+    "ind.igh",
+    "ost.oa",
+    "olt.oa"
+   ],
+   "lesson": {
+    "explanation": "Normally a vowel followed by a consonant in the same syllable is short (cat, hop). These five endings are exceptions: the single vowel letter says its long name before ld, nd, or st/lt in this specific set of rimes. cost/lost/frost/cross are common exceptions that keep the short o.",
+    "steps": [
+     "Contrast a regular closed syllable (hot) with an old-family word (hold) — same short-looking spelling, different vowel length.",
+     "Introduce each rime family: old, ild, ind, ost, olt.",
+     "Flag the cost/lost/frost exceptions explicitly so they aren't over-generalised."
+    ],
+    "practice_words": [
+     "cold",
+     "gold",
+     "child",
+     "wild",
+     "find",
+     "kind",
+     "most",
+     "post",
+     "bolt",
+     "cost"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "cold",
+     "target_gpc": "old.oa",
+     "distractors": [
+      "o.o"
+     ]
+    },
+    {
+     "word": "find",
+     "target_gpc": "ind.igh",
+     "distractors": [
+      "i.i"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "silent_e_jobs",
+   "name": "The jobs of silent e",
+   "category": "silent-e",
+   "statement_teacher": "A final silent e has several distinct jobs: (1) it marks the preceding vowel as long in a split digraph (cake, these, time, home, tune); (2) it stops a word ending in a bare v or u (have, blue); (3) it keeps c or g soft before the silent e (race, cage).",
+   "statement_kid": "Silent e at the end of a word is doing one of three jobs: making the vowel say its name (cake), stopping the word ending in v or u (have, blue), or keeping c/g soft (race, cage).",
+   "gpcs": [
+    "a_e.ay",
+    "e_e.ee",
+    "i_e.igh",
+    "o_e.oa",
+    "u_e.oo_long",
+    "ve.v",
+    "ce.s",
+    "ge.j"
+   ],
+   "lesson": {
+    "explanation": "Silent e is one spelling, three jobs. Job 1 — long vowel marker: cake, Pete, time, hope, cute. Job 2 — 'no bare v or u' spelling convention: have, give, blue, true. Job 3 — softener: keeps c as /s/ and g as /j/ right before it: race, cage. Explicitly separating the three jobs stops students assuming every silent e means 'long vowel'.",
+    "steps": [
+     "Sort a mixed list of silent-e words into the three job categories.",
+     "For each word, ask: does removing the e change the vowel sound (job 1), is it just there because v/u can't end a word (job 2), or is it keeping c/g soft (job 3)?",
+     "Contrast 'have' (job 2, short vowel) with 'cave' (job 1, long vowel) to prove silent e doesn't always mean long vowel."
+    ],
+    "practice_words": [
+     "cake",
+     "time",
+     "home",
+     "have",
+     "blue",
+     "race",
+     "cage",
+     "these",
+     "tune",
+     "give"
+    ]
+   }
+  },
+  {
+   "id": "plural_s_s_or_z",
+   "name": "Plural -s says /s/ or /z/",
+   "category": "suffix",
+   "statement_teacher": "The plural/3rd-person suffix -s is pronounced /s/ after an unvoiced sound and /z/ after a voiced sound; both are spelled s.",
+   "statement_kid": "The letter s on the end of a plural sometimes says /s/ (cats) and sometimes says /z/ (dogs) — but it's always just spelled s.",
+   "gpcs": [
+    "s.s",
+    "s.z"
+   ],
+   "lesson": {
+    "explanation": "Plural -s is a single spelling with two pronunciations, determined by the sound right before it: after unvoiced sounds (p, t, k, f) it says /s/ (cats, hats, books); after voiced sounds (b, d, g, m, n, l, vowels) it says /z/ (dogs, beds, balls, cars).",
+    "steps": [
+     "Say pairs like cats/dogs and ask what's different.",
+     "Feel the throat buzz on dogs but not cats — voiced vs unvoiced.",
+     "Sort a plural word list by whether -s says /s/ or /z/."
+    ],
+    "practice_words": [
+     "cats",
+     "dogs",
+     "hats",
+     "beds",
+     "books",
+     "balls",
+     "caps",
+     "cars",
+     "ducks",
+     "pens"
+    ]
+   },
+   "choose_between": {
+    "s.s": "after an unvoiced sound",
+    "s.z": "after a voiced sound"
+   },
+   "toggle_sets": [
+    {
+     "word": "cats",
+     "target_gpc": "s.s",
+     "distractors": [
+      "s.z"
+     ]
+    },
+    {
+     "word": "dogs",
+     "target_gpc": "s.z",
+     "distractors": [
+      "s.s"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "es_after_hissing_sounds",
+   "name": "-es after hissing/buzzing sounds",
+   "category": "suffix",
+   "statement_teacher": "When a base word already ends in a sibilant (s, ss, x, z, ch, sh), the plural/3rd-person suffix is spelled es and adds an extra syllable, /iz/.",
+   "statement_kid": "If a word already ends in a hissing or buzzing sound — s, x, z, ch, sh — you can't just add s, your mouth needs a whole extra beat: box-es, wish-es, watch-es.",
+   "gpcs": [
+    "es.iz"
+   ],
+   "lesson": {
+    "explanation": "Adding plain -s after another sibilant would be nearly unpronounceable (boxs), so English inserts a vowel and spells the whole ending -es, pronounced as an extra syllable /iz/: boxes, buses, dishes, watches, buzzes.",
+    "steps": [
+     "Try saying 'boxs' out loud — notice it doesn't work.",
+     "Clap out the syllables in box (1) vs boxes (2) to feel the extra beat.",
+     "Sort words by their base-word ending to predict which take -es."
+    ],
+    "practice_words": [
+     "boxes",
+     "buses",
+     "dishes",
+     "watches",
+     "wishes",
+     "buzzes",
+     "glasses",
+     "foxes",
+     "brushes",
+     "churches"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "boxes",
+     "target_gpc": "es.iz",
+     "distractors": [
+      "s.s",
+      "s.z"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ed_three_sounds",
+   "name": "-ed says /t/, /d/ or /ed/",
+   "category": "suffix",
+   "statement_teacher": "The past-tense suffix -ed is pronounced /t/ after an unvoiced sound, /d/ after a voiced sound, and /id/ (an extra syllable) after a base word ending in /t/ or /d/ — always spelled ed.",
+   "statement_kid": "-ed can say three different things depending on the word: /t/ (picked), /d/ (loved) or a whole extra beat /id/ (landed) — but it's always spelled the same way, e-d.",
+   "gpcs": [
+    "ed.t",
+    "ed.d",
+    "ed.ed"
+   ],
+   "lesson": {
+    "explanation": "Like plural -s, past-tense -ed is one spelling with three pronunciations. After unvoiced sounds it's /t/ (picked, jumped, looked). After voiced sounds it's /d/ (loved, played, opened). After a base word already ending in /t/ or /d/, English inserts a vowel and adds a syllable, /id/ (landed, wanted, painted).",
+    "steps": [
+     "Sort -ed words into three piles by ear: /t/, /d/, /id/.",
+     "Notice the /id/ pile always has base words ending in t or d.",
+     "Clap syllables to confirm landed has 2 beats but played has 1."
+    ],
+    "practice_words": [
+     "picked",
+     "loved",
+     "landed",
+     "jumped",
+     "played",
+     "wanted",
+     "looked",
+     "opened",
+     "painted",
+     "walked"
+    ]
+   },
+   "choose_between": {
+    "ed.t": "after unvoiced",
+    "ed.d": "after voiced",
+    "ed.ed": "after /t/ or /d/"
+   },
+   "toggle_sets": [
+    {
+     "word": "picked",
+     "target_gpc": "ed.t",
+     "distractors": [
+      "ed.d",
+      "ed.ed"
+     ]
+    },
+    {
+     "word": "loved",
+     "target_gpc": "ed.d",
+     "distractors": [
+      "ed.t",
+      "ed.ed"
+     ]
+    },
+    {
+     "word": "landed",
+     "target_gpc": "ed.ed",
+     "distractors": [
+      "ed.t",
+      "ed.d"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "doubling_rule_1_1_1",
+   "name": "The doubling (1-1-1) rule",
+   "category": "suffix",
+   "statement_teacher": "In a one-syllable word with one short vowel ending in one consonant, double the final consonant before adding a vowel suffix (run→running, stop→stopped, big→bigger).",
+   "statement_kid": "One syllable, one short vowel, one consonant on the end? Double that last letter before you add -ing, -ed or -er: run becomes running, not runing.",
+   "gpcs": [
+    "a.a",
+    "e.e",
+    "i.i",
+    "o.o",
+    "u.u"
+   ],
+   "lesson": {
+    "explanation": "Doubling protects the short vowel sound: without it, 'runing' looks like it should have a long u (like tuning). Doubling the final consonant keeps the vowel closed in and short. Applies only when all three conditions are met — 1 syllable, 1 short vowel, 1 final consonant — before a suffix that starts with a vowel.",
+    "steps": [
+     "Show 'runing' vs 'running' and ask which looks like it has a long u.",
+     "Check the 1-1-1 conditions on the whiteboard for a few base words.",
+     "Practise adding -ing/-ed/-er to a mixed list, doubling only where the rule applies (compare run vs jump — jump ends in 2 consonants so no doubling)."
+    ],
+    "practice_words": [
+     "running",
+     "stopped",
+     "bigger",
+     "swimming",
+     "hopped",
+     "sadder",
+     "getting",
+     "planning",
+     "jumping",
+     "landed"
+    ]
+   }
+  },
+  {
+   "id": "drop_e_rule",
+   "name": "The drop-e rule",
+   "category": "suffix",
+   "statement_teacher": "When a base word ends in a silent e and the suffix begins with a vowel, drop the e before adding the suffix (make→making, hope→hoping, use→using).",
+   "statement_kid": "If a word ends in a silent e and the ending you're adding starts with a vowel, kick the e out first: make + ing = making, not makeing.",
+   "gpcs": [
+    "a_e.ay",
+    "e_e.ee",
+    "i_e.igh",
+    "o_e.oa",
+    "u_e.oo_long"
+   ],
+   "lesson": {
+    "explanation": "Silent e's job of marking a long vowel is taken over by the vowel suffix itself once it's attached, so the e is no longer needed and is dropped: make→making, hope→hoping, smile→smiling. If the suffix starts with a consonant (like -ly or -ment), the e usually stays: hope→hopeful.",
+    "steps": [
+     "Show make+ing = makeing and ask if that looks right.",
+     "Establish: silent e + vowel suffix → drop the e.",
+     "Contrast with a consonant suffix (hope+ful) where the e stays."
+    ],
+    "practice_words": [
+     "making",
+     "hoping",
+     "using",
+     "smiling",
+     "shining",
+     "riding",
+     "coming",
+     "writing",
+     "closing",
+     "baking"
+    ]
+   }
+  },
+  {
+   "id": "y_to_i_rule",
+   "name": "The y-to-i rule",
+   "category": "suffix",
+   "statement_teacher": "When a base word ends in a consonant + y, change the y to i before adding most suffixes (happy→happier, baby→babies, cry→cried). Keep the y before -ing (crying).",
+   "statement_kid": "If a word ends in a consonant then y, swap the y for an i before most endings — happy becomes happier, baby becomes babies. But keep the y in front of -ing: crying, not criing.",
+   "gpcs": [
+    "y.ee",
+    "y.igh",
+    "ie.i"
+   ],
+   "lesson": {
+    "explanation": "Final y after a consonant (happy, baby, cry) changes to i before most suffixes: happy→happiness, happier; baby→babies; cry→cried. The exception is -ing, where the y stays to avoid an awkward double-i: cry→crying, not cryiing. After a vowel, y usually stays as-is (play→played).",
+    "steps": [
+     "Sort base words by consonant+y vs vowel+y.",
+     "Add -ed/-es/-er to consonant+y words and watch the y become i.",
+     "Add -ing to the same words and notice the y stays."
+    ],
+    "practice_words": [
+     "happier",
+     "babies",
+     "cried",
+     "crying",
+     "funnier",
+     "carries",
+     "studied",
+     "studying",
+     "flies",
+     "flying"
+    ]
+   }
+  },
+  {
+   "id": "le_final_stable_syllable",
+   "name": "Final stable syllable: le",
+   "category": "syllable",
+   "statement_teacher": "An unstressed final syllable spelled le (after a consonant) is pronounced with a schwa and a syllabic l, roughly /el/; the e is silent and the syllable is always unstressed.",
+   "statement_kid": "When a word ends in a consonant then le, that little syllable is always unstressed and says /el/ — think candle, table, apple.",
+   "gpcs": [
+    "le.el"
+   ],
+   "lesson": {
+    "explanation": "The 'final stable syllable' le is common in two-syllable words (table, candle, little, apple) and is always the unstressed syllable, always pronounced roughly /el/, regardless of what came before. It's called 'stable' because, unlike most syllable types, its spelling-to-sound mapping barely varies.",
+    "steps": [
+     "Clap the syllables in candle and notice which one is stressed (the first).",
+     "Show the le chunk always sounds the same: /el/.",
+     "Practise dividing le-words into syllables: can-dle, ta-ble, ap-ple."
+    ],
+    "practice_words": [
+     "candle",
+     "table",
+     "apple",
+     "little",
+     "purple",
+     "simple",
+     "bubble",
+     "handle",
+     "puddle",
+     "uncle"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "candle",
+     "target_gpc": "le.el",
+     "distractors": [
+      "l.l"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tion_sion_shun_zhun",
+   "name": "tion and sion say /shun/ or /zhun/",
+   "category": "syllable",
+   "statement_teacher": "The unstressed final syllables ti, ci and si before a vowel say /sh/ (nation, special, mansion), and si sometimes says /zh/ (vision) — combined with the following -on, these spell the very common /shun/ and /zhun/ endings.",
+   "statement_kid": "When you spot -tion or -sion at the end of a word, don't sound out each letter — the whole chunk just says /shun/ (nation, mansion) or, sometimes, /zhun/ (vision).",
+   "gpcs": [
+    "ti.sh",
+    "ci.sh",
+    "si.sh",
+    "si.zh"
+   ],
+   "lesson": {
+    "explanation": "ti, ci and si before a vowel regularly spell /sh/ in this unstressed final syllable: nation, special, mansion, expansion. A smaller set of -sion words are pronounced with /zh/ instead of /sh/, usually when the base word ends in a vowel or has a voiced consonant before it: vision, television, decision. Teach -tion/-sion as whole recognisable chunks rather than sounding out t-i-o-n.",
+    "steps": [
+     "Show that sounding out 't-i-o-n' doesn't match how nation is said.",
+     "Introduce -tion, -sion (shun) and -sion (zhun) as whole-chunk spellings.",
+     "Sort a list of -tion/-sion/-cian words by their ending sound."
+    ],
+    "practice_words": [
+     "nation",
+     "station",
+     "special",
+     "mansion",
+     "expansion",
+     "vision",
+     "television",
+     "musician",
+     "action",
+     "decision"
+    ]
+   }
+  },
+  {
+   "id": "schwa_unstressed_syllables",
+   "name": "Schwa in unstressed syllables",
+   "category": "syllable",
+   "statement_teacher": "In an unstressed syllable, almost any vowel letter can reduce to the neutral schwa sound /uh/; this is the single most common vowel sound in English and explains many 'tricky' spellings.",
+   "statement_kid": "In the parts of a word you say quietly (not the stressed beat), almost any vowel can turn into a lazy little /uh/ sound — that's schwa, and it's why about, lemon and doctor are tricky to spell.",
+   "gpcs": [
+    "a.schwa",
+    "o.schwa",
+    "er.schwa_r",
+    "or.schwa",
+    "ou.schwa"
+   ],
+   "lesson": {
+    "explanation": "Schwa is the reduced, unstressed vowel /uh/ heard in about, sofa, lemon, doctor, famous. Because almost every vowel letter can spell it, and it gives no clue which letter was 'meant', schwa syllables are best taught as heart-word patterns — say the word carefully and think about a related word with the syllable stressed to recover the correct spelling (e.g. define ~ definite).",
+    "steps": [
+     "Clap the stressed and unstressed syllables in about, lemon, doctor.",
+     "Notice the unstressed syllable sounds the same (/uh/) no matter which vowel letter spells it.",
+     "Use a related, stressed-syllable word to recover tricky spellings (sign→signature)."
+    ],
+    "practice_words": [
+     "about",
+     "sofa",
+     "lemon",
+     "doctor",
+     "famous",
+     "again",
+     "gallon",
+     "actor",
+     "circus",
+     "problem"
+    ]
+   }
+  },
+  {
+   "id": "j_spelling_choice",
+   "name": "Spelling /j/: j, g, dge or ge",
+   "category": "choice",
+   "statement_teacher": "/j/ is spelled j at the start of a word (jam); g before e, i or y (gem, giant, gym); dge straight after a short vowel at the end (bridge, judge); and ge after a consonant or long vowel at the end (large, cage). English words never end in the letter j.",
+   "statement_kid": "j starts words. At the end you can't use j — use dge right after a short vowel bump, or ge after anything else.",
+   "gpcs": [
+    "j.j",
+    "g.j",
+    "dge.j",
+    "ge.j"
+   ],
+   "choose_between": {
+    "j.j": "start of a word or syllable",
+    "g.j": "before e, i or y",
+    "dge.j": "after a short vowel, word-final",
+    "ge.j": "after a consonant or long vowel, word-final"
+   },
+   "lesson": {
+    "explanation": "The sound /j/ has one job-share: j takes the front of words, and because English words never end in j, the end of a word goes to dge (right after a short vowel) or ge (after everything else). g only says /j/ when e, i or y comes next.",
+    "steps": [
+     "Sort word cards into four columns: j, g(e/i/y), dge, ge.",
+     "Say each word slowly and find WHERE the /j/ lives (start, middle, end).",
+     "For end-of-word /j/, check the vowel before it: short vowel -> dge, anything else -> ge."
+    ],
+    "practice_words": [
+     "jam",
+     "jet",
+     "gem",
+     "giant",
+     "gym",
+     "bridge",
+     "judge",
+     "hedge",
+     "large",
+     "cage",
+     "page"
+    ]
+   },
+   "toggle_sets": [
+    {
+     "word": "judge",
+     "target_gpc": "dge.j",
+     "distractors": [
+      "j.j",
+      "ge.j"
+     ]
+    },
+    {
+     "word": "cage",
+     "target_gpc": "ge.j",
+     "distractors": [
+      "dge.j",
+      "j.j"
+     ]
+    },
+    {
+     "word": "jam",
+     "target_gpc": "j.j",
+     "distractors": [
+      "g.j",
+      "ge.j"
+     ]
+    },
+    {
+     "word": "gem",
+     "target_gpc": "g.j",
+     "distractors": [
+      "j.j",
+      "dge.j"
+     ]
+    }
+   ]
+  }
+ ]
 }

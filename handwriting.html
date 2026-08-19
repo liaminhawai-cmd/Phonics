@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handwriting — Aussie Phonics</title>
+    <link rel="icon" href="data:,">
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --paper: #fbf7ee;
+            --ink: #1f1f1f;
+            --muted: #6b6256;
+            --line: #d8cfbb;
+            --line-soft: #e8e0cd;
+            --accent: #a83232;
+            --correct: #2f6a3e;
+            --wrong: #a83232;
+            --warn: #c8992e;
+            --warn-ink: #6b5316;
+            --warn-bg: #f8f1de;
+            --good-bg: #ebf3ec;
+            --bad-bg: #f5eaea;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        [hidden] { display: none !important; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--ink);
+        }
+        .container {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            max-width: 640px;
+            width: 100%;
+            padding: 20px 18px 26px;
+            margin-top: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .hub-link { display: inline-block; font-size: 13px; font-weight: 700; color: var(--accent);
+            text-decoration: none; margin-bottom: 4px; min-height: 44px; line-height: 44px; }
+        .hub-link:hover { text-decoration: underline; }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            font-family: Georgia, 'Times New Roman', serif;
+            letter-spacing: 0.5px;
+        }
+        .subtitle { color: var(--muted); text-align: center; margin: 6px auto 14px; font-size: 13px;
+            line-height: 1.5; max-width: 460px; }
+
+        .learner-bar {
+            display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;
+            padding-bottom: 12px; margin-bottom: 14px; border-bottom: 1px dashed var(--line-soft);
+            font-size: 12px; color: var(--muted);
+        }
+        .learner-bar[hidden] { display: none !important; }
+        .learner-chip {
+            display: inline-flex; align-items: center; min-height: 32px; padding: 4px 14px;
+            border: 1px solid var(--line); border-radius: 20px; background: var(--bg);
+            font-weight: 700; color: var(--ink); font-size: 13px;
+        }
+        .learner-bar a { color: var(--accent); font-weight: 700; text-decoration: none;
+            display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; }
+        .learner-bar a:hover { text-decoration: underline; }
+
+        .status-box { text-align: center; padding: 34px 16px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+        .status-box.status-error { color: var(--wrong); background: var(--bad-bg); border-radius: 8px; }
+        .status-box small { display: block; margin-top: 6px; font-weight: 400; }
+
+        .summary-card { text-align: center; padding: 28px 18px; border: 1px solid var(--line);
+            border-radius: 14px; background: var(--paper); }
+        .summary-emoji { font-size: 46px; }
+        .summary-title { font-family: Georgia, serif; font-size: 22px; font-weight: 700; margin: 10px 0 4px; }
+        .summary-score { font-size: 16px; color: var(--muted); margin-bottom: 6px; }
+        .summary-note { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+        .sound-chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 14px 0 6px; }
+        .sound-chip { border: 1px solid var(--line); border-radius: 14px; padding: 5px 11px; font-size: 15px;
+            background: var(--bg); font-family: Georgia, serif; font-weight: 700; }
+        .sound-chips-label { font-size: 11px; font-weight: 700; color: var(--muted);
+            text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px; }
+        .summary-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 16px; }
+        .btn {
+            min-height: 44px; min-width: 44px; padding: 10px 18px; border-radius: 10px; cursor: pointer;
+            font-family: inherit; font-size: 14px; font-weight: 700; border: 1px solid var(--line);
+            background: var(--bg); color: var(--ink); text-decoration: none;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .btn:hover { border-color: var(--accent); color: var(--accent); }
+        .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .btn.primary:hover { filter: brightness(1.08); color: #fff; }
+
+        #toastRoot {
+            position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px);
+            background: var(--ink); color: var(--paper); padding: 11px 20px; border-radius: 22px;
+            font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none;
+            transition: all 0.25s ease; z-index: 60; max-width: 90vw; text-align: center;
+        }
+        #toastRoot.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        @media (min-width: 520px) { .container { padding: 24px 26px 30px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="hub-link" href="index.html">&larr; Back to trainer</a>
+        <h1>Handwriting</h1>
+        <p class="subtitle">Victorian Modern Cursive, one letter at a time: trace the grey model,
+            copy it, then write it from memory. Every go is scored on strokes, order, direction,
+            start point, shape and where it sits on the lines.</p>
+
+        <div class="learner-bar" id="learnerBar" hidden>
+            <span class="learner-chip" id="learnerChip">🙂 Learner</span>
+            <a href="practice.html">Change learner</a>
+            <a href="report.html">Report</a>
+        </div>
+
+        <div class="status-box" id="statusBox" role="status" aria-live="polite">Getting the letters ready&hellip;</div>
+
+        <section id="screenTask" hidden>
+            <div id="taskHost"></div>
+        </section>
+
+        <section id="screenSummary" hidden>
+            <div id="summaryHolder"></div>
+        </section>
+    </div>
+
+    <div id="toastRoot" role="status" aria-live="polite"></div>
+
+    <script src="js/core/data.js"></script>
+    <script src="js/core/audio.js"></script>
+    <script src="js/core/mastery.js"></script>
+    <script src="js/core/errors.js"></script>
+    <script src="js/core/tracker.js"></script>
+    <script src="js/core/handwriting/score.js"></script>
+    <script src="js/tasks/t9_handwriting.js"></script>
+    <script>
+    // ============================================================
+    // handwriting.html shell — the standalone host for T9.
+    //
+    // Boots the word bank and the tracker, makes sure there is a
+    // learner to score against (the active profile, or a quick
+    // "Guest"), then mounts PhonicsTasks.registry.t9 full-page with
+    // the ctx from the TASK MODULE CONTRACT. T9 never opens a rule
+    // micro-lesson, so showRuleLesson is a resolved-promise stub.
+    // ============================================================
+    (function () {
+        "use strict";
+
+        var els = {};
+        var rules = null, rulesIdx = null;
+        var handle = null;
+        var toastTimer = null;
+
+        function q(id) { return document.getElementById(id); }
+
+        function escapeHtml(s) {
+            return String(s == null ? "" : s).replace(/[&<>"']/g, function (ch) {
+                return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+            });
+        }
+
+        function setStatus(kind, html) {
+            els.statusBox.hidden = kind === "hidden";
+            els.statusBox.className = "status-box" + (kind === "error" ? " status-error" : "");
+            if (kind !== "hidden") els.statusBox.innerHTML = html;
+        }
+
+        function show(which) {
+            els.screenTask.hidden = which !== "task";
+            els.screenSummary.hidden = which !== "summary";
+        }
+
+        function toast(msg) {
+            els.toastRoot.textContent = String(msg == null ? "" : msg);
+            els.toastRoot.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () { els.toastRoot.classList.remove("show"); }, 2400);
+        }
+
+        function teardown() {
+            if (handle && typeof handle.destroy === "function") {
+                try { handle.destroy(); } catch (e) { /* a dying task can't hurt us */ }
+            }
+            handle = null;
+            try { PhonicsAudio.stop(); } catch (e) { /* ignore */ }
+            els.taskHost.innerHTML = "";
+        }
+
+        function buildCtx() {
+            return {
+                bank: window.PhonicsBank,
+                audio: window.PhonicsAudio,
+                tracker: window.PhonicsTracker,
+                errors: window.PhonicsErrors,
+                mastery: window.PhonicsMastery,
+                rules: rules,
+                rulesIdx: rulesIdx,
+                // T9 scores letterforms, not spellings — no rule lessons here.
+                showRuleLesson: function () { return Promise.resolve(); },
+                toast: toast,
+                exit: function (opts) {
+                    teardown();
+                    renderSummary(opts && opts.summary);
+                    show("summary");
+                }
+            };
+        }
+
+        function renderSummary(summary) {
+            var s = summary || {};
+            var profile = (PhonicsTracker.activeProfile && PhonicsTracker.activeProfile()) || null;
+            var name = profile && profile.name ? profile.name : "you";
+            var correct = s.correct != null ? s.correct : 0;
+            var total = s.total != null ? s.total : 0;
+            var frac = total > 0 ? correct / total : 1;
+            var emoji = frac >= 0.8 ? "🌟" : frac >= 0.5 ? "💪" : "🌱";
+            var cheer = frac >= 0.8 ? "Beautiful writing" : frac >= 0.5 ? "Great practising"
+                : "Good on you for having a go";
+            var letters = (s.sounds || []).slice(0, 14);
+            els.summaryHolder.innerHTML =
+                '<div class="summary-card">' +
+                  '<div class="summary-emoji">' + emoji + '</div>' +
+                  '<div class="summary-title">' + cheer + ', ' + escapeHtml(name) + '!</div>' +
+                  '<div class="summary-score">' + correct + ' out of ' + total + ' scored good or better</div>' +
+                  (s.note ? '<div class="summary-note">' + escapeHtml(s.note) + '</div>' : '') +
+                  (letters.length
+                    ? '<div class="sound-chips-label">Letters practised</div><div class="sound-chips">' +
+                      letters.map(function (x) { return '<span class="sound-chip">' + escapeHtml(x) + '</span>'; }).join("") +
+                      '</div>'
+                    : '') +
+                  '<div class="summary-actions">' +
+                    '<button type="button" class="btn primary" data-role="again">Write some more</button>' +
+                    '<a class="btn" href="index.html">Back to trainer</a>' +
+                  '</div>' +
+                '</div>';
+        }
+
+        function mountTask() {
+            var reg = (window.PhonicsTasks && window.PhonicsTasks.registry) || {};
+            var def = reg.t9;
+            if (!def || typeof def.mount !== "function") {
+                setStatus("error", "The handwriting activity didn't load.<br>" +
+                    "<small>js/tasks/t9_handwriting.js is missing or failed to register.</small>");
+                return;
+            }
+            teardown();
+            setStatus("hidden");
+            show("task");
+            Promise.resolve()
+                .then(function () { return def.mount(els.taskHost, buildCtx()); })
+                .then(function (h) { handle = h || null; })
+                .catch(function (err) {
+                    show("task");
+                    els.taskHost.innerHTML = '<div class="status-box status-error">' +
+                        'Handwriting practice had trouble starting. Try refreshing.<br><small>' +
+                        escapeHtml(err && err.message ? err.message : String(err)) + '</small></div>';
+                });
+        }
+
+        // Make sure there is somebody to score: the active profile, the first
+        // saved one, or a quick "Guest" so a shared classroom iPad just works.
+        async function ensureProfile() {
+            var p = (PhonicsTracker.activeProfile && PhonicsTracker.activeProfile()) || null;
+            if (p) return p;
+            var list = [];
+            try { list = PhonicsTracker.profilesList() || []; } catch (e) { list = []; }
+            if (list.length) {
+                PhonicsTracker.setActiveProfile(list[0].id);
+                return PhonicsTracker.activeProfile();
+            }
+            var made = await PhonicsTracker.profileCreate({ name: "Guest", accent: "au" });
+            if (made && made.id != null) {
+                try { PhonicsTracker.setActiveProfile(made.id); } catch (e) { /* first profile auto-activates */ }
+            }
+            return (PhonicsTracker.activeProfile && PhonicsTracker.activeProfile()) || made;
+        }
+
+        async function boot() {
+            ["statusBox", "screenTask", "screenSummary", "taskHost", "summaryHolder",
+             "toastRoot", "learnerBar", "learnerChip"].forEach(function (id) { els[id] = q(id); });
+
+            setStatus("loading", "Getting the letters ready&hellip;");
+            try {
+                if (!window.PhonicsBank) throw new Error("data module missing");
+                await PhonicsBank.load();
+                if (!window.PhonicsTracker) throw new Error("progress tracker module missing");
+                await PhonicsTracker.init();
+                var profile = await ensureProfile();
+                if (profile && profile.accent) {
+                    try { PhonicsBank.setAccent(profile.accent); } catch (e) { /* private mode */ }
+                }
+                els.learnerChip.textContent = "🙂 " + ((profile && profile.name) || "Learner");
+                els.learnerBar.hidden = false;
+            } catch (err) {
+                setStatus("error", "Hmm, something didn't load. Try refreshing the page.<br><small>" +
+                    escapeHtml(err && err.message ? err.message : String(err)) + "</small>");
+                return;
+            }
+
+            // Rules are part of the shared ctx; T9 doesn't need them, so a
+            // missing rules.json must not stop handwriting practice.
+            try {
+                var res = await fetch("data/rules/rules.json");
+                if (res.ok) {
+                    rules = await res.json();
+                    if (window.PhonicsErrors && PhonicsErrors.indexRules) rulesIdx = PhonicsErrors.indexRules(rules);
+                }
+            } catch (e) { rules = null; rulesIdx = null; }
+
+            els.summaryHolder.addEventListener("click", function (e) {
+                if (e.target.closest('[data-role="again"]')) mountTask();
+            });
+
+            mountTask();
+        }
+
+        document.addEventListener("DOMContentLoaded", boot);
+    })();
+    </script>
+</body>
+</html>
