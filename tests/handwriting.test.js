@@ -89,11 +89,11 @@ module.exports = {
     }
   },
 
-  // ---- 3. order: 'a' built stick-first --------------------------------
-  "'a' drawn with its strokes in the wrong order is penalised for order"() {
-    const swapped = modelStrokes("a").slice().reverse();   // stick, then circle
-    const r = score("a", swapped);
-    const good = self("a");
+  // ---- 3. order: 't' built cross-first --------------------------------
+  "'t' drawn with its strokes in the wrong order is penalised for order"() {
+    const swapped = modelStrokes("t").slice().reverse();   // cross, then stem
+    const r = score("t", swapped);
+    const good = self("t");
     assert.ok(r.features.order <= 40, "order " + r.features.order);
     assert.ok(r.total < good.total, `total ${r.total} vs clean ${good.total}`);
     // The strokes themselves are perfect — only the order is wrong.
@@ -102,7 +102,7 @@ module.exports = {
     assert.ok(r.features.strokeCount >= 90, "strokeCount " + r.features.strokeCount);
     // ...and the matcher still knows which stroke was which.
     assert.deepEqual(r.matches.map(m => m.model), [1, 0]);
-    assert.ok(r.advice.some(a => /Round part first/.test(a)), r.advice.join(" | "));
+    assert.ok(r.advice.some(a => /Body first, then the cross/.test(a)), r.advice.join(" | "));
   },
 
   "'i' dotted before the body is an order error, not a shape one"() {
@@ -369,6 +369,6 @@ module.exports = {
     assert.deepEqual(one.features, two.features);
     assert.equal(one.total, two.total);
     assert.equal(JSON.stringify(strokes), before, "input strokes were mutated");
-    assert.equal(JSON.stringify(LETTERS.a.strokes.length), "2", "letter model was mutated");
+    assert.equal(JSON.stringify(LETTERS.a.strokes.length), "1", "letter model was mutated");
   },
 };
