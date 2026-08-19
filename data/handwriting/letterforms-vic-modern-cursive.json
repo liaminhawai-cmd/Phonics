@@ -1,6 +1,6 @@
 {
   "style": "vic-modern-cursive",
-  "comment": "Pilot set locking the schema: the anticlockwise-loop family plus l, t, i, n. Coordinates are approximations of Victorian Modern Cursive (unjoined) drawn against the DET exemplar; refine visually in M5. Letter box: y 0=top line, 33.3=dotted third, 66.6=baseline, 100=descender floor.",
+  "comment": "Full unjoined lowercase a–z plus digits 0–9. Coordinates are approximations of Victorian Modern Cursive (unjoined) drawn against the DET exemplar and checked visually against the dotted thirds in tools/letterform-preview.html; a teacher should refine the curve tension before print. Letter box: y 0=top line, 33.3=dotted third, 66.6=baseline, 100=descender floor. Lowercase carries the small exit hook that becomes the join later; digits are drawn plain (no exit hook) and stand two thirds tall, top line to baseline.",
   "display_font": {
     "name": "Victorian Modern Cursive Script",
     "licence": "VIC DET distributes the font free for educational use; confirm licence before committing the font file itself. Rendering from these stroke paths requires no font."
@@ -91,13 +91,233 @@
       ],
       "exit": [48, 64],
       "common_errors": ["hump-drawn-separately", "u-shape-instead-of-hump", "no-retrace"]
+    },
+    "b": {
+      "width": 55, "zone": "ascender", "family": ["tall-sticks"],
+      "strokes": [
+        { "path": "M 16,8 L 16,66", "dir": "tall-down", "start_zone": [10, 2, 12, 14] },
+        { "path": "M 16,42 C 20,35 33,33 41,40 C 47,47 45,59 37,64 C 31,67 22,67 16,66", "dir": "round-the-bowl-clockwise-back-to-the-stick", "start_zone": [10, 36, 12, 12] }
+      ],
+      "exit": [45, 46],
+      "common_errors": ["b-d-reversal", "bowl-on-the-left", "short-stick", "bowl-not-touching-stick"]
+    },
+    "e": {
+      "width": 50, "zone": "x-height", "family": ["anticlockwise-loop"],
+      "strokes": [
+        { "path": "M 11,52 C 19,52 28,50 35,45 C 35,36 24,32 16,37 C 8,42 8,58 18,65 C 26,69 35,66 39,60", "dir": "across-then-anticlockwise", "start_zone": [5, 46, 12, 12] }
+      ],
+      "exit": [39, 60],
+      "common_errors": ["backwards-e", "start-at-the-top", "loop-filled-in", "no-flat-start"]
+    },
+    "f": {
+      "width": 42, "zone": "ascender", "family": ["tall-sticks", "snake-curves"],
+      "strokes": [
+        { "path": "M 34,17 C 32,9 22,5 18,14 L 18,62 C 18,66 22,68 26,64", "dir": "curve-over-then-tall-down-exit", "start_zone": [28, 11, 12, 12] },
+        { "path": "M 6,38 L 30,38", "dir": "cross-left-to-right", "start_zone": [0, 32, 12, 12] }
+      ],
+      "exit": [26, 64],
+      "common_errors": ["cross-first", "no-curve-at-the-top", "tail-below-the-baseline", "hook-facing-right"]
+    },
+    "h": {
+      "width": 58, "zone": "ascender", "family": ["tall-sticks", "humps"],
+      "strokes": [
+        { "path": "M 16,8 L 16,66 M 16,66 L 16,46 C 17,39 28,35 35,40 C 40,43 42,48 42,54 L 42,62 C 42,66 46,68 50,64", "dir": "tall-down-retrace-hump-down-exit", "start_zone": [10, 2, 12, 14] }
+      ],
+      "exit": [50, 64],
+      "common_errors": ["short-stick", "n-h-confusion", "hump-drawn-separately", "no-retrace"]
+    },
+    "j": {
+      "width": 38, "zone": "descender", "family": ["tails", "tall-sticks"],
+      "strokes": [
+        { "path": "M 22,38 L 22,86 C 22,95 12,98 6,92", "dir": "down-tail-hook-left", "start_zone": [16, 32, 12, 12] },
+        { "path": "M 22,24 L 22,26", "dir": "dot", "start_zone": [16, 18, 12, 12] }
+      ],
+      "exit": [6, 92],
+      "common_errors": ["dot-first", "no-dot", "tail-hooks-right", "tail-stops-at-baseline"]
+    },
+    "k": {
+      "width": 55, "zone": "ascender", "family": ["tall-sticks", "zigzags"],
+      "strokes": [
+        { "path": "M 16,8 L 16,66", "dir": "tall-down", "start_zone": [10, 2, 12, 14] },
+        { "path": "M 40,38 L 18,53 L 41,62 C 41,66 45,68 49,64", "dir": "arm-in-then-leg-out-exit", "start_zone": [34, 32, 12, 12] }
+      ],
+      "exit": [49, 64],
+      "common_errors": ["arm-too-high", "arm-and-leg-not-meeting", "short-stick", "leg-before-arm"]
+    },
+    "m": {
+      "width": 78, "zone": "x-height", "family": ["humps"],
+      "strokes": [
+        { "path": "M 14,38 L 14,66 M 14,66 L 14,46 C 15,39 25,35 31,40 C 35,43 37,48 37,54 L 37,66 M 37,66 L 37,46 C 38,39 48,35 54,40 C 58,43 60,48 60,54 L 60,62 C 60,66 64,68 68,64", "dir": "down-retrace-hump-retrace-hump-exit", "start_zone": [8, 32, 12, 12] }
+      ],
+      "exit": [68, 64],
+      "common_errors": ["three-humps", "humps-different-sizes", "no-retrace", "n-m-confusion"]
+    },
+    "p": {
+      "width": 55, "zone": "descender", "family": ["tails", "humps"],
+      "strokes": [
+        { "path": "M 14,38 L 14,92", "dir": "down-through-the-baseline", "start_zone": [8, 32, 12, 12] },
+        { "path": "M 14,42 C 18,35 31,33 39,40 C 45,47 43,59 35,64 C 29,67 20,67 14,66", "dir": "round-the-bowl-clockwise-back-to-the-stick", "start_zone": [8, 36, 12, 12] }
+      ],
+      "exit": [37, 63],
+      "common_errors": ["tail-hooks", "bowl-on-the-left", "p-q-reversal", "tail-stops-at-baseline"]
+    },
+    "r": {
+      "width": 45, "zone": "x-height", "family": ["humps"],
+      "strokes": [
+        { "path": "M 14,38 L 14,66 M 14,66 L 14,44 C 17,37 28,33 35,38 C 37,39 38,42 38,45", "dir": "down-retrace-shoulder", "start_zone": [8, 32, 12, 12] }
+      ],
+      "exit": [38, 45],
+      "common_errors": ["shoulder-drawn-separately", "full-hump-like-n", "shoulder-too-long", "no-retrace"]
+    },
+    "s": {
+      "width": 45, "zone": "x-height", "family": ["snake-curves"],
+      "strokes": [
+        { "path": "M 34,42 C 32,36 20,32 14,38 C 9,43 14,50 22,53 C 30,56 34,61 30,65 C 25,68 17,67 12,61", "dir": "snake-anticlockwise-then-clockwise", "start_zone": [28, 36, 12, 12] }
+      ],
+      "exit": [12, 61],
+      "common_errors": ["backwards-s", "start-at-the-bottom", "no-middle-crossover", "c-shape-only"]
+    },
+    "u": {
+      "width": 58, "zone": "x-height", "family": ["u-turns"],
+      "strokes": [
+        { "path": "M 14,38 L 14,56 C 14,64 21,68 28,65 C 33,63 36,58 36,53 L 36,38 M 36,38 L 36,62 C 36,66 40,68 44,64", "dir": "down-round-up-retrace-down-exit", "start_zone": [8, 32, 12, 12] }
+      ],
+      "exit": [44, 64],
+      "common_errors": ["n-u-reversal", "square-bottom", "no-retrace", "second-leg-too-short"]
+    },
+    "v": {
+      "width": 52, "zone": "x-height", "family": ["zigzags"],
+      "strokes": [
+        { "path": "M 10,38 L 26,66 L 42,38 C 44,35 47,35 49,38", "dir": "down-up-then-top-exit", "start_zone": [4, 32, 12, 12] }
+      ],
+      "exit": [49, 38],
+      "common_errors": ["curved-sides", "u-shape-instead-of-point", "exit-at-the-bottom", "uneven-arms"]
+    },
+    "w": {
+      "width": 70, "zone": "x-height", "family": ["zigzags"],
+      "strokes": [
+        { "path": "M 10,38 L 22,66 L 34,38 L 46,66 L 58,38 C 60,35 63,35 65,38", "dir": "down-up-down-up-then-top-exit", "start_zone": [4, 32, 12, 12] }
+      ],
+      "exit": [65, 38],
+      "common_errors": ["rounded-like-two-u", "three-points", "uneven-widths", "exit-at-the-bottom"]
+    },
+    "x": {
+      "width": 50, "zone": "x-height", "family": ["zigzags"],
+      "strokes": [
+        { "path": "M 10,38 L 38,66", "dir": "diagonal-down-right", "start_zone": [4, 32, 12, 12] },
+        { "path": "M 38,38 L 10,66", "dir": "diagonal-down-left", "start_zone": [32, 32, 12, 12] }
+      ],
+      "exit": [38, 66],
+      "common_errors": ["drawn-upwards", "strokes-not-crossing", "cross-too-high", "second-stroke-first"]
+    },
+    "y": {
+      "width": 58, "zone": "descender", "family": ["u-turns", "tails"],
+      "strokes": [
+        { "path": "M 14,38 L 14,56 C 14,64 21,68 28,65 C 33,63 36,58 36,53 L 36,38 M 36,38 L 36,88 C 36,96 26,99 20,93", "dir": "down-round-up-retrace-tail-hook-left", "start_zone": [8, 32, 12, 12] }
+      ],
+      "exit": [20, 93],
+      "common_errors": ["v-shape-at-the-top", "tail-hooks-right", "no-tail", "tail-stops-at-baseline"]
+    },
+    "z": {
+      "width": 52, "zone": "x-height", "family": ["zigzags"],
+      "strokes": [
+        { "path": "M 10,38 L 38,38 L 10,66 L 38,66 C 42,66 45,65 46,61", "dir": "across-diagonal-across-exit", "start_zone": [4, 32, 12, 12] }
+      ],
+      "exit": [46, 61],
+      "common_errors": ["z-reversal", "curved-instead-of-straight", "start-at-the-bottom", "diagonal-the-wrong-way"]
+    },
+    "0": {
+      "width": 46, "zone": "ascender", "family": ["digits-round"],
+      "strokes": [
+        { "path": "M 26,8 C 15,10 10,24 10,37 C 10,52 15,64 26,66 C 37,64 42,52 42,37 C 42,24 37,10 26,8", "dir": "anticlockwise-closed-oval", "start_zone": [20, 2, 12, 12] }
+      ],
+      "exit": [26, 8],
+      "common_errors": ["clockwise", "start-at-the-bottom", "not-closing", "too-wide-like-o"]
+    },
+    "1": {
+      "width": 34, "zone": "ascender", "family": ["digits-straight"],
+      "strokes": [
+        { "path": "M 10,19 L 22,8 L 22,66", "dir": "flag-then-straight-down", "start_zone": [4, 13, 12, 12] }
+      ],
+      "exit": [22, 66],
+      "common_errors": ["no-flag", "flag-on-the-right", "leaning", "base-serif-added"]
+    },
+    "2": {
+      "width": 46, "zone": "ascender", "family": ["digits-round"],
+      "strokes": [
+        { "path": "M 11,19 C 14,9 30,6 38,15 C 45,24 37,34 27,44 L 10,66 L 42,66", "dir": "over-the-top-down-then-across", "start_zone": [5, 13, 12, 12] }
+      ],
+      "exit": [42, 66],
+      "common_errors": ["backwards-2", "start-at-the-bottom", "no-flat-base", "loop-at-the-bottom"]
+    },
+    "3": {
+      "width": 46, "zone": "ascender", "family": ["digits-round"],
+      "strokes": [
+        { "path": "M 11,17 C 15,8 32,6 38,15 C 42,23 36,32 25,33 C 37,33 44,41 42,51 C 40,63 21,69 11,60", "dir": "two-bumps-clockwise", "start_zone": [5, 11, 12, 12] }
+      ],
+      "exit": [11, 60],
+      "common_errors": ["backwards-3", "flat-top-like-a-7", "bumps-uneven", "start-at-the-bottom"]
+    },
+    "4": {
+      "width": 50, "zone": "ascender", "family": ["digits-straight"],
+      "strokes": [
+        { "path": "M 32,8 L 10,47 L 44,47", "dir": "down-left-then-across", "start_zone": [26, 2, 12, 12] },
+        { "path": "M 34,14 L 34,66", "dir": "straight-down", "start_zone": [28, 8, 12, 12] }
+      ],
+      "exit": [34, 66],
+      "common_errors": ["closed-top", "backwards-4", "stem-missing-the-crossbar", "stem-first"]
+    },
+    "5": {
+      "width": 46, "zone": "ascender", "family": ["digits-round"],
+      "strokes": [
+        { "path": "M 16,9 L 13,31 C 23,25 38,29 41,41 C 44,54 33,68 18,64 C 15,63 13,61 11,58", "dir": "down-then-round-the-bowl-clockwise", "start_zone": [10, 3, 12, 12] },
+        { "path": "M 16,9 L 40,9", "dir": "hat-left-to-right", "start_zone": [10, 3, 12, 12] }
+      ],
+      "exit": [11, 58],
+      "common_errors": ["hat-first", "backwards-bowl", "bowl-not-touching-the-stem", "hat-missing"]
+    },
+    "6": {
+      "width": 46, "zone": "ascender", "family": ["digits-round"],
+      "strokes": [
+        { "path": "M 36,10 C 24,16 13,31 13,47 C 13,59 21,67 30,66 C 39,65 44,57 41,49 C 38,42 27,39 20,45 C 17,47 15,50 14,54", "dir": "curve-down-then-anticlockwise-loop", "start_zone": [30, 4, 12, 12] }
+      ],
+      "exit": [14, 54],
+      "common_errors": ["loop-at-the-top-like-a-9", "start-at-the-bottom", "loop-not-closed", "clockwise-loop"]
+    },
+    "7": {
+      "width": 46, "zone": "ascender", "family": ["digits-straight"],
+      "strokes": [
+        { "path": "M 10,9 L 42,9 L 22,66", "dir": "across-then-diagonal-down", "start_zone": [4, 3, 12, 12] }
+      ],
+      "exit": [22, 66],
+      "common_errors": ["start-at-the-bottom", "no-top-bar", "backwards-7", "vertical-instead-of-diagonal"]
+    },
+    "8": {
+      "width": 46, "zone": "ascender", "family": ["digits-round"],
+      "strokes": [
+        { "path": "M 29,8 C 19,8 14,16 18,25 C 22,33 39,38 42,48 C 45,59 37,67 26,66 C 15,65 9,56 13,46 C 16,37 31,33 34,25 C 37,16 34,8 29,8", "dir": "figure-eight-anticlockwise-top", "start_zone": [23, 2, 12, 12] }
+      ],
+      "exit": [29, 8],
+      "common_errors": ["two-stacked-circles", "start-at-the-bottom", "no-crossover", "top-bigger-than-bottom"]
+    },
+    "9": {
+      "width": 46, "zone": "ascender", "family": ["digits-round"],
+      "strokes": [
+        { "path": "M 41,28 C 40,16 31,8 22,11 C 13,14 10,25 16,32 C 22,39 35,37 41,28 C 41,43 39,58 30,66", "dir": "anticlockwise-loop-then-down", "start_zone": [35, 22, 12, 12] }
+      ],
+      "exit": [30, 66],
+      "common_errors": ["loop-at-the-bottom-like-a-6", "loop-not-closed", "tail-hooks-left", "clockwise-loop"]
     }
   },
   "families": {
-    "anticlockwise-loop": { "letters": ["c", "o", "a", "d", "g", "q"], "teach": "Start at 2 o'clock, curve up and over to the left — c is the mother shape; a, d, g, q are c plus a stick or tail.", "order": ["c", "o", "a", "d", "g", "q"] },
-    "tall-sticks": { "letters": ["l", "t", "b", "h", "k", "d"], "teach": "Start at the top line, pull straight down to the baseline.", "order": ["l", "t", "i", "h", "b", "k"] },
-    "tails": { "letters": ["g", "j", "p", "q", "y"], "teach": "The tail dives below the baseline; g hooks left, q hooks right.", "order": ["j", "y", "g", "p", "q"] },
-    "humps": { "letters": ["r", "n", "m", "h"], "teach": "Down, retrace back up, over the hump.", "order": ["n", "m", "r", "h"] },
-    "zigzags": { "letters": ["v", "w", "x", "z", "k"], "teach": "Straight lines with sharp changes of direction.", "order": ["v", "w", "z", "x", "k"] }
+    "anticlockwise-loop": { "letters": ["c", "o", "a", "d", "g", "q", "e"], "teach": "Start at 2 o'clock, curve up and over to the left — c is the mother shape; a, d, g, q are c plus a stick or tail, and e is c with a flat start across the middle.", "order": ["c", "o", "a", "d", "g", "q", "e"] },
+    "tall-sticks": { "letters": ["l", "t", "b", "h", "k", "d", "f", "j"], "teach": "Start at the top line, pull straight down to the baseline.", "order": ["l", "t", "i", "h", "b", "k", "f"] },
+    "tails": { "letters": ["g", "j", "p", "q", "y"], "teach": "The tail dives below the baseline; g, j and y hook left, q hooks right, p drops straight.", "order": ["j", "y", "g", "p", "q"] },
+    "humps": { "letters": ["r", "n", "m", "h", "p"], "teach": "Down, retrace back up, over the hump.", "order": ["n", "m", "r", "h", "p"] },
+    "u-turns": { "letters": ["i", "u", "y"], "teach": "Down to the baseline, curve round the bottom, back up to the dotted line, then straight down again — i is one leg, u is two, y adds the tail.", "order": ["i", "u", "y"] },
+    "zigzags": { "letters": ["v", "w", "x", "z", "k"], "teach": "Straight lines with sharp changes of direction.", "order": ["v", "w", "z", "x", "k"] },
+    "snake-curves": { "letters": ["s", "f"], "teach": "The two letters that change direction mid-stroke: s snakes back on itself, f curves over the top then drops straight down.", "order": ["s", "f"] },
+    "digits-round": { "letters": ["0", "2", "3", "5", "6", "8", "9"], "teach": "Numbers start at the top line and sit on the baseline; the round ones all begin with the same over-the-top curve to the left.", "order": ["0", "6", "9", "2", "3", "5", "8"] },
+    "digits-straight": { "letters": ["1", "4", "7"], "teach": "Numbers built from straight lines: start at the top, pull down, no exit hooks.", "order": ["1", "7", "4"] }
   }
 }
