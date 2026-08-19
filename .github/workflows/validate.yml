@@ -13,3 +13,5 @@ jobs:
         run: python3 scripts/validate_data.py
       - name: Sequence index is fresh
         run: python3 scripts/build_sequence_index.py --check
+      - name: Unit tests (mastery, errors, core)
+        run: node tests/run.js
