@@ -1,0 +1,103 @@
+{
+  "style": "vic-modern-cursive",
+  "comment": "Pilot set locking the schema: the anticlockwise-loop family plus l, t, i, n. Coordinates are approximations of Victorian Modern Cursive (unjoined) drawn against the DET exemplar; refine visually in M5. Letter box: y 0=top line, 33.3=dotted third, 66.6=baseline, 100=descender floor.",
+  "display_font": {
+    "name": "Victorian Modern Cursive Script",
+    "licence": "VIC DET distributes the font free for educational use; confirm licence before committing the font file itself. Rendering from these stroke paths requires no font."
+  },
+  "letters": {
+    "c": {
+      "width": 50, "zone": "x-height", "family": ["anticlockwise-loop"],
+      "strokes": [
+        { "path": "M 40,40 C 32,33 16,34 12,45 C 8,56 16,67 28,66 C 34,66 39,62 41,58", "dir": "anticlockwise", "start_zone": [32, 34, 14, 12] }
+      ],
+      "exit": [41, 58],
+      "common_errors": ["clockwise", "start-at-bottom", "closing-the-circle"]
+    },
+    "o": {
+      "width": 50, "zone": "x-height", "family": ["anticlockwise-loop"],
+      "strokes": [
+        { "path": "M 40,40 C 32,33 16,34 12,45 C 8,56 16,67 28,66 C 40,65 44,54 40,44 C 39,42 38,41 40,40", "dir": "anticlockwise-closed", "start_zone": [32, 34, 14, 12] }
+      ],
+      "exit": [40, 40],
+      "common_errors": ["clockwise", "start-at-bottom", "not-closing"]
+    },
+    "a": {
+      "width": 55, "zone": "x-height", "family": ["anticlockwise-loop"],
+      "strokes": [
+        { "path": "M 42,42 C 33,34 16,35 12,46 C 8,57 17,67 29,66 C 36,65 41,61 42,56", "dir": "anticlockwise", "start_zone": [34, 35, 14, 12] },
+        { "path": "M 42,40 L 42,62 C 42,66 46,68 50,64", "dir": "down-then-exit-hook", "start_zone": [36, 34, 12, 12] }
+      ],
+      "exit": [50, 64],
+      "common_errors": ["clockwise", "stick-first", "gap-between-circle-and-stick"]
+    },
+    "d": {
+      "width": 55, "zone": "ascender", "family": ["anticlockwise-loop", "tall-sticks"],
+      "strokes": [
+        { "path": "M 42,42 C 33,34 16,35 12,46 C 8,57 17,67 29,66 C 36,65 41,61 42,56", "dir": "anticlockwise", "start_zone": [34, 35, 14, 12] },
+        { "path": "M 42,8 L 42,62 C 42,66 46,68 50,64", "dir": "tall-down-then-exit", "start_zone": [36, 2, 12, 14] }
+      ],
+      "exit": [50, 64],
+      "common_errors": ["clockwise", "short-stick", "stick-first", "b-d-reversal"]
+    },
+    "g": {
+      "width": 55, "zone": "descender", "family": ["anticlockwise-loop", "tails"],
+      "strokes": [
+        { "path": "M 42,42 C 33,34 16,35 12,46 C 8,57 17,67 29,66 C 36,65 41,61 42,56", "dir": "anticlockwise", "start_zone": [34, 35, 14, 12] },
+        { "path": "M 42,40 L 42,88 C 42,97 32,100 25,94", "dir": "down-tail-hook-left", "start_zone": [36, 34, 12, 12] }
+      ],
+      "exit": [25, 94],
+      "common_errors": ["clockwise", "tail-stops-at-baseline", "tail-hooks-right"]
+    },
+    "q": {
+      "width": 55, "zone": "descender", "family": ["anticlockwise-loop", "tails"],
+      "strokes": [
+        { "path": "M 42,42 C 33,34 16,35 12,46 C 8,57 17,67 29,66 C 36,65 41,61 42,56", "dir": "anticlockwise", "start_zone": [34, 35, 14, 12] },
+        { "path": "M 42,40 L 42,88 C 42,96 48,99 54,93", "dir": "down-tail-hook-right", "start_zone": [36, 34, 12, 12] }
+      ],
+      "exit": [54, 93],
+      "common_errors": ["clockwise", "tail-hooks-left-like-g", "g-q-confusion"]
+    },
+    "l": {
+      "width": 35, "zone": "ascender", "family": ["tall-sticks"],
+      "strokes": [
+        { "path": "M 18,8 L 18,62 C 18,66 22,68 26,64", "dir": "tall-down-then-exit", "start_zone": [12, 2, 12, 14] }
+      ],
+      "exit": [26, 64],
+      "common_errors": ["start-at-bottom", "too-short", "leaning"]
+    },
+    "t": {
+      "width": 40, "zone": "ascender", "family": ["tall-sticks"],
+      "strokes": [
+        { "path": "M 20,16 L 20,62 C 20,66 24,68 28,64", "dir": "tall-down-then-exit", "start_zone": [14, 10, 12, 14] },
+        { "path": "M 8,38 L 32,38", "dir": "cross-left-to-right", "start_zone": [2, 32, 12, 12] }
+      ],
+      "exit": [28, 64],
+      "common_errors": ["cross-first", "cross-too-high", "cross-right-to-left"]
+    },
+    "i": {
+      "width": 30, "zone": "x-height", "family": ["tall-sticks"],
+      "strokes": [
+        { "path": "M 15,38 L 15,62 C 15,66 19,68 23,64", "dir": "down-then-exit", "start_zone": [9, 32, 12, 12] },
+        { "path": "M 15,24 L 15,26", "dir": "dot", "start_zone": [9, 18, 12, 12] }
+      ],
+      "exit": [23, 64],
+      "common_errors": ["dot-first", "dot-circled", "dot-misplaced"]
+    },
+    "n": {
+      "width": 55, "zone": "x-height", "family": ["humps"],
+      "strokes": [
+        { "path": "M 14,38 L 14,66 M 14,66 L 14,46 C 15,39 26,35 33,40 C 38,43 40,48 40,54 L 40,62 C 40,66 44,68 48,64", "dir": "down-retrace-hump-down-exit", "start_zone": [8, 32, 12, 12] }
+      ],
+      "exit": [48, 64],
+      "common_errors": ["hump-drawn-separately", "u-shape-instead-of-hump", "no-retrace"]
+    }
+  },
+  "families": {
+    "anticlockwise-loop": { "letters": ["c", "o", "a", "d", "g", "q"], "teach": "Start at 2 o'clock, curve up and over to the left — c is the mother shape; a, d, g, q are c plus a stick or tail.", "order": ["c", "o", "a", "d", "g", "q"] },
+    "tall-sticks": { "letters": ["l", "t", "b", "h", "k", "d"], "teach": "Start at the top line, pull straight down to the baseline.", "order": ["l", "t", "i", "h", "b", "k"] },
+    "tails": { "letters": ["g", "j", "p", "q", "y"], "teach": "The tail dives below the baseline; g hooks left, q hooks right.", "order": ["j", "y", "g", "p", "q"] },
+    "humps": { "letters": ["r", "n", "m", "h"], "teach": "Down, retrace back up, over the hump.", "order": ["n", "m", "r", "h"] },
+    "zigzags": { "letters": ["v", "w", "x", "z", "k"], "teach": "Straight lines with sharp changes of direction.", "order": ["v", "w", "z", "x", "k"] }
+  }
+}

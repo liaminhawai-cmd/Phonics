@@ -1,0 +1,49 @@
+kind,id,filename,exists,notes
+phoneme,p,p.mp3,,/p/ as in pen
+phoneme,b,b.mp3,,/b/ as in bed
+phoneme,t,t.mp3,,/t/ as in ten
+phoneme,d,d.mp3,,/d/ as in dog
+phoneme,k,k.mp3,,/k/ as in cat
+phoneme,g,g.mp3,,/g/ as in go
+phoneme,ch,ch.mp3,,/ch/ as in chop
+phoneme,j,j.mp3,,/j/ as in jam
+phoneme,f,f.mp3,,/f/ as in fish
+phoneme,v,v.mp3,,/v/ as in van
+phoneme,th,th.mp3,,/th/ (quiet) as in thin
+phoneme,dh,dh.mp3,,/th/ (noisy) as in this
+phoneme,s,s.mp3,,/s/ as in sun
+phoneme,z,z.mp3,,/z/ as in zoo
+phoneme,sh,sh.mp3,,/sh/ as in ship
+phoneme,zh,zh.mp3,,/zh/ as in vision
+phoneme,h,h.mp3,,/h/ as in hat
+phoneme,m,m.mp3,,/m/ as in man
+phoneme,n,n.mp3,,/n/ as in net
+phoneme,ng,ng.mp3,,/ng/ as in ring
+phoneme,l,l.mp3,,/l/ as in leg
+phoneme,r,r.mp3,,/r/ as in red
+phoneme,w,w.mp3,,/w/ as in wet
+phoneme,y,y.mp3,,/y/ as in yes
+phoneme,a,a.mp3,,/a/ as in cat
+phoneme,e,e.mp3,,/e/ as in bed
+phoneme,i,i.mp3,,/i/ as in sit
+phoneme,o,o.mp3,,/o/ as in hot
+phoneme,u,u.mp3,,/u/ as in cup
+phoneme,oo_short,oo_short.mp3,,/oo/ (short) as in book
+phoneme,ay,ay.mp3,,/ay/ as in play (long a)
+phoneme,ee,ee.mp3,,/ee/ as in see (long e)
+phoneme,igh,igh.mp3,,/igh/ as in light (long i)
+phoneme,oa,oa.mp3,,/oa/ as in boat (long o)
+phoneme,oo_long,oo_long.mp3,,/oo/ (long) as in moon
+phoneme,ow,ow.mp3,,/ow/ as in cow
+phoneme,oy,oy.mp3,,/oy/ as in boy
+phoneme,ar,ar.mp3,,/ar/ as in car
+phoneme,or,or.mp3,,/or/ as in fork
+phoneme,er,er.mp3,,/er/ as in her
+phoneme,air,air.mp3,,/air/ as in chair
+phoneme,ear,ear.mp3,,/ear/ as in near
+phoneme,ure,ure.mp3,,/ure/ as in cure
+phoneme,schwa,schwa.mp3,,"/uh/ — schwa, as in about"
+teaching-unit,ks,ks.mp3,,/ks/ as in box (letter x)
+teaching-unit,kw,kw.mp3,,/kw/ as in queen (qu)
+teaching-unit,yoo,yoo.mp3,,/yoo/ as in music (long u)
+teaching-unit,schwa_r,schwa_r.mp3,,unstressed -er as in letter

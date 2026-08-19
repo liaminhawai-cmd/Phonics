@@ -1,0 +1,363 @@
+# The Phonics App — Architecture
+
+*The ultimate phonics app: one data bank, every scope & sequence, every direction,
+every accent, from first sounds to Greek roots.*
+
+This document is the master plan. The data bank under `data/` is already real;
+each numbered milestone at the bottom turns one more section of this document
+into working software. The existing trainer (index.html + app.js), mika
+(articulation face), the mouth videos, the sound wall, the bookmarks and the
+worksheet PDFs are all *early versions of components described here* — nothing
+is thrown away, everything gets absorbed.
+
+---
+
+## 1. Principles
+
+1. **One bank, many orderings.** Phonemes, graphemes, correspondences (GPCs),
+   words, rules and morphemes live in ONE scope-and-sequence-agnostic data bank
+   (`data/`). A teaching program — ELC bookmarks, UFLI, Letters & Sounds, Jolly
+   Phonics, Sound Waves, or a teacher's custom build — is nothing but an
+   *ordering* over that bank. Toggling programs never changes content, only
+   which GPCs are "taught yet" and in what groups.
+2. **Every sequence has two faces.** A program is stored in its native
+   orientation (UFLI/bookmarks = grapheme-first, Sound Waves = phoneme-first)
+   but the app *derives the other view automatically*: any sequence can be
+   browsed as "the graphemes in taught order, with their sounds" **or** "the
+   phonemes, with every taught spelling of each." The generic
+   all-spellings-of-every-sound chart (THRASS-style, but derived from our own
+   `gpcs.json`) is just the phoneme-first view of the whole bank.
+3. **Both directions, tracked separately.** Reading a grapheme → sound and
+   hearing a sound → grapheme are different skills. Every GPC is tracked as two
+   independent mastery records (`decode` / `encode`). Reports show both grids.
+4. **Errors are information.** Every wrong answer is classified (§7) and routed:
+   to a rule micro-lesson, a contrast drill, an articulation video, or just
+   back into the review queue.
+5. **Gradual release everywhere.** Every task family has a scaffolding ladder
+   (§6) from fully-supported to independent; the app moves the learner up and
+   down the ladder automatically.
+6. **Accent-aware.** AU (Vic) is the base; UK and US are first-class: separate
+   recordings, separate IPA realisations (in `phonemes.json`), per-word
+   overrides where phoneme identity differs (BATH words, yod words), and
+   accent-appropriate handwriting fonts.
+7. **Offline-first, no accounts required.** Static site + PWA; learner data in
+   the browser (IndexedDB) with export/import. A sync backend is a *later,
+   optional* layer, never a prerequisite. No student data ever enters this
+   (public) repo.
+
+---
+
+## 2. What already exists and where it slots in
+
+| Existing asset | Becomes |
+|---|---|
+| `app.js` grapheme trainer + bookmark levels | Task T1/T2 (§5) + the `elc-bookmarks` sequence, refactored to read `data/` |
+| `mika.js` + `mouth.js` + `anatomy.js` | The articulation engine, driven by `phonemes.json` articulation fields |
+| Root `*.mp4` mouth videos (70, all referenced) | Grapheme-level articulation clips, indexed by GPC |
+| `sounds/<ipa>/` AU recordings | Legacy phoneme recordings; mapped via `recording.legacy_sounds_folder`, superseded by `recordings/au/phonemes/` |
+| `soundwall.js` | The phoneme-first view of the active sequence |
+| Vowel synth (in trainer) | Phoneme playground; extended to consonant articulation demos |
+| `activities/*` worksheet PDFs + QR audio | Outputs of the sheet generator (§5, T11) — the generator reproduces and supersedes hand-made sheets |
+| `phonics tracker and bookmark*.xlsx`, bookmarks PDFs | Source of truth already encoded into `data/sequences/elc-bookmarks.json` |
+| `elkonin boxes .xlsx` | Task T3/T4 layout reference |
+| `reversals/` | The b/d/p/q confusion drill; wired into error routing (§7) |
+
+---
+
+## 3. The data bank (`data/`)
+
+See `data/README.md` for id conventions and the segment format. Entities:
+
+- **Phoneme** (`phonemes.json`) — 44 sounds; per-accent IPA; articulation
+  features that drive mika/anatomy; lexical set; recording filename. Plus
+  *teaching units* (x = /k/+/s/, qu = /k/+/w/, long-u = /y/+/oo/).
+- **GPC** (`gpcs.json`) — one grapheme spelling one sound, with legal
+  positions, frequency band, examples, links to rules. *The atomic unit of
+  teaching and tracking.*
+- **Word** (`words/words.json`) — spelling, syllable count, ordered GPC
+  segments (split digraphs marked), tags, tier, heart-word parts, accent
+  overrides. A word's *decodability under a sequence* is computed, never
+  stored: `decodable(word, sequence, unit_n) = every segment's GPC taught by
+  unit_n`. The same computation against a learner's mastery set gives
+  *personal decodability* — this is what makes drag-and-drop trays, CVC
+  unlocks and sheet generation automatic for ANY sequence.
+- **Sequence** (`sequences/*.json`) — ordered units of GPC ids + heart words,
+  with a native view flag and print colours (bookmarks keep their exact
+  printed colours).
+- **Rule** (`rules/rules.json`) — teacher + kid statements, lesson, practice
+  words, and `toggle_sets` that feed the grapheme-toggle task directly.
+- **Morphemes** (`morphemes/*.json`) — prefixes/suffixes/Latin roots/Greek
+  forms, 25 build-a-word matrices, 700+ word key (§10).
+
+`scripts/validate_data.py` enforces referential integrity and that every
+word's segments reconstruct its spelling exactly. Run it in CI on every push.
+
+---
+
+## 4. Audio & articulation subsystem
+
+**Recording store** (see `recordings/README.md` for the full spec):
+
+```
+recordings/{au,uk,us}/phonemes/<phoneme id>.mp3     44 + teaching units per accent
+recordings/{au,uk,us}/words/<word id>.mp3           one per word in the bank
+recordings/{au,uk,us}/words-segmented/<word id>.mp3 optional: word said, then segmented
+```
+
+**Playback fallback chain** — the app asks for audio through one function:
+
+```
+human recording (recordings/) → pre-generated TTS file (same paths, tts/ prefix)
+→ live browser speechSynthesis (en-AU / en-GB / en-US voice)
+```
+
+So the app works TODAY with synthesised voices, and every file you (AU) or
+your UK/US recording partners drop in silently upgrades that item.
+`scripts/tts_standin.py` pre-generates the whole store with neural TTS voices
+so even the stand-in is consistent across devices.
+
+**Articulation layer.** Every phoneme card/task can show, on demand: the mouth
+video (existing mp4s), the mika face animation, and the anatomy cutaway with
+the place-of-articulation marker — all keyed off `phonemes.json`
+(`articulation.place` strings match `anatomy.js` SPOTS on purpose). The vowel
+synth becomes a "make the sound with your mouth" explorer: drag the tongue
+position, hear the formants, see the nearest phoneme.
+
+---
+
+## 5. The task engine
+
+A task is a pure function: `generate(taskType, sequence, masterySet, accent,
+options) → exercise`. All tasks draw from the same bank, so every task
+automatically works for every sequence, every accent, and every learner state.
+
+| id | Task | Core interaction |
+|----|------|------------------|
+| T1 | Grapheme → sound (existing trainer) | See grapheme, say/type/handwrite the sound |
+| T2 | Sound → grapheme | Hear phoneme, pick/write every spelling taught so far |
+| T3 | Sound & syllable counting | Hear word, tap out syllables, then push a counter per phoneme (Elkonin) |
+| T4 | Listen & write (spelling) | Hear word → count sounds → one box per phoneme → best-guess grapheme per box; per-box feedback (§7) |
+| T5 | Grapheme toggle | Boxes pre-segmented; tap a box to cycle candidate spellings of that phoneme (o → oa → ow → oe…); rule variants use `rules.toggle_sets` (sauce/jaw/pour: "aw does the end job") |
+| T6 | Drag-and-drop decode/build | Tray of grapheme tiles — scaffold A: only mastered graphemes appear; scaffold B: full tray, slots labelled; scaffold C: full tray, no labels |
+| T7 | Decoding practice | Word cards from the bank filtered to personal decodability; model audio on demand; optional self-record + compare |
+| T8 | CVC → CCVC → CVCC… writing | Unlocked constructions (§8) with the learner's mastered GPCs as the default palette |
+| T9 | Handwriting | Trace → copy → from-memory with live stroke scoring (§9) |
+| T10 | Morpheme matrix | Build words from a matrix, split words into morphemes, match meanings (§10) |
+| T11 | Sheet generator | Renders any of the above as a printable PDF (Elkonin boxes, dotted thirds, QR to the word audio) — regenerates the whole `activities/` catalogue for ANY sequence at ANY level, including UK/US versions |
+
+**Mistake flow (T4/T5/T8):** wrong box → immediate feedback tuned by error
+type (§7) → "sound it out with me" replay (segmented audio + boxes highlight)
+→ if the error was rule-shaped, a 60-second rule micro-lesson interrupt with 3
+toggle items → back into the task. Rules track their own mastery, so a learner
+who keeps failing `ck_after_short_vowel` gets that lesson scheduled, not just
+repeated correction.
+
+---
+
+## 6. Gradual release ladders
+
+Each task family defines scaffold levels; the tracker moves learners along
+them (two clean sessions at a level → step up; repeated frustration → step
+down). Example, spelling family (T3→T4→T5→T6→T8):
+
+```
+L0 model        watch word segmented for you (audio + boxes fill themselves)
+L1 count        you count syllables & sounds; boxes appear ready-made
+L2 toggle       boxes given; you choose the grapheme per box (tap-to-cycle)
+L3 tray         boxes given; you drag graphemes from a limited tray
+L4 full tray    all graphemes available; boxes unlabelled
+L5 free         blank dotted-thirds line; you write the word by hand (T9 scoring)
+```
+
+The same ladder shape exists for decoding (modelled → shared → scaffolded
+tray → independent) and handwriting (trace → copy → memory → in-words).
+
+---
+
+## 7. Error taxonomy → routing
+
+Every attempt is logged as `(gpc, direction, position, errorType, taskType,
+latency)`. Error types, with their routes:
+
+| Code | Meaning | Example (target "boat") | Route |
+|------|---------|--------------------------|-------|
+| SEG-OMIT | missed a sound | 3 boxes for "stop" (st as one) | blend/segment drill on that cluster (T3) |
+| SEG-ADD | extra sound | 5 boxes for "boat" | syllable/sound counting review |
+| SUB-PHON | wrong phoneme heard | writes "bot" hearing /oa/ as /o/ | minimal-pair listening drill (boat/bot), articulation video for the pair |
+| SUB-GRAPH-LEGAL | right phoneme, legal spelling, wrong choice | `oe` in the /oa/ box of "boat" | **rule micro-lesson** if a rule decides it (position, etc.); else "this word uses…" + word-specific practice; *counted as phoneme-correct in tracking* |
+| SUB-GRAPH-OTHER | grapheme spells a different phoneme | `o` in the /oa/ box | feedback: "o says /o/ — we need /oa/"; contrast card o vs oa; this is your "right grapheme in the box but wrong phoneme" case |
+| POS-ILLEGAL | spelling never legal there | "boaw"… `aw` medially | position-rule micro-lesson (`rules.choose_between`) |
+| REV | reversal b/d/p/q, was/saw | writes "doat" | `reversals/` drill |
+| HEART | tricky part of heart word wrong | "wos" for "was" | heart-word routine (tap the heart part, whole-word practice) |
+| FORM | letter formed wrong (T9 signal) | correct letter, bad stroke order | handwriting family lesson (§9) |
+
+The distinction between SUB-GRAPH-LEGAL and SUB-PHON is the pedagogical heart
+of the app: a kid who writes "boet" *has segmented correctly and knows a long-o
+spelling* — that's a spelling-choice error (teach the rule/convention), not a
+phonemic error (teach the sound). The tracker credits the phoneme and debits
+the GPC choice; feedback says so explicitly ("You heard /oa/ — yes! This word
+spells it o-a.").
+
+---
+
+## 8. Tracking, mastery, unlocks, reports
+
+**Store** (IndexedDB, one profile per learner; export/import as JSON file so a
+teacher can move a kid between devices or email a snapshot home):
+
+```
+profile { id, name, accent, activeSequence, handwritingStyle }
+attempt { ts, taskType, gpc|ruleId|wordId|letterId, direction, errorType, latencyMs, scaffoldLevel }
+mastery { key: (gpc, direction) | rule | phoneme-awareness | letter-form,
+          state: fresh|learning|mastered|overdue, strength 0-1, due: ts }
+```
+
+**Mastery rule** (per key): strength rises with correct-at-speed answers
+(rolling window ≈ last 10), falls with errors and with time (spaced-retrieval
+decay). `mastered` ≈ ≥90% rolling accuracy at target latency; `overdue` items
+re-enter warm-up queues. Fast-but-wrong ≠ slow-but-right: latency is stored so
+reports can separate accuracy from automaticity.
+
+**Unlocks** are declarative predicates evaluated against mastery, e.g.:
+
+```json
+{ "task": "T8.cvc", "when": { "decode": {"count": 8, "of": "unit<=2"}, "encode": {"count": 5} } }
+{ "task": "T8.ccvc", "when": { "task_done": "T8.cvc", "blends_intro": true } }
+```
+
+Defaults follow the active sequence, so "CVC writing unlocks when the first
+two bookmark levels are mostly mastered" — but the same predicate works if the
+learner is on UFLI. The drag-and-drop tray (T6-A) and word filters always
+default to the mastered set; teachers can override per session.
+
+**Reports.** For the teacher/parent: the two mastery heatmaps (grapheme-first
+grid and phoneme-first grid — same dual view as the sequences), rule
+application chart, handwriting per-letter scores, syllable/sound counting
+accuracy, and an auto-written strengths/weaknesses summary ("Knows all Level
+1-4 letter-sounds both ways; /oa/ vs /o/ discrimination weak; reverses b/d
+under time pressure; ck-rule not yet applied when writing"). Printable, and
+exportable as the same JSON the import reads.
+
+---
+
+## 9. Handwriting subsystem
+
+**Rendering.** Dotted-thirds guidelines drawn on canvas (Vic convention);
+letter models per regional style: `data/handwriting/letterforms-<style>.json`
+with styles `vic-modern-cursive`, `nsw-foundation`, `qld-beginners`,
+`uk-print`, `uk-precursive`, `us-zaner-bloser`, `us-dnealian`. Each letterform
+is an ordered list of strokes; each stroke an SVG path + direction + start
+zone. (Fonts for *display* are licensed per state/publisher — Vic Modern
+Cursive is free from VIC DET for education; embed only fonts whose licence
+allows it, else render from our own stroke paths, which we own.)
+
+**Capture.** Pointer events on canvas → resampled polyline per stroke (time,
+x, y, pressure where available).
+
+**Scoring** (per attempt, 0-100 with per-feature breakdown):
+1. *Stroke count* matches model;
+2. *Order & direction* — greedy match strokes to model strokes; penalise
+   wrong order/reversed direction (the classic "drew o clockwise" catch);
+3. *Start point* in the model's start zone;
+4. *Shape* — $P point-cloud / DTW distance against the model stroke,
+   scale-normalised;
+5. *Placement & size* — bounding box vs the dotted thirds (x-height letters
+   inside the middle third, ascenders reach the top, tails cross the baseline).
+
+**Lessons by feature family**, exactly as you outlined: the anticlockwise-loop
+family (c → o → a → d → g → q), tall-stick family (l t b h k), tail family
+(g j p q y — "tails hang below the line"), hump family (r n m h), and the
+Vic-cursive entry/exit hooks as their own unit. An error in one letter
+schedules the *family* lesson, because the deficit is the shared feature, not
+the letter. T9 scores also flow into §7 (FORM errors during spelling tasks
+don't count against the GPC).
+
+---
+
+## 10. Morphology layer (Morpheme Matrices)
+
+Data from the ATLAS *Morpheme Matrices* resource (attributed in
+`data/morphemes/README.md`): 10+10 high-frequency prefixes/suffixes, Latin
+roots and Greek forms, 25 matrices, 700-word key.
+
+Tasks (unlock after the phonics core, or teacher-forced for older EAL/catch-up
+students who need "something different"):
+- **Matrix builder** — matrix on screen (prefixes | root | suffixes); drag
+  parts together; app validates against the word key; says the built word.
+- **Word sums** — `im + port + ed = ?` and the reverse: split `important`.
+- **Meaning hooks** — match roots to meanings; "which word means *carry
+  back*?" (re + port).
+- **Spelling changes at the joins** — doubling/drop-e/y→i rules (§ rules bank)
+  re-taught at the morpheme boundary where they actually bite.
+
+Tracking mirrors GPCs: each morpheme has decode ("what does this part mean")
+and encode ("build/spell with it") mastery. Reports extend the same heatmap.
+
+---
+
+## 11. Front-end architecture
+
+Stay **zero-build, static, GitHub Pages** — it's why the current app ships.
+Restructure as ES modules:
+
+```
+js/
+├── core/data.js        loads data/*.json, builds indexes, computes decodability
+├── core/audio.js       the fallback chain (§4)
+├── core/tracker.js     IndexedDB store, mastery updates, unlock evaluation
+├── core/errors.js      error classification (§7)
+├── tasks/t1_flash.js … tasks/t11_sheets.js   one module per task family
+├── views/sequencePicker.js  program toggle + dual grapheme/phoneme views + custom builder
+├── views/report.js
+└── handwriting/{capture,score,letterforms}.js
+```
+
+- PWA: manifest + service worker precaching `data/` + active accent's
+  recordings (recordings are the only big payload; cache on demand per unit).
+- `build-standalone.py` keeps producing single-file offline versions per task
+  bundle.
+- Sheet generation stays in-browser (print CSS → PDF), reusing task
+  generators, so a sheet is literally the paper form of the same exercise —
+  QR codes point at the word audio like the current sheets.
+- Custom sequences: the builder UI writes the same JSON schema to
+  localStorage; "export sequence" downloads it for sharing/committing.
+
+**Repo split note:** recordings will eventually outgrow this repo (three
+accents × 1000 words). When that happens, move `recordings/` to a separate
+repo/CDN and keep paths identical via a base-URL config. Not needed yet.
+
+---
+
+## 12. Privacy & deployment
+
+- Public repo: no learner data, no student names, no photos — ever. Learner
+  data lives on-device; exports are teacher-managed files.
+- `docs/CLEANUP_REPORT.md` lists the personal/copyright material removed from
+  the working tree; a git-history rewrite (git filter-repo) is still
+  recommended for the old Keira/Alika content before publicising the repo.
+- CI: GitHub Action runs `scripts/validate_data.py` on every push (add to the
+  existing Pages workflow).
+
+---
+
+## 13. Roadmap
+
+- **M0 — Foundations (this branch).** Data bank (phonemes, GPCs, words,
+  sequences, rules, morphemes), validator, recordings folder + manifests, TTS
+  stand-in script, repo cleanup, this document.
+- **M1 — One bank, many sequences.** Refactor app.js onto `core/data.js`;
+  sequence picker with dual views + custom builder; sound wall reads the bank.
+- **M2 — Ears and boxes.** T3 sound/syllable counting, T4 listen & write with
+  full error taxonomy + per-box feedback, recordings fallback chain, first
+  rule micro-lessons (T5 toggle sets).
+- **M3 — Tracker.** IndexedDB profiles, mastery model, unlock predicates,
+  drag-and-drop T6 with mastered-tray default, teacher report v1.
+- **M4 — Paper parity.** T11 sheet generator replaces hand-made PDFs;
+  generates for any sequence/accent; QR audio links.
+- **M5 — Hands.** Handwriting capture + scoring + family lessons, Vic Modern
+  Cursive first, then UK/US styles.
+- **M6 — Accents complete.** UK/US recording drops, yod/BATH handling
+  verified end-to-end, accent switch in profile.
+- **M7 — Word parts.** Morpheme matrix tasks + morphology tracking.
+- **M8 — Nice-to-haves.** Optional sync backend, class dashboards,
+  self-record-and-compare decoding, formant-based vowel feedback.

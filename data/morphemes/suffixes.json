@@ -1,0 +1,226 @@
+{
+  "source": "Morpheme Matrices, Marn Frank, ATLAS/Hamline University (expanded March 2018), p.4 and matrix suffix boxes",
+  "extraction_notes": [
+    "'un', 'mis', and 'en/em' (top-10 prefixes) and 'ly' (top-10 suffix) do not appear in any of the 25 matrices or the Word Key, so their examples[] arrays are empty; the source gives no matrix-derived example words for them.",
+    "Suffixes ic/ical, ist, eme, and the noun sense of y ('subject or science of') come from the Greek-form matrix suffix box (p.25) and are catalogued with frequency_rank=null; -ent (continent, pertinent) and -ual (factual, folded into able/ible's spellings) are irregular suffix spellings needed to segment 2 Word Key words that are not listed on any suffix chart.",
+    "id 'y' (top-10 chart, 'marked by', adjective, e.g. rainy/sandy) and id 'y2' (Greek matrix suffix, 'subject or science of', e.g. biology/geography) share the surface spelling 'y'. No matrix uses a bare -y suffix in the adjective sense, so 'y' has an empty examples[] while 'y2' carries the real Greek-matrix examples."
+  ],
+  "suffixes": [
+    {
+      "id": "s_es",
+      "spellings": [
+        "s",
+        "es"
+      ],
+      "meaning": "plural noun or singular verb",
+      "frequency_rank": 1,
+      "examples": [
+        "forms",
+        "informs",
+        "reforms",
+        "deforms",
+        "ports"
+      ]
+    },
+    {
+      "id": "ed",
+      "spellings": [
+        "ed"
+      ],
+      "meaning": "past-tense verb",
+      "frequency_rank": 2,
+      "examples": [
+        "formed",
+        "informed",
+        "reformed",
+        "deformed",
+        "ported"
+      ]
+    },
+    {
+      "id": "ing",
+      "spellings": [
+        "ing"
+      ],
+      "meaning": "present-past-future tense verb",
+      "frequency_rank": 3,
+      "examples": [
+        "forming",
+        "informing",
+        "reforming",
+        "deforming",
+        "porting"
+      ]
+    },
+    {
+      "id": "ly",
+      "spellings": [
+        "ly"
+      ],
+      "meaning": "like or in the manner of (adverb)",
+      "frequency_rank": 4,
+      "examples": []
+    },
+    {
+      "id": "er_or",
+      "spellings": [
+        "er",
+        "or"
+      ],
+      "meaning": "someone who (noun)",
+      "frequency_rank": 5,
+      "examples": [
+        "former",
+        "informer",
+        "reformer",
+        "deformer",
+        "porter"
+      ]
+    },
+    {
+      "id": "ion",
+      "spellings": [
+        "ion",
+        "sion",
+        "tion",
+        "ation"
+      ],
+      "meaning": "act or state of (noun)",
+      "frequency_rank": 6,
+      "examples": [
+        "formation",
+        "information",
+        "reformation",
+        "deformation",
+        "portion"
+      ]
+    },
+    {
+      "id": "able_ible",
+      "spellings": [
+        "able",
+        "ible",
+        "ual"
+      ],
+      "meaning": "able or can be done (adjective)",
+      "frequency_rank": 7,
+      "examples": [
+        "portable",
+        "importable",
+        "reportable",
+        "deportable",
+        "interruptible"
+      ]
+    },
+    {
+      "id": "al_ial",
+      "spellings": [
+        "al",
+        "ial"
+      ],
+      "meaning": "relating to (adjective)",
+      "frequency_rank": 8,
+      "examples": [
+        "formal",
+        "informal",
+        "portal",
+        "referral",
+        "deferral"
+      ]
+    },
+    {
+      "id": "y",
+      "spellings": [
+        "y"
+      ],
+      "meaning": "marked by (adjective)",
+      "frequency_rank": 9,
+      "examples": []
+    },
+    {
+      "id": "ive",
+      "spellings": [
+        "ive"
+      ],
+      "meaning": "causing or making (adjective)",
+      "frequency_rank": 10,
+      "examples": [
+        "disruptive",
+        "interruptive",
+        "eruptive",
+        "respective",
+        "instructive"
+      ]
+    },
+    {
+      "id": "ic_ical",
+      "spellings": [
+        "ic",
+        "ical"
+      ],
+      "meaning": "relating to (adjective)",
+      "frequency_rank": null,
+      "examples": [
+        "autographic",
+        "biographic",
+        "chronographic",
+        "demographic",
+        "geographic"
+      ]
+    },
+    {
+      "id": "ist",
+      "spellings": [
+        "ist"
+      ],
+      "meaning": "one who (noun)",
+      "frequency_rank": null,
+      "examples": [
+        "biologist",
+        "chronologist",
+        "geologist",
+        "hydrologist",
+        "phonologist"
+      ]
+    },
+    {
+      "id": "eme",
+      "spellings": [
+        "eme"
+      ],
+      "meaning": "unit (noun)",
+      "frequency_rank": null,
+      "examples": [
+        "phoneme",
+        "phonemic"
+      ]
+    },
+    {
+      "id": "y2",
+      "spellings": [
+        "y"
+      ],
+      "meaning": "subject or science of (noun)",
+      "frequency_rank": null,
+      "examples": [
+        "biography",
+        "demography",
+        "geography",
+        "hydrography",
+        "phonography"
+      ]
+    },
+    {
+      "id": "ent",
+      "spellings": [
+        "ent"
+      ],
+      "meaning": "state, quality, or condition of (adjective/noun)",
+      "frequency_rank": null,
+      "examples": [
+        "continent",
+        "pertinent"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1817 @@
+{
+  "source": "Morpheme Matrices, Marn Frank, ATLAS/Hamline University (expanded March 2018), p.6-31",
+  "extraction_notes": [
+    "matrices.json covers Matrix 1-18 (Latin roots, p.6-23) and Matrix 19-25 (Greek forms, p.25-31); the blank template matrix on p.32 is a teacher worksheet with no content and is not included.",
+    "'prefixes.common' / 'suffixes.derivational' reproduce each matrix's own printed lists (not the full top-10 charts). 'prefixes.less_common' captures the smaller secondary prefix box shown in some Latin matrices, or (for Greek matrices) the left-column Greek forms, which function like prefixes in that position of the matrix.",
+    "In Matrix 18 the source text lists 'expounder' twice ('expounds, expounder, expounding, expounder') where every parallel word family in that matrix follows an -s/-ed/-ing/-er pattern (impounds/impounded/impounding/impounder, compounds/compounded/compounding/compounder). The first 'expounder' was corrected to 'expounded' by that pattern; flagged here rather than silently invented.",
+    "Several Word Key entries marked '(plus ...)' in the source are bonus words that use forms not in that matrix's own prefix/left-form list (e.g. Matrix 22's homophone/megaphone/vibraphone/xylophone use homo-/mega-/vibra-/xylo-, none of which are in Matrix 22's own left column). These bonus words are kept in example_words and word-key.json with best-effort morpheme splits, but their extra forms are not added to prefixes.json/greek-forms.json since they do not appear in any matrix diagram itself.",
+    "Matrix 20's Word Key pairs the left form 'meter' (measure) with 'logy' to produce 'meteorology/meteorologic/meteorological' - these are the ordinary English weather-science words (from Greek 'meteoros'), not a clean meter+logy concatenation; kept as printed, morphemes split as meteor+logy(+ic+al) for legibility."
+  ],
+  "matrices": [
+    {
+      "id": "matrix_01",
+      "root": {
+        "spelling": "form",
+        "origin": "latin",
+        "meaning": "to shape",
+        "status": "free"
+      },
+      "prefixes": {
+        "common": [
+          "in",
+          "re",
+          "de"
+        ],
+        "less_common": []
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "er",
+          "ation",
+          "al"
+        ]
+      },
+      "example_words": [
+        "forms",
+        "formed",
+        "forming",
+        "former",
+        "formation",
+        "formal",
+        "inform",
+        "reform",
+        "deform",
+        "informs",
+        "informed",
+        "informing",
+        "informer",
+        "information",
+        "informal",
+        "reforms",
+        "reformed",
+        "reforming",
+        "reformer",
+        "reformation",
+        "deforms",
+        "deformed",
+        "deforming",
+        "deformer",
+        "deformation"
+      ],
+      "teaching_notes": "Latin-root matrix (root form, to shape, free). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences."
+    },
+    {
+      "id": "matrix_02",
+      "root": {
+        "spelling": "port",
+        "origin": "latin",
+        "meaning": "to carry",
+        "status": "free"
+      },
+      "prefixes": {
+        "common": [
+          "im",
+          "re",
+          "de"
+        ],
+        "less_common": []
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "er",
+          "ion",
+          "ation",
+          "able",
+          "al"
+        ]
+      },
+      "example_words": [
+        "ports",
+        "ported",
+        "porting",
+        "porter",
+        "portion",
+        "portable",
+        "portal",
+        "import",
+        "report",
+        "deport",
+        "imports",
+        "imported",
+        "importing",
+        "importer",
+        "importation",
+        "importable",
+        "reports",
+        "reported",
+        "reporting",
+        "reporter",
+        "reportable",
+        "deports",
+        "deported",
+        "deporting",
+        "deportation",
+        "deportable"
+      ],
+      "teaching_notes": "Latin-root matrix (root port, to carry, free). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences."
+    },
+    {
+      "id": "matrix_03",
+      "root": {
+        "spelling": "rupt",
+        "origin": "latin",
+        "meaning": "to break or burst",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [
+          "dis",
+          "inter"
+        ],
+        "less_common": [
+          {
+            "spelling": "e",
+            "meaning": "out"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "er",
+          "tion",
+          "ible",
+          "ive"
+        ]
+      },
+      "example_words": [
+        "disrupt",
+        "interrupt",
+        "erupt",
+        "disrupts",
+        "disrupted",
+        "disrupting",
+        "disrupter",
+        "disruption",
+        "disruptive",
+        "interrupts",
+        "interrupted",
+        "interrupting",
+        "interrupter",
+        "interruption",
+        "interruptible",
+        "interruptive",
+        "erupts",
+        "erupted",
+        "erupting",
+        "eruption",
+        "eruptible",
+        "eruptive"
+      ],
+      "teaching_notes": "Latin-root matrix (root rupt, to break or burst, bound). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences."
+    },
+    {
+      "id": "matrix_04",
+      "root": {
+        "spelling": "tract",
+        "origin": "latin",
+        "meaning": "to draw or pull",
+        "status": "free"
+      },
+      "prefixes": {
+        "common": [
+          "dis",
+          "re",
+          "de",
+          "sub"
+        ],
+        "less_common": []
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "or",
+          "ion",
+          "able",
+          "ible"
+        ]
+      },
+      "example_words": [
+        "tracts",
+        "tractor",
+        "traction",
+        "tractable",
+        "distract",
+        "retract",
+        "detract",
+        "subtract",
+        "distracts",
+        "distracted",
+        "distracting",
+        "distractor",
+        "distraction",
+        "distractible",
+        "retracts",
+        "retracted",
+        "retracting",
+        "retractor",
+        "retraction",
+        "retractable",
+        "detracts",
+        "detracted",
+        "detracting",
+        "detractor",
+        "detraction",
+        "subtracts",
+        "subtracted",
+        "subtraction"
+      ],
+      "teaching_notes": "Latin-root matrix (root tract, to draw or pull, free). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences."
+    },
+    {
+      "id": "matrix_05",
+      "root": {
+        "spelling": "scrib, script",
+        "origin": "latin",
+        "meaning": "to write",
+        "status": "bound and free"
+      },
+      "prefixes": {
+        "common": [
+          "in",
+          "de",
+          "pre",
+          "sub"
+        ],
+        "less_common": []
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "er",
+          "ion",
+          "able"
+        ]
+      },
+      "example_words": [
+        "scripts",
+        "scripted",
+        "scripting",
+        "scripter",
+        "inscribe",
+        "describe",
+        "prescribe",
+        "subscribe",
+        "inscribes",
+        "inscribed",
+        "inscribing",
+        "inscriber",
+        "inscribable",
+        "describes",
+        "described",
+        "describing",
+        "describer",
+        "describable",
+        "prescribes",
+        "prescribed",
+        "prescribing",
+        "prescriber",
+        "subscribes",
+        "subscribed",
+        "subscribing",
+        "subscriber",
+        "descript",
+        "prescript",
+        "subscript",
+        "descripts",
+        "descripted",
+        "descripting",
+        "description",
+        "prescripts",
+        "prescription",
+        "subscripts",
+        "subscripted",
+        "subscripting",
+        "subscription",
+        "inscription"
+      ],
+      "teaching_notes": "Latin-root matrix (root scrib, script, to write, bound and free). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences."
+    },
+    {
+      "id": "matrix_06",
+      "root": {
+        "spelling": "spect",
+        "origin": "latin",
+        "meaning": "to see, watch, or observe",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [
+          "in",
+          "re"
+        ],
+        "less_common": [
+          {
+            "spelling": "sus",
+            "meaning": "under"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "er_or",
+          "ion",
+          "able",
+          "ive"
+        ]
+      },
+      "example_words": [
+        "inspect",
+        "respect",
+        "suspect",
+        "inspects",
+        "inspected",
+        "inspecting",
+        "inspector",
+        "inspection",
+        "respects",
+        "respected",
+        "respecting",
+        "respecter",
+        "respectable",
+        "respective",
+        "suspects",
+        "suspected",
+        "suspecting",
+        "suspicion"
+      ],
+      "teaching_notes": "Latin-root matrix (root spect, to see, watch, or observe, bound). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. 'suspect(s/ed/ing)' show haplology (sus+spect -> suspect, one 's' elided); 'suspicion' is a suppletive spelling of sus+spect+ion (spect->spic)."
+    },
+    {
+      "id": "matrix_07",
+      "root": {
+        "spelling": "struct",
+        "origin": "latin",
+        "meaning": "to build",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [
+          "in",
+          "de"
+        ],
+        "less_common": [
+          {
+            "spelling": "con",
+            "meaning": "together"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "or",
+          "ion",
+          "ive"
+        ]
+      },
+      "example_words": [
+        "instruct",
+        "destruct",
+        "construct",
+        "instructs",
+        "instructed",
+        "instructing",
+        "instructor",
+        "instruction",
+        "instructive",
+        "destructs",
+        "destructed",
+        "destructing",
+        "destructor",
+        "destruction",
+        "destructive",
+        "constructs",
+        "constructed",
+        "constructing",
+        "constructor",
+        "construction",
+        "constructive"
+      ],
+      "teaching_notes": "Latin-root matrix (root struct, to build, bound). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences."
+    },
+    {
+      "id": "matrix_08",
+      "root": {
+        "spelling": "flect, flex",
+        "origin": "latin",
+        "meaning": "to bend or curve",
+        "status": "bound and free"
+      },
+      "prefixes": {
+        "common": [
+          "in",
+          "re",
+          "de"
+        ],
+        "less_common": []
+      },
+      "suffixes": {
+        "inflectional": [
+          "s/es",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "or",
+          "ion",
+          "ive"
+        ]
+      },
+      "example_words": [
+        "flexes",
+        "flexed",
+        "flexing",
+        "flexor",
+        "flexion",
+        "inflect",
+        "reflect",
+        "deflect",
+        "inflects",
+        "inflected",
+        "inflecting",
+        "inflector",
+        "inflection",
+        "inflective",
+        "reflects",
+        "reflected",
+        "reflecting",
+        "reflector",
+        "reflection",
+        "reflective",
+        "deflects",
+        "deflected",
+        "deflector",
+        "deflection",
+        "deflective",
+        "reflex",
+        "reflexes",
+        "reflexed",
+        "reflexing",
+        "reflexive"
+      ],
+      "teaching_notes": "Latin-root matrix (root flect, flex, to bend or curve, bound and free). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences."
+    },
+    {
+      "id": "matrix_09",
+      "root": {
+        "spelling": "dict",
+        "origin": "latin",
+        "meaning": "to say or tell",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [
+          "in",
+          "pre",
+          "inter"
+        ],
+        "less_common": []
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "ion",
+          "able",
+          "ive"
+        ]
+      },
+      "example_words": [
+        "indict",
+        "predict",
+        "interdict",
+        "indicts",
+        "indicted",
+        "indicting",
+        "indictable",
+        "predicts",
+        "predicted",
+        "predicting",
+        "prediction",
+        "predictable",
+        "predictive",
+        "interdicts",
+        "interdicted",
+        "interdicting",
+        "interdiction",
+        "diction"
+      ],
+      "teaching_notes": "Latin-root matrix (root dict, to say or tell, bound). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. 'diction' is a bonus word (root + suffix only, no prefix)."
+    },
+    {
+      "id": "matrix_10",
+      "root": {
+        "spelling": "fer",
+        "origin": "latin",
+        "meaning": "to bear or yield",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [
+          "in",
+          "re",
+          "de",
+          "pre"
+        ],
+        "less_common": [
+          {
+            "spelling": "trans",
+            "meaning": "across"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "able",
+          "al"
+        ]
+      },
+      "example_words": [
+        "infer",
+        "refer",
+        "defer",
+        "prefer",
+        "transfer",
+        "infers",
+        "inferred",
+        "inferring",
+        "inferable",
+        "refers",
+        "referred",
+        "referring",
+        "referable",
+        "referral",
+        "defers",
+        "deferred",
+        "deferring",
+        "deferrable",
+        "deferral",
+        "prefers",
+        "preferred",
+        "preferring",
+        "preferable",
+        "transfers",
+        "transferred",
+        "transferring",
+        "transferable",
+        "transferal"
+      ],
+      "teaching_notes": "Latin-root matrix (root fer, to bear or yield, bound). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences."
+    },
+    {
+      "id": "matrix_11",
+      "root": {
+        "spelling": "mit, miss",
+        "origin": "latin",
+        "meaning": "to send",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [
+          "dis",
+          "re",
+          "sub"
+        ],
+        "less_common": [
+          {
+            "spelling": "trans",
+            "meaning": "across"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [
+          "s/es",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "er",
+          "ion",
+          "ible",
+          "al"
+        ]
+      },
+      "example_words": [
+        "remit",
+        "submit",
+        "transmit",
+        "remits",
+        "remitted",
+        "remitting",
+        "remitter",
+        "remittable",
+        "remittal",
+        "submits",
+        "submitted",
+        "submitting",
+        "submitter",
+        "submittal",
+        "transmits",
+        "transmitted",
+        "transmitting",
+        "transmitter",
+        "transmittal",
+        "dismiss",
+        "remiss",
+        "dismisses",
+        "dismissed",
+        "dismissing",
+        "dismissible",
+        "dismissal",
+        "remission",
+        "remissible",
+        "submission",
+        "transmission",
+        "transmissible"
+      ],
+      "teaching_notes": "Latin-root matrix (root mit, miss, to send, bound). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences."
+    },
+    {
+      "id": "matrix_12",
+      "root": {
+        "spelling": "duce, duct",
+        "origin": "latin",
+        "meaning": "to lead",
+        "status": "bound and free"
+      },
+      "prefixes": {
+        "common": [
+          "in",
+          "de",
+          "re"
+        ],
+        "less_common": [
+          {
+            "spelling": "con",
+            "meaning": "together"
+          },
+          {
+            "spelling": "pro",
+            "meaning": "forward"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "or",
+          "ion",
+          "ible",
+          "ive"
+        ]
+      },
+      "example_words": [
+        "induce",
+        "deduce",
+        "reduce",
+        "produce",
+        "induces",
+        "induced",
+        "inducing",
+        "inducible",
+        "deduces",
+        "deduced",
+        "deducing",
+        "deducible",
+        "reduces",
+        "reduced",
+        "reducing",
+        "reducible",
+        "produces",
+        "produced",
+        "producing",
+        "producible",
+        "induct",
+        "deduct",
+        "conduct",
+        "product",
+        "inducts",
+        "inducted",
+        "inducting",
+        "inductor",
+        "induction",
+        "inductive",
+        "deducts",
+        "deducted",
+        "deducting",
+        "deduction",
+        "deductive",
+        "reduction",
+        "reductive",
+        "conducts",
+        "conducted",
+        "conducting",
+        "conductor",
+        "conduction",
+        "conductive",
+        "products",
+        "production",
+        "productive",
+        "ducts",
+        "ducted",
+        "ducting"
+      ],
+      "teaching_notes": "Latin-root matrix (root duce, duct, to lead, bound and free). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. 'ducts, ducted, ducting' are bonus words (root + suffix only, no prefix)."
+    },
+    {
+      "id": "matrix_13",
+      "root": {
+        "spelling": "vers, vert",
+        "origin": "latin",
+        "meaning": "to turn",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [
+          "in",
+          "re",
+          "sub"
+        ],
+        "less_common": [
+          {
+            "spelling": "con",
+            "meaning": "together"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "ion",
+          "ive"
+        ]
+      },
+      "example_words": [
+        "inverse",
+        "reverse",
+        "converse",
+        "inverses",
+        "inversed",
+        "inversing",
+        "inversion",
+        "reverses",
+        "reversed",
+        "reversing",
+        "reversion",
+        "subversion",
+        "subversive",
+        "converses",
+        "conversed",
+        "conversing",
+        "conversion",
+        "invert",
+        "revert",
+        "subvert",
+        "convert",
+        "inverts",
+        "inverted",
+        "inverting",
+        "reverts",
+        "reverted",
+        "reverting",
+        "subverts",
+        "subverted",
+        "subverting",
+        "converts",
+        "converted",
+        "converting"
+      ],
+      "teaching_notes": "Latin-root matrix (root vers, vert, to turn, bound). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences."
+    },
+    {
+      "id": "matrix_14",
+      "root": {
+        "spelling": "fact, fect, fict",
+        "origin": "latin",
+        "meaning": "to make or do",
+        "status": "bound and free"
+      },
+      "prefixes": {
+        "common": [
+          "in",
+          "de"
+        ],
+        "less_common": [
+          {
+            "spelling": "per",
+            "meaning": "through"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "or",
+          "ion",
+          "al",
+          "ive"
+        ]
+      },
+      "example_words": [
+        "facts",
+        "factor",
+        "faction",
+        "factual",
+        "infect",
+        "defect",
+        "perfect",
+        "infects",
+        "infected",
+        "infecting",
+        "infector",
+        "infection",
+        "infective",
+        "defects",
+        "defected",
+        "defecting",
+        "defector",
+        "defection",
+        "defective",
+        "perfects",
+        "perfected",
+        "perfecting",
+        "perfection",
+        "perfective",
+        "fiction",
+        "fictional",
+        "fictive"
+      ],
+      "teaching_notes": "Latin-root matrix (root fact, fect, fict, to make or do, bound and free). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. 'fiction, fictional, fictive' are bonus words (root + suffix only, no prefix)."
+    },
+    {
+      "id": "matrix_15",
+      "root": {
+        "spelling": "tend, tent, tens",
+        "origin": "latin",
+        "meaning": "to stretch or strain",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [
+          "in",
+          "dis",
+          "pre"
+        ],
+        "less_common": [
+          {
+            "spelling": "con",
+            "meaning": "together"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "er",
+          "ion",
+          "ive"
+        ]
+      },
+      "example_words": [
+        "intend",
+        "distend",
+        "pretend",
+        "contend",
+        "intends",
+        "intended",
+        "intending",
+        "intender",
+        "distends",
+        "distended",
+        "distending",
+        "pretends",
+        "pretended",
+        "pretending",
+        "pretender",
+        "contends",
+        "contended",
+        "contending",
+        "contender",
+        "intent",
+        "content",
+        "intents",
+        "intention",
+        "intentions",
+        "contents",
+        "contention",
+        "contentions",
+        "pretentions",
+        "intense",
+        "pretense",
+        "intensive",
+        "pretenses",
+        "tenses",
+        "tensed",
+        "tensing",
+        "tenser",
+        "tension"
+      ],
+      "teaching_notes": "Latin-root matrix (root tend, tent, tens, to stretch or strain, bound). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. 'tenses, tensed, tensing, tenser, tension' are bonus words (root + suffix only, no prefix)."
+    },
+    {
+      "id": "matrix_16",
+      "root": {
+        "spelling": "ceit, ceive, cept",
+        "origin": "latin",
+        "meaning": "to take or catch",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [
+          "de",
+          "re",
+          "inter"
+        ],
+        "less_common": [
+          {
+            "spelling": "con",
+            "meaning": "together"
+          },
+          {
+            "spelling": "per",
+            "meaning": "through"
+          },
+          {
+            "spelling": "ex",
+            "meaning": "out"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "er_or",
+          "ion",
+          "able",
+          "ive"
+        ]
+      },
+      "example_words": [
+        "deceit",
+        "receipt",
+        "conceit",
+        "receipts",
+        "deceive",
+        "receive",
+        "conceive",
+        "perceive",
+        "deceives",
+        "deceived",
+        "deceiving",
+        "deceiver",
+        "deceivable",
+        "receives",
+        "received",
+        "receiving",
+        "receiver",
+        "receivable",
+        "conceives",
+        "conceived",
+        "conceiving",
+        "conceiver",
+        "conceivable",
+        "perceives",
+        "perceived",
+        "perceiving",
+        "perceiver",
+        "perceivable",
+        "intercept",
+        "concept",
+        "percept",
+        "except",
+        "intercepts",
+        "intercepted",
+        "intercepting",
+        "interceptor",
+        "interception",
+        "interceptive",
+        "concepts",
+        "conception",
+        "conceptive",
+        "percepts",
+        "perception",
+        "perceptive",
+        "excepts",
+        "excepted",
+        "excepting",
+        "exception",
+        "exceptive",
+        "deceptive",
+        "receptive"
+      ],
+      "teaching_notes": "Latin-root matrix (root ceit, ceive, cept, to take or catch, bound). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences."
+    },
+    {
+      "id": "matrix_17",
+      "root": {
+        "spelling": "tain, ten, tin",
+        "origin": "latin",
+        "meaning": "to hold",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [
+          "re",
+          "de"
+        ],
+        "less_common": [
+          {
+            "spelling": "con",
+            "meaning": "together"
+          },
+          {
+            "spelling": "per",
+            "meaning": "through"
+          },
+          {
+            "spelling": "sus",
+            "meaning": "under"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "er",
+          "able",
+          "tion"
+        ]
+      },
+      "example_words": [
+        "retain",
+        "detain",
+        "contain",
+        "pertain",
+        "sustain",
+        "retains",
+        "retained",
+        "retaining",
+        "retainer",
+        "retainable",
+        "detains",
+        "detained",
+        "detaining",
+        "detainer",
+        "detainable",
+        "contains",
+        "contained",
+        "containing",
+        "container",
+        "containable",
+        "pertains",
+        "pertained",
+        "pertaining",
+        "sustains",
+        "sustained",
+        "sustaining",
+        "sustainer",
+        "sustainable",
+        "retention",
+        "detention",
+        "contention",
+        "retentions",
+        "detentions",
+        "contentions",
+        "continent",
+        "pertinent",
+        "tenable"
+      ],
+      "teaching_notes": "Latin-root matrix (root tain, ten, tin, to hold, bound). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. 'tenable' is a bonus word (root + suffix only, no prefix). 'continent, pertinent' use the suffix -ent, which is not one of the matrix's own listed suffixes."
+    },
+    {
+      "id": "matrix_18",
+      "root": {
+        "spelling": "pos, pound",
+        "origin": "latin",
+        "meaning": "to put in place or set",
+        "status": "bound and free"
+      },
+      "prefixes": {
+        "common": [
+          "im",
+          "dis",
+          "de"
+        ],
+        "less_common": [
+          {
+            "spelling": "com",
+            "meaning": "together"
+          },
+          {
+            "spelling": "ex",
+            "meaning": "out"
+          },
+          {
+            "spelling": "pro",
+            "meaning": "forward"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [
+          "s",
+          "ed",
+          "ing"
+        ],
+        "derivational": [
+          "er_or",
+          "tion",
+          "al"
+        ]
+      },
+      "example_words": [
+        "pounds",
+        "pounded",
+        "pounding",
+        "pounder",
+        "impose",
+        "dispose",
+        "depose",
+        "compose",
+        "expose",
+        "propose",
+        "imposes",
+        "imposed",
+        "imposing",
+        "imposer",
+        "imposition",
+        "disposes",
+        "disposed",
+        "disposing",
+        "disposer",
+        "disposition",
+        "disposal",
+        "deposes",
+        "deposed",
+        "deposing",
+        "deposer",
+        "deposition",
+        "composes",
+        "composed",
+        "composer",
+        "composition",
+        "compositional",
+        "exposes",
+        "exposed",
+        "exposing",
+        "exposer",
+        "exposition",
+        "expositional",
+        "proposes",
+        "proposed",
+        "proposing",
+        "proposer",
+        "proposition",
+        "propositional",
+        "impound",
+        "compound",
+        "expound",
+        "propound",
+        "impounds",
+        "impounded",
+        "impounding",
+        "impounder",
+        "compounds",
+        "compounded",
+        "compounding",
+        "compounder",
+        "expounds",
+        "expounded",
+        "expounding",
+        "expounder",
+        "propounds",
+        "propounded",
+        "propounding"
+      ],
+      "teaching_notes": "Latin-root matrix (root pos, pound, to put in place or set, bound and free). Follow the source's 8 explicit instruction steps for Latin-root matrices (p.6): explain why bigger/longer words matter; model pronunciation and meaning of the root; assemble root+suffixes first when the root is free; model prefixes from the p.3 chart; assemble prefix+root; then model/guide prefix+root+suffix combinations, checking the Word Key; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. Source text repeats 'expounder' twice in place of the expected 'expounds, expounded, expounding, expounder' pattern; corrected here to 'expounded' by analogy with 'impounded/compounded' (flagged in extraction_notes)."
+    },
+    {
+      "id": "matrix_19",
+      "root": {
+        "spelling": "gram, graph",
+        "origin": "greek",
+        "meaning": "written or drawn",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [],
+        "less_common": [
+          {
+            "spelling": "auto",
+            "meaning": "self"
+          },
+          {
+            "spelling": "bio",
+            "meaning": "life"
+          },
+          {
+            "spelling": "chrono",
+            "meaning": "time"
+          },
+          {
+            "spelling": "demo",
+            "meaning": "people"
+          },
+          {
+            "spelling": "geo",
+            "meaning": "earth"
+          },
+          {
+            "spelling": "hydro",
+            "meaning": "water"
+          },
+          {
+            "spelling": "phono",
+            "meaning": "sound"
+          },
+          {
+            "spelling": "photo",
+            "meaning": "light"
+          },
+          {
+            "spelling": "tele",
+            "meaning": "distant"
+          },
+          {
+            "spelling": "thermo",
+            "meaning": "heat"
+          },
+          {
+            "spelling": "autobio",
+            "meaning": "self+life"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [],
+        "derivational": [
+          "er",
+          "ic",
+          "ical",
+          "y"
+        ]
+      },
+      "example_words": [
+        "autograph",
+        "biograph",
+        "chronogram",
+        "chronograph",
+        "hydrograph",
+        "phonogram",
+        "phonograph",
+        "photogram",
+        "photograph",
+        "telegram",
+        "telegraph",
+        "thermograph",
+        "biographer",
+        "chronographer",
+        "demographer",
+        "geographer",
+        "hydrographer",
+        "photographer",
+        "telegrapher",
+        "autographic",
+        "biographic",
+        "chronographic",
+        "demographic",
+        "geographic",
+        "hydrographic",
+        "phonographic",
+        "photographic",
+        "telegraphic",
+        "autobiographic",
+        "autographical",
+        "biographical",
+        "hydrographical",
+        "photographical",
+        "autobiographical",
+        "biography",
+        "demography",
+        "geography",
+        "hydrography",
+        "phonography",
+        "photography",
+        "telegraphy",
+        "thermography",
+        "autobiography"
+      ],
+      "teaching_notes": "Greek-form matrix (root gram, graph, written or drawn). Follow the source's 8 explicit instruction steps for Greek-form matrices (p.25): explain that subjects like science, geography, or civics use big Greek-based words; review the Greek sound patterns ph=/f/, ch=/k/, y=short/long i; model the middle Greek form and its meaning; model the left-column Greek forms; combine left forms with the middle form into subject words, checking the Word Key; when ready, add the derivational suffixes; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. Inflectional suffixes (-s/es, -ed, -ing) are intentionally omitted from Greek-form matrices."
+    },
+    {
+      "id": "matrix_20",
+      "root": {
+        "spelling": "logy, ology",
+        "origin": "greek",
+        "meaning": "study of",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [],
+        "less_common": [
+          {
+            "spelling": "bio",
+            "meaning": "life"
+          },
+          {
+            "spelling": "chrono",
+            "meaning": "time"
+          },
+          {
+            "spelling": "geo",
+            "meaning": "earth"
+          },
+          {
+            "spelling": "hydro",
+            "meaning": "water"
+          },
+          {
+            "spelling": "graph",
+            "meaning": "written"
+          },
+          {
+            "spelling": "meter",
+            "meaning": "measure"
+          },
+          {
+            "spelling": "phono",
+            "meaning": "sound"
+          },
+          {
+            "spelling": "psych",
+            "meaning": "mind"
+          },
+          {
+            "spelling": "techn",
+            "meaning": "skill"
+          },
+          {
+            "spelling": "microbio",
+            "meaning": "small+life"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [],
+        "derivational": [
+          "ic",
+          "ical",
+          "ist"
+        ]
+      },
+      "example_words": [
+        "biology",
+        "chronology",
+        "geology",
+        "hydrology",
+        "graphology",
+        "meteorology",
+        "phonology",
+        "psychology",
+        "technology",
+        "microbiology",
+        "biologic",
+        "chronologic",
+        "geologic",
+        "hydrologic",
+        "meteorologic",
+        "phonologic",
+        "psychologic",
+        "technologic",
+        "microbiologic",
+        "biological",
+        "chronological",
+        "geological",
+        "hydrological",
+        "meteorological",
+        "phonological",
+        "psychological",
+        "technological",
+        "microbiological",
+        "biologist",
+        "chronologist",
+        "geologist",
+        "hydrologist",
+        "phonologist",
+        "psychologist",
+        "technologist",
+        "microbiologist"
+      ],
+      "teaching_notes": "Greek-form matrix (root logy, ology, study of). Follow the source's 8 explicit instruction steps for Greek-form matrices (p.25): explain that subjects like science, geography, or civics use big Greek-based words; review the Greek sound patterns ph=/f/, ch=/k/, y=short/long i; model the middle Greek form and its meaning; model the left-column Greek forms; combine left forms with the middle form into subject words, checking the Word Key; when ready, add the derivational suffixes; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. Inflectional suffixes (-s/es, -ed, -ing) are intentionally omitted from Greek-form matrices. 'meteorology/-logic/-logical' pair the left form 'meter' (measure) with 'logy' in the source, but the word actually reflects the unrelated English word 'meteor'; split shown here as meteor+logy for readability, flagged in extraction_notes."
+    },
+    {
+      "id": "matrix_21",
+      "root": {
+        "spelling": "meter, metr",
+        "origin": "greek",
+        "meaning": "measure",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [],
+        "less_common": [
+          {
+            "spelling": "bio",
+            "meaning": "life"
+          },
+          {
+            "spelling": "chrono",
+            "meaning": "time"
+          },
+          {
+            "spelling": "geo",
+            "meaning": "earth"
+          },
+          {
+            "spelling": "grapho",
+            "meaning": "written"
+          },
+          {
+            "spelling": "hydro",
+            "meaning": "water"
+          },
+          {
+            "spelling": "micro",
+            "meaning": "small"
+          },
+          {
+            "spelling": "photo",
+            "meaning": "light"
+          },
+          {
+            "spelling": "sphero",
+            "meaning": "circle"
+          },
+          {
+            "spelling": "tele",
+            "meaning": "distant"
+          },
+          {
+            "spelling": "thermo",
+            "meaning": "heat"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [],
+        "derivational": [
+          "ic",
+          "y"
+        ]
+      },
+      "example_words": [
+        "chronometer",
+        "geometer",
+        "hydrometer",
+        "micrometer",
+        "photometer",
+        "telemeter",
+        "thermometer",
+        "biometric",
+        "chronometric",
+        "geometric",
+        "hydrometric",
+        "micrometric",
+        "photometric",
+        "telemetric",
+        "thermometric",
+        "biometry",
+        "chronometry",
+        "geometry",
+        "micrometry",
+        "photometry",
+        "telemetry",
+        "thermometry"
+      ],
+      "teaching_notes": "Greek-form matrix (root meter, metr, measure). Follow the source's 8 explicit instruction steps for Greek-form matrices (p.25): explain that subjects like science, geography, or civics use big Greek-based words; review the Greek sound patterns ph=/f/, ch=/k/, y=short/long i; model the middle Greek form and its meaning; model the left-column Greek forms; combine left forms with the middle form into subject words, checking the Word Key; when ready, add the derivational suffixes; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. Inflectional suffixes (-s/es, -ed, -ing) are intentionally omitted from Greek-form matrices."
+    },
+    {
+      "id": "matrix_22",
+      "root": {
+        "spelling": "phone, phon",
+        "origin": "greek",
+        "meaning": "sound",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [],
+        "less_common": [
+          {
+            "spelling": "geo",
+            "meaning": "earth"
+          },
+          {
+            "spelling": "gramo",
+            "meaning": "written"
+          },
+          {
+            "spelling": "hydro",
+            "meaning": "water"
+          },
+          {
+            "spelling": "micro",
+            "meaning": "small"
+          },
+          {
+            "spelling": "tele",
+            "meaning": "distant"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [],
+        "derivational": [
+          "eme",
+          "ic"
+        ]
+      },
+      "example_words": [
+        "phoneme",
+        "phonemic",
+        "phonic",
+        "geophone",
+        "geophonic",
+        "gramophone",
+        "gramophonic",
+        "hydrophone",
+        "microphone",
+        "microphonic",
+        "telephone",
+        "telephonic",
+        "homophone",
+        "megaphone",
+        "vibraphone",
+        "xylophone"
+      ],
+      "teaching_notes": "Greek-form matrix (root phone, phon, sound). Follow the source's 8 explicit instruction steps for Greek-form matrices (p.25): explain that subjects like science, geography, or civics use big Greek-based words; review the Greek sound patterns ph=/f/, ch=/k/, y=short/long i; model the middle Greek form and its meaning; model the left-column Greek forms; combine left forms with the middle form into subject words, checking the Word Key; when ready, add the derivational suffixes; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. Inflectional suffixes (-s/es, -ed, -ing) are intentionally omitted from Greek-form matrices. 'homophone, megaphone, vibraphone, xylophone' are bonus words using left forms (homo-, mega-, vibra-, xylo-) not in this matrix's own left column."
+    },
+    {
+      "id": "matrix_23",
+      "root": {
+        "spelling": "sphere",
+        "origin": "greek",
+        "meaning": "circle",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [],
+        "less_common": [
+          {
+            "spelling": "astro",
+            "meaning": "star"
+          },
+          {
+            "spelling": "bio",
+            "meaning": "life"
+          },
+          {
+            "spelling": "eco",
+            "meaning": "house"
+          },
+          {
+            "spelling": "geo",
+            "meaning": "earth"
+          },
+          {
+            "spelling": "hemi",
+            "meaning": "half"
+          },
+          {
+            "spelling": "hydro",
+            "meaning": "water"
+          },
+          {
+            "spelling": "micro",
+            "meaning": "small"
+          },
+          {
+            "spelling": "photo",
+            "meaning": "light"
+          },
+          {
+            "spelling": "thermo",
+            "meaning": "heat"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [],
+        "derivational": [
+          "ic"
+        ]
+      },
+      "example_words": [
+        "spherical",
+        "astrosphere",
+        "biosphere",
+        "ecosphere",
+        "geosphere",
+        "hemisphere",
+        "hydrosphere",
+        "microsphere",
+        "photosphere",
+        "thermosphere",
+        "atmosphere",
+        "atmospheric",
+        "stratosphere",
+        "stratospheric"
+      ],
+      "teaching_notes": "Greek-form matrix (root sphere, circle). Follow the source's 8 explicit instruction steps for Greek-form matrices (p.25): explain that subjects like science, geography, or civics use big Greek-based words; review the Greek sound patterns ph=/f/, ch=/k/, y=short/long i; model the middle Greek form and its meaning; model the left-column Greek forms; combine left forms with the middle form into subject words, checking the Word Key; when ready, add the derivational suffixes; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. Inflectional suffixes (-s/es, -ed, -ing) are intentionally omitted from Greek-form matrices. 'atmosphere(ic), stratosphere(ic)' are bonus words using left forms (atmo-, strato-) not in this matrix's own left column."
+    },
+    {
+      "id": "matrix_24",
+      "root": {
+        "spelling": "cracy, crat",
+        "origin": "greek",
+        "meaning": "rule",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [],
+        "less_common": [
+          {
+            "spelling": "auto",
+            "meaning": "self"
+          },
+          {
+            "spelling": "demo",
+            "meaning": "people"
+          },
+          {
+            "spelling": "techno",
+            "meaning": "skill"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [],
+        "derivational": [
+          "ic"
+        ]
+      },
+      "example_words": [
+        "autocracy",
+        "democracy",
+        "technocracy",
+        "autocrat",
+        "democrat",
+        "technocrat",
+        "autocratic",
+        "democratic",
+        "technocratic",
+        "aristocracy",
+        "aristocrat",
+        "aristocratic",
+        "bureaucracy",
+        "bureaucrat",
+        "bureaucratic",
+        "mediocracy"
+      ],
+      "teaching_notes": "Greek-form matrix (root cracy, crat, rule). Follow the source's 8 explicit instruction steps for Greek-form matrices (p.25): explain that subjects like science, geography, or civics use big Greek-based words; review the Greek sound patterns ph=/f/, ch=/k/, y=short/long i; model the middle Greek form and its meaning; model the left-column Greek forms; combine left forms with the middle form into subject words, checking the Word Key; when ready, add the derivational suffixes; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. Inflectional suffixes (-s/es, -ed, -ing) are intentionally omitted from Greek-form matrices. 'aristocracy..., bureaucracy..., mediocracy' are bonus words using left forms (aristo-, bureau-, medio-) not in this matrix's own left column."
+    },
+    {
+      "id": "matrix_25",
+      "root": {
+        "spelling": "scope",
+        "origin": "greek",
+        "meaning": "watch or see",
+        "status": "bound"
+      },
+      "prefixes": {
+        "common": [],
+        "less_common": [
+          {
+            "spelling": "bio",
+            "meaning": "life"
+          },
+          {
+            "spelling": "chrono",
+            "meaning": "time"
+          },
+          {
+            "spelling": "hydro",
+            "meaning": "water"
+          },
+          {
+            "spelling": "micro",
+            "meaning": "small"
+          },
+          {
+            "spelling": "phono",
+            "meaning": "sound"
+          },
+          {
+            "spelling": "photo",
+            "meaning": "light"
+          },
+          {
+            "spelling": "tele",
+            "meaning": "distant"
+          },
+          {
+            "spelling": "thermo",
+            "meaning": "heat"
+          }
+        ]
+      },
+      "suffixes": {
+        "inflectional": [],
+        "derivational": [
+          "ic"
+        ]
+      },
+      "example_words": [
+        "bioscope",
+        "chronoscope",
+        "hydroscope",
+        "microscope",
+        "phonoscope",
+        "telescope",
+        "chronoscopic",
+        "hydroscopic",
+        "microscopic",
+        "telescopic",
+        "endoscope",
+        "endoscopic",
+        "horoscope",
+        "kaleidoscope"
+      ],
+      "teaching_notes": "Greek-form matrix (root scope, watch or see). Follow the source's 8 explicit instruction steps for Greek-form matrices (p.25): explain that subjects like science, geography, or civics use big Greek-based words; review the Greek sound patterns ph=/f/, ch=/k/, y=short/long i; model the middle Greek form and its meaning; model the left-column Greek forms; combine left forms with the middle form into subject words, checking the Word Key; when ready, add the derivational suffixes; guide rereading, spelling, and oral sentence use; have students write A Few Sentences. Inflectional suffixes (-s/es, -ed, -ing) are intentionally omitted from Greek-form matrices. 'endoscope(ic), horoscope, kaleidoscope' are bonus words using left forms (endo-, horo-, kaleido-) not in this matrix's own left column."
+    }
+  ]
+}
