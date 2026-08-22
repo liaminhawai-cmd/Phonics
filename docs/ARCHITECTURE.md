@@ -130,6 +130,52 @@ the place-of-articulation marker — all keyed off `phonemes.json`
 synth becomes a "make the sound with your mouth" explorer: drag the tongue
 position, hear the formants, see the nearest phoneme.
 
+### 4a. Listening to the child (`js/core/listen.js`, `js/core/mic-ui.js`)
+
+The app can hear *some* of what a child says, and the design rule is that it
+must say which. `listen.js` is pure analysis over `Float32Array + sampleRate`
+— no DOM, no microphone — so it is testable in Node against synthesised audio
+(`tests/synth.js`). `mic-ui.js` is the browser half: `getUserMedia`,
+hold-to-talk, calibration storage.
+
+| Cue | Verdict | How |
+| --- | --- | --- |
+| voicing (/s/–/z/, /f/–/v/, /p/–/b/) | **measured** | autocorrelation clarity + f0 |
+| is there frication at all | **measured** | spectral flatness |
+| sibilant place (/s/ vs /sh/) | **measured** | spectral centroid above 1500 Hz |
+| vowel quality | **measured, relative** | LPC formants vs the child's own space |
+| /f/ vs /th/, /v/ vs /dh/ | **asked** | near-identical spectra; carried visually |
+| stop place (/p/ vs /t/ vs /k/) | **asked** | unreliable from a lone burst |
+
+Three decisions the measurements forced, each with a test that fails if it is
+undone:
+
+- **The sibilant centroid is taken above 1500 Hz.** A voiced fricative's voice
+  bar drags the whole-spectrum centroid down by thousands of Hz, so /z/ read
+  *lower* than /s/ purely for being voiced. Above the bar the place cue stands
+  alone.
+- **"Is there air" uses flatness, not energy-above-3kHz.** The obvious energy
+  rule rejects /z/, /zh/, /v/ and even an adult /sh/: a voiced fricative's
+  energy sits low while its spectrum stays noise-flat. The two groups separate
+  by ~100x on flatness.
+- **Children are not small adults.** A five-year-old's tract is ~2/3 an adult
+  male's, so formants and fricative centroids sit far higher and adult tables
+  would fail most children. `calibrate()` records the child's own /s/–/sh/
+  midpoint and pitch; grading prefers that over any table, and refuses to
+  build a split when the child's two sounds land on top of each other, so a
+  muddle is never enshrined as their boundary.
+
+Verdicts are `heard` / `close` / `quiet` / `ask`. `ask` is not a failure mode
+— it is the honest one, and it carries a question a five-year-old can answer
+about their own mouth ("Was your tongue poking out between your teeth?")
+next to the zoomed articulation cutaway.
+
+**Where it appears.** `listen.html` is the diagnostic page: point it at a real
+child and see every reading behind every verdict, with a running tally. Look &
+Say has a mic button that offers the same opinion — but never marks the card.
+The child's Got it / Missed it is untouched, because an app that says "wrong"
+about a sound it cannot distinguish teaches a child to stop believing it.
+
 ---
 
 ## 5. The task engine
@@ -340,6 +386,14 @@ repo/CDN and keep paths identical via a base-URL config. Not needed yet.
 
 - Public repo: no learner data, no student names, no photos — ever. Learner
   data lives on-device; exports are teacher-managed files.
+- **Microphone audio never leaves the device and is never stored.** There is
+  no speech API, no upload, no recording kept: samples go straight from
+  `getUserMedia` into the analyser in memory, and what survives is a handful
+  of numbers (a verdict, a centroid, a pitch). The calibration in
+  `localStorage` is four numbers about a voice, not a voice. The mic track is
+  released on every path out of a recording — including touchcancel and
+  window blur — so the browser's recording indicator goes out when listening
+  stops. This is worth being able to state plainly to a parent.
 - `docs/CLEANUP_REPORT.md` lists the personal/copyright material removed from
   the working tree; a git-history rewrite (git filter-repo) is still
   recommended for the old Keira/Alika content before publicising the repo.
@@ -373,6 +427,14 @@ repo/CDN and keep paths identical via a base-URL config. Not needed yet.
   switch shipped in report.html).
 - ✅ **M7 — Word parts.** T10 morpheme matrix builder + word sums over the
   ATLAS matrices, morph:* mastery tracking.
-- **M8 — Nice-to-haves.** Custom-sequence builder UI, optional sync
-  backend, class dashboards, self-record-and-compare decoding,
-  formant-based vowel feedback.
+- ✅ **M8 — Ears on the child.** core/listen.js (voicing, frication,
+  sibilant place, formants; child-relative calibration), core/mic-ui.js,
+  listen.html diagnostic page, mic check in Look & Say, honest picture
+  questions for the contrasts a microphone cannot hear (§4a).
+- **M9 — Nice-to-haves.** Custom-sequence builder UI, optional sync
+  backend, class dashboards, self-record-and-compare decoding.
+  **Formant-based vowel feedback** is the natural next step now that the
+  analyser exists: the pieces are in place (LPC formants, per-child
+  calibration), and what it needs is a calibration pass that captures the
+  child's own vowel corners so a new attempt can be placed against their
+  space rather than an adult chart.
