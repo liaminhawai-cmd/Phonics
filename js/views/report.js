@@ -445,7 +445,9 @@ if (typeof document !== "undefined") {
       const seq = PhonicsBank.seq();
       const units = (seq && seq.units) || [];
       const rows = units.map((u, i) => {
-        const colour = u.colour || M.FALLBACK_PALETTE[i % M.FALLBACK_PALETTE.length];
+        const colour = u.colour || (PhonicsBank.beltColour
+          ? PhonicsBank.beltColour(i).bg
+          : M.FALLBACK_PALETTE[i % M.FALLBACK_PALETTE.length]);
         const ids = u.teaches || [];
         // Same grapheme can teach >1 phoneme in one unit (a.a/a.ay/a.ar all
         // look like bare "a") — on paper those tiles are indistinguishable,

@@ -97,7 +97,9 @@
       return {
         name: unit.label,
         graphemes: graphemes,
-        colour: unit.colour || FALLBACK_PALETTE[i % FALLBACK_PALETTE.length],
+        colour: unit.colour || (typeof window !== "undefined" && window.PhonicsBank && window.PhonicsBank.beltColour
+          ? window.PhonicsBank.beltColour(i).bg
+          : FALLBACK_PALETTE[i % FALLBACK_PALETTE.length]),
       };
     });
   }

@@ -559,7 +559,8 @@ if (typeof document !== "undefined") {
 
     function unitColour(unit) {
       const units = bank.seq().units || [];
-      return unit.colour || M.paletteFor(Math.max(0, units.indexOf(unit)));
+      const i = Math.max(0, units.indexOf(unit));
+      return unit.colour || (PhonicsBank.beltColour ? PhonicsBank.beltColour(i).bg : M.paletteFor(i));
     }
 
     function unitGraphemes(unit) {

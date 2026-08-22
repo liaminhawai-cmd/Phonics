@@ -217,8 +217,36 @@ window.PhonicsBank = (() => {
     });
   }
 
+  // ---- belt colours -------------------------------------------
+  // Level colours for programs that don't ship printed ones (the ELC
+  // bookmarks keep their exact printed colours via unit.colour).
+  // Generalises the bookmarks' own pattern — faint/bold PAIRS of five
+  // hues — like karate belts: each lap of the five hues the whole set
+  // deepens a shade (pale -> bold -> deep -> darkest), and beyond that
+  // the darkest shade earns a gold rim (the black-belt tier). Works
+  // for a sequence of any length; shades 0-1 are the bookmarks' own
+  // faint/bold values so generated programs feel like siblings.
+  const BELT_HUES = [
+    ["#cfe0f5", "#5b9bd5", "#3a6f9f", "#274d70"],   // blue
+    ["#dcd6ec", "#7c64b0", "#5c4a86", "#413460"],   // purple
+    ["#d4e6c5", "#84b063", "#5f8546", "#425e30"],   // green
+    ["#fbecc2", "#f5c33c", "#c99a1d", "#8f6d12"],   // gold
+    ["#f3cbc4", "#d75f50", "#a83f33", "#772b22"],   // red
+  ];
+  function beltColour(i) {
+    const pair = Math.floor(i / 2);
+    const hue = BELT_HUES[pair % BELT_HUES.length];
+    const shadeBase = 2 * Math.floor(pair / BELT_HUES.length);
+    const shade = Math.min(3, shadeBase + (i % 2));
+    const sparkle = shadeBase + (i % 2) > 3;        // past the darkest: gold rim
+    const bg = hue[shade];
+    const r = parseInt(bg.slice(1, 3), 16), g = parseInt(bg.slice(3, 5), 16), b = parseInt(bg.slice(5, 7), 16);
+    const ink = (r * 299 + g * 587 + b * 114) / 1000 >= 140 ? "#1f1f1f" : "#fbf7ee";
+    return { bg, border: sparkle ? "#b8860b" : bg, ink, sparkle };
+  }
+
   return {
-    load, setSequence, loadWords, setAccent,
+    load, setSequence, loadWords, setAccent, beltColour,
     get accent() { return accent; },
     seq: () => seq,
     sequences: () => (seqIndex ? seqIndex.sequences : []),

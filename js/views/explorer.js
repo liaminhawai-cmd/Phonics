@@ -47,8 +47,9 @@ window.PhonicsExplorerModel = (() => {
   // Fill in a fallback colour for any unit missing a printed one.
   function withFallbackColours(units, palette) {
     const pal = palette && palette.length ? palette : FALLBACK_PALETTE;
+    const belt = typeof window !== "undefined" && window.PhonicsBank && window.PhonicsBank.beltColour;
     return (units || []).map((u, i) => Object.assign({}, u, {
-      colour: u.colour || pal[i % pal.length],
+      colour: u.colour || (belt ? belt(i).bg : pal[i % pal.length]),
     }));
   }
 
