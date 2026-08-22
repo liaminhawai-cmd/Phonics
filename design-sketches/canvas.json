@@ -100,6 +100,15 @@
       "h": 844,
       "title": "My Progress — Sounds face",
       "page": "page-3"
+    },
+    {
+      "file": "RingModel.dc.html",
+      "x": 940,
+      "y": 0,
+      "w": 900,
+      "h": 560,
+      "title": "Ring model — one grid, two walls",
+      "page": "page-3"
     }
   ],
   "annotations": [
@@ -154,7 +163,7 @@
     {
       "id": "note-flip",
       "x": 940,
-      "y": 0,
+      "y": 680,
       "w": 340,
       "page": "page-3",
       "text": "One landing page, two faces: on a phone the grapheme tracker and the sound wall are a FLIP (the Letters/Sounds toggle), on a tablet or laptop the same page lays the two walls side by side. Discipline that keeps it light: only the working set gets big ring tiles; everything mastered collapses to the gold shelf / owned dots; exactly ONE action button (Keep going = the weakest ring). This replaces the two-door front page — one less screen."
