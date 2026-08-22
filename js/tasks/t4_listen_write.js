@@ -158,7 +158,39 @@ window.PhonicsTasks = window.PhonicsTasks || {
     container.appendChild(root);
 
     // ---- per-word state ----
-    let w, segs, gpcIds, boxChips, answers, sel, mode, phase, boxesShownAt;
+    let w, segs, gpcIds, boxChips, trayChips, answers, sel, mode, phase, boxesShownAt;
+
+    // One shared tray for the whole word: every box's target plus a spread of
+    // its distractors, deduped by grapheme and shuffled — so a child can fill
+    // the boxes in ANY order (tap a box, tap its sound) instead of walking a
+    // chain of per-box multiple choices that telegraph each box's options.
+    const TRAY_MAX = 12;
+    function buildTray(perBox) {
+      const seen = new Set();
+      const tray = [];
+      for (const chips of perBox) {
+        const target = chips.find((c) => c.kind === "target");
+        if (target && !seen.has(target.gpc.grapheme)) {
+          seen.add(target.gpc.grapheme);
+          tray.push(target);
+        }
+      }
+      // round-robin the distractors so every box contributes some
+      for (let k = 0; tray.length < TRAY_MAX; k++) {
+        let added = false;
+        for (const chips of perBox) {
+          const extras = chips.filter((c) => c.kind !== "target");
+          const c = extras[k];
+          if (c && !seen.has(c.gpc.grapheme) && tray.length < TRAY_MAX) {
+            seen.add(c.gpc.grapheme);
+            tray.push(c);
+            added = true;
+          }
+        }
+        if (!added) break;
+      }
+      return shuffle(tray);
+    }
 
     const $ = (s) => root.querySelector(s);
     const $$ = (s) => Array.from(root.querySelectorAll(s));
@@ -180,6 +212,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
       segs = bank.segmentsFor(w);
       gpcIds = bank.wordGPCs(w);
       boxChips = segs.map((s, i) => chipsFor(s, gpcIds[i]));
+      trayChips = buildTray(boxChips);
       answers = segs.map(() => null);
       sel = 0;
       mode = "chips";
@@ -193,7 +226,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
       root.innerHTML = `
         <div class="pt-progress">Word ${idx + 1} of ${words.length}</div>
         <button type="button" class="pt-bigplay" data-role="play" aria-label="Play the word">🔊</button>
-        <div class="pt-prompt">Listen, then build the word — one sound per box</div>
+        <div class="pt-prompt">Listen, then build the word — tap any box, then tap its sound</div>
         <div class="pt-elk-row" data-role="boxes"></div>
         <div class="pt-chip-row" data-role="chips"></div>
         <div class="pt-toolrow">
@@ -231,7 +264,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
     function renderChips() {
       const holder = $('[data-role="chips"]');
       if (!holder) return;
-      const chips = boxChips[sel] || [];
+      const chips = trayChips || [];
       holder.innerHTML = chips.map((c) => `
         <button type="button" class="pt-chip" data-role="chip" data-kind="${c.kind}"
           data-gpc="${escapeHtml(c.gpc.id)}" data-grapheme="${escapeHtml(c.gpc.grapheme)}">
@@ -248,7 +281,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
 
     function onChip(btn) {
       if (phase !== "input") return;
-      const chips = boxChips[sel] || [];
+      const chips = trayChips || [];
       const chip = chips.find((c) => c.gpc.id === btn.dataset.gpc) ||
         { gpc: { id: btn.dataset.gpc, grapheme: btn.dataset.grapheme, display: btn.textContent.trim() } };
       answers[sel] = { grapheme: chip.gpc.grapheme, display: chip.gpc.display || chip.gpc.grapheme };
