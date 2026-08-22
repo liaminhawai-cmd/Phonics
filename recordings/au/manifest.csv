@@ -47,6 +47,24 @@ teaching-unit,ks,ks.mp3,,/ks/ as in box (letter x)
 teaching-unit,kw,kw.mp3,,/kw/ as in queen (qu)
 teaching-unit,yoo,yoo.mp3,,/yoo/ as in music (long u)
 teaching-unit,schwa_r,schwa_r.mp3,,unstressed -er as in letter
+ui-prompt,write,write.mp3,,"""Write it"" — handwriting task: start a trace/copy/memory attempt"
+ui-prompt,check,check.mp3,,"""Check"" — the Check button on any task"
+ui-prompt,trace,trace.mp3,,"""Trace the letter"" — handwriting scaffold level 1"
+ui-prompt,copy,copy.mp3,,"""Now you copy it"" — handwriting scaffold level 2"
+ui-prompt,from_memory,from_memory.mp3,,"""Write it from memory"" — handwriting scaffold level 3"
+ui-prompt,listen,listen.mp3,,"""Listen"" — before a word plays"
+ui-prompt,again,again.mp3,,"""Again"" — replay button"
+ui-prompt,your_turn,your_turn.mp3,,"""Your turn"" — hand over after a model"
+ui-prompt,say_it,say_it.mp3,,"""Say the sound"" — grapheme trainer, say mode"
+ui-prompt,sound_it_out,sound_it_out.mp3,,"""Sound it out"" — decoding prompt"
+ui-prompt,count_sounds,count_sounds.mp3,,"""How many sounds?"" — T3 beats & sounds"
+ui-prompt,clap_beats,clap_beats.mp3,,"""Clap the beats"" — T3 syllable step"
+ui-prompt,build_word,build_word.mp3,,"""Build the word"" — T4 / T6"
+ui-prompt,well_done,well_done.mp3,,"""Well done!"" — correct, first try"
+ui-prompt,nearly,nearly.mp3,,"""So close — try again"" — wrong, retry available"
+ui-prompt,lets_look,lets_look.mp3,,"""Let's look together"" — reveal after the second try"
+ui-prompt,next_one,next_one.mp3,,"""Next one"" — advance"
+ui-prompt,all_done,all_done.mp3,,"""All done — great work!"" — session summary"
 word,I,I.mp3,,tier 1
 word,a,a.mp3,,tier 1
 word,about,about.mp3,,tier 1

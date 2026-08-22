@@ -37,12 +37,18 @@
   // own "/…/" phoneme label; a multi-phoneme GPC (x -> ks, qu -> kw, the
   // ed.ed / ough.uf style composites) has no single phoneme id to label, so
   // we fall back to the id's own tail (the part after the grapheme).
+  // The teacher shorthand the printed bookmarks and the original tracker
+  // use (ă, ā, ah, ōō…) — carried in the bank as gpc.short. Anything the
+  // bookmarks never named falls back to the phoneme label stripped of its
+  // slashes, so cards stay terse rather than turning into "/a/ (as in cat)".
   function shortSoundFor(gpc, bank) {
+    if (gpc.short) return gpc.short;
     if (Array.isArray(gpc.phonemes)) {
-      var tail = gpc.id.indexOf(".") === -1 ? gpc.id : gpc.id.slice(gpc.id.indexOf(".") + 1);
-      return tail;
+      return gpc.id.indexOf(".") === -1 ? gpc.id : gpc.id.slice(gpc.id.indexOf(".") + 1);
     }
-    return bank.phonemeLabel(gpc.phonemes);
+    var label = bank.phonemeLabel(gpc.phonemes) || "";
+    var m = label.match(/^\/([^/]+)\//);
+    return m ? m[1] : label;
   }
 
   // Flatten a graphemeView() (units -> graphemes -> gpcs) into one entry per

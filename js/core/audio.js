@@ -119,7 +119,25 @@ window.PhonicsAudio = (() => {
     return playChain(srcs, null);
   }
 
+  // Spoken interface prompts ("Write it", "Check") — the words the app says
+  // to a child who can't read yet. data/ui-prompts.json carries the text;
+  // a human recording in recordings/<accent>/ui/ upgrades it silently.
+  let promptText = null;
+  async function playPrompt(id) {
+    if (promptText === null) {
+      try {
+        const res = await fetch(base + "data/ui-prompts.json");
+        const json = res.ok ? await res.json() : { prompts: [] };
+        promptText = {};
+        for (const p of json.prompts || []) promptText[p.id] = p.text;
+      } catch (e) { promptText = {}; }
+    }
+    const text = promptText[id];
+    return playChain(["recordings/" + accent() + "/ui/" + id + ".mp3"],
+                     () => { if (text) speak(text, 1); });
+  }
+
   function setBase(b) { base = b || ""; }
 
-  return { playPhoneme, playWord, playGpc, speak, stop, setBase };
+  return { playPhoneme, playWord, playGpc, playPrompt, speak, stop, setBase };
 })();

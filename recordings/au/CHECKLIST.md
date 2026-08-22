@@ -1,6 +1,6 @@
 # Recording checklist — AU
 
-**40 / 1055 recorded.** Save files into `recordings/au/phonemes/` and `recordings/au/words/` — filename must match exactly. See recordings/README.md for tips.
+**40 / 1073 recorded.** Save files into `recordings/au/phonemes/` and `recordings/au/words/` — filename must match exactly. See recordings/README.md for tips.
 
 ## Phonemes & teaching units
 
@@ -52,6 +52,29 @@
 - [ ] `kw.mp3` — /kw/ as in queen (qu)
 - [ ] `yoo.mp3` — /yoo/ as in music (long u)
 - [ ] `schwa_r.mp3` — unstressed -er as in letter
+
+## Spoken prompts  → `recordings/au/ui/`
+
+Short and warm — the way you'd say it across a table.
+
+- [ ] `write.mp3` — "Write it" — handwriting task: start a trace/copy/memory attempt
+- [ ] `check.mp3` — "Check" — the Check button on any task
+- [ ] `trace.mp3` — "Trace the letter" — handwriting scaffold level 1
+- [ ] `copy.mp3` — "Now you copy it" — handwriting scaffold level 2
+- [ ] `from_memory.mp3` — "Write it from memory" — handwriting scaffold level 3
+- [ ] `listen.mp3` — "Listen" — before a word plays
+- [ ] `again.mp3` — "Again" — replay button
+- [ ] `your_turn.mp3` — "Your turn" — hand over after a model
+- [ ] `say_it.mp3` — "Say the sound" — grapheme trainer, say mode
+- [ ] `sound_it_out.mp3` — "Sound it out" — decoding prompt
+- [ ] `count_sounds.mp3` — "How many sounds?" — T3 beats & sounds
+- [ ] `clap_beats.mp3` — "Clap the beats" — T3 syllable step
+- [ ] `build_word.mp3` — "Build the word" — T4 / T6
+- [ ] `well_done.mp3` — "Well done!" — correct, first try
+- [ ] `nearly.mp3` — "So close — try again" — wrong, retry available
+- [ ] `lets_look.mp3` — "Let's look together" — reveal after the second try
+- [ ] `next_one.mp3` — "Next one" — advance
+- [ ] `all_done.mp3` — "All done — great work!" — session summary
 
 ## Words (by tier)
 

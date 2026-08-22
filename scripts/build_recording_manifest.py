@@ -28,6 +28,7 @@ def has_audio(folder, stem):
 
 phon = jload("data/phonemes.json")
 words = jload("data/words/words.json")
+ui = jload("data/ui-prompts.json")
 
 # Legacy AU phoneme recordings live in sounds/<ipa (ex[a]mple)>/
 legacy = {}
@@ -41,7 +42,7 @@ unit_rows = [(uid, u) for uid, u in units.items() if isinstance(u, dict)]
 
 for accent in ACCENTS:
     base = os.path.join(REC, accent)
-    for sub in ("phonemes", "words", "words-segmented"):
+    for sub in ("phonemes", "words", "words-segmented", "ui"):
         os.makedirs(os.path.join(base, sub), exist_ok=True)
 
     rows = []
@@ -55,6 +56,11 @@ for accent in ACCENTS:
     for uid, u in unit_rows:
         exists = has_audio(os.path.join(base, "phonemes"), uid)
         rows.append(("teaching-unit", uid, f"{uid}.mp3", exists, u.get("label", "")))
+
+    for p in (ui or {}).get("prompts", []):
+        exists = has_audio(os.path.join(base, "ui"), p["id"])
+        rows.append(("ui-prompt", p["id"], f"{p['id']}.mp3", exists,
+                     '"' + p["text"] + '"' + (" — " + p["note"] if p.get("note") else "")))
 
     if words:
         for w in sorted(words["words"], key=lambda w: (w.get("tier", 9), w.get("id", w["word"]))):
@@ -83,7 +89,14 @@ for accent in ACCENTS:
         "",
     ]
     for kind, rid, fn, exists, note in rows:
-        if kind == "word":
+        if kind not in ("phoneme", "teaching-unit"):
+            continue
+        box = "x" if exists else " "
+        lines.append(f"- [{box}] `{fn}` — {note}")
+    lines += ["", f"## Spoken prompts  → `recordings/{accent}/ui/`", "",
+              "Short and warm — the way you'd say it across a table.", ""]
+    for kind, rid, fn, exists, note in rows:
+        if kind != "ui-prompt":
             continue
         box = "x" if exists else " "
         lines.append(f"- [{box}] `{fn}` — {note}")
