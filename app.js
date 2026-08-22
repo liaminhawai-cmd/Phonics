@@ -364,7 +364,9 @@ function buildTrackerGrid(container) {
       codes.appendChild(cell);
     });
     row.appendChild(codes);
-    tracker.appendChild(row);
+    // Some programs have review/blend units that teach no new graphemes
+    // (UFLI's blend lessons) — an empty numbered row is just noise.
+    if (codes.childElementCount) tracker.appendChild(row);
   });
   container.appendChild(tracker);
 }
