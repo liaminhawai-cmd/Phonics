@@ -70,11 +70,20 @@
 // ink. The example WORD stays hidden until Confirm — that one
 // really would spell the answer out.
 //
-// Item selection: taught GPCs of the active program whose
-// grapheme is contiguous letters (no split digraphs) that all
-// exist in the letterform bank, sorted weakest-first by encode
+// Item selection: taught GPCs of the active program whose letters
+// all exist in the letterform bank, sorted weakest-first by encode
 // strength then letter-formation strength, shuffled inside that
 // bias so the round isn't identical twice.
+//
+// SPLIT DIGRAPHS (a_e, i_e, o_e, u_e, e_e). The underscore is laid
+// out as a lane of its own so the child writes "a _ e", the way the
+// split is taught on paper — but that lane is PRINTED, not offered:
+// a bold underscore on the baseline, no dashed box, no rub-out
+// button, no ink accepted, and nothing scored. There is no
+// letterform for "_", so it is skipped everywhere defs / models /
+// results are built or read: it never joins the formation average,
+// never blocks the "every box is full" check, and never records a
+// letter:<c> attempt. Labels read "a-e", never "a-_-e".
 // ============================================================
 
 // Shared registry bootstrap — identical snippet in every task file.
@@ -92,6 +101,8 @@ window.PhonicsTasks = window.PhonicsTasks || {
   const ROUND = 6;            // items per round
   const BIAS_POOL = 18;       // weakest N to shuffle the round out of
   const MAX_LETTERS = 4;      // eigh / ough are the longest we lay out
+  const GAP = "_";            // a_e: the split, laid out as a printed gap lane
+  const GAP_MODEL_W = 40;     // model units the gap lane occupies
 
   const N = 48;               // resample points, model and attempt alike
   const PASS = 70;            // "well formed" — same line T9 steps up on
@@ -134,6 +145,8 @@ window.PhonicsTasks = window.PhonicsTasks || {
   const LANE_EDGE = "#e0d7c2";
   const LANE_TINT = "#fdfaf2";      // every other box, so N boxes read as N boxes
   const MODEL_GREY = "#ddd6c7";
+  const GAP_INK = "#8a806d";        // the printed underscore of a split digraph
+  const GAP_BG = "#efeade";         // ...on a strip of page that isn't a box
   const GHOST_RED = "#a83232";
 
   function esc(s) {
@@ -152,6 +165,12 @@ window.PhonicsTasks = window.PhonicsTasks || {
   }
 
   const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  const isGap = (c) => c === GAP;
+  // How a spelling is said out loud, letter by letter: "sh" -> "s-h" and
+  // "a_e" -> "a-e". The gap IS the hyphen; it is never an item of its own.
+  const spellOut = (grapheme) =>
+    String(grapheme).split("").filter((c) => !isGap(c)).join("-");
 
   // ---- the letterform file (same cache discipline as T9) --------------
   let stylePromise = null;
@@ -230,6 +249,9 @@ window.PhonicsTasks = window.PhonicsTasks || {
 .sw-rub { font-size: 17px; }
 .sw-rubn { font-size: 13px; }
 .sw-lanebtn:hover { border-style: solid; border-color: var(--sw-accent); color: var(--sw-accent); }
+/* A gap lane has no rub-out button; this blank holds its place so the
+   numbered buttons either side still sit under the boxes they empty. */
+.sw-lanegap { flex: 1 1 0; min-width: 10px; align-self: stretch; }
 .sw-lanebtn:disabled { opacity: 0.4; cursor: not-allowed; }
 .sw-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
 .sw-actions .pt-primary { margin: 0; }
@@ -249,6 +271,9 @@ window.PhonicsTasks = window.PhonicsTasks || {
 .sw-answer-lab { font-size: 13px; color: var(--sw-muted); }
 .sw-answer-g { font-family: Georgia, serif; font-size: 34px; font-weight: 700; letter-spacing: 2px; }
 .sw-answer-glyphs { display: flex; align-items: flex-end; gap: 10px; color: var(--sw-ink); margin-top: 2px; }
+/* the split's gap, sitting on the same baseline the little glyphs sit on */
+.sw-answer-gap { display: inline-block; width: 26px; height: 5px; border-radius: 3px;
+  background: var(--sw-muted); opacity: 0.5; margin-bottom: 19px; }
 .sw-ask-q { text-align: center; font-family: Georgia, serif; font-size: 17px; font-weight: 700;
   margin: 12px 0 8px; }
 .sw-ask-btns { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
@@ -311,12 +336,13 @@ window.PhonicsTasks = window.PhonicsTasks || {
       const g = entry && entry.gpc;
       if (!g || !g.grapheme) continue;
       const grapheme = String(g.grapheme);
-      // Split digraphs (a_e) aren't contiguous letters, so there is no
-      // honest "write these letters side by side" version of them.
-      if (grapheme.indexOf("_") !== -1) continue;
+      // Split digraphs (a_e) keep their underscore as a lane the child does
+      // NOT write in: "a _ e" shows the gap the other letter lives in, which
+      // is how the split is taught. The gap lane is skipped when scoring.
       const chars = grapheme.split("");
       if (!chars.length || chars.length > MAX_LETTERS) continue;
-      if (!chars.every((c) => letters[c])) continue;
+      if (!chars.every((c) => isGap(c) || letters[c])) continue;
+      if (chars.every(isGap)) continue;
       pool.push({ gpc: g, letters: chars, grapheme });
     }
     if (!pool.length) return [];
@@ -329,9 +355,13 @@ window.PhonicsTasks = window.PhonicsTasks || {
     };
     for (const it of pool) {
       it.encodeStrength = strengthOf(it.gpc.id + "|encode");
-      let sum = 0;
-      for (const c of it.letters) sum += strengthOf("letter:" + c + "|" + STYLE_ID);
-      it.handStrength = it.letters.length ? sum / it.letters.length : 0;
+      let sum = 0, n = 0;
+      for (const c of it.letters) {
+        if (isGap(c)) continue;            // no letterform, so no strength to average
+        sum += strengthOf("letter:" + c + "|" + STYLE_ID);
+        n += 1;
+      }
+      it.handStrength = n ? sum / n : 0;
     }
 
     // Shuffle first so the stable sort leaves equal-strength GPCs (everything,
@@ -443,6 +473,8 @@ window.PhonicsTasks = window.PhonicsTasks || {
     // ---- per-item state -----------------------------------------------
     let idx = 0;
     let item = null, defs = [], chars = [];
+    let writable = [], writableCount = 0;   // writable[i] === false on a gap lane
+    let gapNudged = false;
     let modelFine = [], modelPaths = [], hasPaths = [];
     let canvas = null, c2 = null;
     let geom = null;
@@ -484,7 +516,9 @@ window.PhonicsTasks = window.PhonicsTasks || {
     function geomFor(w) {
       const n = chars.length;
       const gapModel = n <= 2 ? 22 : 12;
-      const widths = defs.map((d) => (typeof d.width === "number" ? d.width : 55));
+      const widths = defs.map((d) => (d
+        ? (typeof d.width === "number" ? d.width : 55)
+        : GAP_MODEL_W));                   // a gap lane has no letterform to measure
       let totalModelW = gapModel * (n - 1);
       for (const ww of widths) totalModelW += ww;
       const scaleX = (w - 12) / (totalModelW + SIDE_MODEL * 2);
@@ -506,6 +540,18 @@ window.PhonicsTasks = window.PhonicsTasks || {
         lanes[i].lo = i === 0 ? 0 : (lanes[i - 1].centre + lanes[i].centre) / 2;
         lanes[i].hi = i === n - 1 ? w : (lanes[i].centre + lanes[i + 1].centre) / 2;
       }
+      // A gap lane keeps only the strip its mark sits in; the boxes either side
+      // take the rest. The child gets more room to write, and the printed strip
+      // stays visibly narrower than a box instead of posing as one.
+      for (let i = 0; i < n; i++) {
+        if (writable[i]) continue;
+        const lo = Math.max(lanes[i].lo, lanes[i].originX - 4);
+        const hi = Math.min(lanes[i].hi, lanes[i].originX + lanes[i].boxW + 4);
+        lanes[i].lo = lo;
+        lanes[i].hi = hi;
+        if (i > 0) lanes[i - 1].hi = lo;
+        if (i < n - 1) lanes[i + 1].lo = hi;
+      }
       return { w, h: Math.round(100 * scale + PAD_Y * 2), scale, originY: PAD_Y, lanes };
     }
 
@@ -523,11 +569,24 @@ window.PhonicsTasks = window.PhonicsTasks || {
       return x < 0 ? 0 : lanes.length - 1;
     }
 
+    // Ink only ever belongs to a lane the child may write in: a stroke that
+    // wandered across the printed gap still settles on the nearest real box.
+    function laneAtWritable(x) {
+      const lanes = geom.lanes;
+      let best = -1, bestD = Infinity;
+      for (let i = 0; i < lanes.length; i++) {
+        if (!writable[i]) continue;
+        const d = x < lanes[i].lo ? lanes[i].lo - x : (x > lanes[i].hi ? x - lanes[i].hi : 0);
+        if (d < bestD) { bestD = d; best = i; }
+      }
+      return best < 0 ? 0 : best;
+    }
+
     function laneOfStroke(s) {
-      if (!s.pts.length) return 0;
+      if (!s.pts.length) return laneAtWritable(0);
       let sum = 0;
       for (const p of s.pts) sum += p.x;
-      return laneAt(sum / s.pts.length);
+      return laneAtWritable(sum / s.pts.length);
     }
 
     function layout(fresh) {
@@ -562,11 +621,14 @@ window.PhonicsTasks = window.PhonicsTasks || {
         scale: geom.scale, originY: geom.originY,
         lanes: geom.lanes.map((l) => ({ x: l.originX, w: l.boxW })),
       });
-      // Each rub-out button grows to the width of the box it empties, so it
-      // sits under its own box instead of near it.
-      root.querySelectorAll('[data-role="lane-clear"]').forEach((b, i) => {
-        const l = geom.lanes[i];
-        if (l) b.style.flexGrow = String(Math.max(0.4, (l.hi - l.lo) / geom.w));
+      // Each rub-out button — and the blank standing in for a gap lane — grows
+      // to the width of the lane above it, so every 🧽 sits under its own box
+      // instead of near it. Exactly proportional: a narrow gap strip must not
+      // be padded out to box width, and the 44px tap target is the button's
+      // own min-width, which flex still honours.
+      root.querySelectorAll(".sw-lanebtns [data-lane]").forEach((b) => {
+        const l = geom.lanes[Number(b.dataset.lane)];
+        if (l) b.style.flexGrow = String(Math.max(0.05, (l.hi - l.lo) / geom.w));
       });
       redraw();
     }
@@ -601,6 +663,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
       if (lanes.length < 2) return;
       c2.save();
       for (let i = 0; i < lanes.length; i++) {
+        if (!writable[i]) continue;        // the gap is printed, not offered
         const x = lanes[i].lo + 2.5, w = lanes[i].hi - lanes[i].lo - 5;
         c2.setLineDash([]);
         if (i % 2) {
@@ -617,15 +680,54 @@ window.PhonicsTasks = window.PhonicsTasks || {
       c2.restore();
     }
 
+    // A gap lane is a strip of shaded page, not a box: no dashed edge, no white
+    // paper, nothing that says "put something here".
+    function drawGapStrips() {
+      c2.save();
+      c2.fillStyle = GAP_BG;
+      for (let i = 0; i < geom.lanes.length; i++) {
+        if (writable[i]) continue;
+        const l = geom.lanes[i];
+        c2.fillRect(l.lo, 0, l.hi - l.lo, geom.h);
+      }
+      c2.restore();
+    }
+
+    // The split-digraph gap: a bold underscore sitting on the baseline in the
+    // muted ink of something already printed on the page. No box, no 🧽 — it
+    // reads as "another letter goes here", not as somewhere to write.
+    function drawGapMarks() {
+      const y = my(MODEL_THIRDS.base);
+      c2.save();
+      c2.lineCap = "round";
+      c2.strokeStyle = GAP_INK;
+      for (let i = 0; i < geom.lanes.length; i++) {
+        if (writable[i]) continue;
+        const l = geom.lanes[i];
+        const w = Math.max(4.5, 3.2 * geom.scale);
+        const half = Math.max(9, l.boxW * 0.42);
+        const cx = l.originX + l.boxW / 2;
+        c2.lineWidth = w;
+        c2.beginPath();
+        c2.moveTo(cx - half, y + w / 2);   // top edge of the mark rests on the line
+        c2.lineTo(cx + half, y + w / 2);
+        c2.stroke();
+      }
+      c2.restore();
+    }
+
     function drawGuides() {
+      drawGapStrips();
       drawLaneBoxes();
       line(my(MODEL_THIRDS.top), GUIDE, 1.4);
       line(my(MODEL_THIRDS.mid), GUIDE, 1.1, [3, 5]);
       line(my(MODEL_THIRDS.base), GUIDE, 1.8);
       line(my(MODEL_THIRDS.floor), GUIDE_FAINT, 1.1, [2, 6]);
+      drawGapMarks();
     }
 
     function strokeLetter(i, colour, widthPx) {
+      if (!writable[i] || !defs[i]) return;      // nothing models a gap
       c2.save();
       c2.translate(geom.lanes[i].originX, geom.originY);
       c2.scale(geom.scale, geom.scale);
@@ -726,12 +828,16 @@ window.PhonicsTasks = window.PhonicsTasks || {
     function onDown(e) {
       if (disposed || phase !== "write" || (e.button != null && e.button > 0)) return;
       e.preventDefault();
+      const p = pointFrom(e);
+      const lane = laneAt(p.x);
+      // The gap is printed, not offered: no stroke is ever born in a lane
+      // nobody scores, so a stray tap there simply doesn't take.
+      if (!writable[lane]) { nudgeGap(); return; }
       stopGhost();
       try { canvas.setPointerCapture(e.pointerId); } catch (err) { /* synthetic events */ }
       activePointer = e.pointerId;
       drawing = true;
-      const p = pointFrom(e);
-      strokes.push({ lane: laneAt(p.x), pts: [p] });
+      strokes.push({ lane, pts: [p] });
       if (!firstDownTs) firstDownTs = Date.now();
       redraw();
     }
@@ -769,6 +875,14 @@ window.PhonicsTasks = window.PhonicsTasks || {
       redraw();
     }
 
+    // Said once per item — a five-year-old who pokes the gap deserves a reason,
+    // but not the same sentence forty times.
+    function nudgeGap() {
+      if (gapNudged) return;
+      gapNudged = true;
+      toast("That gap is for another letter — write in the boxes.");
+    }
+
     function inkedLanes() {
       const set = new Set();
       for (const s of strokes) if (s.pts.length) set.add(s.lane);
@@ -790,7 +904,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
       if (fromPointer && !labelShown && inked.size) { labelShown = true; renderSoundLine(); }
       // "Check" is spoken the first time every box holds something, so a
       // child who can't read still knows what the red button is for.
-      if (fromPointer && !askedForCheck && inked.size === chars.length) {
+      if (fromPointer && !askedForCheck && inked.size === writableCount) {
         askedForCheck = true;
         later(() => prompt("check"), 400);
       }
@@ -822,6 +936,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
       stopGhost();
       const seq = [];
       for (let i = 0; i < chars.length; i++) {
+        if (!writable[i]) continue;        // there is nothing to replay in a gap
         for (const pts of modelFine[i]) seq.push(pts.map((p) => toCanvas(i, p)));
       }
       if (!seq.length) return;
@@ -893,12 +1008,21 @@ window.PhonicsTasks = window.PhonicsTasks || {
     }
 
     function renderItem() {
-      const n = chars.length;
-      const laneBtns = n > 1
-        ? chars.map((c, i) => `<button type="button" class="sw-lanebtn" data-role="lane-clear"
-             data-lane="${i}" disabled aria-label="Rub out box ${i + 1}"
-             ><span class="sw-rub">🧽</span> <span class="sw-rubn">${i + 1}</span></button>`).join("")
+      // A gap lane gets a blank spacer instead of a 🧽, and the numbering runs
+      // over the boxes that exist: "a _ e" has rub-outs 1 and 2, not 1 and 3.
+      let boxNo = 0;
+      const laneBtns = writableCount > 1
+        ? chars.map((c, i) => {
+            if (!writable[i]) return `<span class="sw-lanegap" data-lane="${i}" aria-hidden="true"></span>`;
+            boxNo += 1;
+            return `<button type="button" class="sw-lanebtn" data-role="lane-clear"
+             data-lane="${i}" disabled aria-label="Rub out box ${boxNo}"
+             ><span class="sw-rub">🧽</span> <span class="sw-rubn">${boxNo}</span></button>`;
+          }).join("")
         : "";
+      const canvasLabel = "Writing lines with " + writableCount + " box" +
+        (writableCount === 1 ? "" : "es") + ", one for each letter" +
+        (writableCount === chars.length ? "" : ", and a printed gap you don't write in");
       root.innerHTML = `
         <div class="pt-progress">Sound ${idx + 1} of ${items.length}</div>
         <button type="button" class="pt-bigplay" data-role="play" aria-label="Hear the sound again">🔊</button>
@@ -907,7 +1031,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
         <div class="sw-soundline" data-role="soundline"></div>
         <div class="sw-canvas-wrap">
           <canvas class="sw-canvas" data-role="canvas"
-            aria-label="Writing lines with ${n} box${n === 1 ? "" : "es"}, one for each letter"></canvas>
+            aria-label="${esc(canvasLabel)}"></canvas>
         </div>
         <div class="sw-lanebtns" data-role="lanebtns">${laneBtns}</div>
         <div class="sw-actions" data-role="writerow">
@@ -933,12 +1057,15 @@ window.PhonicsTasks = window.PhonicsTasks || {
     function startItem() {
       item = items[idx];
       chars = item.letters;
-      defs = chars.map((c) => letters[c]);
-      modelFine = defs.map((d) => (d.strokes || []).map((s) => PH.pathToPoints(s.path, 96)));
-      modelPaths = defs.map((d) => (d.strokes || []).map((s) => {
+      // A gap has no letterform: null def, empty models, nothing to score.
+      writable = chars.map((c) => !isGap(c) && !!letters[c]);
+      writableCount = writable.filter(Boolean).length;
+      defs = chars.map((c, i) => (writable[i] ? letters[c] : null));
+      modelFine = defs.map((d) => (d ? (d.strokes || []).map((s) => PH.pathToPoints(s.path, 96)) : []));
+      modelPaths = defs.map((d) => (d ? (d.strokes || []).map((s) => {
         try { return new Path2D(s.path); } catch (e) { return null; }
-      }).filter(Boolean));
-      hasPaths = defs.map((d, i) => modelPaths[i].length === (d.strokes || []).length);
+      }).filter(Boolean) : []));
+      hasPaths = defs.map((d, i) => !!d && modelPaths[i].length === (d.strokes || []).length);
       strokes = [];
       drawing = false;
       activePointer = null;
@@ -948,6 +1075,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
       labelShown = false;
       revealed = false;
       askedForCheck = false;
+      gapNudged = false;
       results = [];
       formTotal = 0;
       legible = false;
@@ -971,6 +1099,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
       root.dataset.phase = "checked";
 
       results = chars.map((c, i) => {
+        if (!writable[i]) return null;     // a printed gap is never scored
         const mine = strokes.filter((s) => s.lane === i && s.pts.length);
         if (!mine.length) return null;
         try {
@@ -986,6 +1115,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
       let sum = 0;
       legible = true;
       results.forEach((r, i) => {
+        if (!writable[i]) return;          // the gap is neither ink nor an empty box
         const total = r ? r.total : 0;
         sum += total;
         if (!r || total < FLOOR) legible = false;
@@ -997,7 +1127,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
             { total, features: r.features, gpc: item.gpc.id });
         }
       });
-      formTotal = chars.length ? Math.round(sum / chars.length) : 0;
+      formTotal = writableCount ? Math.round(sum / writableCount) : 0;
 
       labelShown = true;
       revealed = true;                    // grey models appear under the ink
@@ -1039,10 +1169,12 @@ window.PhonicsTasks = window.PhonicsTasks || {
       if (!box) return;
       const g = item.gpc;
       const display = String(g.display || g.grapheme).replace(/_/g, "-");
-      const glyphs = chars.map((c) =>
-        `<span>${glyphSvg(letters[c], { height: 56, sw: 5.5, label: "letter " + c })}</span>`).join("");
+      const glyphs = chars.map((c, i) => (writable[i]
+        ? `<span>${glyphSvg(letters[c], { height: 56, sw: 5.5, label: "letter " + c })}</span>`
+        : `<span class="sw-answer-gap" aria-hidden="true"></span>`)).join("");
 
       const chips = chars.map((c, i) => {
+        if (!writable[i]) return "";       // no letterform, no mark to show
         const r = results[i];
         const band = r ? (r.band || PH.gradeToBand(r.total)) : "none";
         return `<span class="sw-letter" data-band="${esc(band)}" data-letter="${esc(c)}"
@@ -1054,7 +1186,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
 
       const band = BANDS[PH.gradeToBand(formTotal)] || BANDS["keep-practising"];
       const adv = worstAdvice();
-      const missing = results.some((r) => !r);
+      const missing = results.some((r, i) => writable[i] && !r);
 
       box.innerHTML = `
         <div class="sw-vd" data-role="vd-letters">
@@ -1120,7 +1252,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
         vline.hidden = false;
         if (right) {
           vline.dataset.tone = "good";
-          vline.textContent = "Yes! " + item.grapheme.split("").join("-") +
+          vline.textContent = "Yes! " + spellOut(item.grapheme) +
             " spells that sound. You picked the right letters.";
         } else if (saidYes) {
           vline.dataset.tone = "muted";
@@ -1129,7 +1261,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
         } else {
           vline.dataset.tone = "bad";
           vline.textContent = "Not this time — this sound is spelled " +
-            item.grapheme.split("").join("-") + ".";
+            spellOut(item.grapheme) + ".";
         }
       }
       const escBtn = $('[data-role="escape"]');
