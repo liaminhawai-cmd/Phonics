@@ -1,6 +1,6 @@
 # Recording checklist — UK
 
-**0 / 1073 recorded.** Save files into `recordings/uk/phonemes/` and `recordings/uk/words/` — filename must match exactly. See recordings/README.md for tips.
+**0 / 1074 recorded.** Save files into `recordings/uk/phonemes/` and `recordings/uk/words/` — filename must match exactly. See recordings/README.md for tips.
 
 ## Phonemes & teaching units
 
@@ -48,6 +48,7 @@
 - [ ] `ear.mp3` — /ear/ as in near
 - [ ] `ure.mp3` — /ure/ as in cure
 - [ ] `schwa.mp3` — /uh/ — schwa, as in about
+- [ ] `yoo.mp3` — /yoo/ as in music (long u with a y-glide)
 - [ ] `ks.mp3` — /ks/ as in box (letter x)
 - [ ] `kw.mp3` — /kw/ as in queen (qu)
 - [ ] `yoo.mp3` — /yoo/ as in music (long u)
