@@ -1,0 +1,41 @@
+id: png-language-program
+name: PNG Language Program
+region: US
+view: grapheme_first
+source: PNG phonics tracker and bookmarks spreadsheet (collaboration-era working copy)
+licence: Ordering of taught correspondences (facts); no proprietary text, lesson content or artwork copied
+accuracy: Reconstructed from a 2022-era tracker spreadsheet; verify against PNG's current published scope & sequence before shipping a PNG-branded build
+note: US-accent program; pairs with recordings/us/ once US audio is recorded
+
+unit Level 1: s a t p i n
+
+unit Level 2: e m th=*
+
+unit Level 3: e=ee ng y=igh b
+
+unit Level 4: sh h o d
+
+unit Level 5: k u c l
+
+unit Level 6: ck ch g r
+
+unit Level 7: j f oo=* ee
+
+unit Level 8: w ai y=y ea=ee
+
+unit Level 9: er or oa ie=ee
+
+unit Level 10: v o_e e_e i_e a_e u_e=yoo y_e
+
+unit Level 11: x ey=ay ay
+review: ai
+
+unit Level 12: oy oi igh z
+
+unit Level 13: ew=* ow=* ou=ow ou=oo_long
+
+unit Level 14: ar air eer ear=ear
+
+unit Level 15: oe ue=* qu ght
+
+unit Level 16: wr eu ph gh=g

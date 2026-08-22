@@ -3364,6 +3364,79 @@
       ],
       "rule_refs": [],
       "notes": "Superlative suffix -est."
+    },
+    {
+      "id": "y_e.igh",
+      "grapheme": "y_e",
+      "display": "y-e",
+      "phonemes": "igh",
+      "positions": [
+        "medial"
+      ],
+      "freq": "rare",
+      "examples": [
+        "type",
+        "style",
+        "rhyme",
+        "byte"
+      ],
+      "rule_refs": [
+        "silent_e_jobs"
+      ],
+      "notes": "Split digraph y...e saying long i."
+    },
+    {
+      "id": "ght.t",
+      "grapheme": "ght",
+      "display": "ght",
+      "phonemes": "t",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "light",
+        "night",
+        "fight",
+        "right"
+      ],
+      "rule_refs": [],
+      "notes": "Taught as a final chunk: gh is silent, the chunk says /t/ (the vowel is carried by igh/augh/eigh)."
+    },
+    {
+      "id": "eu.yoo",
+      "grapheme": "eu",
+      "display": "eu",
+      "phonemes": "yoo",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "rare",
+      "examples": [
+        "feud",
+        "Europe",
+        "eucalyptus"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "gh.g",
+      "grapheme": "gh",
+      "display": "gh",
+      "phonemes": "g",
+      "positions": [
+        "initial"
+      ],
+      "freq": "rare",
+      "examples": [
+        "ghost",
+        "ghastly",
+        "ghoul"
+      ],
+      "rule_refs": [],
+      "notes": ""
     }
   ]
 }

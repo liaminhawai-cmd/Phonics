@@ -1,0 +1,230 @@
+{
+  "id": "png-language-program",
+  "name": "PNG Language Program",
+  "region": "US",
+  "native_view": "grapheme_first",
+  "source": "PNG phonics tracker and bookmarks spreadsheet (collaboration-era working copy)",
+  "licence_note": "Ordering of taught correspondences (facts); no proprietary text, lesson content or artwork copied",
+  "units": [
+    {
+      "n": 1,
+      "label": "Level 1",
+      "teaches": [
+        "s.s",
+        "a.a",
+        "t.t",
+        "p.p",
+        "i.i",
+        "n.n"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 2,
+      "label": "Level 2",
+      "teaches": [
+        "e.e",
+        "m.m",
+        "th.th",
+        "th.dh"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 3,
+      "label": "Level 3",
+      "teaches": [
+        "e.ee",
+        "ng.ng",
+        "y.igh",
+        "b.b"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 4,
+      "label": "Level 4",
+      "teaches": [
+        "sh.sh",
+        "h.h",
+        "o.o",
+        "d.d"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 5,
+      "label": "Level 5",
+      "teaches": [
+        "k.k",
+        "u.u",
+        "c.k",
+        "l.l"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 6,
+      "label": "Level 6",
+      "teaches": [
+        "ck.k",
+        "ch.ch",
+        "g.g",
+        "r.r"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 7,
+      "label": "Level 7",
+      "teaches": [
+        "j.j",
+        "f.f",
+        "oo.oo_long",
+        "oo.oo_short",
+        "ee.ee"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 8,
+      "label": "Level 8",
+      "teaches": [
+        "w.w",
+        "ai.ay",
+        "y.y",
+        "ea.ee"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 9,
+      "label": "Level 9",
+      "teaches": [
+        "er.er",
+        "or.or",
+        "oa.oa",
+        "ie.ee"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 10,
+      "label": "Level 10",
+      "teaches": [
+        "v.v",
+        "o_e.oa",
+        "e_e.ee",
+        "i_e.igh",
+        "a_e.ay",
+        "u_e.yoo",
+        "y_e.igh"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 11,
+      "label": "Level 11",
+      "teaches": [
+        "x.ks",
+        "ey.ay",
+        "ay.ay"
+      ],
+      "review": [
+        "ai.ay"
+      ],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 12,
+      "label": "Level 12",
+      "teaches": [
+        "oy.oy",
+        "oi.oy",
+        "igh.igh",
+        "z.z"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 13,
+      "label": "Level 13",
+      "teaches": [
+        "ew.oo_long",
+        "ew.yoo",
+        "ow.ow",
+        "ow.oa",
+        "ou.ow",
+        "ou.oo_long"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 14,
+      "label": "Level 14",
+      "teaches": [
+        "ar.ar",
+        "air.air",
+        "eer.ear",
+        "ear.ear"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 15,
+      "label": "Level 15",
+      "teaches": [
+        "oe.oa",
+        "ue.oo_long",
+        "ue.yoo",
+        "qu.kw",
+        "ght.t"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 16,
+      "label": "Level 16",
+      "teaches": [
+        "wr.r",
+        "eu.yoo",
+        "ph.f",
+        "gh.g"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    }
+  ],
+  "accuracy_note": "Reconstructed from a 2022-era tracker spreadsheet; verify against PNG's current published scope & sequence before shipping a PNG-branded build",
+  "notes": "US-accent program; pairs with recordings/us/ once US audio is recorded"
+}
