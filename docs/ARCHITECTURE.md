@@ -57,7 +57,7 @@ is thrown away, everything gets absorbed.
 | `sounds/<ipa>/` AU recordings | Legacy phoneme recordings; mapped via `recording.legacy_sounds_folder`, superseded by `recordings/au/phonemes/` |
 | `soundwall.js` | The phoneme-first view of the active sequence |
 | Vowel synth (in trainer) | Phoneme playground; extended to consonant articulation demos |
-| `activities/*` worksheet PDFs + QR audio | Outputs of the sheet generator (§5, T11) — the generator reproduces and supersedes hand-made sheets |
+| `activities/*` worksheet PDFs + QR audio | Outputs of the sheet generator (§5, SHEETS) — the generator reproduces and supersedes hand-made sheets |
 | `phonics tracker and bookmark*.xlsx`, bookmarks PDFs | Source of truth already encoded into `data/sequences/elc-bookmarks.json` |
 | `elkonin boxes .xlsx` | Task T3/T4 layout reference |
 | `reversals/` | The b/d/p/q confusion drill; wired into error routing (§7) |
@@ -150,7 +150,8 @@ automatically works for every sequence, every accent, and every learner state.
 | T8 | CVC → CCVC → CVCC… writing | Unlocked constructions (§8) with the learner's mastered GPCs as the default palette |
 | T9 | Handwriting | Trace → copy → from-memory with live stroke scoring (§9) |
 | T10 | Morpheme matrix | Build words from a matrix, split words into morphemes, match meanings (§10) |
-| T11 | Sheet generator | Renders any of the above as a printable PDF (Elkonin boxes, dotted thirds, QR to the word audio) — regenerates the whole `activities/` catalogue for ANY sequence at ANY level, including UK/US versions |
+| T11 | Sound → letters | Hear a sound, handwrite its spelling on dotted thirds — one lane per letter. Formation is scored objectively against the letterform models; the letter *choice* is credited only when the writing clears a legibility floor AND the child confirms it, because the app cannot read handwriting and must not log a spelling error over a human's "no" |
+| SHEETS | Sheet generator | Renders any of the above as a printable PDF (Elkonin boxes, dotted thirds, QR to the word audio) — regenerates the whole `activities/` catalogue for ANY sequence at ANY level, including UK/US versions. Lives at `sheets.html`, not a registered practice task |
 
 **Mistake flow (T4/T5/T8):** wrong box → immediate feedback tuned by error
 type (§7) → "sound it out with me" replay (segmented audio + boxes highlight)

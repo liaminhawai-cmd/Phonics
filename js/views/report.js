@@ -230,7 +230,7 @@ if (typeof document !== "undefined") {
       t1: "Flash cards", t2: "Sound to spelling", t3: "Sound counting",
       t4: "Listen & write", t5: "Grapheme toggle", t6: "Word builder",
       t7: "Decoding", t8: "Word writing", t8cvc: "CVC writing", t9: "Handwriting",
-      t10: "Morphemes",
+      t10: "Morphemes", t11: "Sound to letters",
     };
     const SKILL_NAMES = {
       "count-syllables": "Counting syllables",
