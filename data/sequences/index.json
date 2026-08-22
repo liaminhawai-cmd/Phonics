@@ -72,6 +72,16 @@
       "file": "sound-waves.json"
     },
     {
+      "id": "sounds-write",
+      "name": "Sounds-Write",
+      "region": "UK",
+      "native_view": "grapheme_first",
+      "units": 18,
+      "gpcs": 74,
+      "approximate": true,
+      "file": "sounds-write.json"
+    },
+    {
       "id": "ufli-foundations",
       "name": "UFLI Foundations",
       "region": "US",

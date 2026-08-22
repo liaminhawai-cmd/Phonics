@@ -1,0 +1,247 @@
+{
+  "id": "sounds-write",
+  "name": "Sounds-Write",
+  "region": "UK",
+  "native_view": "grapheme_first",
+  "source": "Sounds-Write (Sounds-Write Ltd) initial + early extended code, speech-to-print",
+  "licence_note": "Ordering of taught correspondences only (facts); no Sounds-Write lesson text or materials included",
+  "units": [
+    {
+      "n": 1,
+      "label": "Initial code 1",
+      "teaches": [
+        "a.a",
+        "i.i",
+        "m.m",
+        "s.s",
+        "t.t"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 2,
+      "label": "Initial code 2",
+      "teaches": [
+        "n.n",
+        "o.o",
+        "p.p"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 3,
+      "label": "Initial code 3",
+      "teaches": [
+        "b.b",
+        "c.k",
+        "g.g",
+        "h.h"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 4,
+      "label": "Initial code 4",
+      "teaches": [
+        "d.d",
+        "e.e",
+        "f.f",
+        "v.v"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 5,
+      "label": "Initial code 5",
+      "teaches": [
+        "k.k",
+        "l.l",
+        "r.r",
+        "u.u"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 6,
+      "label": "Initial code 6",
+      "teaches": [
+        "j.j",
+        "w.w",
+        "z.z"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 7,
+      "label": "Initial code 7",
+      "teaches": [
+        "x.ks",
+        "y.y",
+        "ff.f",
+        "ll.l",
+        "ss.s",
+        "zz.z"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 8,
+      "label": "Initial code 11",
+      "teaches": [
+        "sh.sh",
+        "ch.ch",
+        "th.th",
+        "th.dh",
+        "ck.k",
+        "wh.w",
+        "ng.ng",
+        "qu.kw"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": "units 8-10 build VCC/CCVC/CCVCC word structure with no new spellings"
+    },
+    {
+      "n": 9,
+      "label": "Extended /ae/",
+      "teaches": [
+        "ai.ay",
+        "ay.ay",
+        "ea.ay",
+        "a.ay",
+        "a_e.ay"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 10,
+      "label": "Extended /ee/",
+      "teaches": [
+        "ee.ee",
+        "ea.ee",
+        "y.ee",
+        "e.ee",
+        "e_e.ee"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 11,
+      "label": "Extended /oe/",
+      "teaches": [
+        "oa.oa",
+        "ow.oa",
+        "oe.oa",
+        "o.oa",
+        "o_e.oa"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 12,
+      "label": "Extended /er/",
+      "teaches": [
+        "er.er",
+        "ir.er",
+        "ur.er",
+        "ear.er"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 13,
+      "label": "Extended /e/",
+      "teaches": [
+        "ea.e"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 14,
+      "label": "Extended /oo/",
+      "teaches": [
+        "oo.oo_long",
+        "ew.oo_long",
+        "ue.oo_long",
+        "u_e.oo_long",
+        "ui.oo_long"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 15,
+      "label": "Extended /ie/",
+      "teaches": [
+        "igh.igh",
+        "ie.ee",
+        "y.igh",
+        "i.igh",
+        "i_e.igh"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 16,
+      "label": "Extended /ow/",
+      "teaches": [
+        "ou.ow",
+        "ow.ow"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 17,
+      "label": "Extended /oi/",
+      "teaches": [
+        "oi.oy",
+        "oy.oy"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 18,
+      "label": "Extended /or/",
+      "teaches": [
+        "or.or",
+        "au.or",
+        "aw.or"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    }
+  ],
+  "accuracy_note": "Unit contents reconstructed from general knowledge of the published sequence — verify against the official Sounds-Write scope before classroom use."
+}
