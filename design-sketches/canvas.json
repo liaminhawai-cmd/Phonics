@@ -82,6 +82,24 @@
       "h": 844,
       "title": "Skills & rules",
       "page": "page-2"
+    },
+    {
+      "file": "MyProgressLetters.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "My Progress — Letters face",
+      "page": "page-3"
+    },
+    {
+      "file": "MyProgressSounds.dc.html",
+      "x": 470,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "My Progress — Sounds face",
+      "page": "page-3"
     }
   ],
   "annotations": [
@@ -132,11 +150,19 @@
       "w": 300,
       "page": "page-2",
       "text": "Works for ANY scope & sequence: programs are stored as orderings of grapheme–sound pairs, and both walls are derived views (already live in the Explorer for all 7 programs). Rules attach to spellings, not programs — Magic e appears whenever a-e gets taught, in any sequence, and locked rules say which unit unlocks them."
+    },
+    {
+      "id": "note-flip",
+      "x": 940,
+      "y": 0,
+      "w": 340,
+      "page": "page-3",
+      "text": "One landing page, two faces: on a phone the grapheme tracker and the sound wall are a FLIP (the Letters/Sounds toggle), on a tablet or laptop the same page lays the two walls side by side. Discipline that keeps it light: only the working set gets big ring tiles; everything mastered collapses to the gold shelf / owned dots; exactly ONE action button (Keep going = the weakest ring). This replaces the two-door front page — one less screen."
     }
   ],
   "launch": {
     "view": "canvas",
-    "page": "page-2"
+    "page": "page-3"
   },
   "pages": [
     {
@@ -146,6 +172,10 @@
     {
       "id": "page-2",
       "name": "Reading & Spelling split"
+    },
+    {
+      "id": "page-3",
+      "name": "My Progress landing"
     }
   ]
 }
