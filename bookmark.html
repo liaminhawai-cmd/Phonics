@@ -144,8 +144,8 @@
         .bm-ex { flex: 1 1 auto; min-width: 0; font-size: 11.5px; font-style: italic; color: var(--muted);
             overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .bm-ex:hover { color: var(--accent); text-decoration: underline; }
-        .bm-spk { flex: 0 0 auto; font-size: 10px; opacity: 0.35; }
-        .bm-snd.is-on .bm-spk { opacity: 0.9; }
+        .bm-spk { flex: 0 0 auto; font-size: 12px; opacity: 0.38; }
+        .bm-snd.is-on .bm-spk { opacity: 0.95; }
 
         .bm-foot { flex: 0 0 auto; padding: 8px 10px 12px; text-align: center;
             border-top: 2px solid var(--bm-colour); }
@@ -188,6 +188,7 @@
         .bm-advice { font-size: 10.5px; line-height: 1.4; color: var(--muted); overflow-wrap: anywhere; }
         .bm-advice.warn { color: var(--warn-ink); }
         .bm-hand-note { font-size: 9.5px; color: var(--muted); margin-top: 3px; }
+        .bm-print-hint { display: none; font-size: 10.5px; line-height: 1.4; color: var(--muted); }
         .bm-hand-error { padding: 20px 12px; font-size: 12px; line-height: 1.5; color: var(--wrong); text-align: center; }
 
         @media (max-width: 480px) {
@@ -212,6 +213,11 @@
                 page-break-inside: avoid; break-inside: avoid; }
             .bm-rows, .bm-lanes { overflow: visible; }
             .bm-lane-clear { visibility: hidden; }
+            /* on-screen affordances have no business on the card */
+            .bm-spk { display: none; }
+            .bm-snd.is-on { background: none; border-color: transparent; }
+            .bm-advice { display: none; }
+            .bm-print-hint { display: block; }
         }
     </style>
 </head>

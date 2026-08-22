@@ -1,0 +1,52 @@
+# Compiled by scripts/new_sequence.py — see HOW_TO_ADD.md
+id: png-language-program
+name: PNG Language Program
+region: AU
+view: grapheme_first
+source: "PNG phonics tracker and bookmarks.xlsx" — 'tracker' sheet (level / letter / sound columns), cross-checked against its 'Junior bookmarks' and 'senior bookmarks' sheets, the per-level bookmark filenames, and the printed "Tracker draft A" sheet
+licence: Ordering of taught correspondences only (facts); no worksheet artwork, clipart or lesson text included
+note: A 16-level cumulative grapheme sequence. Levels 1-7 are single letters plus the first digraphs; 8-16 move through vowel teams, split digraphs and the rarer spellings. Four graphemes it teaches (y_e, ght, eu, gh) were added to data/gpcs.json for this sequence.
+accuracy: The spreadsheet's own sound column is corrupted for nine consonants — it lists the voiced partner instead of the sound taught (t as /d/, p as /b/, c and ck as /g/, j as /ch/, f and ph as /v/). The printed "Tracker draft A" sheet has the correct sounds and agrees with the primary correspondences used here; "Tracker draft B" carries the same corruption as the spreadsheet. Levels and grapheme order are unaffected — only that one column was wrong.
+
+unit Level 1: s=s a=a t p i=i n
+note: SATPIN — the source's own label for this level
+
+unit Level 2: e=e m th=*
+note: both th sounds are introduced together; the source prints two separate th bookmarks (voiceless thin / voiced this)
+
+unit Level 3: e=ee ng y=igh b
+note: second visit to e, this time saying its long sound; y here is the /igh/ of "my"
+
+unit Level 4: sh h o=o d
+
+unit Level 5: k u=u c=k l
+
+unit Level 6: ck ch=ch g=g r
+
+unit Level 7: j f oo=* ee
+note: both oo sounds together (food / cook), the source prints a bookmark for each
+
+unit Level 8: w ai y=y ea=ee
+note: second visit to y, this time the consonant /y/ of "yes"
+
+unit Level 9: er=er or=or oa ie=ee
+note: ie is taught here for the /ee/ of "chief"; the tracker writes er as a schwa-r, but the level's own bookmark is plain er
+
+unit Level 10: v o_e e_e i_e a_e u_e=yoo y_e=igh
+note: the whole split-digraph family in one level, y_e ("type") included
+
+unit Level 11: x ey=ay ay
+review: ai
+note: an alternative-spellings-for-long-a level; the source repeats the ai bookmark from Level 8 here as revision, so ai is listed as review rather than taught twice
+
+unit Level 12: oy oi igh z
+
+unit Level 13: ew=oo_long ow=ow ou=ow ou=oo_long
+note: two ou bookmarks, one per sound (round / you)
+
+unit Level 14: ar air eer ear=ear
+
+unit Level 15: oe ue=yoo qu ght=t
+note: the 'Junior bookmarks' sheet prints eigh in this slot; the tracker and the 'senior bookmarks' sheet both say ght, so ght is used here
+
+unit Level 16: wr eu=yoo ph gh=g

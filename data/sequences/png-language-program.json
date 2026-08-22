@@ -1,0 +1,227 @@
+{
+  "id": "png-language-program",
+  "name": "PNG Language Program",
+  "region": "AU",
+  "native_view": "grapheme_first",
+  "source": "\"PNG phonics tracker and bookmarks.xlsx\" — 'tracker' sheet (level / letter / sound columns), cross-checked against its 'Junior bookmarks' and 'senior bookmarks' sheets, the per-level bookmark filenames, and the printed \"Tracker draft A\" sheet",
+  "licence_note": "Ordering of taught correspondences only (facts); no worksheet artwork, clipart or lesson text included",
+  "units": [
+    {
+      "n": 1,
+      "label": "Level 1",
+      "teaches": [
+        "s.s",
+        "a.a",
+        "t.t",
+        "p.p",
+        "i.i",
+        "n.n"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": "SATPIN — the source's own label for this level"
+    },
+    {
+      "n": 2,
+      "label": "Level 2",
+      "teaches": [
+        "e.e",
+        "m.m",
+        "th.th",
+        "th.dh"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": "both th sounds are introduced together; the source prints two separate th bookmarks (voiceless thin / voiced this)"
+    },
+    {
+      "n": 3,
+      "label": "Level 3",
+      "teaches": [
+        "e.ee",
+        "ng.ng",
+        "y.igh",
+        "b.b"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": "second visit to e, this time saying its long sound; y here is the /igh/ of \"my\""
+    },
+    {
+      "n": 4,
+      "label": "Level 4",
+      "teaches": [
+        "sh.sh",
+        "h.h",
+        "o.o",
+        "d.d"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 5,
+      "label": "Level 5",
+      "teaches": [
+        "k.k",
+        "u.u",
+        "c.k",
+        "l.l"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 6,
+      "label": "Level 6",
+      "teaches": [
+        "ck.k",
+        "ch.ch",
+        "g.g",
+        "r.r"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 7,
+      "label": "Level 7",
+      "teaches": [
+        "j.j",
+        "f.f",
+        "oo.oo_long",
+        "oo.oo_short",
+        "ee.ee"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": "both oo sounds together (food / cook), the source prints a bookmark for each"
+    },
+    {
+      "n": 8,
+      "label": "Level 8",
+      "teaches": [
+        "w.w",
+        "ai.ay",
+        "y.y",
+        "ea.ee"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": "second visit to y, this time the consonant /y/ of \"yes\""
+    },
+    {
+      "n": 9,
+      "label": "Level 9",
+      "teaches": [
+        "er.er",
+        "or.or",
+        "oa.oa",
+        "ie.ee"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": "ie is taught here for the /ee/ of \"chief\"; the tracker writes er as a schwa-r, but the level's own bookmark is plain er"
+    },
+    {
+      "n": 10,
+      "label": "Level 10",
+      "teaches": [
+        "v.v",
+        "o_e.oa",
+        "e_e.ee",
+        "i_e.igh",
+        "a_e.ay",
+        "u_e.yoo",
+        "y_e.igh"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": "the whole split-digraph family in one level, y_e (\"type\") included"
+    },
+    {
+      "n": 11,
+      "label": "Level 11",
+      "teaches": [
+        "x.ks",
+        "ey.ay",
+        "ay.ay"
+      ],
+      "review": [
+        "ai.ay"
+      ],
+      "heart_words": [],
+      "notes": "an alternative-spellings-for-long-a level; the source repeats the ai bookmark from Level 8 here as revision, so ai is listed as review rather than taught twice"
+    },
+    {
+      "n": 12,
+      "label": "Level 12",
+      "teaches": [
+        "oy.oy",
+        "oi.oy",
+        "igh.igh",
+        "z.z"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 13,
+      "label": "Level 13",
+      "teaches": [
+        "ew.oo_long",
+        "ow.ow",
+        "ou.ow",
+        "ou.oo_long"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": "two ou bookmarks, one per sound (round / you)"
+    },
+    {
+      "n": 14,
+      "label": "Level 14",
+      "teaches": [
+        "ar.ar",
+        "air.air",
+        "eer.ear",
+        "ear.ear"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    },
+    {
+      "n": 15,
+      "label": "Level 15",
+      "teaches": [
+        "oe.oa",
+        "ue.yoo",
+        "qu.kw",
+        "ght.t"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": "the 'Junior bookmarks' sheet prints eigh in this slot; the tracker and the 'senior bookmarks' sheet both say ght, so ght is used here"
+    },
+    {
+      "n": 16,
+      "label": "Level 16",
+      "teaches": [
+        "wr.r",
+        "eu.yoo",
+        "ph.f",
+        "gh.g"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": ""
+    }
+  ],
+  "accuracy_note": "The spreadsheet's own sound column is corrupted for nine consonants — it lists the voiced partner instead of the sound taught (t as /d/, p as /b/, c and ck as /g/, j as /ch/, f and ph as /v/). The printed \"Tracker draft A\" sheet has the correct sounds and agrees with the primary correspondences used here; \"Tracker draft B\" carries the same corruption as the spreadsheet. Levels and grapheme order are unaffected — only that one column was wrong.",
+  "notes": "A 16-level cumulative grapheme sequence. Levels 1-7 are single letters plus the first digraphs; 8-16 move through vowel teams, split digraphs and the rarer spellings. Four graphemes it teaches (y_e, ght, eu, gh) were added to data/gpcs.json for this sequence."
+}

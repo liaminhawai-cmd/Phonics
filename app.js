@@ -329,6 +329,10 @@ function buildTrackerGrid(container) {
   const tracker = document.createElement("div");
   tracker.className = "tracker";
 
+  // Every row also opens that level's printable/tappable bookmark
+  // (bookmark.html) — the coloured number keeps toggling the whole row.
+  const seqId = (PhonicsBank.seq() && PhonicsBank.seq().id) || "";
+
   BOOKMARK_LEVELS.forEach((lvl, lvlIdx) => {
     const light = isLightColour(lvl.colour);
     const textCol = light ? "#1f1f1f" : "#ffffff";
@@ -364,6 +368,15 @@ function buildTrackerGrid(container) {
       codes.appendChild(cell);
     });
     row.appendChild(codes);
+
+    const mark = document.createElement("a");
+    mark.className = "tracker-mark";
+    mark.href = "bookmark.html?seq=" + encodeURIComponent(seqId) + "&level=" + (lvlIdx + 1);
+    mark.textContent = "🔖";
+    mark.title = lvl.name + " — open the bookmark";
+    mark.setAttribute("aria-label", lvl.name + " — open the bookmark");
+    row.appendChild(mark);
+
     // Some programs have review/blend units that teach no new graphemes
     // (UFLI's blend lessons) — an empty numbered row is just noise.
     if (codes.childElementCount) tracker.appendChild(row);
