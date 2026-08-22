@@ -119,6 +119,68 @@ window.PhonicsAudio = (() => {
     return playChain(srcs, null);
   }
 
+  // A letter's NAME ("bee"), not its sound — recordings/<accent>/letters/<x>.mp3.
+  // Separate namespace from phonemes/ on purpose: "bee" and /b/ share the id "b"
+  // but live in different folders.
+  function playLetter(ch) {
+    const c = String(ch || "").toLowerCase();
+    if (!/^[a-z]$/.test(c)) return Promise.resolve(false);
+    return playChain(["recordings/" + accent() + "/letters/" + c + ".mp3"], null);
+  }
+
+  // Play a list of clips back to back with a gap, so a grapheme card can say
+  // "A … /a/ … /ay/ … /ah/" out of the reusable letter and phoneme pieces
+  // instead of one baked <Grapheme>.mp4. Stops cleanly if something else
+  // starts playing (each step checks it still owns the run).
+  let runToken = 0;
+  async function playSequence(items, gapMs = 420) {
+    const mine = ++runToken;
+    for (let i = 0; i < items.length; i++) {
+      if (mine !== runToken) return false;
+      const it = items[i];
+      if (it.letter) await playLetter(it.letter);
+      else if (it.phoneme) await playPhoneme(it.phoneme);
+      else if (it.word) await playWord(it.word);
+      if (mine !== runToken) return false;
+      if (i < items.length - 1) await new Promise((r) => setTimeout(r, gapMs));
+    }
+    return mine === runToken;
+  }
+
+  // Does a clip actually exist? (HEAD, cached) — lets callers prefer the
+  // composed letter+sound reading only when the pieces are really there.
+  const haveCache = {};
+  async function have(rel) {
+    if (rel in haveCache) return haveCache[rel];
+    try {
+      const res = await fetch(base + rel, { method: "HEAD" });
+      haveCache[rel] = res.ok;
+    } catch (e) { haveCache[rel] = false; }
+    return haveCache[rel];
+  }
+
+  // The full reading of a grapheme: its letter names, then each sound it makes.
+  // Falls back to the caller's legacy mp4 when the letter clips aren't recorded
+  // for this accent yet.
+  async function playGraphemeReading(grapheme, gpcIds, opts = {}) {
+    const letters = String(grapheme || "").replace(/[^a-z]/gi, "").toLowerCase().split("");
+    const a = accent();
+    const ok = letters.length && (await Promise.all(
+      letters.map((c) => have("recordings/" + a + "/letters/" + c + ".mp3"))
+    )).every(Boolean);
+    if (!ok) {
+      if (opts.mp4Stem) return playChain([opts.mp4Stem + ".mp4"], null);
+      return playGpc((gpcIds && gpcIds[0]) || null, opts);
+    }
+    const items = letters.map((c) => ({ letter: c }));
+    for (const id of (gpcIds || [])) {
+      const g = window.PhonicsBank && PhonicsBank.gpc(id);
+      const ph = g && (Array.isArray(g.phonemes) ? g.phonemes[0] : g.phonemes);
+      if (ph) items.push({ phoneme: ph });
+    }
+    return playSequence(items, opts.gapMs);
+  }
+
   // Spoken interface prompts ("Write it", "Check") — the words the app says
   // to a child who can't read yet. data/ui-prompts.json carries the text;
   // a human recording in recordings/<accent>/ui/ upgrades it silently.
@@ -139,5 +201,6 @@ window.PhonicsAudio = (() => {
 
   function setBase(b) { base = b || ""; }
 
-  return { playPhoneme, playWord, playGpc, playPrompt, speak, stop, setBase };
+  return { playPhoneme, playWord, playGpc, playLetter, playSequence,
+           playGraphemeReading, playPrompt, speak, stop, setBase };
 })();

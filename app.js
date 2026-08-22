@@ -790,28 +790,32 @@ function playCurrent() {
   const btn = $("listenBtn");
   if (audioEl) { audioEl.pause(); audioEl = null; }
 
-  if (current.audio) {
-    // Exactly today's behaviour: the grapheme has a root-level mouth video.
-    audioEl = new Audio(current.audio + ".mp4");
-    if (btn) {
-      audioEl.addEventListener("play",  () => btn.classList.add("playing"));
-      audioEl.addEventListener("ended", () => btn.classList.remove("playing"));
-      audioEl.addEventListener("error", () => btn.classList.remove("playing"));
-    }
-    audioEl.play().catch(() => {});
+  if (btn) btn.classList.add("playing");
+  const done = () => { if (btn) btn.classList.remove("playing"); };
+
+  // Prefer the composed reading built from the recorded letter names and
+  // phonemes ("A … /a/ … /ay/ … /ah/"). It only wins when every letter of the
+  // grapheme has a clip for this accent; otherwise playGraphemeReading falls
+  // back to the baked <Grapheme>.mp4, then to the phoneme chain — so this is
+  // exactly today's behaviour until the recordings exist.
+  if (window.PhonicsAudio && PhonicsAudio.playGraphemeReading) {
+    PhonicsAudio.playGraphemeReading(current.grapheme, current.gpcIds || [],
+                                     { mp4Stem: current.audio || null }).then(done, done);
     return;
   }
 
-  // No mouth video for this grapheme (a non-elc-bookmarks sequence) — fall
-  // back to the bank's audio chain: recordings -> legacy sounds -> speech.
-  const gpcId = current.gpcIds && current.gpcIds[0];
-  if (btn) btn.classList.add("playing");
-  const done = () => { if (btn) btn.classList.remove("playing"); };
-  if (gpcId && window.PhonicsAudio) {
-    PhonicsAudio.playGpc(gpcId).then(done, done);
-  } else {
-    done();
+  if (current.audio) {
+    audioEl = new Audio(current.audio + ".mp4");
+    if (btn) {
+      audioEl.addEventListener("ended", done);
+      audioEl.addEventListener("error", done);
+    }
+    audioEl.play().catch(done);
+    return;
   }
+  const gpcId = current.gpcIds && current.gpcIds[0];
+  if (gpcId && window.PhonicsAudio) PhonicsAudio.playGpc(gpcId).then(done, done);
+  else done();
 }
 
 let canvas, ctx, drawing = false;
