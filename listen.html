@@ -195,6 +195,7 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
 
 <script src="anatomy.js"></script>
 <script src="js/core/listen.js"></script>
+<script src="js/core/mic-ui.js"></script>
 <script>
 (function () {
   "use strict";
@@ -276,71 +277,36 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
     if (el) Anatomy.poseConsonant(el, a.place, a.manner, { animate: false, voiced: a.voiced });
   }
 
-  // ---- recording ---------------------------------------------------
-  var media = null, ctx = null, node = null, src = null, chunks = [], meterRaf = 0;
+  // ---- recording (plumbing lives in js/core/mic-ui.js) ---------------
+  var Mic = window.PhonicsMic;
+  var recorder = Mic.createRecorder();
 
   function fail(msg) { var e = $("err"); e.textContent = msg; e.hidden = false; }
 
+  function setListening(on) {
+    listening = on;
+    $("recBtn").classList.toggle("listening", on);
+    $("recBtn").textContent = on ? "Listening…" : "Hold to listen";
+    if (!on) $("level").style.width = "0";
+  }
+
   async function startListening() {
-    if (listening) return;
     $("err").hidden = true;
     try {
-      media = await navigator.mediaDevices.getUserMedia({
-        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
-      });
+      await recorder.start(function (v) { $("level").style.width = (v * 100) + "%"; });
+      setListening(true);
     } catch (e) {
-      fail("No microphone. " + (e && e.name === "NotAllowedError"
-        ? "The browser blocked it — allow microphone access and try again."
-        : "Check a mic is plugged in, and that the page is on https:// or localhost."));
-      return;
+      fail(Mic.micError(e));
     }
-    ctx = new (window.AudioContext || window.webkitAudioContext)();
-    src = ctx.createMediaStreamSource(media);
-    node = ctx.createScriptProcessor(2048, 1, 1);
-    chunks = [];
-    var peak = 0;
-    node.onaudioprocess = function (e) {
-      var d = e.inputBuffer.getChannelData(0);
-      chunks.push(new Float32Array(d));
-      var m = 0;
-      for (var i = 0; i < d.length; i++) { var v = Math.abs(d[i]); if (v > m) m = v; }
-      peak = Math.max(m, peak * 0.86);
-      $("level").style.width = Math.min(100, peak * 240) + "%";
-    };
-    src.connect(node);
-    // Keep the graph pulling without echoing the child back at themselves.
-    var mute = ctx.createGain();
-    mute.gain.value = 0;
-    node.connect(mute);
-    mute.connect(ctx.destination);
-    listening = true;
-    $("recBtn").classList.add("listening");
-    $("recBtn").textContent = "Listening…";
   }
 
   function stopListening() {
     if (!listening) return null;
-    listening = false;
-    $("recBtn").classList.remove("listening");
-    $("recBtn").textContent = "Hold to listen";
-    $("level").style.width = "0";
-    try { node.disconnect(); src.disconnect(); } catch (e) {}
-    media.getTracks().forEach(function (t) { t.stop(); });
-    var sr = ctx.sampleRate;
-    ctx.close();
-    var total = chunks.reduce(function (n, c) { return n + c.length; }, 0);
-    var buf = new Float32Array(total), at = 0;
-    chunks.forEach(function (c) { buf.set(c, at); at += c.length; });
-    cancelAnimationFrame(meterRaf);
-    return { buf: buf, sampleRate: sr };
+    setListening(false);
+    return recorder.stop();
   }
 
-  // The one call the whole page is about: find the attempt, measure it, grade it.
-  function measure(clip) {
-    if (!clip || clip.buf.length < 2048) return null;
-    var loud = L.loudestFrame(clip.buf, clip.sampleRate, 2048);
-    return L.analyse(clip.buf, clip.sampleRate, { from: loud.from, frame: 2048 });
-  }
+  var measure = Mic.measure;
 
   // ---- showing the answer -------------------------------------------
   var TITLES = {
@@ -432,8 +398,7 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
       await startListening();
       if (!listening) { $("calState").textContent = "Calibration stopped."; return; }
       await new Promise(function (r) { setTimeout(r, 2000); });
-      var clip = stopListening();
-      var f = measure(clip);
+      var f = measure(stopListening());
       if (f) got.push({ id: step.id, features: f });
       await new Promise(function (r) { setTimeout(r, 400); });
     }
@@ -456,44 +421,20 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
     el.textContent = bits.join(" · ");
   }
 
-  function saveCal() {
-    try { localStorage.setItem("phonics.listen.cal", JSON.stringify(cal)); } catch (e) {}
-  }
-  function loadCal() {
-    try {
-      var raw = localStorage.getItem("phonics.listen.cal");
-      cal = raw ? JSON.parse(raw) : null;
-    } catch (e) { cal = null; }
-  }
+  function saveCal() { Mic.saveCal(cal); }
+  function loadCal() { cal = Mic.loadCal(); }
 
   // ---- wiring ----------------------------------------------------------
-  var HOLD_MIN = 350;
-  var heldAt = 0;
 
-  async function pressStart(e) {
-    e.preventDefault();
-    heldAt = Date.now();
-    await startListening();
-  }
-
-  function pressEnd(e) {
-    if (e) e.preventDefault();
-    if (!listening) return;
-    var held = Date.now() - heldAt;
-    var finish = function () {
-      var clip = stopListening();
-      var f = measure(clip);
-      lastFeatures = f;
-      if (!f) { fail("That was too short to read. Hold the button while they make the sound."); return; }
-      show(L.grade(current, f, { calibration: cal }), f);
-    };
-    // A tap that beats the minimum hold still gets a fair listen.
-    if (held < HOLD_MIN) setTimeout(finish, HOLD_MIN - held); else finish();
+  function graded(f) {
+    lastFeatures = f;
+    if (!f) { fail("That was too short to read. Hold the button while they make the sound."); return; }
+    show(L.grade(current, f, { calibration: cal }), f);
   }
 
   function init() {
-    if (!L) { fail("The listening engine failed to load."); return; }
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    if (!L || !Mic) { fail("The listening engine failed to load."); return; }
+    if (!Mic.supported()) {
       fail("This browser has no microphone API. Try Chrome, Edge or Safari, over https://");
     }
     buildSounds();
@@ -502,16 +443,12 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
     paintCal();
     loadArticulation();
 
-    var rec = $("recBtn");
-    rec.addEventListener("mousedown", pressStart);
-    rec.addEventListener("touchstart", pressStart, { passive: false });
-    window.addEventListener("mouseup", pressEnd);
-    window.addEventListener("touchend", pressEnd);
-    rec.addEventListener("keydown", function (e) {
-      if ((e.key === " " || e.key === "Enter") && !e.repeat) pressStart(e);
-    });
-    rec.addEventListener("keyup", function (e) {
-      if (e.key === " " || e.key === "Enter") pressEnd(e);
+    Mic.holdToTalk($("recBtn"), {
+      onStart: function () { $("err").hidden = true; setListening(true); },
+      onStop: function () { setListening(false); },
+      onLevel: function (v) { $("level").style.width = (v * 100) + "%"; },
+      onError: fail,
+      onResult: graded,
     });
 
     $("askYes").addEventListener("click", function () { answerAsk(true); });
@@ -519,7 +456,7 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
     $("calBtn").addEventListener("click", runCalibration);
     $("calClear").addEventListener("click", function () {
       cal = null;
-      try { localStorage.removeItem("phonics.listen.cal"); } catch (e) {}
+      Mic.clearCal();
       paintCal();
     });
     $("clearLog").addEventListener("click", function () {

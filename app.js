@@ -527,6 +527,7 @@ function resetCardUI() {
     $("sayGrapheme").textContent = current.grapheme;
     $("sayCheckRow").style.display = "flex";
     $("sayGradeRow").style.display = "none";
+    resetMicStrip();
   } else {
     $("typeInput").value = "";
     $("typeInput").className = "";
@@ -553,6 +554,99 @@ function sayCheck() {
   revealAnswer();
   $("sayCheckRow").style.display = "none";
   $("sayGradeRow").style.display = "flex";
+}
+
+/* ============================================================
+   LOOK & SAY: the microphone's opinion
+   ============================================================
+   The child still decides. The mic offers what it measured and, on
+   the contrasts it genuinely cannot hear (/f/ vs /th/, where a stop
+   was made), shows the picture and asks them about their own mouth.
+   Nothing here auto-marks a card: an app that says "wrong" on a
+   sound it cannot distinguish teaches a child to distrust it.
+   ============================================================ */
+
+function micTargets() {
+  return (window.PhonicsMic && current) ? PhonicsMic.phonemesForGpcs(current.gpcIds) : [];
+}
+
+function resetMicStrip() {
+  const strip = $("sayMicResult");
+  if (!strip) return;
+  strip.hidden = true;
+  strip.className = "mic-result";
+  $("sayMicAsk").hidden = true;
+  $("sayMicPic").innerHTML = "";
+  const lvl = $("sayMicLevel");
+  if (lvl) { lvl.hidden = true; lvl.firstElementChild.style.width = "0"; }
+  const btn = $("sayMicBtn");
+  if (btn) btn.hidden = !(window.PhonicsMic && PhonicsMic.supported() && micTargets().length);
+}
+
+// The place and manner the picture is drawn from. The bank is already
+// loaded by the time a card is on screen, so this reads it rather than
+// fetching the file a second time.
+function articulationFor(phonemeId) {
+  const p = window.PhonicsBank && PhonicsBank.phoneme(phonemeId);
+  return (p && p.articulation) || null;
+}
+
+function drawMicPicture(host, phonemeId) {
+  host.innerHTML = "";
+  const a = articulationFor(phonemeId);
+  if (!a || !window.Anatomy) return;
+  host.innerHTML = Anatomy.svg({ place: a.place, manner: a.manner, voiced: a.voiced });
+  const el = host.querySelector("svg");
+  if (el) Anatomy.poseConsonant(el, a.place, a.manner, { animate: false, voiced: a.voiced });
+}
+
+const MIC_TITLES = {
+  heard: "I heard that ✓",
+  close: "Nearly",
+  quiet: "I couldn't hear anything",
+  ask: "I can't hear that one — you tell me",
+};
+
+function showMicResult(features) {
+  const strip = $("sayMicResult");
+  if (!features) {
+    strip.hidden = false;
+    strip.className = "mic-result quiet";
+    $("sayMicVerdict").textContent = MIC_TITLES.quiet;
+    $("sayMicWhy").textContent = "Hold the button down while you make the sound.";
+    return;
+  }
+  const cal = PhonicsMic.loadCal();
+  const result = PhonicsMic.bestGrade(micTargets(), features, { calibration: cal });
+  if (!result) return;
+
+  strip.hidden = false;
+  strip.className = "mic-result " + result.verdict;
+  $("sayMicVerdict").textContent = MIC_TITLES[result.verdict] || result.verdict;
+
+  if (result.verdict === "ask") {
+    $("sayMicWhy").textContent =
+      "This sound and its partner look completely different but sound almost the same to a microphone.";
+    $("sayMicQ").textContent = result.ask || "Does your mouth look like the picture?";
+    drawMicPicture($("sayMicPic"), result.id);
+    $("sayMicAsk").hidden = false;
+    return;
+  }
+  $("sayMicAsk").hidden = true;
+  $("sayMicWhy").textContent = result.why.length ? result.why.join(" ")
+    : "Everything the microphone can check for this sound came back right.";
+  // Heard it? Then hearing the model and self-marking is the next step,
+  // exactly as before — the mic never marks the card on the child's behalf.
+}
+
+function answerMicAsk(saidYes) {
+  const strip = $("sayMicResult");
+  $("sayMicAsk").hidden = true;
+  strip.className = "mic-result " + (saidYes ? "heard" : "close");
+  $("sayMicVerdict").textContent = saidYes ? "Good — that's the one ✓" : "Have another go";
+  $("sayMicWhy").textContent = saidYes
+    ? "You checked your own mouth. That's the part the app can't do for you."
+    : "Look at the picture, copy the mouth, then try it again.";
 }
 
 // Different graphemes can spell the same sound — er / ir / ur / ear / wor
@@ -969,6 +1063,36 @@ function initUI() {
   $("sayCheckBtn").addEventListener("click", sayCheck);
   $("sayGotBtn").addEventListener("click", () => gradeCard(true));
   $("sayMissedBtn").addEventListener("click", () => gradeCard(false));
+
+  if (window.PhonicsMic && PhonicsMic.supported()) {
+    const micBtn = $("sayMicBtn");
+    const lvl = $("sayMicLevel");
+    PhonicsMic.holdToTalk(micBtn, {
+      onStart() {
+        micBtn.classList.add("listening");
+        micBtn.textContent = "🎤 Listening…";
+        $("sayMicResult").hidden = true;
+        lvl.hidden = false;
+      },
+      onStop() {
+        micBtn.classList.remove("listening");
+        micBtn.textContent = "🎤 Hold & say it";
+        lvl.hidden = true;
+      },
+      onLevel(v) { lvl.firstElementChild.style.width = (v * 100) + "%"; },
+      onError(msg) {
+        const strip = $("sayMicResult");
+        strip.hidden = false;
+        strip.className = "mic-result quiet";
+        $("sayMicVerdict").textContent = "No microphone";
+        $("sayMicWhy").textContent = msg;
+        micBtn.hidden = true;
+      },
+      onResult: showMicResult,
+    });
+    $("sayMicYes").addEventListener("click", () => answerMicAsk(true));
+    $("sayMicNo").addEventListener("click", () => answerMicAsk(false));
+  }
 
   $("listenBtn").addEventListener("click", playCurrent);
   $("modeType").addEventListener("click", () => setInputMode("type"));

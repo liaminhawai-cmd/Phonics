@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aussie Phonics Trainer</title>
+    <link rel="icon" href="data:,">
     <style>
         :root {
             --bg: #f4efe6;
@@ -195,6 +196,32 @@
 
         .say-grapheme { font-family: Georgia, serif; font-size: 64px; font-weight: 700; color: var(--ink); margin: 12px 0; }
         .say-hint { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+        /* ---- microphone check (Look & Say) ---- */
+        .mic-level { width: 180px; height: 7px; margin: 10px auto 0; background: var(--line-soft);
+            border-radius: 4px; overflow: hidden; }
+        .mic-level i { display: block; height: 100%; width: 0; background: var(--correct);
+            transition: width .06s linear; }
+        #sayMicBtn.listening { background: var(--warn-bg); border-color: var(--warn); color: var(--warn-ink); }
+        .mic-result { margin-top: 14px; border-radius: 10px; padding: 12px; text-align: center;
+            border: 1px solid var(--line-soft); background: var(--bg); }
+        .mic-result.heard { background: var(--good-bg); border-color: #bcd6c1; }
+        .mic-result.close { background: var(--warn-bg); border-color: #e3d3a4; }
+        .mic-result.quiet { background: var(--bad-bg); border-color: #e0c4c4; }
+        .mic-result.ask   { background: #eceff6; border-color: #c3ccdf; }
+        .mic-verdict { font-family: Georgia, serif; font-size: 17px; font-weight: 700; }
+        .mic-result.heard .mic-verdict { color: var(--correct); }
+        .mic-result.close .mic-verdict { color: var(--warn-ink); }
+        .mic-result.quiet .mic-verdict { color: var(--wrong); }
+        .mic-result.ask   .mic-verdict { color: #3a4a6b; }
+        .mic-why { font-size: 13.5px; line-height: 1.5; margin-top: 4px; color: var(--ink); }
+        .mic-ask { display: flex; gap: 12px; align-items: center; justify-content: center;
+            flex-wrap: wrap; margin-top: 10px; }
+        .mic-pic svg { width: 96px; height: 120px; background: #fff; border: 1px solid var(--line);
+            border-radius: 8px; }
+        .mic-ask-body { text-align: left; max-width: 250px; }
+        .mic-ask-q { font-size: 15px; font-weight: 700; line-height: 1.35; }
+        .mic-ask-row { display: flex; gap: 8px; margin-top: 8px; }
+        .mic-ask-row .btn { flex: 1; min-width: 0; padding: 0 12px; font-size: 14px; }
 
         .listen-btn { background: var(--ink); color: var(--paper); border: none; border-radius: 50px; padding: 16px 28px; font-size: 17px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
         .listen-btn:hover { background: #333; transform: scale(1.02); }
@@ -466,7 +493,23 @@
                     <div class="say-hint">Read this code and say its sound out loud.</div>
                     <div class="say-grapheme" id="sayGrapheme"></div>
                     <div class="action-row" id="sayCheckRow">
+                        <button class="btn" id="sayMicBtn" hidden>🎤 Hold &amp; say it</button>
                         <button class="btn btn-primary" id="sayCheckBtn">🔊 Listen to check</button>
+                    </div>
+                    <div class="mic-level" id="sayMicLevel" hidden><i></i></div>
+                    <div class="mic-result" id="sayMicResult" hidden>
+                        <div class="mic-verdict" id="sayMicVerdict"></div>
+                        <div class="mic-why" id="sayMicWhy"></div>
+                        <div class="mic-ask" id="sayMicAsk" hidden>
+                            <div class="mic-pic" id="sayMicPic"></div>
+                            <div class="mic-ask-body">
+                                <div class="mic-ask-q" id="sayMicQ"></div>
+                                <div class="mic-ask-row">
+                                    <button class="btn" id="sayMicYes">Yes</button>
+                                    <button class="btn" id="sayMicNo">Not sure / No</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="action-row" id="sayGradeRow" style="display:none;">
                         <button class="btn btn-wrong" id="sayMissedBtn">Missed it</button>
@@ -531,6 +574,8 @@
     <script src="js/core/data.js"></script>
     <script src="js/core/audio.js"></script>
     <script src="js/core/bank-adapt.js"></script>
+    <script src="js/core/listen.js"></script>
+    <script src="js/core/mic-ui.js"></script>
     <script src="app.js"></script>
     <script src="soundwall.js"></script>
 </body>
