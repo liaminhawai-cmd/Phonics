@@ -231,11 +231,22 @@
 
   // Fit the sound lines to the card: shrink the row height (never below a
   // comfortable tap) and the grapheme size when a level teaches a lot.
+  // clientWidth/clientHeight include padding — the letters and rows only get
+  // the content box, so measure that.
+  function contentBox(node) {
+    var cs = window.getComputedStyle(node);
+    var px = function (v) { var n = parseFloat(v); return isFinite(n) ? n : 0; };
+    return {
+      w: node.clientWidth - px(cs.paddingLeft) - px(cs.paddingRight),
+      h: node.clientHeight - px(cs.paddingTop) - px(cs.paddingBottom)
+    };
+  }
+
   function layoutSounds() {
     if (!soundsCard) return;
     var rows = soundsCard._rows;
-    var avail = rows.clientHeight;
-    if (!avail) return;
+    var avail = contentBox(rows).h;
+    if (avail <= 0) return;
     var c = soundsCard._counts;
     var overhead = c.rows * 7;
     var per = (avail - overhead) / Math.max(1, c.lines);
@@ -421,9 +432,9 @@
   function layoutHand() {
     if (!handCard || !state.lanes.length) return;
     var lanesEl = handCard._lanes;
-    var availH = lanesEl.clientHeight;
-    var availW = lanesEl.clientWidth;
-    if (!availH || !availW) return;          // still hidden — try again later
+    var box = contentBox(lanesEl);
+    var availH = box.h, availW = box.w;
+    if (availH <= 0 || availW <= 0) return;  // still hidden — try again later
 
     var n = state.lanes.length;
     var perLane = availH / n;
@@ -437,7 +448,7 @@
       });
       var k = lane.cells.length;
       var chrome = k * CELL_PAD_X * 2 + (k - 1) * CELL_GAP;
-      var scaleW = units > 0 ? (availW - 2 - chrome) / units : MAX_SCALE;
+      var scaleW = units > 0 ? (availW - 1 - chrome) / units : MAX_SCALE;
       var scale = Math.max(0.28, Math.min(MAX_SCALE, scaleH, scaleW));
       lane.scale = scale;
 

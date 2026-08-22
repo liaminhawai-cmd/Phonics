@@ -260,7 +260,19 @@
         // A word plays as a word; a ?sounds= item is a phoneme id, so it goes
         // through the phoneme half of the very same fallback chain.
         function playItem(item) {
-            return soundMode ? PhonicsAudio.playPhoneme(item) : PhonicsAudio.playWord(toPlay(item));
+            if (!soundMode) return PhonicsAudio.playWord(toPlay(item));
+            // A bundled teaching unit (ks, kw, yoo) has no examples[] for the
+            // chain's speech fallback to say, so it would land on silence —
+            // pull the example out of its label instead. Only when there is no
+            // recording AND no examples, so nothing ever gets said twice.
+            var p = bankReady && PhonicsBank.phoneme(item);
+            var hasEx = !!(p && p.examples && p.examples.length);
+            return Promise.resolve(PhonicsAudio.playPhoneme(item)).then(function (ok) {
+                if (ok || hasEx) return ok;
+                var m = p && /as in ([a-z']+)/i.exec(p.label || "");
+                if (m) PhonicsAudio.speak(m[1]);
+                return ok;
+            });
         }
 
         // Once the bank is in, the raw ids from ?sounds= become the labels the
