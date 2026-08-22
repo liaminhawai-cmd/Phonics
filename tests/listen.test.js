@@ -233,6 +233,15 @@ module.exports = {
     assert.equal(grown.band, "adult");
   },
 
+  "calibrate with no pitch found defaults to child, not adult"() {
+    // A whisper, a noisy room, or a calibration made only of voiceless
+    // sounds gives f0 = 0. Reading that as "adult" would judge a child
+    // against adult bands — wrong direction, and invisible.
+    const cal = L.calibrate([{ id: "s", features: feat("child", "s") }]);
+    assert.equal(cal.f0, 0, "premise: no pitch in a voiceless sound");
+    assert.equal(cal.band, "child");
+  },
+
   "calibrate builds a personal /s/-/sh/ split and grading uses it"() {
     const cal = L.calibrate([
       { id: "s", features: feat("child", "s") },
@@ -343,5 +352,82 @@ module.exports = {
   "an unknown phoneme is never graded, only asked about"() {
     const { result } = hear("child", "ah", "oo_as_in_book");
     assert.equal(result.verdict, "ask");
+  },
+
+  "every refusal comes with a question a five-year-old can answer"() {
+    for (const [id, spec] of Object.entries(L.CHECKS)) {
+      if (!spec.selfCheck) continue;
+      assert.ok(spec.ask, `/${id}/ refuses to grade but asks nothing`);
+      assert.ok(/\?$/.test(spec.ask), `/${id}/ ask should be a question: "${spec.ask}"`);
+      assert.ok(spec.ask.split(/\s+/).length <= 14, `/${id}/ ask is too long: "${spec.ask}"`);
+    }
+    assert.equal(hear("child", "th", "th").result.ask, L.CHECKS.th.ask);
+    assert.equal(hear("child", "p", "p").result.ask, L.CHECKS.p.ask);
+  },
+
+  "describe() marks the readings it is not sure about"() {
+    const sure = L.describe(feat("child", "s"), { band: "child" });
+    const byLabel = (rows, l) => rows.find((r) => r.label === l);
+    assert.equal(byLabel(sure, "Voice").sure, true);
+    assert.equal(byLabel(sure, "Hiss pitch").sure, true);
+    // A reading inside the overlap must be flagged, not quietly rendered.
+    const murky = Object.assign({}, feat("child", "s"),
+      { centroidHi: (L.SIB.child.shMax + L.SIB.child.sMin) / 2, clarity: 0.35, f0: 200 });
+    assert.equal(byLabel(L.describe(murky, { band: "child" }), "Hiss pitch").sure, false);
+    assert.equal(byLabel(L.describe(murky, { band: "child" }), "Voice").sure, false);
+    assert.ok(byLabel(L.describe(murky, { band: "child" }), "Voice").value.match(/can't tell/i));
+  },
+
+  "describe() leaves out cues that don't bear on the sound asked for"() {
+    const labels = (id) => L.describe(feat("child", id === "s" ? "s" : "f"),
+      { band: "child", id }).map((r) => r.label);
+    // /s/ lives or dies on the hiss pitch, so it is reported.
+    assert.ok(labels("s").indexOf("Hiss pitch") !== -1);
+    // /f/ never was going to be decided that way. Reporting "can't tell"
+    // there invents a doubt about a measurement nobody was relying on.
+    assert.equal(labels("f").indexOf("Hiss pitch"), -1);
+    // With no target named, show everything — that is the diagnostic view.
+    assert.ok(L.describe(feat("child", "f"), { band: "child" })
+      .map((r) => r.label).indexOf("Hiss pitch") !== -1);
+  },
+
+  "describe() does not report formants for a fricative"() {
+    // LPC will happily return peaks for a hiss; they are the noise shape,
+    // not a reading of where the child's tongue is.
+    const labels = (id) => L.describe(feat("child", id), { band: "child" }).map((r) => r.label);
+    assert.equal(labels("z").indexOf("Mouth shape"), -1, "/z/ should not report a mouth shape");
+    assert.equal(labels("s").indexOf("Mouth shape"), -1);
+    assert.ok(labels("ah").indexOf("Mouth shape") !== -1, "a vowel should");
+  },
+
+  "describe() on silence says so instead of reading noise"() {
+    const rows = L.describe(feat("child", "quiet"));
+    assert.equal(rows.length, 1);
+    assert.ok(rows[0].value.match(/too quiet/i));
+  },
+
+  "CHECKS agrees with data/phonemes.json and cannot drift from it"() {
+    // listen.js stays free of the bank so it can be tested without one,
+    // which means it restates manner and voicing. This is the seam where
+    // that copy would silently go stale — e.g. a phoneme's voicing fixed
+    // in the data but not here would make the app correct a child who was
+    // right. The articulation picture the UI shows comes from the bank,
+    // so the two must describe the same mouth.
+    const bank = require("../data/phonemes.json").phonemes;
+    const byId = {};
+    for (const p of bank) byId[p.id] = p;
+    for (const [id, spec] of Object.entries(L.CHECKS)) {
+      const p = byId[id];
+      assert.ok(p, `CHECKS has /${id}/ but the bank does not`);
+      const a = p.articulation || {};
+      assert.equal(spec.voiced, a.voiced, `/${id}/ voicing disagrees with the bank`);
+      const bankManner = a.manner === "lateral" ? "approximant" : a.manner;
+      assert.equal(spec.manner, bankManner, `/${id}/ manner disagrees with the bank`);
+    }
+    // Every consonant in the bank should have a plan, even if the plan is
+    // "ask" — an unlisted one silently falls through to a bare picture.
+    for (const p of bank) {
+      if (p.type === "consonant") assert.ok(L.CHECKS[p.id], `no listening plan for /${p.id}/`);
+    }
   },
 };

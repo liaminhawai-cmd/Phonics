@@ -242,25 +242,41 @@
     z: { manner: "fricative", voiced: true, cues: ["sibilant-high", "voiced"] },
     sh: { manner: "fricative", voiced: false, cues: ["sibilant-low", "voiceless"] },
     zh: { manner: "fricative", voiced: true, cues: ["sibilant-low", "voiced"] },
-    // the honest pair: acoustically near-identical, decided by eye
-    f: { manner: "fricative", voiced: false, cues: ["weak-fricative", "voiceless"], selfCheck: "lip" },
-    v: { manner: "fricative", voiced: true, cues: ["weak-fricative", "voiced"], selfCheck: "lip" },
-    th: { manner: "fricative", voiced: false, cues: ["weak-fricative", "voiceless"], selfCheck: "tongue" },
-    dh: { manner: "fricative", voiced: true, cues: ["weak-fricative", "voiced"], selfCheck: "tongue" },
+    // The honest pair. Both are weak and diffuse and their spectra sit
+    // almost on top of each other, so the app shows the picture and asks.
+    // "ask" is the child-facing question — it must be answerable by a
+    // five-year-old about their own mouth, in the moment, with a yes or no.
+    f: { manner: "fricative", voiced: false, cues: ["weak-fricative", "voiceless"], selfCheck: "lip",
+         ask: "Were your top teeth touching your bottom lip?" },
+    v: { manner: "fricative", voiced: true, cues: ["weak-fricative", "voiced"], selfCheck: "lip",
+         ask: "Were your top teeth touching your bottom lip?" },
+    th: { manner: "fricative", voiced: false, cues: ["weak-fricative", "voiceless"], selfCheck: "tongue",
+          ask: "Was your tongue poking out between your teeth?" },
+    dh: { manner: "fricative", voiced: true, cues: ["weak-fricative", "voiced"], selfCheck: "tongue",
+          ask: "Was your tongue poking out between your teeth?" },
     h: { manner: "fricative", voiced: false, cues: ["weak-fricative", "voiceless"] },
-    // stops: we can hear THAT a stop happened and whether it buzzed;
+    // Stops: we can hear THAT a stop happened and whether it buzzed;
     // where it was made needs the picture (or a following vowel).
-    p: { manner: "stop", voiced: false, cues: ["voiceless"], selfCheck: "place" },
-    b: { manner: "stop", voiced: true, cues: ["voiced"], selfCheck: "place" },
-    t: { manner: "stop", voiced: false, cues: ["voiceless"], selfCheck: "place" },
-    d: { manner: "stop", voiced: true, cues: ["voiced"], selfCheck: "place" },
-    k: { manner: "stop", voiced: false, cues: ["voiceless"], selfCheck: "place" },
-    g: { manner: "stop", voiced: true, cues: ["voiced"], selfCheck: "place" },
+    p: { manner: "stop", voiced: false, cues: ["voiceless"], selfCheck: "place",
+         ask: "Did your two lips press together?" },
+    b: { manner: "stop", voiced: true, cues: ["voiced"], selfCheck: "place",
+         ask: "Did your two lips press together?" },
+    t: { manner: "stop", voiced: false, cues: ["voiceless"], selfCheck: "place",
+         ask: "Was your tongue tip up behind your top teeth?" },
+    d: { manner: "stop", voiced: true, cues: ["voiced"], selfCheck: "place",
+         ask: "Was your tongue tip up behind your top teeth?" },
+    k: { manner: "stop", voiced: false, cues: ["voiceless"], selfCheck: "place",
+         ask: "Was the back of your tongue up at the back?" },
+    g: { manner: "stop", voiced: true, cues: ["voiced"], selfCheck: "place",
+         ask: "Was the back of your tongue up at the back?" },
     ch: { manner: "affricate", voiced: false, cues: ["sibilant-low", "voiceless"] },
     j: { manner: "affricate", voiced: true, cues: ["sibilant-low", "voiced"] },
-    m: { manner: "nasal", voiced: true, cues: ["voiced", "low-heavy"], selfCheck: "place" },
-    n: { manner: "nasal", voiced: true, cues: ["voiced", "low-heavy"], selfCheck: "place" },
-    ng: { manner: "nasal", voiced: true, cues: ["voiced", "low-heavy"], selfCheck: "place" },
+    m: { manner: "nasal", voiced: true, cues: ["voiced", "low-heavy"], selfCheck: "place",
+         ask: "Did your two lips press together and the sound come out your nose?" },
+    n: { manner: "nasal", voiced: true, cues: ["voiced", "low-heavy"], selfCheck: "place",
+         ask: "Was your tongue tip up behind your top teeth?" },
+    ng: { manner: "nasal", voiced: true, cues: ["voiced", "low-heavy"], selfCheck: "place",
+          ask: "Was the back of your tongue up at the back?" },
     l: { manner: "approximant", voiced: true, cues: ["voiced"] },
     r: { manner: "approximant", voiced: true, cues: ["voiced"] },
     w: { manner: "approximant", voiced: true, cues: ["voiced"] },
@@ -341,6 +357,7 @@
     }
     if (!spec) {                       // vowels and anything unlisted
       out.verdict = "ask";
+      out.ask = "Does your mouth look like the picture?";
       out.why.push("Compare your mouth with the picture.");
       return out;
     }
@@ -396,10 +413,69 @@
     if (spec.selfCheck && ok) {
       out.verdict = "ask";
       out.askAbout = spec.selfCheck;
+      out.ask = spec.ask || "Compare your mouth with the picture.";
       return out;
     }
 
     out.verdict = ok ? "heard" : "close";
+    return out;
+  }
+
+  // What the machine heard, in words, for the grown-up watching. This is
+  // the panel that answers "is it good enough?" — it shows the reading
+  // BEHIND a verdict so a teacher can see when the app is guessing.
+  function describe(feat, opts) {
+    opts = opts || {};
+    const cal = opts.calibration || null;
+    const band = opts.band || (cal && cal.band) || "child";
+    // Only report cues that bear on THIS sound. A "hiss pitch: can't tell"
+    // row under /f/ reads as a failure, when in truth /f/ was never going
+    // to be decided that way — showing it would manufacture doubt.
+    const spec = opts.id ? CHECKS[opts.id] : null;
+    const wantsSib = !opts.id || !spec ||
+      spec.cues.indexOf("sibilant-high") !== -1 || spec.cues.indexOf("sibilant-low") !== -1;
+    const out = [];
+    if (!feat || feat.rms < 0.006) return [{ label: "Loudness", value: "too quiet to read", sure: false }];
+    out.push({ label: "Loudness", value: feat.rms.toFixed(3) + " rms", sure: true });
+    const v = voicedVerdict(feat);
+    out.push({
+      label: "Voice",
+      value: v === null ? "can't tell" : v ? "on (buzzing)" : "off (just air)",
+      detail: "clarity " + feat.clarity.toFixed(2) + (feat.f0 ? ", pitch " + Math.round(feat.f0) + " Hz" : ", no pitch found"),
+      sure: v !== null,
+    });
+    const air = MANNER_HINT.frication(feat);
+    out.push({
+      label: "Air",
+      value: air ? "rushing (hissy)" : MANNER_HINT.vowelish(feat) ? "smooth (a voice sound)" : "not much",
+      detail: "flatness " + feat.flatness.toFixed(3),
+      sure: true,
+    });
+    if (wantsSib) {
+      const sib = sibilantVerdict(feat, band, cal);
+      out.push({
+        label: "Hiss pitch",
+        value: sib === "sibilant-high" ? "high and thin, like /s/"
+             : sib === "sibilant-low" ? "low and fat, like /sh/"
+             : "in between — can't tell",
+        detail: Math.round(feat.centroidHi) + " Hz" +
+          (cal && cal.split ? " (their own split " + Math.round(cal.split) + " Hz)"
+                            : " (" + band + " table: " + SIB[band].shMax + "–" + SIB[band].sMin + " Hz is no-man's-land)"),
+        sure: sib !== null,
+      });
+    }
+    // Formants only mean something on an open, unobstructed vowel. On a
+    // fricative the LPC envelope happily reports peaks that are the noise
+    // shape, not a mouth position, so they are left out rather than shown
+    // as if they were a reading of the child's tongue.
+    if (!air && feat.formants && feat.formants.length >= 2) {
+      out.push({
+        label: "Mouth shape",
+        value: "F1 " + feat.formants[0] + " Hz, F2 " + feat.formants[1] + " Hz",
+        detail: "only meaningful next to this child's other vowels",
+        sure: true,
+      });
+    }
     return out;
   }
 
@@ -417,8 +493,13 @@
     }
     const med = (a) => (a.length ? a.slice().sort((x, y) => x - y)[a.length >> 1] : 0);
     const f0 = med(f0s);
+    // ~200 Hz splits kids from adults — but only when a pitch was actually
+    // found. A whispered "ahh", a noisy room or a calibration made entirely
+    // of voiceless sounds all yield f0 = 0, and calling that an adult would
+    // then judge a child against adult bands: exactly the wrong direction,
+    // and silently. No evidence means the default this app is built for.
     return {
-      band: f0 >= 200 ? "child" : "adult",   // ~200 Hz splits kids from adults
+      band: f0 > 0 ? (f0 >= 200 ? "child" : "adult") : "child",
       f0,
       sCentroid: med(sCent),
       shCentroid: med(shCent),
@@ -472,7 +553,7 @@
     return { from: bestAt, rms: best };
   }
 
-  const api = { analyse, grade, calibrate, record, loudestFrame,
+  const api = { analyse, grade, describe, calibrate, record, loudestFrame,
                 rms, zeroCrossRate, spectrum, spectralCentroid, spectralFlatness,
                 highFraction, pitch, formants, CHECKS, SIB };
 

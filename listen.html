@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Can it hear them? — Aussie Phonics</title>
+<link rel="icon" href="data:,">
+<style>
+:root {
+  --bg:#f4efe6; --paper:#fbf7ee; --ink:#1f1f1f; --muted:#6b6256;
+  --line:#d8cfbb; --line-soft:#e8e0cd; --accent:#a83232;
+  --correct:#2f6a3e; --wrong:#a83232; --warn:#c8992e; --warn-ink:#6b5316;
+  --warn-bg:#f8f1de; --good-bg:#ebf3ec; --bad-bg:#f5eaea; --ask-bg:#eceff6; --ask-ink:#3a4a6b;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+[hidden] { display:none !important; }
+body { font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:var(--bg);
+  min-height:100vh; padding:16px; display:flex; justify-content:center; align-items:flex-start; color:var(--ink); }
+.container { background:var(--paper); border:1px solid var(--line); border-radius:12px;
+  max-width:640px; width:100%; padding:20px; margin-top:12px; box-shadow:0 2px 12px rgba(0,0,0,.06); }
+h1 { text-align:center; font-size:22px; font-family:Georgia,'Times New Roman',serif; letter-spacing:.5px; }
+.subtitle { color:var(--muted); text-align:center; margin:6px 0 16px; font-size:13px; line-height:1.5; }
+.head-links { display:flex; gap:4px; justify-content:center; margin-bottom:12px; flex-wrap:wrap; }
+.head-links a { display:inline-flex; align-items:center; min-height:44px; padding:0 10px;
+  font-size:13px; font-weight:700; color:var(--accent); text-decoration:none; }
+.head-links a:hover { text-decoration:underline; }
+h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);
+  margin:22px 0 10px; padding-bottom:6px; border-bottom:1px dashed var(--line-soft); }
+
+/* ---- sound picker ---- */
+.sounds { display:flex; flex-wrap:wrap; gap:6px; }
+.sound-btn { min-width:52px; min-height:48px; padding:6px 10px; border:1px solid var(--line);
+  border-radius:10px; background:var(--bg); font-family:Georgia,serif; font-size:18px; font-weight:700;
+  cursor:pointer; color:var(--ink); line-height:1.1; }
+.sound-btn small { display:block; font-family:'Segoe UI',sans-serif; font-size:9px; font-weight:600;
+  color:var(--muted); letter-spacing:.03em; text-transform:uppercase; margin-top:2px; }
+.sound-btn[aria-pressed="true"] { background:var(--accent); color:#fff; border-color:var(--accent); }
+.sound-btn[aria-pressed="true"] small { color:#f6e2e2; }
+.sound-btn[data-tier="ask"] { border-style:dashed; }
+
+/* ---- the big record button ---- */
+.stage { text-align:center; margin:16px 0; }
+.target { font-family:Georgia,serif; font-size:44px; font-weight:700; letter-spacing:.02em; }
+.target-hint { font-size:13px; color:var(--muted); margin-top:2px; }
+.rec { margin:14px auto 0; display:block; width:170px; min-height:56px; border-radius:28px;
+  border:2px solid var(--accent); background:var(--accent); color:#fff; font-size:16px; font-weight:700;
+  font-family:inherit; cursor:pointer; }
+.rec[disabled] { opacity:.55; cursor:default; }
+.rec.listening { background:var(--warn); border-color:var(--warn); color:var(--warn-ink); }
+.level { width:170px; height:8px; margin:10px auto 0; background:var(--line-soft); border-radius:4px; overflow:hidden; }
+.level i { display:block; height:100%; width:0; background:var(--correct); transition:width .06s linear; }
+
+/* ---- verdict ---- */
+.verdict { border-radius:10px; padding:14px; margin-top:14px; text-align:center; }
+.verdict[hidden] { display:none; }
+.verdict.heard { background:var(--good-bg); border:1px solid #bcd6c1; }
+.verdict.close { background:var(--warn-bg); border:1px solid #e3d3a4; }
+.verdict.quiet { background:var(--bad-bg); border:1px solid #e0c4c4; }
+.verdict.ask   { background:var(--ask-bg); border:1px solid #c3ccdf; }
+.verdict h3 { font-size:20px; font-family:Georgia,serif; }
+.verdict p { font-size:14px; margin-top:6px; line-height:1.5; }
+.verdict.heard h3 { color:var(--correct); }
+.verdict.close h3 { color:var(--warn-ink); }
+.verdict.quiet h3 { color:var(--wrong); }
+.verdict.ask h3 { color:var(--ask-ink); }
+
+/* ---- the honest picture question ---- */
+.ask-card { display:flex; gap:14px; align-items:center; justify-content:center; flex-wrap:wrap; margin-top:10px; }
+.ask-card svg { width:118px; height:148px; background:#fff; border:1px solid var(--line); border-radius:10px; }
+.ask-body { text-align:left; max-width:280px; }
+.ask-q { font-size:16px; font-weight:700; line-height:1.35; }
+.yesno { display:flex; gap:8px; margin-top:10px; }
+.yesno button { flex:1; min-height:48px; padding:0 18px; border-radius:24px; border:1px solid var(--line);
+  background:var(--paper); font-size:15px; font-weight:700; font-family:inherit; cursor:pointer; color:var(--ink); }
+.yesno button.yes:hover { border-color:var(--correct); color:var(--correct); }
+.yesno button.no:hover { border-color:var(--wrong); color:var(--wrong); }
+
+/* ---- what the machine heard ---- */
+.readout { margin-top:14px; border:1px solid var(--line-soft); border-radius:10px; overflow:hidden; }
+.readout[hidden] { display:none; }
+.readout table { width:100%; border-collapse:collapse; font-size:13px; }
+.readout th { text-align:left; padding:7px 10px; width:96px; color:var(--muted);
+  font-size:11px; text-transform:uppercase; letter-spacing:.05em; vertical-align:top; }
+.readout td { padding:7px 10px; border-bottom:1px solid var(--line-soft); }
+.readout tr:last-child td, .readout tr:last-child th { border-bottom:0; }
+.readout .val { font-weight:700; }
+.readout .unsure .val { color:var(--warn-ink); }
+.readout .unsure .val::after { content:" ?"; }
+.readout .detail { display:block; color:var(--muted); font-weight:400; font-size:12px; margin-top:1px; }
+
+/* ---- calibration + tally ---- */
+.note { font-size:12.5px; color:var(--muted); line-height:1.55; }
+.row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.btn { min-height:44px; padding:0 16px; border-radius:22px; border:1px solid var(--line);
+  background:var(--bg); font-size:14px; font-weight:700; font-family:inherit; cursor:pointer; color:var(--ink); }
+.btn:hover { border-color:var(--accent); color:var(--accent); }
+.btn[disabled] { opacity:.5; cursor:default; }
+.cal-state { font-size:13px; padding:8px 10px; border-radius:8px; background:var(--bg);
+  border:1px solid var(--line-soft); flex:1; min-width:190px; }
+.tally { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
+.tally div { flex:1; min-width:64px; text-align:center; padding:8px 4px; border-radius:8px;
+  background:var(--bg); border:1px solid var(--line-soft); }
+.tally b { display:block; font-size:20px; font-family:Georgia,serif; }
+.tally span { font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+.log { font-size:12.5px; max-height:210px; overflow:auto; border:1px solid var(--line-soft); border-radius:8px; }
+.log:empty { display:none; }
+.log div { padding:5px 9px; border-bottom:1px solid var(--line-soft); display:flex; gap:8px; align-items:baseline; }
+.log div:last-child { border-bottom:0; }
+.log b { font-family:Georgia,serif; font-size:14px; min-width:42px; }
+.log em { font-style:normal; color:var(--muted); margin-left:auto; font-size:11px; }
+.log .v-heard b { color:var(--correct); }
+.log .v-close b { color:var(--warn-ink); }
+.log .v-quiet b { color:var(--wrong); }
+.log .v-ask   b { color:var(--ask-ink); }
+
+.legend { font-size:12.5px; line-height:1.6; color:var(--muted); }
+.legend b { color:var(--ink); }
+.err { background:var(--bad-bg); color:var(--wrong); border-radius:8px; padding:12px; font-size:13px; line-height:1.5; }
+.err[hidden] { display:none; }
+@media (max-width:420px) { .container { padding:14px; } .target { font-size:38px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Can it hear them?</h1>
+  <p class="subtitle">Hold the button, get the child to make the sound, and see exactly what the
+    microphone picked up — including where it has to admit it can't tell.</p>
+  <div class="head-links">
+    <a href="index.html">← My Progress</a><a href="practice.html">Practice</a><a href="explorer.html">Explorer</a>
+  </div>
+
+  <div class="err" id="err" hidden></div>
+
+  <h2>1 · This child's voice</h2>
+  <div class="row">
+    <div class="cal-state" id="calState">Not calibrated — using the general child table.</div>
+    <button class="btn" id="calBtn">Calibrate</button>
+    <button class="btn" id="calClear" hidden>Clear</button>
+  </div>
+  <p class="note" style="margin-top:8px">A five-year-old's mouth is about two-thirds the size of an
+    adult's, so every sound they make sits far higher up the scale. Three quick recordings — <b>sss</b>,
+    <b>shhh</b>, <b>ahh</b> — and the app judges them against themselves instead of a table.</p>
+
+  <h2>2 · Pick a sound</h2>
+  <div class="sounds" id="sounds"></div>
+
+  <div class="stage">
+    <div class="target" id="target">/s/</div>
+    <div class="target-hint" id="targetHint">as in <b>sun</b></div>
+    <button class="rec" id="recBtn">Hold to listen</button>
+    <div class="level"><i id="level"></i></div>
+  </div>
+
+  <div class="verdict" id="verdict" hidden>
+    <h3 id="verdictTitle"></h3>
+    <p id="verdictWhy"></p>
+    <div class="ask-card" id="askCard" hidden>
+      <div id="askPic"></div>
+      <div class="ask-body">
+        <div class="ask-q" id="askQ"></div>
+        <div class="yesno">
+          <button class="yes" id="askYes">Yes</button>
+          <button class="no" id="askNo">Not sure / No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="readout" id="readout" hidden><table><tbody id="readoutBody"></tbody></table></div>
+
+  <h2>3 · How it went</h2>
+  <div class="tally">
+    <div><b id="tHeard">0</b><span>heard</span></div>
+    <div><b id="tClose">0</b><span>close</span></div>
+    <div><b id="tAsk">0</b><span>asked</span></div>
+    <div><b id="tQuiet">0</b><span>too quiet</span></div>
+  </div>
+  <div class="log" id="log"></div>
+  <div class="row" style="margin-top:8px">
+    <button class="btn" id="clearLog">Clear</button>
+    <button class="btn" id="copyLog">Copy results</button>
+  </div>
+
+  <h2>What it can and can't hear</h2>
+  <p class="legend">
+    <b>It can hear:</b> whether the voice is switched on (/s/ vs /z/, /f/ vs /v/), whether air is
+    rushing at all, and whether a hiss is the thin high kind (/s/) or the fat low kind (/sh/).<br>
+    <b>It cannot hear:</b> /f/ from /th/, or /p/ from /t/ from /k/. Those differences are almost
+    invisible to a microphone — they are carried by the <em>eye</em>. So the app shows the picture and
+    asks the child, rather than inventing a verdict it can't support.<br>
+    <b>A “?” in the read-out</b> means the measurement landed in no-man's-land. That is a real answer,
+    not a failure.
+  </p>
+</div>
+
+<script src="anatomy.js"></script>
+<script src="js/core/listen.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var $ = function (id) { return document.getElementById(id); };
+  var L = window.PhonicsListen;
+
+  // ---- the sounds we offer, and how each one gets judged -----------
+  // Order puts the machine-gradable ones first: a teacher trying this out
+  // should meet the contrasts it CAN hear before the ones it can't.
+  var TIER_A = ["s", "z", "sh", "zh", "ch", "j", "l", "r", "w", "y", "h"];
+  var TIER_B = ["f", "v", "th", "dh", "p", "b", "t", "d", "k", "g", "m", "n", "ng"];
+  var EXAMPLES = {
+    s:"sun", z:"zip", sh:"ship", zh:"treasure", ch:"chip", j:"jam", l:"leg", r:"red",
+    w:"win", y:"yes", h:"hat", f:"fish", v:"van", th:"thin", dh:"this", p:"pen", b:"bat",
+    t:"tap", d:"dog", k:"cat", g:"got", m:"map", n:"net", ng:"sing"
+  };
+  var IPA = { sh:"ʃ", zh:"ʒ", ch:"tʃ", j:"dʒ", th:"θ", dh:"ð", ng:"ŋ", y:"j" };
+  var ART = {};   // filled from data/phonemes.json, for the picture
+
+  var current = "s";
+  var cal = null;
+  var listening = false;
+  var tally = { heard: 0, close: 0, ask: 0, quiet: 0 };
+  var lastFeatures = null;
+
+  function ipa(id) { return IPA[id] || id; }
+
+  // ---- build the picker -------------------------------------------
+  function buildSounds() {
+    var wrap = $("sounds");
+    wrap.innerHTML = "";
+    [TIER_A, TIER_B].forEach(function (group, gi) {
+      group.forEach(function (id) {
+        var spec = L.CHECKS[id] || {};
+        var b = document.createElement("button");
+        b.className = "sound-btn";
+        b.type = "button";
+        b.dataset.id = id;
+        b.dataset.tier = gi === 0 ? "grade" : (spec.selfCheck ? "ask" : "grade");
+        b.setAttribute("aria-pressed", id === current ? "true" : "false");
+        b.innerHTML = "/" + ipa(id) + "/<small>" + (spec.selfCheck ? "ask" : "grade") + "</small>";
+        b.addEventListener("click", function () { select(id); });
+        wrap.appendChild(b);
+      });
+    });
+  }
+
+  function select(id) {
+    current = id;
+    Array.prototype.forEach.call($("sounds").children, function (b) {
+      b.setAttribute("aria-pressed", b.dataset.id === id ? "true" : "false");
+    });
+    $("target").textContent = "/" + ipa(id) + "/";
+    $("targetHint").innerHTML = EXAMPLES[id] ? "as in <b>" + EXAMPLES[id] + "</b>" : "";
+    $("verdict").hidden = true;
+    $("readout").hidden = true;
+  }
+
+  // ---- articulation data, for the picture we show when we ask ------
+  function loadArticulation() {
+    return fetch("data/phonemes.json").then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        (j && j.phonemes || []).forEach(function (p) {
+          if (p.articulation) ART[p.id] = p.articulation;
+        });
+      }).catch(function () {});
+  }
+
+  // The same cutaway the rest of the app uses, zoomed to the part that
+  // does the work — the whole point is that the child can SEE the thing
+  // the microphone can't hear.
+  function drawPicture(host, id) {
+    host.innerHTML = "";
+    var a = ART[id];
+    if (!a || !window.Anatomy) return;
+    host.innerHTML = Anatomy.svg({ place: a.place, manner: a.manner, voiced: a.voiced, label: "/" + ipa(id) + "/" });
+    var el = host.querySelector("svg");
+    if (el) Anatomy.poseConsonant(el, a.place, a.manner, { animate: false, voiced: a.voiced });
+  }
+
+  // ---- recording ---------------------------------------------------
+  var media = null, ctx = null, node = null, src = null, chunks = [], meterRaf = 0;
+
+  function fail(msg) { var e = $("err"); e.textContent = msg; e.hidden = false; }
+
+  async function startListening() {
+    if (listening) return;
+    $("err").hidden = true;
+    try {
+      media = await navigator.mediaDevices.getUserMedia({
+        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+      });
+    } catch (e) {
+      fail("No microphone. " + (e && e.name === "NotAllowedError"
+        ? "The browser blocked it — allow microphone access and try again."
+        : "Check a mic is plugged in, and that the page is on https:// or localhost."));
+      return;
+    }
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    src = ctx.createMediaStreamSource(media);
+    node = ctx.createScriptProcessor(2048, 1, 1);
+    chunks = [];
+    var peak = 0;
+    node.onaudioprocess = function (e) {
+      var d = e.inputBuffer.getChannelData(0);
+      chunks.push(new Float32Array(d));
+      var m = 0;
+      for (var i = 0; i < d.length; i++) { var v = Math.abs(d[i]); if (v > m) m = v; }
+      peak = Math.max(m, peak * 0.86);
+      $("level").style.width = Math.min(100, peak * 240) + "%";
+    };
+    src.connect(node);
+    // Keep the graph pulling without echoing the child back at themselves.
+    var mute = ctx.createGain();
+    mute.gain.value = 0;
+    node.connect(mute);
+    mute.connect(ctx.destination);
+    listening = true;
+    $("recBtn").classList.add("listening");
+    $("recBtn").textContent = "Listening…";
+  }
+
+  function stopListening() {
+    if (!listening) return null;
+    listening = false;
+    $("recBtn").classList.remove("listening");
+    $("recBtn").textContent = "Hold to listen";
+    $("level").style.width = "0";
+    try { node.disconnect(); src.disconnect(); } catch (e) {}
+    media.getTracks().forEach(function (t) { t.stop(); });
+    var sr = ctx.sampleRate;
+    ctx.close();
+    var total = chunks.reduce(function (n, c) { return n + c.length; }, 0);
+    var buf = new Float32Array(total), at = 0;
+    chunks.forEach(function (c) { buf.set(c, at); at += c.length; });
+    cancelAnimationFrame(meterRaf);
+    return { buf: buf, sampleRate: sr };
+  }
+
+  // The one call the whole page is about: find the attempt, measure it, grade it.
+  function measure(clip) {
+    if (!clip || clip.buf.length < 2048) return null;
+    var loud = L.loudestFrame(clip.buf, clip.sampleRate, 2048);
+    return L.analyse(clip.buf, clip.sampleRate, { from: loud.from, frame: 2048 });
+  }
+
+  // ---- showing the answer -------------------------------------------
+  var TITLES = {
+    heard: "Heard it ✓",
+    close: "Nearly",
+    quiet: "Too quiet",
+    ask:   "I can't hear that one"
+  };
+
+  function show(result, features) {
+    var v = $("verdict");
+    v.hidden = false;
+    v.className = "verdict " + result.verdict;
+    $("verdictTitle").textContent = TITLES[result.verdict] || result.verdict;
+    $("verdictWhy").textContent = result.why.length ? result.why.join(" ")
+      : "Every cue the microphone can check for this sound came back right.";
+
+    var askCard = $("askCard");
+    if (result.verdict === "ask") {
+      askCard.hidden = false;
+      $("askQ").textContent = result.ask || "Does your mouth look like the picture?";
+      drawPicture($("askPic"), result.id);
+      $("verdictWhy").textContent =
+        "Two sounds can look completely different and still sound almost the same to a microphone. " +
+        "This is one of them — so have a look, and you tell me.";
+    } else {
+      askCard.hidden = true;
+    }
+
+    var rows = L.describe(features, { calibration: cal, id: result.id });
+    $("readoutBody").innerHTML = rows.map(function (r) {
+      return '<tr class="' + (r.sure ? "" : "unsure") + '"><th>' + esc(r.label) + '</th>' +
+             '<td><span class="val">' + esc(r.value) + '</span>' +
+             (r.detail ? '<span class="detail">' + esc(r.detail) + "</span>" : "") + "</td></tr>";
+    }).join("");
+    $("readout").hidden = false;
+
+    if (result.verdict !== "ask") record(result.id, result.verdict, result.why.join(" "));
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+
+  function record(id, verdict, note) {
+    tally[verdict] = (tally[verdict] || 0) + 1;
+    $("tHeard").textContent = tally.heard;
+    $("tClose").textContent = tally.close;
+    $("tAsk").textContent = tally.ask;
+    $("tQuiet").textContent = tally.quiet;
+    var d = document.createElement("div");
+    d.className = "v-" + verdict;
+    var LOG_LABEL = { heard: "Heard it", close: "Nearly", quiet: "Too quiet", ask: "Asked" };
+    d.innerHTML = "<b>/" + esc(ipa(id)) + "/</b><span>" + esc(LOG_LABEL[verdict] || verdict) +
+                  (note ? " — " + esc(note) : "") + "</span><em>" +
+                  new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) + "</em>";
+    var log = $("log");
+    log.insertBefore(d, log.firstChild);
+  }
+
+  // ---- the honest question -------------------------------------------
+  function answerAsk(saidYes) {
+    $("askCard").hidden = true;
+    var v = $("verdict");
+    v.className = "verdict " + (saidYes ? "heard" : "close");
+    $("verdictTitle").textContent = saidYes ? "Good — that's the one ✓" : "Have another go";
+    $("verdictWhy").textContent = saidYes
+      ? "You checked your own mouth. That's the part the app can't do for you."
+      : "Look at the picture and copy the mouth, then try it again.";
+    record(current, "ask", saidYes
+      ? "couldn't be heard — child checked the picture and said yes"
+      : "couldn't be heard — child checked the picture and said no");
+  }
+
+  // ---- calibration ----------------------------------------------------
+  var CAL_STEPS = [
+    { id: "s",  say: "Say a long sssssss (like a snake)" },
+    { id: "sh", say: "Now a long shhhhhh (like be quiet)" },
+    { id: "ah", say: "Now say ahhhh (like at the doctor)" }
+  ];
+
+  async function runCalibration() {
+    var got = [];
+    for (var i = 0; i < CAL_STEPS.length; i++) {
+      var step = CAL_STEPS[i];
+      $("calState").textContent = (i + 1) + "/3 — " + step.say + " … hold on, listening for 2 seconds";
+      await startListening();
+      if (!listening) { $("calState").textContent = "Calibration stopped."; return; }
+      await new Promise(function (r) { setTimeout(r, 2000); });
+      var clip = stopListening();
+      var f = measure(clip);
+      if (f) got.push({ id: step.id, features: f });
+      await new Promise(function (r) { setTimeout(r, 400); });
+    }
+    cal = L.calibrate(got);
+    saveCal();
+    paintCal();
+  }
+
+  function paintCal() {
+    var el = $("calState");
+    $("calClear").hidden = !cal;
+    if (!cal) { el.textContent = "Not calibrated — using the general child table."; return; }
+    var bits = ["Voice: " + cal.band + (cal.f0 ? " (about " + Math.round(cal.f0) + " Hz)" : "")];
+    if (cal.split) {
+      bits.push("their /s/ and /sh/ split at " + Math.round(cal.split) + " Hz");
+    } else {
+      bits.push("their /s/ and /sh/ came out too alike to split — using the " +
+                (cal.band || "child") + " table, which is the honest fallback");
+    }
+    el.textContent = bits.join(" · ");
+  }
+
+  function saveCal() {
+    try { localStorage.setItem("phonics.listen.cal", JSON.stringify(cal)); } catch (e) {}
+  }
+  function loadCal() {
+    try {
+      var raw = localStorage.getItem("phonics.listen.cal");
+      cal = raw ? JSON.parse(raw) : null;
+    } catch (e) { cal = null; }
+  }
+
+  // ---- wiring ----------------------------------------------------------
+  var HOLD_MIN = 350;
+  var heldAt = 0;
+
+  async function pressStart(e) {
+    e.preventDefault();
+    heldAt = Date.now();
+    await startListening();
+  }
+
+  function pressEnd(e) {
+    if (e) e.preventDefault();
+    if (!listening) return;
+    var held = Date.now() - heldAt;
+    var finish = function () {
+      var clip = stopListening();
+      var f = measure(clip);
+      lastFeatures = f;
+      if (!f) { fail("That was too short to read. Hold the button while they make the sound."); return; }
+      show(L.grade(current, f, { calibration: cal }), f);
+    };
+    // A tap that beats the minimum hold still gets a fair listen.
+    if (held < HOLD_MIN) setTimeout(finish, HOLD_MIN - held); else finish();
+  }
+
+  function init() {
+    if (!L) { fail("The listening engine failed to load."); return; }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      fail("This browser has no microphone API. Try Chrome, Edge or Safari, over https://");
+    }
+    buildSounds();
+    select(current);
+    loadCal();
+    paintCal();
+    loadArticulation();
+
+    var rec = $("recBtn");
+    rec.addEventListener("mousedown", pressStart);
+    rec.addEventListener("touchstart", pressStart, { passive: false });
+    window.addEventListener("mouseup", pressEnd);
+    window.addEventListener("touchend", pressEnd);
+    rec.addEventListener("keydown", function (e) {
+      if ((e.key === " " || e.key === "Enter") && !e.repeat) pressStart(e);
+    });
+    rec.addEventListener("keyup", function (e) {
+      if (e.key === " " || e.key === "Enter") pressEnd(e);
+    });
+
+    $("askYes").addEventListener("click", function () { answerAsk(true); });
+    $("askNo").addEventListener("click", function () { answerAsk(false); });
+    $("calBtn").addEventListener("click", runCalibration);
+    $("calClear").addEventListener("click", function () {
+      cal = null;
+      try { localStorage.removeItem("phonics.listen.cal"); } catch (e) {}
+      paintCal();
+    });
+    $("clearLog").addEventListener("click", function () {
+      tally = { heard: 0, close: 0, ask: 0, quiet: 0 };
+      $("log").innerHTML = "";
+      ["tHeard", "tClose", "tAsk", "tQuiet"].forEach(function (i) { $(i).textContent = "0"; });
+    });
+    $("copyLog").addEventListener("click", function () {
+      var lines = Array.prototype.map.call($("log").children, function (d) { return d.textContent; });
+      var text = "Listening trial — " + new Date().toLocaleString() + "\n" +
+        "heard " + tally.heard + ", close " + tally.close + ", asked " + tally.ask +
+        ", too quiet " + tally.quiet + "\n\n" + lines.reverse().join("\n");
+      if (navigator.clipboard) navigator.clipboard.writeText(text);
+      $("copyLog").textContent = "Copied";
+      setTimeout(function () { $("copyLog").textContent = "Copy results"; }, 1400);
+    });
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();
+</script>
+</body>
+</html>
