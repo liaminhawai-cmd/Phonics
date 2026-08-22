@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    a { color: #a83232; } a:hover { color: #7c2424; }
+  </style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #f4efe6; padding: 18px 16px; box-sizing: border-box; color: #1f1f1f; display: flex; flex-direction: column; gap: 12px;">
+
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <button style="background: none; border: none; color: #6b6256; font-weight: 700; font-size: 14px; font-family: inherit; min-height: 44px; padding: 0;">&larr; Spelling</button>
+    <div style="font-family: Georgia, serif; font-weight: 700; font-size: 16px;">My sounds</div>
+    <div style="margin-left: auto; font-size: 11px; font-weight: 700; color: #8a5d95;">18 of 26 taught</div>
+  </div>
+  <div style="display: flex; gap: 6px;">
+    <button style="min-height: 44px; padding: 4px 14px; border: none; border-radius: 22px; background: #1f1f1f; color: #fbf7ee; font-weight: 700; font-size: 12px; font-family: inherit;">Sounds I own</button>
+    <button style="min-height: 44px; padding: 4px 14px; border: 1px solid #d8cfbb; border-radius: 22px; background: #fbf7ee; color: #1f1f1f; font-weight: 700; font-size: 12px; font-family: inherit;">Still learning</button>
+    <button style="min-height: 44px; padding: 4px 14px; border: 1px solid #d8cfbb; border-radius: 22px; background: #fbf7ee; color: #6b6256; font-weight: 700; font-size: 12px; font-family: inherit;">Coming up</button>
+  </div>
+
+  <!-- /sh/ consonant card -->
+  <div style="background: #fbf7ee; border: 1px solid #d8cfbb; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 14px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="width: 64px; height: 64px; border-radius: 14px; background: #ffffff; border: 1px solid #e8e0cd; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
+        <svg width="52" height="52" viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="20" fill="#fdf3e3" stroke="#1f1f1f" stroke-width="1.6"></circle>
+          <circle cx="17.5" cy="19" r="1.7" fill="#1f1f1f"></circle>
+          <circle cx="30.5" cy="19" r="1.7" fill="#1f1f1f"></circle>
+          <ellipse cx="24" cy="31" rx="5.5" ry="3.4" fill="#ffffff" stroke="#1f1f1f" stroke-width="1.6"></ellipse>
+          <line x1="19" y1="31" x2="29" y2="31" stroke="#1f1f1f" stroke-width="1.2"></line>
+          <path d="M33 27.5c2-.8 3.5-.8 5 0 M33 31c2-.4 3.5-.4 5 0 M33 34.5c2 .4 3.5 .4 5 0" stroke="#8a5d95" stroke-width="1.3" fill="none" stroke-linecap="round"></path>
+        </svg>
+      </div>
+      <div style="min-width: 0; flex: 1;">
+        <div style="display: flex; align-items: baseline; gap: 8px;">
+          <span style="font-family: Georgia, serif; font-weight: 700; font-size: 20px;">/sh/</span>
+          <span style="font-size: 12px; color: #6b6256;">quiet air through round lips &middot; ship</span>
+        </div>
+        <div style="display: flex; gap: 6px; margin-top: 6px;">
+          <button style="min-height: 44px; padding: 4px 12px; border: 1px solid #d8cfbb; border-radius: 22px; background: #f4efe6; font-weight: 700; font-size: 12px; font-family: inherit; display: inline-flex; align-items: center; gap: 5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1f1f1f" stroke-width="2.2" stroke-linecap="round"><path d="M11 5 6 9H2v6h4l5 4z" fill="#1f1f1f"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path></svg>Hear</button>
+          <button style="min-height: 44px; padding: 4px 12px; border: 1px solid #d8cfbb; border-radius: 22px; background: #f4efe6; font-weight: 700; font-size: 12px; font-family: inherit;">Watch the mouth</button>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 7px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e8e0cd;">
+      <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #6b6256; flex: 0 0 auto;">Ways to write it</span>
+      <span style="border: 1.5px solid #b8860b; background: #f5c33c; border-radius: 8px; padding: 3px 10px; font-family: Georgia, serif; font-weight: 700; font-size: 16px; color: #4a3305;">sh</span>
+      <span style="border: 1.5px dashed #d8cfbb; border-radius: 8px; padding: 3px 10px; font-family: Georgia, serif; font-weight: 700; font-size: 16px; color: #b3a892;">ti</span>
+      <span style="border: 1.5px dashed #d8cfbb; border-radius: 8px; padding: 3px 10px; font-family: Georgia, serif; font-weight: 700; font-size: 16px; color: #b3a892;">ci</span>
+    </div>
+  </div>
+
+  <!-- /ay/ vowel card with interactive mouth -->
+  <div style="background: #fbf7ee; border: 1px solid #d8cfbb; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 14px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="position: relative; width: 64px; height: 64px; border-radius: 14px; background: #ffffff; border: 1px solid #e8e0cd; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
+        <svg width="52" height="52" viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="20" fill="#fdf3e3" stroke="#1f1f1f" stroke-width="1.6"></circle>
+          <circle cx="17.5" cy="19" r="1.7" fill="#1f1f1f"></circle>
+          <circle cx="30.5" cy="19" r="1.7" fill="#1f1f1f"></circle>
+          <path d="M16 29 Q24 38 32 29 Q24 33 16 29 Z" fill="#ffffff" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"></path>
+        </svg>
+        <span style="position: absolute; right: -6px; bottom: -6px; background: #8a5d95; color: #fbf7ee; border-radius: 10px; font-size: 9px; font-weight: 800; padding: 3px 7px;">MOVE ME</span>
+      </div>
+      <div style="min-width: 0; flex: 1;">
+        <div style="display: flex; align-items: baseline; gap: 8px;">
+          <span style="font-family: Georgia, serif; font-weight: 700; font-size: 20px;">/ay/</span>
+          <span style="font-size: 12px; color: #6b6256;">the smiley glide &middot; play</span>
+        </div>
+        <div style="display: flex; gap: 6px; margin-top: 6px;">
+          <button style="min-height: 44px; padding: 4px 12px; border: 1px solid #d8cfbb; border-radius: 22px; background: #f4efe6; font-weight: 700; font-size: 12px; font-family: inherit; display: inline-flex; align-items: center; gap: 5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1f1f1f" stroke-width="2.2" stroke-linecap="round"><path d="M11 5 6 9H2v6h4l5 4z" fill="#1f1f1f"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path></svg>Hear</button>
+          <button style="min-height: 44px; padding: 4px 12px; border: none; border-radius: 22px; background: #8a5d95; color: #fbf7ee; font-weight: 700; font-size: 12px; font-family: inherit;">Drag the tongue</button>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 7px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e8e0cd; flex-wrap: wrap;">
+      <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #6b6256; flex: 0 0 auto;">Ways to write it</span>
+      <span style="border: 1.5px solid #b8860b; background: #f5c33c; border-radius: 8px; padding: 3px 10px; font-family: Georgia, serif; font-weight: 700; font-size: 16px; color: #4a3305;">ay</span>
+      <span style="border: 1.5px solid #8a5d95; border-radius: 8px; padding: 3px 10px; font-family: Georgia, serif; font-weight: 700; font-size: 16px;">ai</span>
+      <span style="border: 1.5px dashed #d8cfbb; border-radius: 8px; padding: 3px 10px; font-family: Georgia, serif; font-weight: 700; font-size: 16px; color: #b3a892;">a-e</span>
+      <span style="border: 1.5px dashed #d8cfbb; border-radius: 8px; padding: 3px 10px; font-family: Georgia, serif; font-weight: 700; font-size: 16px; color: #b3a892;">eigh</span>
+    </div>
+    <div style="font-size: 11px; color: #6b6256; margin-top: 6px;">gold = I own it &middot; purple = learning it &middot; faded = coming later</div>
+  </div>
+
+  <!-- /t/ compact card -->
+  <div style="background: #fbf7ee; border: 1px solid #d8cfbb; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 12px 14px; display: flex; align-items: center; gap: 12px;">
+    <div style="width: 48px; height: 48px; border-radius: 12px; background: #ffffff; border: 1px solid #e8e0cd; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
+      <svg width="40" height="40" viewBox="0 0 48 48">
+        <circle cx="24" cy="24" r="20" fill="#fdf3e3" stroke="#1f1f1f" stroke-width="1.6"></circle>
+        <circle cx="17.5" cy="19" r="1.7" fill="#1f1f1f"></circle>
+        <circle cx="30.5" cy="19" r="1.7" fill="#1f1f1f"></circle>
+        <path d="M17 30h14" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round"></path>
+        <path d="M21 30 Q24 26 27 30" fill="none" stroke="#a83232" stroke-width="1.6" stroke-linecap="round"></path>
+      </svg>
+    </div>
+    <div style="flex: 1;">
+      <span style="font-family: Georgia, serif; font-weight: 700; font-size: 17px;">/t/</span>
+      <span style="font-size: 12px; color: #6b6256;"> &middot; tongue tap &middot; ten</span>
+    </div>
+    <span style="border: 1.5px solid #b8860b; background: #f5c33c; border-radius: 8px; padding: 3px 10px; font-family: Georgia, serif; font-weight: 700; font-size: 15px; color: #4a3305;">t</span>
+    <span style="border: 1.5px solid #8a5d95; border-radius: 8px; padding: 3px 10px; font-family: Georgia, serif; font-weight: 700; font-size: 15px;">tt</span>
+  </div>
+
+  <p style="margin-top: auto; text-align: center; font-size: 12px; color: #6b6256;">Sound order follows your program &mdash; flip to a sound-first<br>program like Sound Waves and this becomes its native view.</p>
+</div>
+</x-dc>
+</body>
+</html>

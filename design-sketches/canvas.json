@@ -1,0 +1,181 @@
+{
+  "artboards": [
+    {
+      "file": "TileOptions.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 980,
+      "h": 560,
+      "title": "Mastery tile — three options",
+      "page": "page-1"
+    },
+    {
+      "file": "BookmarkFront.dc.html",
+      "x": 1080,
+      "y": 0,
+      "w": 200,
+      "h": 794,
+      "title": "Printed bookmark — front",
+      "print": "fixed",
+      "page": "page-1"
+    },
+    {
+      "file": "BookmarkBack.dc.html",
+      "x": 1360,
+      "y": 0,
+      "w": 200,
+      "h": 794,
+      "title": "Printed bookmark — back",
+      "print": "fixed",
+      "page": "page-1"
+    },
+    {
+      "file": "Main.dc.html",
+      "x": 0,
+      "y": 960,
+      "w": 390,
+      "h": 844,
+      "title": "My Sounds — kid home",
+      "page": "page-1"
+    },
+    {
+      "file": "ElkoninMixed.dc.html",
+      "x": 470,
+      "y": 960,
+      "w": 390,
+      "h": 844,
+      "title": "Listen & write — mixed scaffolds",
+      "page": "page-1"
+    },
+    {
+      "file": "ThreeLenses.dc.html",
+      "x": 940,
+      "y": 960,
+      "w": 1240,
+      "h": 720,
+      "title": "Three lenses",
+      "page": "page-1"
+    },
+    {
+      "file": "HomeSplit.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Front door — Reading / Spelling / Handwriting",
+      "page": "page-2"
+    },
+    {
+      "file": "SpellingSounds.dc.html",
+      "x": 470,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Spelling side — My sounds",
+      "page": "page-2"
+    },
+    {
+      "file": "SkillsRules.dc.html",
+      "x": 940,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Skills & rules",
+      "page": "page-2"
+    },
+    {
+      "file": "MyProgressLetters.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "My Progress — Letters face",
+      "page": "page-3"
+    },
+    {
+      "file": "MyProgressSounds.dc.html",
+      "x": 470,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "My Progress — Sounds face",
+      "page": "page-3"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "note-glyph",
+      "x": 0,
+      "y": -170,
+      "w": 420,
+      "text": "The tile glyph: pick one (or pair them).\nMy lean: A (rings) at kid size on My Sounds, B (split ring) small in dense teacher grids (44px wherever it's tappable), C (ink bars) wherever it prints. Same data behind all three.",
+      "page": "page-1"
+    },
+    {
+      "id": "note-bookmark",
+      "x": 1600,
+      "y": 0,
+      "w": 280,
+      "text": "Generated per child, per level: exact bookmark colour, gold stars from their real mastery, QR plays this set's sounds spliced from the phoneme recordings.\nGraphemes here are Georgia stand-ins — the real print renders from the Vic-cursive stroke paths, no font licence needed.",
+      "page": "page-1"
+    },
+    {
+      "id": "note-elkonin",
+      "x": 470,
+      "y": 1850,
+      "w": 400,
+      "text": "The mystery counter is the key move: a kid who answers chip–counter–typed for 'sheep' has PROVEN 3-sound segmentation even though /ee/ is beyond them. Counting credit and spelling credit are scored separately — the counter never counts against them, and each revealed mystery offers its sound as the next thing to learn.",
+      "page": "page-1"
+    },
+    {
+      "id": "note-mysounds",
+      "x": 0,
+      "y": 1850,
+      "w": 400,
+      "text": "Progress display = home screen = task router. Each open ring on the expanded tile deep-links into the task that closes it (read → flashcards, spell → Listen & Write, write → Handwriting). The bookmark shelf is the long-game view; a finished level earns the printed bookmark.",
+      "page": "page-1"
+    },
+    {
+      "id": "note-split",
+      "x": 0,
+      "y": -190,
+      "w": 430,
+      "page": "page-2",
+      "text": "The front door: Reading (letters→sounds) and Spelling (sounds→letters) as the two big rooms, Handwriting as its own strip. Each room = its wall view + its practice tasks + its skills. The ring hues carry through: blue reading, purple spelling, green handwriting."
+    },
+    {
+      "id": "note-anyseq",
+      "x": 1410,
+      "y": 0,
+      "w": 300,
+      "page": "page-2",
+      "text": "Works for ANY scope & sequence: programs are stored as orderings of grapheme–sound pairs, and both walls are derived views (already live in the Explorer for all 7 programs). Rules attach to spellings, not programs — Magic e appears whenever a-e gets taught, in any sequence, and locked rules say which unit unlocks them."
+    },
+    {
+      "id": "note-flip",
+      "x": 940,
+      "y": 0,
+      "w": 340,
+      "page": "page-3",
+      "text": "One landing page, two faces: on a phone the grapheme tracker and the sound wall are a FLIP (the Letters/Sounds toggle), on a tablet or laptop the same page lays the two walls side by side. Discipline that keeps it light: only the working set gets big ring tiles; everything mastered collapses to the gold shelf / owned dots; exactly ONE action button (Keep going = the weakest ring). This replaces the two-door front page — one less screen."
+    }
+  ],
+  "launch": {
+    "view": "canvas",
+    "page": "page-3"
+  },
+  "pages": [
+    {
+      "id": "page-1",
+      "name": "Progress & tiles"
+    },
+    {
+      "id": "page-2",
+      "name": "Reading & Spelling split"
+    },
+    {
+      "id": "page-3",
+      "name": "My Progress landing"
+    }
+  ]
+}
