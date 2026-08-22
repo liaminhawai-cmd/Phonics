@@ -1,0 +1,29 @@
+# Compiled by scripts/new_sequence.py — see HOW_TO_ADD.md
+id: sounds-write
+name: Sounds-Write
+region: UK
+view: grapheme_first
+source: Sounds-Write (Sounds-Write Ltd) initial + early extended code, speech-to-print
+licence: Ordering of taught correspondences only (facts); no Sounds-Write lesson text or materials included
+accuracy: Unit contents reconstructed from general knowledge of the published sequence — verify against the official Sounds-Write scope before classroom use.
+
+unit Initial code 1: a i m s t
+unit Initial code 2: n o p
+unit Initial code 3: b c g h
+unit Initial code 4: d e f v
+unit Initial code 5: k l r u
+unit Initial code 6: j w z
+unit Initial code 7: x y ff ll ss zz
+unit Initial code 11: sh ch th=* ck wh ng qu
+note: units 8-10 build VCC/CCVC/CCVCC word structure with no new spellings
+
+unit Extended /ae/: ai ay ea=ay a=ay a_e
+unit Extended /ee/: ee ea y=ee e=ee e_e
+unit Extended /oe/: oa ow=oa oe o=oa o_e
+unit Extended /er/: er ir ur ear=er
+unit Extended /e/: ea=e
+unit Extended /oo/: oo ew ue u_e=oo_long ui
+unit Extended /ie/: igh ie y=igh i=igh i_e
+unit Extended /ow/: ou ow
+unit Extended /oi/: oi oy
+unit Extended /or/: or au aw
