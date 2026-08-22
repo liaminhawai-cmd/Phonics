@@ -1,0 +1,181 @@
+{
+  "id": "png-phonics-screener",
+  "name": "PNG Phonics Assessment",
+  "type": "phonics_grapheme_knowledge",
+  "source": "PNG Language Program — 'PNG Phonics Assessment.pdf' (document title 'PNG Phonics Assessment'); pairs with the Reading by Science phonics units and smartboard games",
+  "licence_note": "Item lists and scoring rules only (facts). No instructional prose from the source document is reproduced.",
+  "purpose": "Intervention placement: find the lowest phonics level whose sounds a student does not yet know, for students not receiving phonics instruction in core time.",
+  "administration": {
+    "letter_id_task": "The student says the NAME of each letter; the assessor circles any letter named wrongly.",
+    "sound_task": "For each level, the assessor circles any grapheme whose SOUND the student does not know.",
+    "entry_point": "Always start at the lowest level whose sounds the student does not know.",
+    "prerequisite": "If the whole class has not yet had phonics, teach phonics units 1-7 and games 1-9 in order before using this assessment."
+  },
+  "scoring": {
+    "unit": "one point per grapheme whose sound is known",
+    "decision_rules": [
+      {
+        "condition": "1-2 sounds unknown in a level",
+        "action": "teach just those sounds by direct instruction until the student recalls them automatically the next day"
+      },
+      {
+        "condition": "fewer than 3 sounds known in a level",
+        "action": "teach the matching lessons and games until every sound is automatic on a new day before instruction"
+      },
+      {
+        "condition": "all sounds known but still not reading with automaticity",
+        "action": "assess sight-word vocabulary and morphological awareness, and begin repeated-reading drills"
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "letter-id",
+      "label": "Letter ID",
+      "task": "letter_names",
+      "items": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z"
+      ],
+      "printed_out_of": 27,
+      "note": "The printed sheet has an empty slot where j should be and scores out of 27 though the alphabet has 26 letters; the item list here is the full a-z."
+    },
+    {
+      "id": "level-1",
+      "label": "Phonics Level 1",
+      "task": "grapheme_sounds",
+      "items": [
+        "s",
+        "a",
+        "t",
+        "p",
+        "i",
+        "n"
+      ],
+      "printed_out_of": 6
+    },
+    {
+      "id": "level-2",
+      "label": "Phonics Level 2",
+      "task": "grapheme_sounds",
+      "items": [
+        "c",
+        "k",
+        "e",
+        "h",
+        "r",
+        "m",
+        "d",
+        "ck"
+      ],
+      "printed_out_of": 7,
+      "note": "8 items printed but scored out of 7."
+    },
+    {
+      "id": "level-3",
+      "label": "Phonics Level 3",
+      "task": "grapheme_sounds",
+      "items": [
+        "g",
+        "o",
+        "u",
+        "l",
+        "f",
+        "b"
+      ],
+      "printed_out_of": 6
+    },
+    {
+      "id": "level-4",
+      "label": "Phonics Level 4",
+      "task": "grapheme_sounds",
+      "items": [
+        "ai",
+        "j",
+        "oa",
+        "ie",
+        "ee",
+        "or"
+      ],
+      "printed_out_of": 6,
+      "note": "The source says these sounds are spread over two lessons and two games (Unit 4 and Unit 4B)."
+    },
+    {
+      "id": "level-5",
+      "label": "Phonics Level 5",
+      "task": "grapheme_sounds",
+      "items": [
+        "z",
+        "w",
+        "ng",
+        "v",
+        "oo",
+        "ook"
+      ],
+      "printed_out_of": 6,
+      "note": "'ook' is printed as the sixth item; most likely the second oo sound (as in book) rather than a grapheme in its own right — verify against the source program."
+    },
+    {
+      "id": "level-6",
+      "label": "Phonics Level 6",
+      "task": "grapheme_sounds",
+      "items": [
+        "y",
+        "x",
+        "ch",
+        "sh",
+        "th",
+        "ci"
+      ],
+      "printed_out_of": 5,
+      "note": "6 items printed but scored out of 5."
+    },
+    {
+      "id": "level-7",
+      "label": "Phonics Level 7",
+      "task": "grapheme_sounds",
+      "items": [
+        "qu",
+        "ou",
+        "oi",
+        "ue",
+        "er",
+        "ar",
+        "ge",
+        "gi",
+        "ce"
+      ],
+      "printed_out_of": 9
+    }
+  ],
+  "source_inconsistencies": [
+    "Letter ID: j is missing from the printed list and the total is /27 for a 26-letter alphabet.",
+    "Level 2 prints 8 items but scores /7; Level 6 prints 6 items but scores /5.",
+    "Level 5's sixth item is printed as 'ook'."
+  ],
+  "relationship_to_sequences": "This is a different, shorter ordering from the 16-level PNG scope & sequence in data/sequences/png-language-program.json — it is a 7-level intervention screener, closest in shape to a Letters-and-Sounds style order."
+}

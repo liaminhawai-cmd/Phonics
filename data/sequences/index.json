@@ -52,6 +52,16 @@
       "file": "little-learners-love-literacy.json"
     },
     {
+      "id": "png-language-program",
+      "name": "PNG Language Program",
+      "region": "AU",
+      "native_view": "grapheme_first",
+      "units": 16,
+      "gpcs": 69,
+      "approximate": true,
+      "file": "png-language-program.json"
+    },
+    {
       "id": "sound-waves",
       "name": "Sound Waves Spelling",
       "region": "AU",

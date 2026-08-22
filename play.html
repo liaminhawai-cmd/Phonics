@@ -227,8 +227,15 @@
             return { words: words, dupes: dupes, total: total, capped: total > MAX_WORDS };
         }
 
+        // ?sounds=<phoneme ids> — what the bookmark's QR asks for. Same numbered
+        // list, but each button plays a SOUND and shows what it is (a bookmark
+        // scan isn't a spelling test, so there's nothing to hide). Only consulted
+        // when ?words= is absent, so every existing ?words= link is untouched.
         var parsed = parseWords(params.get("words"));
+        var soundMode = !parsed.words.length && !!String(params.get("sounds") || "").trim();
+        if (soundMode) parsed = parseWords(params.get("sounds"));
         var words = parsed.words;
+        var NOUN = soundMode ? "Sound" : "Word";
 
         // ---- heading ----
         var customTitle = (params.get("title") || "").trim();
@@ -250,6 +257,35 @@
             return (bankReady && entryByWord[word.toLowerCase()]) || word;
         }
 
+        // A word plays as a word; a ?sounds= item is a phoneme id, so it goes
+        // through the phoneme half of the very same fallback chain.
+        function playItem(item) {
+            if (!soundMode) return PhonicsAudio.playWord(toPlay(item));
+            // A bundled teaching unit (ks, kw, yoo) has no examples[] for the
+            // chain's speech fallback to say, so it would land on silence —
+            // pull the example out of its label instead. Only when there is no
+            // recording AND no examples, so nothing ever gets said twice.
+            var p = bankReady && PhonicsBank.phoneme(item);
+            var hasEx = !!(p && p.examples && p.examples.length);
+            return Promise.resolve(PhonicsAudio.playPhoneme(item)).then(function (ok) {
+                if (ok || hasEx) return ok;
+                var m = p && /as in ([a-z']+)/i.exec(p.label || "");
+                if (m) PhonicsAudio.speak(m[1]);
+                return ok;
+            });
+        }
+
+        // Once the bank is in, the raw ids from ?sounds= become the labels the
+        // rest of the app uses ("/ay/ as in day").
+        function labelSounds() {
+            for (var i = 0; i < buttons.length; i++) {
+                var p = PhonicsBank.phoneme(words[i]);
+                if (!p) continue;
+                var span = buttons[i].querySelector(".wb-word");
+                if (span) span.textContent = p.label || PhonicsBank.phonemeLabel(words[i]);
+            }
+        }
+
         function loadBank() {
             return PhonicsBank.load({ base: "" })
                 .then(function () { return PhonicsBank.loadWords(); })
@@ -259,6 +295,7 @@
                         if (!entryByWord[key]) entryByWord[key] = list[i];
                     }
                     bankReady = true;
+                    if (soundMode) labelSounds();
                 })
                 .catch(function () { el("bankNote").hidden = false; })
                 .then(function () { el("loadingNote").hidden = true; });
@@ -288,12 +325,21 @@
         // Player view
         // =====================================================
         el("playerView").hidden = false;
+        if (soundMode) {
+            document.body.classList.add("show-words");
+            el("showWordsBtn").setAttribute("aria-pressed", "true");
+            el("showWordsBtn").innerHTML = "&#128584; Hide sounds";
+            var hint = document.querySelector(".gap-hint");
+            if (hint) hint.textContent = "Play all leaves a pause after each sound — time to say it back.";
+        }
 
         var notes = [];
         if (parsed.capped) notes.push("That's a long list! Playing the first " + MAX_WORDS + " of " + parsed.total + " words.");
         if (parsed.dupes) notes.push("Skipped " + parsed.dupes + " repeated word" + (parsed.dupes === 1 ? "" : "s") + ".");
         if (notes.length) { el("listNote").textContent = notes.join(" "); el("listNote").hidden = false; }
-        el("pageSubtitle").textContent = words.length + " word" + (words.length === 1 ? "" : "s") + " — tap a number to hear it. Listen, then write it down.";
+        el("pageSubtitle").textContent = words.length + " " + NOUN.toLowerCase() + (words.length === 1 ? "" : "s") +
+            (soundMode ? " — tap a number to hear it. Say it back."
+                       : " — tap a number to hear it. Listen, then write it down.");
 
         // ---- build the buttons ----
         var buttons = [];
@@ -303,7 +349,7 @@
                 var btn = document.createElement("button");
                 btn.className = "word-btn";
                 btn.type = "button";
-                btn.setAttribute("aria-label", "Play word " + (i + 1));
+                btn.setAttribute("aria-label", "Play " + NOUN.toLowerCase() + " " + (i + 1));
 
                 var num = document.createElement("span");
                 num.className = "wb-num";
@@ -311,7 +357,7 @@
 
                 var label = document.createElement("span");
                 label.className = "wb-label";
-                label.textContent = "Word " + (i + 1);
+                label.textContent = NOUN + " " + (i + 1);
 
                 var wordSpan = document.createElement("span");
                 wordSpan.className = "wb-word";
@@ -366,7 +412,7 @@
             stopAll();
             highlight(i);
             var mine = runId;
-            Promise.resolve(PhonicsAudio.playWord(toPlay(words[i]))).catch(function () {});
+            Promise.resolve(playItem(words[i])).catch(function () {});
             pulseTimer = setTimeout(function () {
                 if (mine === runId) clearHighlights();
             }, 1800);
@@ -389,7 +435,7 @@
                 highlight(i);
                 var word = words[i];
                 i++;
-                Promise.resolve(PhonicsAudio.playWord(toPlay(word)))
+                Promise.resolve(playItem(word))
                     .catch(function () {})
                     .then(function () { return sleep(gapMs); })   // reads current speed each turn
                     .then(next);
@@ -415,7 +461,8 @@
             var on = !document.body.classList.contains("show-words");
             document.body.classList.toggle("show-words", on);
             this.setAttribute("aria-pressed", String(on));
-            this.innerHTML = on ? "&#128584; Hide words" : "&#128065;&#65039; Show words (teacher)";
+            var noun = NOUN.toLowerCase() + "s";
+            this.innerHTML = on ? "&#128584; Hide " + noun : "&#128065;&#65039; Show " + noun + " (teacher)";
         });
 
         window.addEventListener("pagehide", stopAll);

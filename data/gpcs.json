@@ -3473,6 +3473,89 @@
    ],
    "rule_refs": [],
    "notes": "Superlative suffix -est."
+  },
+  {
+   "id": "y_e.igh",
+   "grapheme": "y_e",
+   "display": "y-e",
+   "phonemes": "igh",
+   "positions": [
+    "medial"
+   ],
+   "freq": "rare",
+   "examples": [
+    "type",
+    "style",
+    "rhyme",
+    "thyme"
+   ],
+   "rule_refs": [
+    "silent_e_jobs",
+    "drop_e_rule"
+   ],
+   "notes": "Split digraph y-e: the rare y spelling of /igh/ with silent e, mostly in Greek-origin words.",
+   "short": "ī"
+  },
+  {
+   "id": "ght.t",
+   "grapheme": "ght",
+   "display": "ght",
+   "phonemes": "t",
+   "positions": [
+    "final"
+   ],
+   "freq": "less-common",
+   "examples": [
+    "light",
+    "night",
+    "bought",
+    "caught"
+   ],
+   "rule_refs": [],
+   "notes": "Some programs teach the whole -ght string as one spelling of /t/ (gh is silent); others segment it as igh + t or augh/ough + t.",
+   "short": "t"
+  },
+  {
+   "id": "eu.yoo",
+   "grapheme": "eu",
+   "display": "eu",
+   "phonemes": [
+    "y",
+    "oo_long"
+   ],
+   "positions": [
+    "initial",
+    "medial"
+   ],
+   "freq": "rare",
+   "examples": [
+    "feud",
+    "neutral",
+    "deuce",
+    "eucalyptus"
+   ],
+   "rule_refs": [],
+   "notes": "Greek-origin spelling of /yoo/.",
+   "short": "ū"
+  },
+  {
+   "id": "gh.g",
+   "grapheme": "gh",
+   "display": "gh",
+   "phonemes": "g",
+   "positions": [
+    "initial"
+   ],
+   "freq": "rare",
+   "examples": [
+    "ghost",
+    "ghetto",
+    "aghast",
+    "spaghetti"
+   ],
+   "rule_refs": [],
+   "notes": "Word-initial gh spells hard /g/; elsewhere gh is usually silent (night) or says /f/ (laugh).",
+   "short": "g"
   }
  ]
 }

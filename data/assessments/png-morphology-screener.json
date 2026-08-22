@@ -1,0 +1,175 @@
+{
+  "id": "png-morphology-screener",
+  "name": "Morphology Screener",
+  "type": "morphology_spelling",
+  "source": "PNG Language Program — 'MorphologyScreener.pdf'; the document titles itself 'The Reading by Science Morphology Screener'",
+  "licence_note": "Item lists and scoring rules only (facts). No instructional prose from the source document is reproduced.",
+  "purpose": "Placement, not risk screening or evaluation: decide which morphology lessons a struggling reader would benefit from.",
+  "administration": {
+    "task": "The student independently SPELLS the words in each section.",
+    "grouping": "Each section's words use the morphemes taught in the matching unit."
+  },
+  "scoring": {
+    "unit": "one point per correctly spelled word",
+    "pass_percent": 70,
+    "rule": "70% or higher in a section: skip that lesson in the intervention. Below 70%: teach that lesson.",
+    "printed_total": 71
+  },
+  "sections": [
+    {
+      "n": 1,
+      "id": "early-primary",
+      "label": "Early Primary Prefixes and Suffixes",
+      "out_of": 7,
+      "words": [
+        "jumping",
+        "hopped",
+        "bigger",
+        "strongest",
+        "unclear",
+        "reuse",
+        "when"
+      ]
+    },
+    {
+      "n": 2,
+      "id": "grade-3",
+      "label": "Grade 3 Prefixes and Suffixes",
+      "out_of": 4,
+      "words": [
+        "funny",
+        "nervous",
+        "magical",
+        "fried"
+      ]
+    },
+    {
+      "n": 3,
+      "id": "grade-4",
+      "label": "Grade 4 Prefixes and Suffixes",
+      "out_of": 10,
+      "words": [
+        "incorrect",
+        "disappear",
+        "sluggish",
+        "graceful",
+        "careless",
+        "ladylike",
+        "movement",
+        "exclaim",
+        "opponent",
+        "musketeer"
+      ]
+    },
+    {
+      "n": 4,
+      "id": "grade-5",
+      "label": "Grade 5 Prefixes and Suffixes",
+      "out_of": 10,
+      "words": [
+        "discomfort",
+        "impossible",
+        "adventure",
+        "compress",
+        "telephone",
+        "wrestle",
+        "instruction",
+        "wreckage",
+        "upward",
+        "educator"
+      ]
+    },
+    {
+      "n": 5,
+      "id": "grade-6",
+      "label": "Grade 6 Prefixes and Suffixes",
+      "out_of": 8,
+      "words": [
+        "depart",
+        "consensus",
+        "exclaim",
+        "proclaim",
+        "lioness",
+        "illustrative",
+        "journalist",
+        "visualize"
+      ]
+    },
+    {
+      "n": 6,
+      "id": "grade-7-prefixes",
+      "label": "Grade 7 Prefixes",
+      "out_of": 6,
+      "words": [
+        "adhere",
+        "prehistoric",
+        "procure",
+        "concede",
+        "recalculate",
+        "unemployed"
+      ]
+    },
+    {
+      "n": 7,
+      "id": "grade-7-suffixes",
+      "label": "Grade 7 Suffixes",
+      "out_of": 18,
+      "words": [
+        "engineer",
+        "edible",
+        "national",
+        "laziness",
+        "originality",
+        "enchantment",
+        "patriotic",
+        "laborious",
+        "forbidden",
+        "successive",
+        "politician",
+        "accountant",
+        "assistance",
+        "fortunate",
+        "forestry",
+        "characterize",
+        "mythology",
+        "verbose"
+      ]
+    },
+    {
+      "n": 8,
+      "id": "grade-8-prefixes",
+      "label": "Grade 8 Prefixes",
+      "out_of": 6,
+      "words": [
+        "pervade",
+        "paraphrasing",
+        "indeterminate",
+        "circumnavigate",
+        "intergalactic",
+        "intrapersonal"
+      ]
+    },
+    {
+      "n": 9,
+      "id": "grade-8-suffixes",
+      "label": "Grade 8 Suffixes",
+      "out_of": 8,
+      "words": [
+        "persistent",
+        "dependence",
+        "communicate",
+        "deflection",
+        "prosperity",
+        "citizenship",
+        "fertilize",
+        "communism"
+      ]
+    }
+  ],
+  "source_inconsistencies": [
+    "Section maximums sum to 77 but the printed Total Score is /71 — a 6-point gap, exactly the size of one of the /6 sections.",
+    "'exclaim' appears in both the Grade 4 and Grade 6 sections.",
+    "'when' is listed in the Early Primary prefixes/suffixes section although it carries no affix."
+  ],
+  "spelling_variants": "'visualize', 'characterize' and 'fertilize' are printed with -ize; Australian classrooms may prefer -ise."
+}

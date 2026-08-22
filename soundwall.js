@@ -33,6 +33,157 @@ window.SoundWall = (() => {
   let RECORDINGS = null;    // ipa -> teacher recording url (if any)
   let audioEl = null;
 
+  // ---- level focus toggle -------------------------------------
+  // "All 40+ sounds at once is scary" — so once a level is picked, sounds
+  // that level's program hasn't reached yet render faint & small (still
+  // there, still tappable, just clearly "not yet"). Driven entirely by the
+  // ACTIVE PhonicsBank sequence's own units, so it works for any program.
+  const LS_LEVEL = "phonics-soundwall-level";
+  let focusLevel = "all";     // a unit.n, or "all" (no fading)
+  let ipaLevel = {};          // ipa -> earliest unit.n that teaches it
+  let levelMapSeqId;          // which sequence id ipaLevel was built for
+
+  function hasBank() { return typeof PhonicsBank !== "undefined" && PhonicsBank.seq && PhonicsBank.seq(); }
+  function programUnits() { const s = hasBank() && PhonicsBank.seq(); return (s && s.units) || []; }
+
+  function readLevelStore() {
+    try { return JSON.parse(localStorage.getItem(LS_LEVEL)) || {}; } catch (e) { return {}; }
+  }
+  function storedLevelFor(seqId) {
+    const store = readLevelStore();
+    return Object.prototype.hasOwnProperty.call(store, seqId) ? store[seqId] : null;
+  }
+  function saveLevelFor(seqId, value) {
+    const store = readLevelStore();
+    store[seqId] = value;
+    try { localStorage.setItem(LS_LEVEL, JSON.stringify(store)); } catch (e) {}
+  }
+
+  // Same rule js/core/bank-adapt.js's private shortSoundFor uses, so a
+  // phoneme lines up with exactly the units its own spelling codes come
+  // from — the "codes" chips already on each tile are built the same way.
+  function shortSoundFor(gpc) {
+    if (gpc.short) return gpc.short;
+    if (Array.isArray(gpc.phonemes)) {
+      return gpc.id.indexOf(".") === -1 ? gpc.id : gpc.id.slice(gpc.id.indexOf(".") + 1);
+    }
+    const label = PhonicsBank.phonemeLabel(gpc.phonemes) || "";
+    const m = label.match(/^\/([^/]+)\//);
+    return m ? m[1] : label;
+  }
+
+  // ipa -> earliest unit.n a spelling of it is taught, for the active
+  // program. A sound this program's own codes never resolve to (e.g. the
+  // schwa has no dedicated code) is left unmapped and always renders full
+  // strength — safer than guessing it into "not taught yet".
+  function buildLevelMap() {
+    const map = {};
+    if (!hasBank()) return map;
+    PhonicsBank.taughtGPCs().forEach(({ gpc, unit }) => {
+      const d = Mouth.descFor(shortSoundFor(gpc), (gpc.examples && gpc.examples[0]) || "");
+      if (!d) return;
+      (d.kind === "seq" ? d.parts : [d]).forEach((p) => {
+        if (!(p.ipa in map) || unit.n < map[p.ipa]) map[p.ipa] = unit.n;
+      });
+    });
+    return map;
+  }
+
+  function ensureLevelMap() {
+    const s = hasBank() && PhonicsBank.seq();
+    const id = s ? s.id : null;
+    if (id !== levelMapSeqId) { ipaLevel = buildLevelMap(); levelMapSeqId = id; }
+  }
+
+  function textColourFor(hex) {
+    const c = (hex || "#cccccc").replace("#", "");
+    const full = c.length === 3 ? c.split("").map((ch) => ch + ch).join("") : c;
+    const r = parseInt(full.substring(0, 2), 16) || 0;
+    const g = parseInt(full.substring(2, 4), 16) || 0;
+    const b = parseInt(full.substring(4, 6), 16) || 0;
+    return (r * 299 + g * 587 + b * 114) / 1000 >= 150 ? "#1f1f1f" : "#ffffff";
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, (ch) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+    }[ch]));
+  }
+
+  function colourFor(unit, i) {
+    return unit.colour || (hasBank() && PhonicsBank.beltColour ? PhonicsBank.beltColour(i).bg : "#cccccc");
+  }
+
+  function defaultLevel() {
+    const units = programUnits();
+    return units.length ? units[units.length - 1].n : "all";
+  }
+
+  function updateFocusCurrent() {
+    const el = document.getElementById("swFocusCurrent");
+    if (!el) return;
+    if (focusLevel === "all") { el.textContent = "showing every sound"; return; }
+    const units = programUnits();
+    const i = units.findIndex((u) => u.n === focusLevel);
+    const u = units[i];
+    if (!u) { el.textContent = ""; return; }
+    el.innerHTML = `<span class="sw-focus-swatch" style="background:${colourFor(u, i)}"></span>${escapeHtml(u.label)}`;
+  }
+
+  function renderLevelBar() {
+    const mount = document.getElementById("wallFocus");
+    if (!mount || !hasBank()) return;
+    const seq = PhonicsBank.seq();
+    const units = programUnits();
+    const stored = storedLevelFor(seq.id);
+    focusLevel = (stored === "all" || units.some((u) => u.n === stored)) ? stored : defaultLevel();
+
+    const chips = units.map((u, i) => {
+      const bg = colourFor(u, i);
+      const active = focusLevel === u.n;
+      return `<button type="button" class="sw-level-chip${active ? " active" : ""}"
+        data-level="${u.n}" title="${escapeHtml(u.label)}" aria-pressed="${active}"
+        style="background:${bg};color:${textColourFor(bg)}">${escapeHtml(String(u.n))}</button>`;
+    }).join("");
+    const allActive = focusLevel === "all";
+
+    mount.innerHTML = `
+      <div class="sw-focus-head">
+        <span class="sw-focus-label">Focus on level <span class="sw-focus-current" id="swFocusCurrent"></span></span>
+        <span class="sw-focus-hint">Sounds ahead fade until you get there — tap "All" to see everything.</span>
+      </div>
+      <div class="sw-level-row" role="group" aria-label="Focus the sound wall on a level">
+        <button type="button" class="sw-level-chip all${allActive ? " active" : ""}"
+          data-level="all" title="Show every sound at full strength" aria-pressed="${allActive}">All</button>
+        ${chips}
+      </div>`;
+    updateFocusCurrent();
+  }
+
+  // Beyond the picked level -> faint & small; at or before it (including
+  // levels the child has already passed) -> full strength, as before.
+  function applyFocus() {
+    ensureLevelMap();
+    const root = document.getElementById("wallBody");
+    if (!root) return;
+    root.querySelectorAll(".sw-tile").forEach((t) => {
+      const lvl = ipaLevel[t.dataset.ipa];
+      const beyond = focusLevel !== "all" && lvl != null && lvl > focusLevel;
+      t.classList.toggle("sw-faint", beyond);
+    });
+  }
+
+  function setFocusLevel(seqId, value) {
+    focusLevel = value;
+    saveLevelFor(seqId, value);
+    renderLevelBar();
+    applyFocus();
+    // renderLevelBar() rebuilds the chip row from scratch, so the element a
+    // keyboard user just activated is gone — hand focus to its replacement.
+    const active = document.querySelector("#wallFocus .sw-level-chip.active");
+    if (active) active.focus();
+  }
+
   /* which trainer codes spell each phoneme */
   function codesByPhoneme() {
     const map = {};
@@ -123,6 +274,8 @@ window.SoundWall = (() => {
       </div>`).join("");
     Mouth.activate(root);
     built = true;
+    renderLevelBar();
+    applyFocus();
   }
 
   function open() {
@@ -131,11 +284,22 @@ window.SoundWall = (() => {
       loadRecordings().then(build);
     } else {
       Mouth.resumeAll();
+      // the active program may have changed since the wall was last open
+      // (the seq picker doesn't rebuild the wall itself) — the tiles are
+      // program-independent, but which of them are "not yet" isn't.
+      renderLevelBar();
+      applyFocus();
     }
   }
   function close() { Mouth.pauseAll(); if (audioEl) audioEl.pause(); }
 
   document.addEventListener("click", (e) => {
+    const chip = e.target.closest(".sw-level-chip");
+    if (chip) {
+      const seq = hasBank() && PhonicsBank.seq();
+      if (seq) setFocusLevel(seq.id, chip.dataset.level === "all" ? "all" : parseInt(chip.dataset.level, 10));
+      return;
+    }
     const t = e.target.closest(".sw-tile");
     if (t && t.dataset.audio) playSound(t.dataset.audio, t);
   });
