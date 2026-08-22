@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookmark — Aussie Phonics</title>
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --paper: #fbf7ee;
+            --ink: #1f1f1f;
+            --muted: #6b6256;
+            --line: #d8cfbb;
+            --line-soft: #e8e0cd;
+            --accent: #a83232;
+            --correct: #2f6a3e;
+            --wrong: #a83232;
+            --warn-ink: #6b5316;
+            --warn-bg: #f8f1de;
+            --warn: #c8992e;
+
+            /* the physical bookmark */
+            --bm-w: 200px;
+            --bm-h: 794px;
+            --bm-colour: #cfe0f5;
+            --bm-band-ink: #1f1f1f;
+            --guide: #9db8d6;
+            --guide-base: #6b8cb0;
+            --guide-faint: #d6e0eb;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--ink);
+        }
+        .container {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            max-width: 760px;
+            width: 100%;
+            padding: 22px 18px 26px;
+            margin-top: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .hub-link { display: inline-block; font-size: 13px; font-weight: 700; color: var(--accent);
+            text-decoration: none; margin-bottom: 4px; min-height: 30px; }
+        .hub-link:hover { text-decoration: underline; }
+        h1 { text-align: center; font-size: 22px; font-family: Georgia, 'Times New Roman', serif; letter-spacing: 0.5px; }
+        .subtitle { color: var(--muted); text-align: center; margin: 6px auto 16px; font-size: 13px;
+            max-width: 460px; line-height: 1.5; }
+        [hidden] { display: none !important; }
+
+        /* ---- controls (never printed) ---- */
+        .bm-controls {
+            display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center;
+            padding: 12px; background: var(--bg);
+            border: 1px solid var(--line-soft); border-radius: 10px;
+        }
+        .ctrl-block { display: flex; flex-direction: column; gap: 4px; flex: 1 1 190px; min-width: 150px; }
+        .ctrl-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+        .bm-controls select {
+            padding: 10px 12px; min-height: 44px; width: 100%;
+            border: 1px solid var(--line); border-radius: 8px;
+            background: var(--paper); color: var(--ink); font-size: 14px; font-family: inherit;
+        }
+        .bm-controls select:focus { outline: none; border-color: var(--accent); }
+        .btn {
+            min-height: 44px; min-width: 44px; padding: 10px 16px; border-radius: 8px; cursor: pointer;
+            font-family: inherit; font-size: 14px; font-weight: 600; border: 1px solid var(--line);
+            background: var(--paper); color: var(--ink);
+        }
+        .btn:hover { border-color: var(--accent); color: var(--accent); }
+        .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .btn.primary:hover { background: #8f2a2a; color: #fff; }
+
+        /* two-way side toggle — Sounds | Handwriting */
+        .side-toggle { display: inline-flex; background: var(--paper); border: 1px solid var(--line);
+            border-radius: 10px; padding: 3px; gap: 3px; }
+        .side-toggle button {
+            border: none; background: none; border-radius: 8px; cursor: pointer; font-family: inherit;
+            min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 700; color: var(--muted);
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .side-toggle button:hover { color: var(--ink); }
+        .side-toggle button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+        .status-box { text-align: center; padding: 14px 16px; color: var(--muted); font-size: 14px; }
+        .status-box.status-error { color: var(--wrong); background: #f5eaea; border-radius: 8px; margin-top: 12px; line-height: 1.5; }
+
+        /* ============================================================
+           THE BOOKMARK ITSELF — 200 x 794 CSS px is the physical piece
+           of card (≈53 x 210 mm at 96dpi), so the screen and the print
+           are the same object. Two of them fit side by side on A4.
+           ============================================================ */
+        .bm-stage-wrap { margin-top: 18px; overflow: hidden; }
+        .bm-stage { display: flex; justify-content: center; align-items: flex-start; gap: 24px;
+            transform-origin: top center; }
+
+        .bm {
+            width: var(--bm-w); height: var(--bm-h); flex: 0 0 auto;
+            background: #fff; color: var(--ink);
+            border: 1px solid var(--line); border-radius: 3px;
+            box-shadow: 0 3px 16px rgba(0,0,0,0.14);
+            display: none; flex-direction: column; overflow: hidden;
+        }
+        .bm.is-on { display: flex; }
+        .bm, .bm * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+        .bm-band { background: var(--bm-colour); color: var(--bm-band-ink);
+            padding: 12px 10px 10px; text-align: center; flex: 0 0 auto; }
+        .bm-band-title { font-family: Georgia, 'Times New Roman', serif; font-weight: 700;
+            font-size: 19px; line-height: 1.15; overflow-wrap: anywhere; }
+        .bm-band-sub { font-size: 11px; font-weight: 700; margin-top: 2px; opacity: 0.82; overflow-wrap: anywhere; }
+
+        /* ---- sounds side ---- */
+        .bm-rows { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+            justify-content: space-evenly; padding: 4px 10px; overflow-y: auto; }
+        .bm-row { display: flex; align-items: center; gap: 6px; padding: 3px 0; }
+        .bm-row + .bm-row { border-top: 1px dotted var(--line); }
+        .bm-g {
+            flex: 0 0 auto; min-width: 44px; text-align: center;
+            font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 700;
+            font-size: var(--bm-g-size, 30px); line-height: 1.05; overflow-wrap: anywhere;
+        }
+        .bm-snds { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+        .bm-snd {
+            display: flex; align-items: center; gap: 6px;
+            min-height: var(--bm-snd-h, 44px); padding: 2px 5px; border-radius: 7px;
+            cursor: pointer; border: 1.5px solid transparent;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .bm-snd:hover { background: #f7f3ea; }
+        .bm-snd:focus-visible { outline: none; border-color: var(--accent); }
+        .bm-snd.is-on { background: #f4efe2; border-color: var(--bm-colour); }
+        .bm-short { flex: 0 0 auto; min-width: 24px; font-family: Georgia, 'Times New Roman', serif;
+            font-weight: 700; font-size: 15px; line-height: 1.1; }
+        .bm-ex { flex: 1 1 auto; min-width: 0; font-size: 11.5px; font-style: italic; color: var(--muted);
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .bm-ex:hover { color: var(--accent); text-decoration: underline; }
+        .bm-spk { flex: 0 0 auto; font-size: 10px; opacity: 0.35; }
+        .bm-snd.is-on .bm-spk { opacity: 0.9; }
+
+        .bm-foot { flex: 0 0 auto; padding: 8px 10px 12px; text-align: center;
+            border-top: 2px solid var(--bm-colour); }
+        .bm-qr { min-height: 96px; display: flex; align-items: center; justify-content: center; }
+        .bm-qr img { display: block; width: 96px; height: 96px; image-rendering: pixelated; }
+        .bm-qr-missing { font-size: 10px; color: var(--muted); border: 1px dashed var(--line);
+            border-radius: 6px; padding: 10px 8px; line-height: 1.4; }
+        .bm-qr-cap { font-size: 11.5px; font-weight: 700; margin-top: 4px; }
+        .bm-qr-sub { font-size: 9.5px; color: var(--muted); margin-top: 2px; line-height: 1.35; overflow-wrap: anywhere; }
+
+        /* ---- handwriting side ---- */
+        .bm-lanes { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+            justify-content: space-evenly; padding: 4px 8px; overflow-y: auto; }
+        .bm-lane { display: flex; flex-direction: column; }
+        .bm-strip { position: relative; display: flex; align-items: flex-start;
+            justify-content: center; gap: 2px; }
+        .bm-lines { position: absolute; left: 0; right: 0; top: 0; bottom: 0; pointer-events: none; }
+        .bm-lines i { position: absolute; left: 0; right: 0; display: block; border-top-style: solid; }
+        .bm-cell { position: relative; z-index: 1; display: block; touch-action: none; cursor: crosshair;
+            background: transparent; }
+        .bm-lane-res { display: flex; align-items: center; gap: 5px; min-height: 24px;
+            padding: 1px 2px 0; font-size: 10.5px; color: var(--muted); }
+        .bm-lane-g { flex: 0 0 auto; font-family: Georgia, 'Times New Roman', serif;
+            font-style: italic; font-weight: 700; font-size: 12px; color: var(--ink); }
+        .bm-lane-score { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+            white-space: nowrap; font-weight: 700; }
+        .bm-lane-score.band-great, .bm-lane-score.band-good { color: var(--correct); }
+        .bm-lane-score.band-getting-there { color: var(--warn-ink); }
+        .bm-lane-score.band-keep-practising { color: var(--wrong); }
+        /* a tiny visual button with a real 44px hit area (no layout cost) */
+        .bm-lane-clear { position: relative; flex: 0 0 auto; border: none; background: none;
+            cursor: pointer; font-family: inherit; font-size: 10.5px; font-weight: 700;
+            color: var(--muted); text-decoration: underline; padding: 2px 3px; }
+        .bm-lane-clear::after { content: ""; position: absolute; left: 50%; top: 50%;
+            width: 44px; height: 44px; transform: translate(-50%, -50%); }
+        .bm-lane-clear:hover { color: var(--accent); }
+
+        .bm-hand-foot { flex: 0 0 auto; padding: 8px 10px 10px; border-top: 2px solid var(--bm-colour);
+            text-align: center; min-height: 54px; display: flex; flex-direction: column; justify-content: center; }
+        .bm-advice { font-size: 10.5px; line-height: 1.4; color: var(--muted); overflow-wrap: anywhere; }
+        .bm-advice.warn { color: var(--warn-ink); }
+        .bm-hand-note { font-size: 9.5px; color: var(--muted); margin-top: 3px; }
+        .bm-hand-error { padding: 20px 12px; font-size: 12px; line-height: 1.5; color: var(--wrong); text-align: center; }
+
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .container { padding: 16px 12px 20px; }
+            .bm-controls { padding: 10px; }
+        }
+
+        /* ============================================================
+           PRINT — true size on A4, BOTH sides side by side so a
+           teacher can cut the two out and glue them back to back.
+           ============================================================ */
+        @page { size: A4 portrait; margin: 12mm; }
+        @media print {
+            body { background: #fff; padding: 0; display: block; }
+            .no-print { display: none !important; }
+            .container { border: none; box-shadow: none; background: #fff;
+                padding: 0; margin: 0; max-width: none; }
+            .bm-stage-wrap { margin: 0; overflow: visible; height: auto !important; }
+            .bm-stage { transform: none !important; gap: 10mm; }
+            .bm { display: flex !important; box-shadow: none; border-color: #b9b0a0;
+                page-break-inside: avoid; break-inside: avoid; }
+            .bm-rows, .bm-lanes { overflow: visible; }
+            .bm-lane-clear { visibility: hidden; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="no-print">
+            <a class="hub-link" href="index.html">&larr; Back to trainer</a>
+            <h1>My Bookmark</h1>
+            <p class="subtitle">One level, the way it looks on the printed bookmark. Tap a sound to hear it,
+                flip to the handwriting side to trace the letters, or scan the code to hear the whole level.</p>
+
+            <div class="bm-controls">
+                <label class="ctrl-block">
+                    <span class="ctrl-label">Level</span>
+                    <select id="levelSelect" aria-label="Which level's bookmark"></select>
+                </label>
+                <div class="side-toggle" role="group" aria-label="Which side of the bookmark">
+                    <button type="button" id="sideSoundsBtn" aria-pressed="true">Sounds</button>
+                    <button type="button" id="sideHandBtn" aria-pressed="false">Handwriting</button>
+                </div>
+                <button type="button" class="btn" id="clearBtn">Clear tracing</button>
+                <button type="button" class="btn primary" id="printBtn">&#128424;&#65039; Print</button>
+            </div>
+
+            <div class="status-box" id="statusBox">Getting your bookmark ready&hellip;</div>
+        </div>
+
+        <div class="bm-stage-wrap" id="stageWrap">
+            <div class="bm-stage" id="stage"></div>
+        </div>
+    </div>
+
+    <script src="js/core/data.js"></script>
+    <script src="js/core/audio.js"></script>
+    <script src="js/core/handwriting/score.js"></script>
+    <script src="js/vendor/qrcode-generator.js"></script>
+    <script src="js/views/bookmark.js"></script>
+</body>
+</html>

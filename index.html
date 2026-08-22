@@ -297,6 +297,32 @@
         .sw-legend { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 20px;
             padding: 12px 14px; background: var(--bg); border-radius: 10px; border-left: 3px solid var(--accent); }
 
+        /* ---- level focus toggle: fade sounds beyond where the child is up to ---- */
+        .sw-focus { margin-bottom: 18px; }
+        .sw-focus-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 8px; }
+        .sw-focus-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+        .sw-focus-hint { font-size: 11px; color: var(--muted); }
+        .sw-focus-current { font-size: 12.5px; font-weight: 700; color: var(--ink); display: inline-flex; align-items: center; gap: 5px; }
+        .sw-focus-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+        .sw-level-row { display: flex; flex-wrap: wrap; gap: 5px; }
+        .sw-level-chip {
+            border: 2px solid transparent; border-radius: 8px; padding: 4px 9px; font-size: 11.5px; font-weight: 700;
+            cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+            line-height: 1.3; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .sw-level-chip:hover { transform: translateY(-1px); }
+        .sw-level-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+        .sw-level-chip.active { border-color: rgba(0,0,0,0.32); box-shadow: 0 2px 6px rgba(0,0,0,0.18); transform: scale(1.08); }
+        .sw-level-chip.active:hover { transform: scale(1.08) translateY(-1px); }
+        .sw-level-chip.all { background: var(--ink); color: var(--paper); }
+        .sw-level-chip.all.active { border-color: rgba(255,255,255,0.55); }
+
+        /* faint = "not yet" — smaller and pale, but still fully visible and tappable */
+        .sw-tile.sw-faint { opacity: 0.32; transform: scale(0.66); }
+        .sw-tile.sw-faint:hover, .sw-tile.sw-faint:focus-visible {
+            opacity: 0.55; transform: scale(0.66) translateY(-2px); box-shadow: none;
+        }
+
         .action-row { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         .action-row .btn { flex: 1; min-width: 130px; max-width: 200px; }
         .type-check-row { margin-top: 12px; }
@@ -402,6 +428,7 @@
                 marks where the sound is made. <b>Tap a sound</b> to hear it and replay the movement.
                 The little boxes underneath are the codes that spell it.
             </div>
+            <div class="sw-focus" id="wallFocus"></div>
             <div id="wallBody"></div>
         </section>
 
