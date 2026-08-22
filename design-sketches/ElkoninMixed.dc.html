@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    a { color: #a83232; } a:hover { color: #7c2424; }
+  </style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #f4efe6; padding: 18px 16px; box-sizing: border-box; color: #1f1f1f; display: flex; flex-direction: column; gap: 12px;">
+
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <button style="background: none; border: none; color: #6b6256; font-weight: 700; font-size: 14px; font-family: inherit; min-height: 44px; padding: 0;">&larr; Back</button>
+    <div style="font-family: Georgia, serif; font-weight: 700; font-size: 16px;">Listen &amp; write</div>
+    <div style="margin-left: auto; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: #6b6256;">Word 3 of 6</div>
+  </div>
+
+  <!-- play -->
+  <button style="display: block; margin: 4px auto 0; width: 84px; height: 84px; border-radius: 50%; border: none; background: #1f1f1f; color: #fbf7ee; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fbf7ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z" fill="#fbf7ee"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+  </button>
+  <p style="text-align: center; font-size: 13px; color: #6b6256; margin: 0;">Push a counter for every sound you hear.<br>Then swap the ones you can spell.</p>
+
+  <!-- the boxes: one per sound, three input modes side by side -->
+  <div style="display: flex; justify-content: center; gap: 10px; margin-top: 6px;">
+    <!-- box 1: chip dragged in (knows it) -->
+    <div style="width: 92px; height: 92px; border: 2px solid #6b6256; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center;">
+      <div style="min-height: 44px; padding: 6px 16px; border: 1.5px solid #d8cfbb; border-radius: 10px; background: #fbf7ee; font-family: Georgia, serif; font-weight: 700; font-size: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.12); display: flex; align-items: center;">sh</div>
+    </div>
+    <!-- box 2: mystery counter (heard it, can't spell it) -->
+    <div style="width: 92px; height: 92px; border: 2px solid #6b6256; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center;">
+      <div style="width: 52px; height: 52px; border-radius: 50%; background: #f5c33c; border: 2px solid #b8860b; box-shadow: inset 0 -4px 0 rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; color: #6b5316;">?</div>
+    </div>
+    <!-- box 3: typed (knows it fast) -->
+    <div style="width: 92px; height: 92px; border: 2px solid #6b6256; border-radius: 10px; background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;">
+      <div style="font-family: Georgia, serif; font-weight: 700; font-size: 30px;">p</div>
+      <div style="width: 40px; height: 3px; background: #a83232; border-radius: 2px;"></div>
+    </div>
+  </div>
+  <div style="text-align: center; font-size: 13px; font-weight: 700; color: #2f6a3e; background: #ebf3ec; border-radius: 8px; padding: 8px 10px;">3 sounds heard &mdash; great counting! 2 spelled, 1 mystery.</div>
+
+  <!-- tray -->
+  <div style="background: #fbf7ee; border: 1px solid #d8cfbb; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 12px 14px;">
+    <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: #6b6256;">Your sounds &mdash; drag or tap</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+      <div style="min-height: 44px; padding: 6px 16px; border: 1.5px solid #d8cfbb; border-radius: 10px; background: #ffffff; font-family: Georgia, serif; font-weight: 700; font-size: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.10); display: flex; align-items: center;">p</div>
+      <div style="min-height: 44px; padding: 6px 16px; border: 1.5px solid #d8cfbb; border-radius: 10px; background: #ffffff; font-family: Georgia, serif; font-weight: 700; font-size: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.10); display: flex; align-items: center;">t</div>
+      <div style="min-height: 44px; padding: 6px 16px; border: 1.5px solid #d8cfbb; border-radius: 10px; background: #ffffff; font-family: Georgia, serif; font-weight: 700; font-size: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.10); display: flex; align-items: center;">ck</div>
+      <div style="min-height: 44px; padding: 6px 16px; border: 1.5px solid #d8cfbb; border-radius: 10px; background: #ffffff; font-family: Georgia, serif; font-weight: 700; font-size: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.10); display: flex; align-items: center;">sh</div>
+      <div style="min-height: 44px; padding: 6px 16px; border: 1.5px solid #d8cfbb; border-radius: 10px; background: #ffffff; font-family: Georgia, serif; font-weight: 700; font-size: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.10); display: flex; align-items: center;">e</div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e8e0cd;">
+      <div style="position: relative; width: 56px; height: 50px; flex: 0 0 auto;">
+        <div style="position: absolute; left: 10px; top: 14px; width: 40px; height: 40px; border-radius: 50%; background: #e8c95a; border: 2px solid #b8860b;"></div>
+        <div style="position: absolute; left: 5px; top: 8px; width: 40px; height: 40px; border-radius: 50%; background: #efd070; border: 2px solid #b8860b;"></div>
+        <div style="position: absolute; left: 0; top: 2px; width: 40px; height: 40px; border-radius: 50%; background: #f5c33c; border: 2px solid #b8860b; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #6b5316;">?</div>
+      </div>
+      <div style="font-size: 12.5px; color: #6b6256; line-height: 1.45;"><strong style="color: #1f1f1f;">Mystery counters.</strong> Hear a sound you can't spell yet? Push a counter into its box &mdash; counting the sound still counts!</div>
+    </div>
+  </div>
+
+  <!-- reveal card -->
+  <div style="background: #f8f1de; border: 1px solid #e0cf9e; border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; gap: 12px;">
+    <div style="width: 44px; height: 44px; border-radius: 10px; background: #ffffff; border: 1.5px solid #c8992e; display: flex; align-items: center; justify-content: center; font-family: Georgia, serif; font-weight: 700; font-size: 20px; color: #6b5316; flex: 0 0 auto;">ee</div>
+    <div style="flex: 1; font-size: 13px; color: #6b5316; line-height: 1.4;"><strong>Your mystery sound is /ee/</strong> &mdash; in this word it's spelled <strong>ee</strong>.</div>
+    <button style="min-height: 44px; padding: 6px 14px; border: none; border-radius: 22px; background: #a83232; color: #fbf7ee; font-weight: 700; font-size: 13px; font-family: inherit; flex: 0 0 auto;">Learn it</button>
+  </div>
+
+  <!-- legend -->
+  <div style="margin-top: auto; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #6b6256;">
+    <div style="display: flex; align-items: center; gap: 8px;"><div style="width: 26px; height: 20px; border: 1.5px solid #d8cfbb; border-radius: 6px; background: #ffffff; flex: 0 0 auto;"></div>Know the spelling? <strong style="color: #1f1f1f;">Drag the tile in.</strong></div>
+    <div style="display: flex; align-items: center; gap: 8px;"><div style="width: 26px; height: 20px; border-bottom: 2.5px solid #a83232; flex: 0 0 auto;"></div>Know it fast? <strong style="color: #1f1f1f;">Type it.</strong></div>
+    <div style="display: flex; align-items: center; gap: 8px;"><div style="width: 20px; height: 20px; border-radius: 50%; background: #f5c33c; border: 1.5px solid #b8860b; flex: 0 0 auto;"></div>Hear it but can't spell it? <strong style="color: #1f1f1f;">Push a counter.</strong></div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
