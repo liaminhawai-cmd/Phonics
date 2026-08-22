@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Report — Aussie Phonics</title>
+    <link rel="icon" href="data:,">
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --paper: #fbf7ee;
+            --ink: #1f1f1f;
+            --muted: #6b6256;
+            --line: #d8cfbb;
+            --line-soft: #e8e0cd;
+            --accent: #a83232;
+            --correct: #2f6a3e;
+            --wrong: #a83232;
+            --warn-ink: #6b5316;
+            --bad-bg: #f5eaea;
+            --st-fresh: #e7e2d6;
+            --st-learning: #f3d488;
+            --st-mastered: #a9d8b0;
+            --st-overdue: #aecbeb;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        [hidden] { display: none !important; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--ink);
+        }
+        .container {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            max-width: 900px;
+            width: 100%;
+            padding: 28px;
+            margin-top: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .hub-link { display: inline-block; font-size: 13px; font-weight: 700; color: var(--accent);
+            text-decoration: none; margin-bottom: 4px; }
+        .hub-link:hover { text-decoration: underline; }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            font-family: Georgia, 'Times New Roman', serif;
+            letter-spacing: 0.5px;
+        }
+        .subtitle { color: var(--muted); text-align: center; margin: 6px 0 18px; font-size: 13px;
+            max-width: 560px; margin-left: auto; margin-right: auto; line-height: 1.5; }
+
+        /* ---- header bar ---- */
+        .rp-header {
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+            padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px dashed var(--line-soft);
+        }
+        .chip-btn {
+            min-height: 44px; padding: 6px 16px; border: 1px solid var(--line); border-radius: 22px;
+            background: var(--bg); color: var(--ink); font-weight: 700; font-size: 14px;
+            font-family: inherit; cursor: pointer; transition: all 0.15s ease;
+        }
+        .chip-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .prog-name { font-size: 12px; color: var(--muted); font-weight: 600; flex: 1; min-width: 0;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .head-links { display: flex; gap: 4px; }
+        .head-links a {
+            display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px;
+            font-size: 13px; font-weight: 700; color: var(--accent); text-decoration: none;
+        }
+        .head-links a:hover { text-decoration: underline; }
+
+        /* ---- status / loading / error ---- */
+        .status-box { text-align: center; padding: 34px 16px; color: var(--muted); font-size: 14px; }
+        .status-box.status-error { color: var(--wrong); background: var(--bad-bg); border-radius: 8px; }
+        .status-box small { display: block; margin-top: 6px; font-weight: 400; }
+
+        /* ---- profile picker (same look as practice) ---- */
+        .profile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; margin-top: 20px; }
+        .profile-card {
+            border: 1px solid var(--line); border-radius: 12px; background: var(--paper);
+            padding: 22px 12px; cursor: pointer; text-align: center; font-family: inherit;
+            transition: all 0.18s ease; min-height: 120px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+        }
+        .profile-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+        .profile-card .p-emoji { font-size: 34px; }
+        .profile-card .p-name { font-family: Georgia, serif; font-size: 17px; font-weight: 700; color: var(--ink); word-break: break-word; }
+        .profile-card .p-accent { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 700; }
+        .profile-card.new { border-style: dashed; background: var(--bg); color: var(--muted); }
+        .profile-card.new:hover { color: var(--accent); }
+        .picker-note { text-align: center; color: var(--muted); font-size: 13px; margin-top: 16px; line-height: 1.6; }
+
+        .nl-form { margin-top: 20px; border: 1px solid var(--line); border-radius: 12px; padding: 18px; background: var(--bg); }
+        .nl-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+        .nl-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+        .nl-form input, .nl-form select, .data-controls select {
+            min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px;
+            background: var(--paper); color: var(--ink); font-size: 15px; font-family: inherit;
+        }
+        .nl-actions { display: flex; gap: 10px; }
+
+        /* ---- buttons ---- */
+        .btn-primary {
+            display: inline-flex; align-items: center; justify-content: center; min-height: 48px;
+            padding: 10px 24px; border-radius: 10px; border: none; background: var(--accent);
+            color: #fff; font-weight: 700; font-size: 15px; cursor: pointer; font-family: inherit;
+            transition: all 0.15s ease;
+        }
+        .btn-primary:hover { filter: brightness(1.08); }
+        .btn-secondary {
+            display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+            padding: 8px 16px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg);
+            color: var(--muted); font-weight: 600; font-size: 13px; cursor: pointer; font-family: inherit;
+        }
+        .btn-secondary:hover { color: var(--ink); border-color: var(--ink); }
+
+        /* ---- report cards ---- */
+        .report-card {
+            border: 1px solid var(--line); border-radius: 12px; background: var(--paper);
+            padding: 18px; margin-bottom: 16px;
+        }
+        .report-card h2 {
+            font-family: Georgia, serif; font-size: 17px; letter-spacing: 0.3px; margin-bottom: 12px;
+            padding-bottom: 8px; border-bottom: 1px dashed var(--line-soft);
+        }
+        .empty-card {
+            text-align: center; color: var(--muted); font-size: 14px; line-height: 1.7;
+            background: var(--bg); border: 1px dashed var(--line); border-radius: 10px;
+            padding: 22px 16px; margin-top: 10px;
+        }
+        .empty-card a { color: var(--accent); font-weight: 700; }
+        .empty-note { color: var(--muted); font-size: 13px; font-style: italic; }
+
+        /* ---- overview ---- */
+        .ov-meta { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+        .ov-meta b { color: var(--ink); font-family: Georgia, serif; }
+        .totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+        .tot { background: var(--bg); border: 1px solid var(--line-soft); border-radius: 10px; padding: 12px 8px; text-align: center; }
+        .tot b { display: block; font-size: 24px; font-family: Georgia, serif; line-height: 1.2; }
+        .tot span { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .ov-summary {
+            margin-top: 14px; font-size: 14px; line-height: 1.7; background: var(--bg);
+            border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 12px 14px;
+        }
+
+        /* ---- split mastery chips ---- */
+        .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center;
+            font-size: 12px; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+        .legend-note b { color: var(--ink); }
+        .legend-item { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+        .legend-item i {
+            display: inline-block; width: 16px; height: 16px; border: 1px solid var(--line);
+            border-radius: 4px; print-color-adjust: exact; -webkit-print-color-adjust: exact;
+        }
+        .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+        .gg-chip {
+            position: relative; min-width: 48px; min-height: 44px; padding: 5px 10px;
+            border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+            font-family: Georgia, serif; font-weight: 700; color: var(--ink);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+            background: linear-gradient(90deg, var(--chip-l, var(--st-fresh)) 0 50%, var(--chip-r, var(--st-fresh)) 50% 100%);
+            print-color-adjust: exact; -webkit-print-color-adjust: exact;
+            transition: transform 0.12s ease, box-shadow 0.12s ease;
+        }
+        .gg-chip::after {
+            content: ""; position: absolute; top: 15%; bottom: 15%; left: 50%; width: 1px;
+            background: rgba(31,31,31,0.14);
+        }
+        .gg-chip:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.12); border-color: var(--accent); }
+        .gg-chip .gg-g { font-size: 16px; position: relative; z-index: 1; }
+        .gg-chip .gg-u { font-size: 9px; color: rgba(31,31,31,0.6); text-transform: uppercase;
+            letter-spacing: 0.4px; font-family: 'Segoe UI', sans-serif; position: relative; z-index: 1; }
+        /* screen: the print-only duplicate-grapheme hint stays hidden here */
+        .gg-chip .gg-u.gg-u-dup { display: none; }
+
+        /* ---- grapheme grid units ---- */
+        .rg-unit { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
+        .rg-unit-bar { padding: 8px 14px; font-weight: 700; font-family: Georgia, serif; font-size: 14px;
+            print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+        .rg-unit-body { padding: 12px 14px; }
+
+        /* ---- sounds grid ---- */
+        .ph-row { border: 1px solid var(--line-soft); border-radius: 10px; background: var(--paper);
+            padding: 10px 14px; margin-bottom: 8px; }
+        .ph-row[data-type="vowel"] { border-left: 4px solid #5b9bd5; }
+        .ph-row[data-type="consonant"] { border-left: 4px solid var(--line); }
+        .ph-row[data-type="unit"], .ph-row[data-type="composite"] { border-left: 4px solid #7c64b0; }
+        .ph-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+        .ph-label { font-family: Georgia, serif; font-weight: 700; font-size: 15px; }
+        .ipa-badge {
+            font-family: Georgia, serif; font-size: 12px; color: var(--muted); background: var(--bg);
+            border: 1px solid var(--line); border-radius: 6px; padding: 1px 8px;
+        }
+        .speaker-btn {
+            min-width: 44px; min-height: 44px; border: none; border-radius: 50%; background: var(--ink);
+            color: var(--paper); font-size: 15px; cursor: pointer; margin-left: auto;
+        }
+        .speaker-btn:hover { background: #333; }
+
+        /* ---- rules ---- */
+        .rule-row { display: flex; align-items: center; gap: 12px; padding: 8px 0;
+            border-bottom: 1px dashed var(--line-soft); flex-wrap: wrap; }
+        .rule-row:last-child { border-bottom: none; }
+        .rule-name { flex: 1 1 220px; font-size: 13.5px; font-weight: 600; min-width: 0; }
+        .bar-track { flex: 2 1 180px; height: 14px; background: var(--bg); border: 1px solid var(--line-soft);
+            border-radius: 7px; overflow: hidden; min-width: 120px; }
+        .bar-fill { height: 100%; border-radius: 7px 0 0 7px;
+            print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+        .rule-stat { flex: 0 0 auto; font-size: 12px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+
+        /* ---- recent work table ---- */
+        .attempts-wrap { overflow-x: auto; }
+        .attempts-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 420px; }
+        .attempts-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
+            color: var(--muted); padding: 6px 10px; border-bottom: 1px solid var(--line); }
+        .attempts-table td { padding: 7px 10px; border-bottom: 1px solid var(--line-soft); }
+        .attempts-table .att-key { font-family: Georgia, serif; font-weight: 700; }
+        .att-good { color: var(--correct); font-weight: 700; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+        .att-bad { color: var(--wrong); font-weight: 700; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+
+        /* ---- data card ---- */
+        .data-controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
+        .data-block { display: flex; flex-direction: column; gap: 6px; flex: 1 1 180px; min-width: 160px; }
+        .data-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+        .data-hint { flex-basis: 100%; font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 2px; }
+
+        /* ---- chip popover ---- */
+        .chip-pop {
+            position: absolute; z-index: 40; background: var(--paper); border: 1px solid var(--line);
+            border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); padding: 12px 14px; width: 250px;
+        }
+        .pop-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .pop-g { font-family: Georgia, serif; font-weight: 700; font-size: 20px; }
+        .pop-sound { font-size: 13px; color: var(--muted); font-family: Georgia, serif; }
+        .pop-row { display: flex; justify-content: space-between; gap: 10px; font-size: 13px;
+            padding: 4px 0; border-top: 1px dashed var(--line-soft); }
+        .pop-row span { color: var(--muted); }
+        .pop-row b { font-weight: 600; text-align: right; }
+
+        /* ---- toast ---- */
+        #toastRoot {
+            position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px);
+            background: var(--ink); color: var(--paper); padding: 11px 20px; border-radius: 22px;
+            font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none;
+            transition: all 0.25s ease; z-index: 60; max-width: 90vw; text-align: center;
+        }
+        #toastRoot.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        .print-note { display: none; }
+
+        @media (max-width: 560px) {
+            .container { padding: 16px; }
+            .gg-chip .gg-g { font-size: 14px; }
+            .rule-name { flex-basis: 100%; }
+        }
+
+        /* ---- print: fits A4 portrait, keeps the mastery colours ---- */
+        @media print {
+            body { background: #fff; padding: 0; display: block; }
+            .container { max-width: 100%; border: none; box-shadow: none; border-radius: 0;
+                padding: 0; margin: 0; background: #fff; }
+            .hub-link, .rp-header, .no-print, .chip-pop, #toastRoot, #screenPicker,
+            .speaker-btn, .subtitle { display: none !important; }
+            .print-note { display: block; text-align: center; font-size: 11px; color: var(--muted); margin: 4px 0 10px; }
+            .report-card { border-color: #bbb; margin-bottom: 10px; padding: 10px 12px;
+                page-break-inside: avoid; break-inside: avoid; }
+            .report-card h2 { font-size: 14px; margin-bottom: 8px; }
+            .rg-unit { page-break-inside: avoid; break-inside: avoid; margin-bottom: 6px; }
+            .rg-unit-bar { padding: 4px 10px; font-size: 12px; }
+            .rg-unit-body { padding: 8px 10px; }
+            .ph-row { page-break-inside: avoid; break-inside: avoid; padding: 6px 10px; margin-bottom: 5px; }
+            .chip-row { gap: 4px; }
+            .gg-chip { min-width: 36px; min-height: 26px; padding: 2px 7px; border-radius: 5px; }
+            .gg-chip .gg-g { font-size: 11px; }
+            .gg-chip .gg-u { display: none; }
+            /* duplicate graphemes in one unit row (a.a/a.ay/a.ar) look
+               identical on paper — show a tiny phoneme hint for those only */
+            .gg-chip .gg-u.gg-u-dup { display: block; font-size: 7px; color: rgba(31,31,31,0.75); }
+            .tot b { font-size: 18px; }
+            .totals { grid-template-columns: repeat(4, 1fr); }
+            .ov-summary { font-size: 12px; }
+            .attempts-table { font-size: 11px; min-width: 0; }
+            .legend { font-size: 10px; margin-bottom: 8px; }
+            .rule-row { padding: 4px 0; }
+            .gg-chip, .rg-unit-bar, .bar-fill, .legend-item i, .tot {
+                print-color-adjust: exact; -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="hub-link" href="index.html">&larr; Back to trainer</a>
+
+        <header class="rp-header" id="rpHeader" hidden>
+            <button type="button" class="chip-btn" id="learnerChip" title="Change learner">🙂</button>
+            <span class="prog-name" id="headerProgram"></span>
+            <span class="head-links">
+                <a href="practice.html">Practice</a>
+                <a href="explorer.html">Explorer</a>
+            </span>
+            <button type="button" class="chip-btn" id="printBtn">🖨 Print</button>
+        </header>
+
+        <h1>Teacher Report</h1>
+        <p class="subtitle">Strengths and gaps at a glance — mastery of every letter-sound both ways, spelling rules, and recent work. Print it or read it together with a parent.</p>
+        <p class="print-note" id="printNote"></p>
+
+        <div class="status-box" id="statusBox" role="status" aria-live="polite">Loading the records&hellip;</div>
+
+        <section id="screenPicker" hidden>
+            <p class="picker-note" id="pickerNote">Whose report would you like to see?</p>
+            <div class="profile-grid" id="profileGrid"></div>
+            <form class="nl-form" id="nlForm" hidden>
+                <div class="nl-row">
+                    <label class="nl-label" for="nlName">Name</label>
+                    <input type="text" id="nlName" maxlength="40" autocomplete="off" placeholder="e.g. Ruby">
+                </div>
+                <div class="nl-row">
+                    <label class="nl-label" for="nlAccent">Accent</label>
+                    <select id="nlAccent">
+                        <option value="au" selected>Australian</option>
+                        <option value="uk">British</option>
+                        <option value="us">American</option>
+                    </select>
+                </div>
+                <div class="nl-actions">
+                    <button type="submit" class="btn-primary">Create learner</button>
+                    <button type="button" class="btn-secondary" data-role="nl-cancel">Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <main id="reportMain" hidden>
+            <section class="report-card" id="overviewCard"></section>
+            <section class="report-card" id="graphemeCard"></section>
+            <section class="report-card" id="soundsCard"></section>
+            <section class="report-card" id="rulesCard"></section>
+            <section class="report-card" id="recentCard"></section>
+
+            <section class="report-card no-print" id="dataCard">
+                <h2>Data</h2>
+                <div class="data-controls">
+                    <div class="data-block">
+                        <span class="data-label">This learner's file</span>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                            <button type="button" class="btn-primary" id="exportBtn">Export JSON</button>
+                            <label class="btn-secondary" for="importFile" style="cursor:pointer;">Import&hellip;</label>
+                            <input type="file" id="importFile" accept=".json,application/json" hidden>
+                        </div>
+                    </div>
+                    <label class="data-block">
+                        <span class="data-label">Accent</span>
+                        <select id="accentSelect">
+                            <option value="au">Australian</option>
+                            <option value="uk">British</option>
+                            <option value="us">American</option>
+                        </select>
+                    </label>
+                    <label class="data-block">
+                        <span class="data-label">Program</span>
+                        <select id="programSelect"></select>
+                    </label>
+                    <p class="data-hint">Export downloads this learner's whole record as a JSON file — email it home or move it to another device, then Import it there. Changing the program re-draws the grids against that scope &amp; sequence.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="chip-pop" id="chipPop" hidden></div>
+    <div id="toastRoot" role="status" aria-live="polite"></div>
+
+    <script src="js/core/data.js"></script>
+    <script src="js/core/audio.js"></script>
+    <script src="js/core/mastery.js"></script>
+    <script src="js/core/tracker.js"></script>
+    <script src="js/views/report.js"></script>
+</body>
+</html>

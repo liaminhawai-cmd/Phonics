@@ -1,0 +1,7255 @@
+{
+  "source": "Morpheme Matrices, Marn Frank, ATLAS/Hamline University (expanded March 2018), Word Key, p.33-36",
+  "extraction_notes": [
+    "morphemes[] gives the word-sum split (prefix, root, suffix-1, suffix-2) using canonical morpheme spellings; ordinary English spelling changes on concatenation (silent-e drop, consonant doubling e.g. fer->ferred, y/i changes) are not re-inserted, matching the 'imported -> im+port+ed' convention.",
+    "'root' names the matrix's printed root/form label (e.g. 'form', 'ceit, ceive, cept', 'gram, graph'); 'matrix' gives the matrix id it was assembled in.",
+    "Segmentation failures requiring a manual override or left unresolved: 0 (see matrices.json extraction_notes for the specific irregular words).",
+    "'contention' and 'contentions' are listed in the source's Word Key under both Matrix 15 (tend, tent, tens) and Matrix 17 (tain, ten, tin); both entries are kept here (root: 'tend, tent, tens' and root: 'tain, ten, tin' respectively) since the source itself assembles the word from two different roots rather than picking one."
+  ],
+  "words": [
+    {
+      "word": "forms",
+      "morphemes": [
+        "form",
+        "s"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "formed",
+      "morphemes": [
+        "form",
+        "ed"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "forming",
+      "morphemes": [
+        "form",
+        "ing"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "former",
+      "morphemes": [
+        "form",
+        "er"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "formation",
+      "morphemes": [
+        "form",
+        "ation"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "formal",
+      "morphemes": [
+        "form",
+        "al"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "inform",
+      "morphemes": [
+        "in",
+        "form"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "reform",
+      "morphemes": [
+        "re",
+        "form"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "deform",
+      "morphemes": [
+        "de",
+        "form"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "informs",
+      "morphemes": [
+        "in",
+        "form",
+        "s"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "informed",
+      "morphemes": [
+        "in",
+        "form",
+        "ed"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "informing",
+      "morphemes": [
+        "in",
+        "form",
+        "ing"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "informer",
+      "morphemes": [
+        "in",
+        "form",
+        "er"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "information",
+      "morphemes": [
+        "in",
+        "form",
+        "ation"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "informal",
+      "morphemes": [
+        "in",
+        "form",
+        "al"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "reforms",
+      "morphemes": [
+        "re",
+        "form",
+        "s"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "reformed",
+      "morphemes": [
+        "re",
+        "form",
+        "ed"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "reforming",
+      "morphemes": [
+        "re",
+        "form",
+        "ing"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "reformer",
+      "morphemes": [
+        "re",
+        "form",
+        "er"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "reformation",
+      "morphemes": [
+        "re",
+        "form",
+        "ation"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "deforms",
+      "morphemes": [
+        "de",
+        "form",
+        "s"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "deformed",
+      "morphemes": [
+        "de",
+        "form",
+        "ed"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "deforming",
+      "morphemes": [
+        "de",
+        "form",
+        "ing"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "deformer",
+      "morphemes": [
+        "de",
+        "form",
+        "er"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "deformation",
+      "morphemes": [
+        "de",
+        "form",
+        "ation"
+      ],
+      "root": "form",
+      "matrix": "matrix_01"
+    },
+    {
+      "word": "ports",
+      "morphemes": [
+        "port",
+        "s"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "ported",
+      "morphemes": [
+        "port",
+        "ed"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "porting",
+      "morphemes": [
+        "port",
+        "ing"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "porter",
+      "morphemes": [
+        "port",
+        "er"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "portion",
+      "morphemes": [
+        "port",
+        "ion"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "portable",
+      "morphemes": [
+        "port",
+        "able"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "portal",
+      "morphemes": [
+        "port",
+        "al"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "import",
+      "morphemes": [
+        "im",
+        "port"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "report",
+      "morphemes": [
+        "re",
+        "port"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "deport",
+      "morphemes": [
+        "de",
+        "port"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "imports",
+      "morphemes": [
+        "im",
+        "port",
+        "s"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "imported",
+      "morphemes": [
+        "im",
+        "port",
+        "ed"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "importing",
+      "morphemes": [
+        "im",
+        "port",
+        "ing"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "importer",
+      "morphemes": [
+        "im",
+        "port",
+        "er"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "importation",
+      "morphemes": [
+        "im",
+        "port",
+        "ation"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "importable",
+      "morphemes": [
+        "im",
+        "port",
+        "able"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "reports",
+      "morphemes": [
+        "re",
+        "port",
+        "s"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "reported",
+      "morphemes": [
+        "re",
+        "port",
+        "ed"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "reporting",
+      "morphemes": [
+        "re",
+        "port",
+        "ing"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "reporter",
+      "morphemes": [
+        "re",
+        "port",
+        "er"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "reportable",
+      "morphemes": [
+        "re",
+        "port",
+        "able"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "deports",
+      "morphemes": [
+        "de",
+        "port",
+        "s"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "deported",
+      "morphemes": [
+        "de",
+        "port",
+        "ed"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "deporting",
+      "morphemes": [
+        "de",
+        "port",
+        "ing"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "deportation",
+      "morphemes": [
+        "de",
+        "port",
+        "ation"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "deportable",
+      "morphemes": [
+        "de",
+        "port",
+        "able"
+      ],
+      "root": "port",
+      "matrix": "matrix_02"
+    },
+    {
+      "word": "disrupt",
+      "morphemes": [
+        "dis",
+        "rupt"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "interrupt",
+      "morphemes": [
+        "inter",
+        "rupt"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "erupt",
+      "morphemes": [
+        "e",
+        "rupt"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "disrupts",
+      "morphemes": [
+        "dis",
+        "rupt",
+        "s"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "disrupted",
+      "morphemes": [
+        "dis",
+        "rupt",
+        "ed"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "disrupting",
+      "morphemes": [
+        "dis",
+        "rupt",
+        "ing"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "disrupter",
+      "morphemes": [
+        "dis",
+        "rupt",
+        "er"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "disruption",
+      "morphemes": [
+        "dis",
+        "rupt",
+        "ion"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "disruptive",
+      "morphemes": [
+        "dis",
+        "rupt",
+        "ive"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "interrupts",
+      "morphemes": [
+        "inter",
+        "rupt",
+        "s"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "interrupted",
+      "morphemes": [
+        "inter",
+        "rupt",
+        "ed"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "interrupting",
+      "morphemes": [
+        "inter",
+        "rupt",
+        "ing"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "interrupter",
+      "morphemes": [
+        "inter",
+        "rupt",
+        "er"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "interruption",
+      "morphemes": [
+        "inter",
+        "rupt",
+        "ion"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "interruptible",
+      "morphemes": [
+        "inter",
+        "rupt",
+        "ible"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "interruptive",
+      "morphemes": [
+        "inter",
+        "rupt",
+        "ive"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "erupts",
+      "morphemes": [
+        "e",
+        "rupt",
+        "s"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "erupted",
+      "morphemes": [
+        "e",
+        "rupt",
+        "ed"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "erupting",
+      "morphemes": [
+        "e",
+        "rupt",
+        "ing"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "eruption",
+      "morphemes": [
+        "e",
+        "rupt",
+        "ion"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "eruptible",
+      "morphemes": [
+        "e",
+        "rupt",
+        "ible"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "eruptive",
+      "morphemes": [
+        "e",
+        "rupt",
+        "ive"
+      ],
+      "root": "rupt",
+      "matrix": "matrix_03"
+    },
+    {
+      "word": "tracts",
+      "morphemes": [
+        "tract",
+        "s"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "tractor",
+      "morphemes": [
+        "tract",
+        "or"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "traction",
+      "morphemes": [
+        "tract",
+        "ion"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "tractable",
+      "morphemes": [
+        "tract",
+        "able"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "distract",
+      "morphemes": [
+        "dis",
+        "tract"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "retract",
+      "morphemes": [
+        "re",
+        "tract"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "detract",
+      "morphemes": [
+        "de",
+        "tract"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "subtract",
+      "morphemes": [
+        "sub",
+        "tract"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "distracts",
+      "morphemes": [
+        "dis",
+        "tract",
+        "s"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "distracted",
+      "morphemes": [
+        "dis",
+        "tract",
+        "ed"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "distracting",
+      "morphemes": [
+        "dis",
+        "tract",
+        "ing"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "distractor",
+      "morphemes": [
+        "dis",
+        "tract",
+        "or"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "distraction",
+      "morphemes": [
+        "dis",
+        "tract",
+        "ion"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "distractible",
+      "morphemes": [
+        "dis",
+        "tract",
+        "ible"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "retracts",
+      "morphemes": [
+        "re",
+        "tract",
+        "s"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "retracted",
+      "morphemes": [
+        "re",
+        "tract",
+        "ed"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "retracting",
+      "morphemes": [
+        "re",
+        "tract",
+        "ing"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "retractor",
+      "morphemes": [
+        "re",
+        "tract",
+        "or"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "retraction",
+      "morphemes": [
+        "re",
+        "tract",
+        "ion"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "retractable",
+      "morphemes": [
+        "re",
+        "tract",
+        "able"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "detracts",
+      "morphemes": [
+        "de",
+        "tract",
+        "s"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "detracted",
+      "morphemes": [
+        "de",
+        "tract",
+        "ed"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "detracting",
+      "morphemes": [
+        "de",
+        "tract",
+        "ing"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "detractor",
+      "morphemes": [
+        "de",
+        "tract",
+        "or"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "detraction",
+      "morphemes": [
+        "de",
+        "tract",
+        "ion"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "subtracts",
+      "morphemes": [
+        "sub",
+        "tract",
+        "s"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "subtracted",
+      "morphemes": [
+        "sub",
+        "tract",
+        "ed"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "subtraction",
+      "morphemes": [
+        "sub",
+        "tract",
+        "ion"
+      ],
+      "root": "tract",
+      "matrix": "matrix_04"
+    },
+    {
+      "word": "scripts",
+      "morphemes": [
+        "script",
+        "s"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "scripted",
+      "morphemes": [
+        "script",
+        "ed"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "scripting",
+      "morphemes": [
+        "script",
+        "ing"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "scripter",
+      "morphemes": [
+        "script",
+        "er"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "inscribe",
+      "morphemes": [
+        "in",
+        "scribe"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "describe",
+      "morphemes": [
+        "de",
+        "scribe"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "prescribe",
+      "morphemes": [
+        "pre",
+        "scribe"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "subscribe",
+      "morphemes": [
+        "sub",
+        "scribe"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "inscribes",
+      "morphemes": [
+        "in",
+        "scribe",
+        "s"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "inscribed",
+      "morphemes": [
+        "in",
+        "scrib",
+        "ed"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "inscribing",
+      "morphemes": [
+        "in",
+        "scrib",
+        "ing"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "inscriber",
+      "morphemes": [
+        "in",
+        "scrib",
+        "er"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "inscribable",
+      "morphemes": [
+        "in",
+        "scrib",
+        "able"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "describes",
+      "morphemes": [
+        "de",
+        "scribe",
+        "s"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "described",
+      "morphemes": [
+        "de",
+        "scrib",
+        "ed"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "describing",
+      "morphemes": [
+        "de",
+        "scrib",
+        "ing"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "describer",
+      "morphemes": [
+        "de",
+        "scrib",
+        "er"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "describable",
+      "morphemes": [
+        "de",
+        "scrib",
+        "able"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "prescribes",
+      "morphemes": [
+        "pre",
+        "scribe",
+        "s"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "prescribed",
+      "morphemes": [
+        "pre",
+        "scrib",
+        "ed"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "prescribing",
+      "morphemes": [
+        "pre",
+        "scrib",
+        "ing"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "prescriber",
+      "morphemes": [
+        "pre",
+        "scrib",
+        "er"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "subscribes",
+      "morphemes": [
+        "sub",
+        "scribe",
+        "s"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "subscribed",
+      "morphemes": [
+        "sub",
+        "scrib",
+        "ed"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "subscribing",
+      "morphemes": [
+        "sub",
+        "scrib",
+        "ing"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "subscriber",
+      "morphemes": [
+        "sub",
+        "scrib",
+        "er"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "descript",
+      "morphemes": [
+        "de",
+        "script"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "prescript",
+      "morphemes": [
+        "pre",
+        "script"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "subscript",
+      "morphemes": [
+        "sub",
+        "script"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "descripts",
+      "morphemes": [
+        "de",
+        "script",
+        "s"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "descripted",
+      "morphemes": [
+        "de",
+        "script",
+        "ed"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "descripting",
+      "morphemes": [
+        "de",
+        "script",
+        "ing"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "description",
+      "morphemes": [
+        "de",
+        "script",
+        "ion"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "prescripts",
+      "morphemes": [
+        "pre",
+        "script",
+        "s"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "prescription",
+      "morphemes": [
+        "pre",
+        "script",
+        "ion"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "subscripts",
+      "morphemes": [
+        "sub",
+        "script",
+        "s"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "subscripted",
+      "morphemes": [
+        "sub",
+        "script",
+        "ed"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "subscripting",
+      "morphemes": [
+        "sub",
+        "script",
+        "ing"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "subscription",
+      "morphemes": [
+        "sub",
+        "script",
+        "ion"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "inscription",
+      "morphemes": [
+        "in",
+        "script",
+        "ion"
+      ],
+      "root": "scrib, script",
+      "matrix": "matrix_05"
+    },
+    {
+      "word": "inspect",
+      "morphemes": [
+        "in",
+        "spect"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "respect",
+      "morphemes": [
+        "re",
+        "spect"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "suspect",
+      "morphemes": [
+        "sus",
+        "spect"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "inspects",
+      "morphemes": [
+        "in",
+        "spect",
+        "s"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "inspected",
+      "morphemes": [
+        "in",
+        "spect",
+        "ed"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "inspecting",
+      "morphemes": [
+        "in",
+        "spect",
+        "ing"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "inspector",
+      "morphemes": [
+        "in",
+        "spect",
+        "or"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "inspection",
+      "morphemes": [
+        "in",
+        "spect",
+        "ion"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "respects",
+      "morphemes": [
+        "re",
+        "spect",
+        "s"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "respected",
+      "morphemes": [
+        "re",
+        "spect",
+        "ed"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "respecting",
+      "morphemes": [
+        "re",
+        "spect",
+        "ing"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "respecter",
+      "morphemes": [
+        "re",
+        "spect",
+        "er"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "respectable",
+      "morphemes": [
+        "re",
+        "spect",
+        "able"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "respective",
+      "morphemes": [
+        "re",
+        "spect",
+        "ive"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "suspects",
+      "morphemes": [
+        "sus",
+        "spect",
+        "s"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "suspected",
+      "morphemes": [
+        "sus",
+        "spect",
+        "ed"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "suspecting",
+      "morphemes": [
+        "sus",
+        "spect",
+        "ing"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "suspicion",
+      "morphemes": [
+        "sus",
+        "spect",
+        "ion"
+      ],
+      "root": "spect",
+      "matrix": "matrix_06"
+    },
+    {
+      "word": "instruct",
+      "morphemes": [
+        "in",
+        "struct"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "destruct",
+      "morphemes": [
+        "de",
+        "struct"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "construct",
+      "morphemes": [
+        "con",
+        "struct"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "instructs",
+      "morphemes": [
+        "in",
+        "struct",
+        "s"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "instructed",
+      "morphemes": [
+        "in",
+        "struct",
+        "ed"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "instructing",
+      "morphemes": [
+        "in",
+        "struct",
+        "ing"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "instructor",
+      "morphemes": [
+        "in",
+        "struct",
+        "or"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "instruction",
+      "morphemes": [
+        "in",
+        "struct",
+        "ion"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "instructive",
+      "morphemes": [
+        "in",
+        "struct",
+        "ive"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "destructs",
+      "morphemes": [
+        "de",
+        "struct",
+        "s"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "destructed",
+      "morphemes": [
+        "de",
+        "struct",
+        "ed"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "destructing",
+      "morphemes": [
+        "de",
+        "struct",
+        "ing"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "destructor",
+      "morphemes": [
+        "de",
+        "struct",
+        "or"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "destruction",
+      "morphemes": [
+        "de",
+        "struct",
+        "ion"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "destructive",
+      "morphemes": [
+        "de",
+        "struct",
+        "ive"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "constructs",
+      "morphemes": [
+        "con",
+        "struct",
+        "s"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "constructed",
+      "morphemes": [
+        "con",
+        "struct",
+        "ed"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "constructing",
+      "morphemes": [
+        "con",
+        "struct",
+        "ing"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "constructor",
+      "morphemes": [
+        "con",
+        "struct",
+        "or"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "construction",
+      "morphemes": [
+        "con",
+        "struct",
+        "ion"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "constructive",
+      "morphemes": [
+        "con",
+        "struct",
+        "ive"
+      ],
+      "root": "struct",
+      "matrix": "matrix_07"
+    },
+    {
+      "word": "flexes",
+      "morphemes": [
+        "flex",
+        "es"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "flexed",
+      "morphemes": [
+        "flex",
+        "ed"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "flexing",
+      "morphemes": [
+        "flex",
+        "ing"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "flexor",
+      "morphemes": [
+        "flex",
+        "or"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "flexion",
+      "morphemes": [
+        "flex",
+        "ion"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "inflect",
+      "morphemes": [
+        "in",
+        "flect"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "reflect",
+      "morphemes": [
+        "re",
+        "flect"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "deflect",
+      "morphemes": [
+        "de",
+        "flect"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "inflects",
+      "morphemes": [
+        "in",
+        "flect",
+        "s"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "inflected",
+      "morphemes": [
+        "in",
+        "flect",
+        "ed"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "inflecting",
+      "morphemes": [
+        "in",
+        "flect",
+        "ing"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "inflector",
+      "morphemes": [
+        "in",
+        "flect",
+        "or"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "inflection",
+      "morphemes": [
+        "in",
+        "flect",
+        "ion"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "inflective",
+      "morphemes": [
+        "in",
+        "flect",
+        "ive"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "reflects",
+      "morphemes": [
+        "re",
+        "flect",
+        "s"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "reflected",
+      "morphemes": [
+        "re",
+        "flect",
+        "ed"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "reflecting",
+      "morphemes": [
+        "re",
+        "flect",
+        "ing"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "reflector",
+      "morphemes": [
+        "re",
+        "flect",
+        "or"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "reflection",
+      "morphemes": [
+        "re",
+        "flect",
+        "ion"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "reflective",
+      "morphemes": [
+        "re",
+        "flect",
+        "ive"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "deflects",
+      "morphemes": [
+        "de",
+        "flect",
+        "s"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "deflected",
+      "morphemes": [
+        "de",
+        "flect",
+        "ed"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "deflector",
+      "morphemes": [
+        "de",
+        "flect",
+        "or"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "deflection",
+      "morphemes": [
+        "de",
+        "flect",
+        "ion"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "deflective",
+      "morphemes": [
+        "de",
+        "flect",
+        "ive"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "reflex",
+      "morphemes": [
+        "re",
+        "flex"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "reflexes",
+      "morphemes": [
+        "re",
+        "flex",
+        "es"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "reflexed",
+      "morphemes": [
+        "re",
+        "flex",
+        "ed"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "reflexing",
+      "morphemes": [
+        "re",
+        "flex",
+        "ing"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "reflexive",
+      "morphemes": [
+        "re",
+        "flex",
+        "ive"
+      ],
+      "root": "flect, flex",
+      "matrix": "matrix_08"
+    },
+    {
+      "word": "indict",
+      "morphemes": [
+        "in",
+        "dict"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "predict",
+      "morphemes": [
+        "pre",
+        "dict"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "interdict",
+      "morphemes": [
+        "inter",
+        "dict"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "indicts",
+      "morphemes": [
+        "in",
+        "dict",
+        "s"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "indicted",
+      "morphemes": [
+        "in",
+        "dict",
+        "ed"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "indicting",
+      "morphemes": [
+        "in",
+        "dict",
+        "ing"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "indictable",
+      "morphemes": [
+        "in",
+        "dict",
+        "able"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "predicts",
+      "morphemes": [
+        "pre",
+        "dict",
+        "s"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "predicted",
+      "morphemes": [
+        "pre",
+        "dict",
+        "ed"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "predicting",
+      "morphemes": [
+        "pre",
+        "dict",
+        "ing"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "prediction",
+      "morphemes": [
+        "pre",
+        "dict",
+        "ion"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "predictable",
+      "morphemes": [
+        "pre",
+        "dict",
+        "able"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "predictive",
+      "morphemes": [
+        "pre",
+        "dict",
+        "ive"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "interdicts",
+      "morphemes": [
+        "inter",
+        "dict",
+        "s"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "interdicted",
+      "morphemes": [
+        "inter",
+        "dict",
+        "ed"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "interdicting",
+      "morphemes": [
+        "inter",
+        "dict",
+        "ing"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "interdiction",
+      "morphemes": [
+        "inter",
+        "dict",
+        "ion"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "diction",
+      "morphemes": [
+        "dict",
+        "ion"
+      ],
+      "root": "dict",
+      "matrix": "matrix_09"
+    },
+    {
+      "word": "infer",
+      "morphemes": [
+        "in",
+        "fer"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "refer",
+      "morphemes": [
+        "re",
+        "fer"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "defer",
+      "morphemes": [
+        "de",
+        "fer"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "prefer",
+      "morphemes": [
+        "pre",
+        "fer"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "transfer",
+      "morphemes": [
+        "trans",
+        "fer"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "infers",
+      "morphemes": [
+        "in",
+        "fer",
+        "s"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "inferred",
+      "morphemes": [
+        "in",
+        "fer",
+        "ed"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "inferring",
+      "morphemes": [
+        "in",
+        "fer",
+        "ing"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "inferable",
+      "morphemes": [
+        "in",
+        "fer",
+        "able"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "refers",
+      "morphemes": [
+        "re",
+        "fer",
+        "s"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "referred",
+      "morphemes": [
+        "re",
+        "fer",
+        "ed"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "referring",
+      "morphemes": [
+        "re",
+        "fer",
+        "ing"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "referable",
+      "morphemes": [
+        "re",
+        "fer",
+        "able"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "referral",
+      "morphemes": [
+        "re",
+        "fer",
+        "al"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "defers",
+      "morphemes": [
+        "de",
+        "fer",
+        "s"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "deferred",
+      "morphemes": [
+        "de",
+        "fer",
+        "ed"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "deferring",
+      "morphemes": [
+        "de",
+        "fer",
+        "ing"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "deferrable",
+      "morphemes": [
+        "de",
+        "fer",
+        "able"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "deferral",
+      "morphemes": [
+        "de",
+        "fer",
+        "al"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "prefers",
+      "morphemes": [
+        "pre",
+        "fer",
+        "s"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "preferred",
+      "morphemes": [
+        "pre",
+        "fer",
+        "ed"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "preferring",
+      "morphemes": [
+        "pre",
+        "fer",
+        "ing"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "preferable",
+      "morphemes": [
+        "pre",
+        "fer",
+        "able"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "transfers",
+      "morphemes": [
+        "trans",
+        "fer",
+        "s"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "transferred",
+      "morphemes": [
+        "trans",
+        "fer",
+        "ed"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "transferring",
+      "morphemes": [
+        "trans",
+        "fer",
+        "ing"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "transferable",
+      "morphemes": [
+        "trans",
+        "fer",
+        "able"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "transferal",
+      "morphemes": [
+        "trans",
+        "fer",
+        "al"
+      ],
+      "root": "fer",
+      "matrix": "matrix_10"
+    },
+    {
+      "word": "remit",
+      "morphemes": [
+        "re",
+        "mit"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "submit",
+      "morphemes": [
+        "sub",
+        "mit"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "transmit",
+      "morphemes": [
+        "trans",
+        "mit"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "remits",
+      "morphemes": [
+        "re",
+        "mit",
+        "s"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "remitted",
+      "morphemes": [
+        "re",
+        "mit",
+        "ed"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "remitting",
+      "morphemes": [
+        "re",
+        "mit",
+        "ing"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "remitter",
+      "morphemes": [
+        "re",
+        "mit",
+        "er"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "remittable",
+      "morphemes": [
+        "re",
+        "mit",
+        "able"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "remittal",
+      "morphemes": [
+        "re",
+        "mit",
+        "al"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "submits",
+      "morphemes": [
+        "sub",
+        "mit",
+        "s"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "submitted",
+      "morphemes": [
+        "sub",
+        "mit",
+        "ed"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "submitting",
+      "morphemes": [
+        "sub",
+        "mit",
+        "ing"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "submitter",
+      "morphemes": [
+        "sub",
+        "mit",
+        "er"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "submittal",
+      "morphemes": [
+        "sub",
+        "mit",
+        "al"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "transmits",
+      "morphemes": [
+        "trans",
+        "mit",
+        "s"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "transmitted",
+      "morphemes": [
+        "trans",
+        "mit",
+        "ed"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "transmitting",
+      "morphemes": [
+        "trans",
+        "mit",
+        "ing"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "transmitter",
+      "morphemes": [
+        "trans",
+        "mit",
+        "er"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "transmittal",
+      "morphemes": [
+        "trans",
+        "mit",
+        "al"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "dismiss",
+      "morphemes": [
+        "dis",
+        "miss"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "remiss",
+      "morphemes": [
+        "re",
+        "miss"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "dismisses",
+      "morphemes": [
+        "dis",
+        "miss",
+        "es"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "dismissed",
+      "morphemes": [
+        "dis",
+        "miss",
+        "ed"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "dismissing",
+      "morphemes": [
+        "dis",
+        "miss",
+        "ing"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "dismissible",
+      "morphemes": [
+        "dis",
+        "miss",
+        "ible"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "dismissal",
+      "morphemes": [
+        "dis",
+        "miss",
+        "al"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "remission",
+      "morphemes": [
+        "re",
+        "miss",
+        "ion"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "remissible",
+      "morphemes": [
+        "re",
+        "miss",
+        "ible"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "submission",
+      "morphemes": [
+        "sub",
+        "miss",
+        "ion"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "transmission",
+      "morphemes": [
+        "trans",
+        "miss",
+        "ion"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "transmissible",
+      "morphemes": [
+        "trans",
+        "miss",
+        "ible"
+      ],
+      "root": "mit, miss",
+      "matrix": "matrix_11"
+    },
+    {
+      "word": "induce",
+      "morphemes": [
+        "in",
+        "duce"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "deduce",
+      "morphemes": [
+        "de",
+        "duce"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "reduce",
+      "morphemes": [
+        "re",
+        "duce"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "produce",
+      "morphemes": [
+        "pro",
+        "duce"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "induces",
+      "morphemes": [
+        "in",
+        "duce",
+        "s"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "induced",
+      "morphemes": [
+        "in",
+        "duc",
+        "ed"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "inducing",
+      "morphemes": [
+        "in",
+        "duc",
+        "ing"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "inducible",
+      "morphemes": [
+        "in",
+        "duc",
+        "ible"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "deduces",
+      "morphemes": [
+        "de",
+        "duce",
+        "s"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "deduced",
+      "morphemes": [
+        "de",
+        "duc",
+        "ed"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "deducing",
+      "morphemes": [
+        "de",
+        "duc",
+        "ing"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "deducible",
+      "morphemes": [
+        "de",
+        "duc",
+        "ible"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "reduces",
+      "morphemes": [
+        "re",
+        "duce",
+        "s"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "reduced",
+      "morphemes": [
+        "re",
+        "duc",
+        "ed"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "reducing",
+      "morphemes": [
+        "re",
+        "duc",
+        "ing"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "reducible",
+      "morphemes": [
+        "re",
+        "duc",
+        "ible"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "produces",
+      "morphemes": [
+        "pro",
+        "duce",
+        "s"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "produced",
+      "morphemes": [
+        "pro",
+        "duc",
+        "ed"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "producing",
+      "morphemes": [
+        "pro",
+        "duc",
+        "ing"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "producible",
+      "morphemes": [
+        "pro",
+        "duc",
+        "ible"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "induct",
+      "morphemes": [
+        "in",
+        "duct"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "deduct",
+      "morphemes": [
+        "de",
+        "duct"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "conduct",
+      "morphemes": [
+        "con",
+        "duct"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "product",
+      "morphemes": [
+        "pro",
+        "duct"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "inducts",
+      "morphemes": [
+        "in",
+        "duct",
+        "s"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "inducted",
+      "morphemes": [
+        "in",
+        "duct",
+        "ed"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "inducting",
+      "morphemes": [
+        "in",
+        "duct",
+        "ing"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "inductor",
+      "morphemes": [
+        "in",
+        "duct",
+        "or"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "induction",
+      "morphemes": [
+        "in",
+        "duct",
+        "ion"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "inductive",
+      "morphemes": [
+        "in",
+        "duct",
+        "ive"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "deducts",
+      "morphemes": [
+        "de",
+        "duct",
+        "s"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "deducted",
+      "morphemes": [
+        "de",
+        "duct",
+        "ed"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "deducting",
+      "morphemes": [
+        "de",
+        "duct",
+        "ing"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "deduction",
+      "morphemes": [
+        "de",
+        "duct",
+        "ion"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "deductive",
+      "morphemes": [
+        "de",
+        "duct",
+        "ive"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "reduction",
+      "morphemes": [
+        "re",
+        "duct",
+        "ion"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "reductive",
+      "morphemes": [
+        "re",
+        "duct",
+        "ive"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "conducts",
+      "morphemes": [
+        "con",
+        "duct",
+        "s"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "conducted",
+      "morphemes": [
+        "con",
+        "duct",
+        "ed"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "conducting",
+      "morphemes": [
+        "con",
+        "duct",
+        "ing"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "conductor",
+      "morphemes": [
+        "con",
+        "duct",
+        "or"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "conduction",
+      "morphemes": [
+        "con",
+        "duct",
+        "ion"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "conductive",
+      "morphemes": [
+        "con",
+        "duct",
+        "ive"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "products",
+      "morphemes": [
+        "pro",
+        "duct",
+        "s"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "production",
+      "morphemes": [
+        "pro",
+        "duct",
+        "ion"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "productive",
+      "morphemes": [
+        "pro",
+        "duct",
+        "ive"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "ducts",
+      "morphemes": [
+        "duct",
+        "s"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "ducted",
+      "morphemes": [
+        "duct",
+        "ed"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "ducting",
+      "morphemes": [
+        "duct",
+        "ing"
+      ],
+      "root": "duce, duct",
+      "matrix": "matrix_12"
+    },
+    {
+      "word": "inverse",
+      "morphemes": [
+        "in",
+        "verse"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "reverse",
+      "morphemes": [
+        "re",
+        "verse"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "converse",
+      "morphemes": [
+        "con",
+        "verse"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "inverses",
+      "morphemes": [
+        "in",
+        "verse",
+        "s"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "inversed",
+      "morphemes": [
+        "in",
+        "vers",
+        "ed"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "inversing",
+      "morphemes": [
+        "in",
+        "vers",
+        "ing"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "inversion",
+      "morphemes": [
+        "in",
+        "vers",
+        "ion"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "reverses",
+      "morphemes": [
+        "re",
+        "verse",
+        "s"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "reversed",
+      "morphemes": [
+        "re",
+        "vers",
+        "ed"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "reversing",
+      "morphemes": [
+        "re",
+        "vers",
+        "ing"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "reversion",
+      "morphemes": [
+        "re",
+        "vers",
+        "ion"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "subversion",
+      "morphemes": [
+        "sub",
+        "vers",
+        "ion"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "subversive",
+      "morphemes": [
+        "sub",
+        "vers",
+        "ive"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "converses",
+      "morphemes": [
+        "con",
+        "verse",
+        "s"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "conversed",
+      "morphemes": [
+        "con",
+        "vers",
+        "ed"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "conversing",
+      "morphemes": [
+        "con",
+        "vers",
+        "ing"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "conversion",
+      "morphemes": [
+        "con",
+        "vers",
+        "ion"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "invert",
+      "morphemes": [
+        "in",
+        "vert"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "revert",
+      "morphemes": [
+        "re",
+        "vert"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "subvert",
+      "morphemes": [
+        "sub",
+        "vert"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "convert",
+      "morphemes": [
+        "con",
+        "vert"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "inverts",
+      "morphemes": [
+        "in",
+        "vert",
+        "s"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "inverted",
+      "morphemes": [
+        "in",
+        "vert",
+        "ed"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "inverting",
+      "morphemes": [
+        "in",
+        "vert",
+        "ing"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "reverts",
+      "morphemes": [
+        "re",
+        "vert",
+        "s"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "reverted",
+      "morphemes": [
+        "re",
+        "vert",
+        "ed"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "reverting",
+      "morphemes": [
+        "re",
+        "vert",
+        "ing"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "subverts",
+      "morphemes": [
+        "sub",
+        "vert",
+        "s"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "subverted",
+      "morphemes": [
+        "sub",
+        "vert",
+        "ed"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "subverting",
+      "morphemes": [
+        "sub",
+        "vert",
+        "ing"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "converts",
+      "morphemes": [
+        "con",
+        "vert",
+        "s"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "converted",
+      "morphemes": [
+        "con",
+        "vert",
+        "ed"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "converting",
+      "morphemes": [
+        "con",
+        "vert",
+        "ing"
+      ],
+      "root": "vers, vert",
+      "matrix": "matrix_13"
+    },
+    {
+      "word": "facts",
+      "morphemes": [
+        "fact",
+        "s"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "factor",
+      "morphemes": [
+        "fact",
+        "or"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "faction",
+      "morphemes": [
+        "fact",
+        "ion"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "factual",
+      "morphemes": [
+        "fact",
+        "ual"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "infect",
+      "morphemes": [
+        "in",
+        "fect"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "defect",
+      "morphemes": [
+        "de",
+        "fect"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "perfect",
+      "morphemes": [
+        "per",
+        "fect"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "infects",
+      "morphemes": [
+        "in",
+        "fect",
+        "s"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "infected",
+      "morphemes": [
+        "in",
+        "fect",
+        "ed"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "infecting",
+      "morphemes": [
+        "in",
+        "fect",
+        "ing"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "infector",
+      "morphemes": [
+        "in",
+        "fect",
+        "or"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "infection",
+      "morphemes": [
+        "in",
+        "fect",
+        "ion"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "infective",
+      "morphemes": [
+        "in",
+        "fect",
+        "ive"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "defects",
+      "morphemes": [
+        "de",
+        "fect",
+        "s"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "defected",
+      "morphemes": [
+        "de",
+        "fect",
+        "ed"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "defecting",
+      "morphemes": [
+        "de",
+        "fect",
+        "ing"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "defector",
+      "morphemes": [
+        "de",
+        "fect",
+        "or"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "defection",
+      "morphemes": [
+        "de",
+        "fect",
+        "ion"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "defective",
+      "morphemes": [
+        "de",
+        "fect",
+        "ive"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "perfects",
+      "morphemes": [
+        "per",
+        "fect",
+        "s"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "perfected",
+      "morphemes": [
+        "per",
+        "fect",
+        "ed"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "perfecting",
+      "morphemes": [
+        "per",
+        "fect",
+        "ing"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "perfection",
+      "morphemes": [
+        "per",
+        "fect",
+        "ion"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "perfective",
+      "morphemes": [
+        "per",
+        "fect",
+        "ive"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "fiction",
+      "morphemes": [
+        "fict",
+        "ion"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "fictional",
+      "morphemes": [
+        "fict",
+        "ion",
+        "al"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "fictive",
+      "morphemes": [
+        "fict",
+        "ive"
+      ],
+      "root": "fact, fect, fict",
+      "matrix": "matrix_14"
+    },
+    {
+      "word": "intend",
+      "morphemes": [
+        "in",
+        "tend"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "distend",
+      "morphemes": [
+        "dis",
+        "tend"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "pretend",
+      "morphemes": [
+        "pre",
+        "tend"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "contend",
+      "morphemes": [
+        "con",
+        "tend"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "intends",
+      "morphemes": [
+        "in",
+        "tend",
+        "s"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "intended",
+      "morphemes": [
+        "in",
+        "tend",
+        "ed"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "intending",
+      "morphemes": [
+        "in",
+        "tend",
+        "ing"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "intender",
+      "morphemes": [
+        "in",
+        "tend",
+        "er"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "distends",
+      "morphemes": [
+        "dis",
+        "tend",
+        "s"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "distended",
+      "morphemes": [
+        "dis",
+        "tend",
+        "ed"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "distending",
+      "morphemes": [
+        "dis",
+        "tend",
+        "ing"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "pretends",
+      "morphemes": [
+        "pre",
+        "tend",
+        "s"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "pretended",
+      "morphemes": [
+        "pre",
+        "tend",
+        "ed"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "pretending",
+      "morphemes": [
+        "pre",
+        "tend",
+        "ing"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "pretender",
+      "morphemes": [
+        "pre",
+        "tend",
+        "er"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "contends",
+      "morphemes": [
+        "con",
+        "tend",
+        "s"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "contended",
+      "morphemes": [
+        "con",
+        "tend",
+        "ed"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "contending",
+      "morphemes": [
+        "con",
+        "tend",
+        "ing"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "contender",
+      "morphemes": [
+        "con",
+        "tend",
+        "er"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "intent",
+      "morphemes": [
+        "in",
+        "tent"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "content",
+      "morphemes": [
+        "con",
+        "tent"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "intents",
+      "morphemes": [
+        "in",
+        "tent",
+        "s"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "intention",
+      "morphemes": [
+        "in",
+        "tent",
+        "ion"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "intentions",
+      "morphemes": [
+        "in",
+        "tent",
+        "ion",
+        "s"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "contents",
+      "morphemes": [
+        "con",
+        "tent",
+        "s"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "contention",
+      "morphemes": [
+        "con",
+        "tent",
+        "ion"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "contentions",
+      "morphemes": [
+        "con",
+        "tent",
+        "ion",
+        "s"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "pretentions",
+      "morphemes": [
+        "pre",
+        "tent",
+        "ion",
+        "s"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "intense",
+      "morphemes": [
+        "in",
+        "tense"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "pretense",
+      "morphemes": [
+        "pre",
+        "tense"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "intensive",
+      "morphemes": [
+        "in",
+        "tens",
+        "ive"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "pretenses",
+      "morphemes": [
+        "pre",
+        "tense",
+        "s"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "tenses",
+      "morphemes": [
+        "tense",
+        "s"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "tensed",
+      "morphemes": [
+        "tens",
+        "ed"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "tensing",
+      "morphemes": [
+        "tens",
+        "ing"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "tenser",
+      "morphemes": [
+        "tens",
+        "er"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "tension",
+      "morphemes": [
+        "tens",
+        "ion"
+      ],
+      "root": "tend, tent, tens",
+      "matrix": "matrix_15"
+    },
+    {
+      "word": "deceit",
+      "morphemes": [
+        "de",
+        "ceit"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "receipt",
+      "morphemes": [
+        "re",
+        "ceipt"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "conceit",
+      "morphemes": [
+        "con",
+        "ceit"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "receipts",
+      "morphemes": [
+        "re",
+        "ceipt",
+        "s"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "deceive",
+      "morphemes": [
+        "de",
+        "ceive"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "receive",
+      "morphemes": [
+        "re",
+        "ceive"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "conceive",
+      "morphemes": [
+        "con",
+        "ceive"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "perceive",
+      "morphemes": [
+        "per",
+        "ceive"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "deceives",
+      "morphemes": [
+        "de",
+        "ceive",
+        "s"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "deceived",
+      "morphemes": [
+        "de",
+        "ceiv",
+        "ed"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "deceiving",
+      "morphemes": [
+        "de",
+        "ceiv",
+        "ing"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "deceiver",
+      "morphemes": [
+        "de",
+        "ceiv",
+        "er"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "deceivable",
+      "morphemes": [
+        "de",
+        "ceiv",
+        "able"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "receives",
+      "morphemes": [
+        "re",
+        "ceive",
+        "s"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "received",
+      "morphemes": [
+        "re",
+        "ceiv",
+        "ed"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "receiving",
+      "morphemes": [
+        "re",
+        "ceiv",
+        "ing"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "receiver",
+      "morphemes": [
+        "re",
+        "ceiv",
+        "er"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "receivable",
+      "morphemes": [
+        "re",
+        "ceiv",
+        "able"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "conceives",
+      "morphemes": [
+        "con",
+        "ceive",
+        "s"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "conceived",
+      "morphemes": [
+        "con",
+        "ceiv",
+        "ed"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "conceiving",
+      "morphemes": [
+        "con",
+        "ceiv",
+        "ing"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "conceiver",
+      "morphemes": [
+        "con",
+        "ceiv",
+        "er"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "conceivable",
+      "morphemes": [
+        "con",
+        "ceiv",
+        "able"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "perceives",
+      "morphemes": [
+        "per",
+        "ceive",
+        "s"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "perceived",
+      "morphemes": [
+        "per",
+        "ceiv",
+        "ed"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "perceiving",
+      "morphemes": [
+        "per",
+        "ceiv",
+        "ing"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "perceiver",
+      "morphemes": [
+        "per",
+        "ceiv",
+        "er"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "perceivable",
+      "morphemes": [
+        "per",
+        "ceiv",
+        "able"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "intercept",
+      "morphemes": [
+        "inter",
+        "cept"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "concept",
+      "morphemes": [
+        "con",
+        "cept"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "percept",
+      "morphemes": [
+        "per",
+        "cept"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "except",
+      "morphemes": [
+        "ex",
+        "cept"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "intercepts",
+      "morphemes": [
+        "inter",
+        "cept",
+        "s"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "intercepted",
+      "morphemes": [
+        "inter",
+        "cept",
+        "ed"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "intercepting",
+      "morphemes": [
+        "inter",
+        "cept",
+        "ing"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "interceptor",
+      "morphemes": [
+        "inter",
+        "cept",
+        "or"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "interception",
+      "morphemes": [
+        "inter",
+        "cept",
+        "ion"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "interceptive",
+      "morphemes": [
+        "inter",
+        "cept",
+        "ive"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "concepts",
+      "morphemes": [
+        "con",
+        "cept",
+        "s"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "conception",
+      "morphemes": [
+        "con",
+        "cept",
+        "ion"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "conceptive",
+      "morphemes": [
+        "con",
+        "cept",
+        "ive"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "percepts",
+      "morphemes": [
+        "per",
+        "cept",
+        "s"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "perception",
+      "morphemes": [
+        "per",
+        "cept",
+        "ion"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "perceptive",
+      "morphemes": [
+        "per",
+        "cept",
+        "ive"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "excepts",
+      "morphemes": [
+        "ex",
+        "cept",
+        "s"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "excepted",
+      "morphemes": [
+        "ex",
+        "cept",
+        "ed"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "excepting",
+      "morphemes": [
+        "ex",
+        "cept",
+        "ing"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "exception",
+      "morphemes": [
+        "ex",
+        "cept",
+        "ion"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "exceptive",
+      "morphemes": [
+        "ex",
+        "cept",
+        "ive"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "deceptive",
+      "morphemes": [
+        "de",
+        "cept",
+        "ive"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "receptive",
+      "morphemes": [
+        "re",
+        "cept",
+        "ive"
+      ],
+      "root": "ceit, ceive, cept",
+      "matrix": "matrix_16"
+    },
+    {
+      "word": "retain",
+      "morphemes": [
+        "re",
+        "tain"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "detain",
+      "morphemes": [
+        "de",
+        "tain"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "contain",
+      "morphemes": [
+        "con",
+        "tain"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "pertain",
+      "morphemes": [
+        "per",
+        "tain"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "sustain",
+      "morphemes": [
+        "sus",
+        "tain"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "retains",
+      "morphemes": [
+        "re",
+        "tain",
+        "s"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "retained",
+      "morphemes": [
+        "re",
+        "tain",
+        "ed"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "retaining",
+      "morphemes": [
+        "re",
+        "tain",
+        "ing"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "retainer",
+      "morphemes": [
+        "re",
+        "tain",
+        "er"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "retainable",
+      "morphemes": [
+        "re",
+        "tain",
+        "able"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "detains",
+      "morphemes": [
+        "de",
+        "tain",
+        "s"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "detained",
+      "morphemes": [
+        "de",
+        "tain",
+        "ed"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "detaining",
+      "morphemes": [
+        "de",
+        "tain",
+        "ing"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "detainer",
+      "morphemes": [
+        "de",
+        "tain",
+        "er"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "detainable",
+      "morphemes": [
+        "de",
+        "tain",
+        "able"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "contains",
+      "morphemes": [
+        "con",
+        "tain",
+        "s"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "contained",
+      "morphemes": [
+        "con",
+        "tain",
+        "ed"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "containing",
+      "morphemes": [
+        "con",
+        "tain",
+        "ing"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "container",
+      "morphemes": [
+        "con",
+        "tain",
+        "er"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "containable",
+      "morphemes": [
+        "con",
+        "tain",
+        "able"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "pertains",
+      "morphemes": [
+        "per",
+        "tain",
+        "s"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "pertained",
+      "morphemes": [
+        "per",
+        "tain",
+        "ed"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "pertaining",
+      "morphemes": [
+        "per",
+        "tain",
+        "ing"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "sustains",
+      "morphemes": [
+        "sus",
+        "tain",
+        "s"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "sustained",
+      "morphemes": [
+        "sus",
+        "tain",
+        "ed"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "sustaining",
+      "morphemes": [
+        "sus",
+        "tain",
+        "ing"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "sustainer",
+      "morphemes": [
+        "sus",
+        "tain",
+        "er"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "sustainable",
+      "morphemes": [
+        "sus",
+        "tain",
+        "able"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "retention",
+      "morphemes": [
+        "re",
+        "ten",
+        "tion"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "detention",
+      "morphemes": [
+        "de",
+        "ten",
+        "tion"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "contention",
+      "morphemes": [
+        "con",
+        "ten",
+        "tion"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "retentions",
+      "morphemes": [
+        "re",
+        "ten",
+        "tion",
+        "s"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "detentions",
+      "morphemes": [
+        "de",
+        "ten",
+        "tion",
+        "s"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "contentions",
+      "morphemes": [
+        "con",
+        "ten",
+        "tion",
+        "s"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "continent",
+      "morphemes": [
+        "con",
+        "tin",
+        "ent"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "pertinent",
+      "morphemes": [
+        "per",
+        "tin",
+        "ent"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "tenable",
+      "morphemes": [
+        "ten",
+        "able"
+      ],
+      "root": "tain, ten, tin",
+      "matrix": "matrix_17"
+    },
+    {
+      "word": "pounds",
+      "morphemes": [
+        "pound",
+        "s"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "pounded",
+      "morphemes": [
+        "pound",
+        "ed"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "pounding",
+      "morphemes": [
+        "pound",
+        "ing"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "pounder",
+      "morphemes": [
+        "pound",
+        "er"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "impose",
+      "morphemes": [
+        "im",
+        "pose"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "dispose",
+      "morphemes": [
+        "dis",
+        "pose"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "depose",
+      "morphemes": [
+        "de",
+        "pose"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "compose",
+      "morphemes": [
+        "com",
+        "pose"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "expose",
+      "morphemes": [
+        "ex",
+        "pose"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "propose",
+      "morphemes": [
+        "pro",
+        "pose"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "imposes",
+      "morphemes": [
+        "im",
+        "pose",
+        "s"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "imposed",
+      "morphemes": [
+        "im",
+        "pos",
+        "ed"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "imposing",
+      "morphemes": [
+        "im",
+        "pos",
+        "ing"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "imposer",
+      "morphemes": [
+        "im",
+        "pos",
+        "er"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "imposition",
+      "morphemes": [
+        "im",
+        "posit",
+        "ion"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "disposes",
+      "morphemes": [
+        "dis",
+        "pose",
+        "s"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "disposed",
+      "morphemes": [
+        "dis",
+        "pos",
+        "ed"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "disposing",
+      "morphemes": [
+        "dis",
+        "pos",
+        "ing"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "disposer",
+      "morphemes": [
+        "dis",
+        "pos",
+        "er"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "disposition",
+      "morphemes": [
+        "dis",
+        "posit",
+        "ion"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "disposal",
+      "morphemes": [
+        "dis",
+        "pos",
+        "al"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "deposes",
+      "morphemes": [
+        "de",
+        "pose",
+        "s"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "deposed",
+      "morphemes": [
+        "de",
+        "pos",
+        "ed"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "deposing",
+      "morphemes": [
+        "de",
+        "pos",
+        "ing"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "deposer",
+      "morphemes": [
+        "de",
+        "pos",
+        "er"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "deposition",
+      "morphemes": [
+        "de",
+        "posit",
+        "ion"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "composes",
+      "morphemes": [
+        "com",
+        "pose",
+        "s"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "composed",
+      "morphemes": [
+        "com",
+        "pos",
+        "ed"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "composer",
+      "morphemes": [
+        "com",
+        "pos",
+        "er"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "composition",
+      "morphemes": [
+        "com",
+        "posit",
+        "ion"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "compositional",
+      "morphemes": [
+        "com",
+        "posit",
+        "ion",
+        "al"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "exposes",
+      "morphemes": [
+        "ex",
+        "pose",
+        "s"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "exposed",
+      "morphemes": [
+        "ex",
+        "pos",
+        "ed"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "exposing",
+      "morphemes": [
+        "ex",
+        "pos",
+        "ing"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "exposer",
+      "morphemes": [
+        "ex",
+        "pos",
+        "er"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "exposition",
+      "morphemes": [
+        "ex",
+        "posit",
+        "ion"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "expositional",
+      "morphemes": [
+        "ex",
+        "posit",
+        "ion",
+        "al"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "proposes",
+      "morphemes": [
+        "pro",
+        "pose",
+        "s"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "proposed",
+      "morphemes": [
+        "pro",
+        "pos",
+        "ed"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "proposing",
+      "morphemes": [
+        "pro",
+        "pos",
+        "ing"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "proposer",
+      "morphemes": [
+        "pro",
+        "pos",
+        "er"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "proposition",
+      "morphemes": [
+        "pro",
+        "posit",
+        "ion"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "propositional",
+      "morphemes": [
+        "pro",
+        "posit",
+        "ion",
+        "al"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "impound",
+      "morphemes": [
+        "im",
+        "pound"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "compound",
+      "morphemes": [
+        "com",
+        "pound"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "expound",
+      "morphemes": [
+        "ex",
+        "pound"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "propound",
+      "morphemes": [
+        "pro",
+        "pound"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "impounds",
+      "morphemes": [
+        "im",
+        "pound",
+        "s"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "impounded",
+      "morphemes": [
+        "im",
+        "pound",
+        "ed"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "impounding",
+      "morphemes": [
+        "im",
+        "pound",
+        "ing"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "impounder",
+      "morphemes": [
+        "im",
+        "pound",
+        "er"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "compounds",
+      "morphemes": [
+        "com",
+        "pound",
+        "s"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "compounded",
+      "morphemes": [
+        "com",
+        "pound",
+        "ed"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "compounding",
+      "morphemes": [
+        "com",
+        "pound",
+        "ing"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "compounder",
+      "morphemes": [
+        "com",
+        "pound",
+        "er"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "expounds",
+      "morphemes": [
+        "ex",
+        "pound",
+        "s"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "expounded",
+      "morphemes": [
+        "ex",
+        "pound",
+        "ed"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "expounding",
+      "morphemes": [
+        "ex",
+        "pound",
+        "ing"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "expounder",
+      "morphemes": [
+        "ex",
+        "pound",
+        "er"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "propounds",
+      "morphemes": [
+        "pro",
+        "pound",
+        "s"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "propounded",
+      "morphemes": [
+        "pro",
+        "pound",
+        "ed"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "propounding",
+      "morphemes": [
+        "pro",
+        "pound",
+        "ing"
+      ],
+      "root": "pos, pound",
+      "matrix": "matrix_18"
+    },
+    {
+      "word": "autograph",
+      "morphemes": [
+        "auto",
+        "graph"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "biograph",
+      "morphemes": [
+        "bio",
+        "graph"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "chronogram",
+      "morphemes": [
+        "chrono",
+        "gram"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "chronograph",
+      "morphemes": [
+        "chrono",
+        "graph"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "hydrograph",
+      "morphemes": [
+        "hydro",
+        "graph"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "phonogram",
+      "morphemes": [
+        "phono",
+        "gram"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "phonograph",
+      "morphemes": [
+        "phono",
+        "graph"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "photogram",
+      "morphemes": [
+        "photo",
+        "gram"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "photograph",
+      "morphemes": [
+        "photo",
+        "graph"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "telegram",
+      "morphemes": [
+        "tele",
+        "gram"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "telegraph",
+      "morphemes": [
+        "tele",
+        "graph"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "thermograph",
+      "morphemes": [
+        "thermo",
+        "graph"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "biographer",
+      "morphemes": [
+        "bio",
+        "graph",
+        "er"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "chronographer",
+      "morphemes": [
+        "chrono",
+        "graph",
+        "er"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "demographer",
+      "morphemes": [
+        "demo",
+        "graph",
+        "er"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "geographer",
+      "morphemes": [
+        "geo",
+        "graph",
+        "er"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "hydrographer",
+      "morphemes": [
+        "hydro",
+        "graph",
+        "er"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "photographer",
+      "morphemes": [
+        "photo",
+        "graph",
+        "er"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "telegrapher",
+      "morphemes": [
+        "tele",
+        "graph",
+        "er"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "autographic",
+      "morphemes": [
+        "auto",
+        "graph",
+        "ic"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "biographic",
+      "morphemes": [
+        "bio",
+        "graph",
+        "ic"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "chronographic",
+      "morphemes": [
+        "chrono",
+        "graph",
+        "ic"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "demographic",
+      "morphemes": [
+        "demo",
+        "graph",
+        "ic"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "geographic",
+      "morphemes": [
+        "geo",
+        "graph",
+        "ic"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "hydrographic",
+      "morphemes": [
+        "hydro",
+        "graph",
+        "ic"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "phonographic",
+      "morphemes": [
+        "phono",
+        "graph",
+        "ic"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "photographic",
+      "morphemes": [
+        "photo",
+        "graph",
+        "ic"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "telegraphic",
+      "morphemes": [
+        "tele",
+        "graph",
+        "ic"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "autobiographic",
+      "morphemes": [
+        "auto",
+        "bio",
+        "graph",
+        "ic"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "autographical",
+      "morphemes": [
+        "auto",
+        "graph",
+        "ical"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "biographical",
+      "morphemes": [
+        "bio",
+        "graph",
+        "ical"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "hydrographical",
+      "morphemes": [
+        "hydro",
+        "graph",
+        "ical"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "photographical",
+      "morphemes": [
+        "photo",
+        "graph",
+        "ical"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "autobiographical",
+      "morphemes": [
+        "auto",
+        "bio",
+        "graph",
+        "ical"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "biography",
+      "morphemes": [
+        "bio",
+        "graph",
+        "y"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "demography",
+      "morphemes": [
+        "demo",
+        "graph",
+        "y"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "geography",
+      "morphemes": [
+        "geo",
+        "graph",
+        "y"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "hydrography",
+      "morphemes": [
+        "hydro",
+        "graph",
+        "y"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "phonography",
+      "morphemes": [
+        "phono",
+        "graph",
+        "y"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "photography",
+      "morphemes": [
+        "photo",
+        "graph",
+        "y"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "telegraphy",
+      "morphemes": [
+        "tele",
+        "graph",
+        "y"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "thermography",
+      "morphemes": [
+        "thermo",
+        "graph",
+        "y"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "autobiography",
+      "morphemes": [
+        "auto",
+        "bio",
+        "graph",
+        "y"
+      ],
+      "root": "gram, graph",
+      "matrix": "matrix_19"
+    },
+    {
+      "word": "biology",
+      "morphemes": [
+        "bio",
+        "logy"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "chronology",
+      "morphemes": [
+        "chrono",
+        "logy"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "geology",
+      "morphemes": [
+        "geo",
+        "logy"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "hydrology",
+      "morphemes": [
+        "hydro",
+        "logy"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "graphology",
+      "morphemes": [
+        "graph",
+        "ology"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "meteorology",
+      "morphemes": [
+        "meteor",
+        "logy"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "phonology",
+      "morphemes": [
+        "phono",
+        "logy"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "psychology",
+      "morphemes": [
+        "psych",
+        "ology"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "technology",
+      "morphemes": [
+        "techn",
+        "ology"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "microbiology",
+      "morphemes": [
+        "micro",
+        "bio",
+        "logy"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "biologic",
+      "morphemes": [
+        "bio",
+        "log",
+        "ic"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "chronologic",
+      "morphemes": [
+        "chrono",
+        "log",
+        "ic"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "geologic",
+      "morphemes": [
+        "geo",
+        "log",
+        "ic"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "hydrologic",
+      "morphemes": [
+        "hydro",
+        "log",
+        "ic"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "meteorologic",
+      "morphemes": [
+        "meteor",
+        "logy",
+        "ic"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "phonologic",
+      "morphemes": [
+        "phono",
+        "log",
+        "ic"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "psychologic",
+      "morphemes": [
+        "psych",
+        "olog",
+        "ic"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "technologic",
+      "morphemes": [
+        "techn",
+        "olog",
+        "ic"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "microbiologic",
+      "morphemes": [
+        "micro",
+        "bio",
+        "log",
+        "ic"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "biological",
+      "morphemes": [
+        "bio",
+        "log",
+        "ical"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "chronological",
+      "morphemes": [
+        "chrono",
+        "log",
+        "ical"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "geological",
+      "morphemes": [
+        "geo",
+        "log",
+        "ical"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "hydrological",
+      "morphemes": [
+        "hydro",
+        "log",
+        "ical"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "meteorological",
+      "morphemes": [
+        "meteor",
+        "logy",
+        "ic",
+        "al"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "phonological",
+      "morphemes": [
+        "phono",
+        "log",
+        "ical"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "psychological",
+      "morphemes": [
+        "psych",
+        "olog",
+        "ical"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "technological",
+      "morphemes": [
+        "techn",
+        "olog",
+        "ical"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "microbiological",
+      "morphemes": [
+        "micro",
+        "bio",
+        "log",
+        "ical"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "biologist",
+      "morphemes": [
+        "bio",
+        "log",
+        "ist"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "chronologist",
+      "morphemes": [
+        "chrono",
+        "log",
+        "ist"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "geologist",
+      "morphemes": [
+        "geo",
+        "log",
+        "ist"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "hydrologist",
+      "morphemes": [
+        "hydro",
+        "log",
+        "ist"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "phonologist",
+      "morphemes": [
+        "phono",
+        "log",
+        "ist"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "psychologist",
+      "morphemes": [
+        "psych",
+        "olog",
+        "ist"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "technologist",
+      "morphemes": [
+        "techn",
+        "olog",
+        "ist"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "microbiologist",
+      "morphemes": [
+        "micro",
+        "bio",
+        "log",
+        "ist"
+      ],
+      "root": "logy, ology",
+      "matrix": "matrix_20"
+    },
+    {
+      "word": "chronometer",
+      "morphemes": [
+        "chrono",
+        "meter"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "geometer",
+      "morphemes": [
+        "geo",
+        "meter"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "hydrometer",
+      "morphemes": [
+        "hydro",
+        "meter"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "micrometer",
+      "morphemes": [
+        "micro",
+        "meter"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "photometer",
+      "morphemes": [
+        "photo",
+        "meter"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "telemeter",
+      "morphemes": [
+        "tele",
+        "meter"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "thermometer",
+      "morphemes": [
+        "thermo",
+        "meter"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "biometric",
+      "morphemes": [
+        "bio",
+        "metr",
+        "ic"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "chronometric",
+      "morphemes": [
+        "chrono",
+        "metr",
+        "ic"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "geometric",
+      "morphemes": [
+        "geo",
+        "metr",
+        "ic"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "hydrometric",
+      "morphemes": [
+        "hydro",
+        "metr",
+        "ic"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "micrometric",
+      "morphemes": [
+        "micro",
+        "metr",
+        "ic"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "photometric",
+      "morphemes": [
+        "photo",
+        "metr",
+        "ic"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "telemetric",
+      "morphemes": [
+        "tele",
+        "metr",
+        "ic"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "thermometric",
+      "morphemes": [
+        "thermo",
+        "metr",
+        "ic"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "biometry",
+      "morphemes": [
+        "bio",
+        "metr",
+        "y"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "chronometry",
+      "morphemes": [
+        "chrono",
+        "metr",
+        "y"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "geometry",
+      "morphemes": [
+        "geo",
+        "metr",
+        "y"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "micrometry",
+      "morphemes": [
+        "micro",
+        "metr",
+        "y"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "photometry",
+      "morphemes": [
+        "photo",
+        "metr",
+        "y"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "telemetry",
+      "morphemes": [
+        "tele",
+        "metr",
+        "y"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "thermometry",
+      "morphemes": [
+        "thermo",
+        "metr",
+        "y"
+      ],
+      "root": "meter, metr",
+      "matrix": "matrix_21"
+    },
+    {
+      "word": "phoneme",
+      "morphemes": [
+        "phon",
+        "eme"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "phonemic",
+      "morphemes": [
+        "phon",
+        "eme",
+        "ic"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "phonic",
+      "morphemes": [
+        "phon",
+        "ic"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "geophone",
+      "morphemes": [
+        "geo",
+        "phone"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "geophonic",
+      "morphemes": [
+        "geo",
+        "phon",
+        "ic"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "gramophone",
+      "morphemes": [
+        "gramo",
+        "phone"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "gramophonic",
+      "morphemes": [
+        "gramo",
+        "phon",
+        "ic"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "hydrophone",
+      "morphemes": [
+        "hydro",
+        "phone"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "microphone",
+      "morphemes": [
+        "micro",
+        "phone"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "microphonic",
+      "morphemes": [
+        "micro",
+        "phon",
+        "ic"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "telephone",
+      "morphemes": [
+        "tele",
+        "phone"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "telephonic",
+      "morphemes": [
+        "tele",
+        "phon",
+        "ic"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "homophone",
+      "morphemes": [
+        "homo",
+        "phone"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "megaphone",
+      "morphemes": [
+        "mega",
+        "phone"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "vibraphone",
+      "morphemes": [
+        "vibra",
+        "phone"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "xylophone",
+      "morphemes": [
+        "xylo",
+        "phone"
+      ],
+      "root": "phone, phon",
+      "matrix": "matrix_22"
+    },
+    {
+      "word": "spherical",
+      "morphemes": [
+        "spher",
+        "ical"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "astrosphere",
+      "morphemes": [
+        "astro",
+        "sphere"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "biosphere",
+      "morphemes": [
+        "bio",
+        "sphere"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "ecosphere",
+      "morphemes": [
+        "eco",
+        "sphere"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "geosphere",
+      "morphemes": [
+        "geo",
+        "sphere"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "hemisphere",
+      "morphemes": [
+        "hemi",
+        "sphere"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "hydrosphere",
+      "morphemes": [
+        "hydro",
+        "sphere"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "microsphere",
+      "morphemes": [
+        "micro",
+        "sphere"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "photosphere",
+      "morphemes": [
+        "photo",
+        "sphere"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "thermosphere",
+      "morphemes": [
+        "thermo",
+        "sphere"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "atmosphere",
+      "morphemes": [
+        "atmo",
+        "sphere"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "atmospheric",
+      "morphemes": [
+        "atmo",
+        "spher",
+        "ic"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "stratosphere",
+      "morphemes": [
+        "strato",
+        "sphere"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "stratospheric",
+      "morphemes": [
+        "strato",
+        "spher",
+        "ic"
+      ],
+      "root": "sphere",
+      "matrix": "matrix_23"
+    },
+    {
+      "word": "autocracy",
+      "morphemes": [
+        "auto",
+        "cracy"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "democracy",
+      "morphemes": [
+        "demo",
+        "cracy"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "technocracy",
+      "morphemes": [
+        "techno",
+        "cracy"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "autocrat",
+      "morphemes": [
+        "auto",
+        "crat"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "democrat",
+      "morphemes": [
+        "demo",
+        "crat"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "technocrat",
+      "morphemes": [
+        "techno",
+        "crat"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "autocratic",
+      "morphemes": [
+        "auto",
+        "crat",
+        "ic"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "democratic",
+      "morphemes": [
+        "demo",
+        "crat",
+        "ic"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "technocratic",
+      "morphemes": [
+        "techno",
+        "crat",
+        "ic"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "aristocracy",
+      "morphemes": [
+        "aristo",
+        "cracy"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "aristocrat",
+      "morphemes": [
+        "aristo",
+        "crat"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "aristocratic",
+      "morphemes": [
+        "aristo",
+        "crat",
+        "ic"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "bureaucracy",
+      "morphemes": [
+        "bureau",
+        "cracy"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "bureaucrat",
+      "morphemes": [
+        "bureau",
+        "crat"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "bureaucratic",
+      "morphemes": [
+        "bureau",
+        "crat",
+        "ic"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "mediocracy",
+      "morphemes": [
+        "medio",
+        "cracy"
+      ],
+      "root": "cracy, crat",
+      "matrix": "matrix_24"
+    },
+    {
+      "word": "bioscope",
+      "morphemes": [
+        "bio",
+        "scope"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "chronoscope",
+      "morphemes": [
+        "chrono",
+        "scope"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "hydroscope",
+      "morphemes": [
+        "hydro",
+        "scope"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "microscope",
+      "morphemes": [
+        "micro",
+        "scope"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "phonoscope",
+      "morphemes": [
+        "phono",
+        "scope"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "telescope",
+      "morphemes": [
+        "tele",
+        "scope"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "chronoscopic",
+      "morphemes": [
+        "chrono",
+        "scop",
+        "ic"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "hydroscopic",
+      "morphemes": [
+        "hydro",
+        "scop",
+        "ic"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "microscopic",
+      "morphemes": [
+        "micro",
+        "scop",
+        "ic"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "telescopic",
+      "morphemes": [
+        "tele",
+        "scop",
+        "ic"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "endoscope",
+      "morphemes": [
+        "endo",
+        "scope"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "endoscopic",
+      "morphemes": [
+        "endo",
+        "scop",
+        "ic"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "horoscope",
+      "morphemes": [
+        "horo",
+        "scope"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    },
+    {
+      "word": "kaleidoscope",
+      "morphemes": [
+        "kaleido",
+        "scope"
+      ],
+      "root": "scope",
+      "matrix": "matrix_25"
+    }
+  ]
+}

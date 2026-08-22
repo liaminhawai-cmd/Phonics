@@ -1,5 +1,23 @@
 # 🇦🇺 Australian English Vowel Trainer
 
+> **This repo is now a full phonics platform** built on one
+> scope-and-sequence-agnostic data bank (`data/`: 44 phonemes with AU/UK/US
+> pronunciations, 172 grapheme-phoneme correspondences, 1000+ segmented
+> words, 32 spelling rules with lessons, morpheme matrices) — the master
+> plan lives in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Pages:
+>
+> | | |
+> |---|---|
+> | `index.html` | the grapheme trainer below, now with a program picker (ELC bookmarks, UFLI, Letters & Sounds, Jolly Phonics, Sound Waves, LLLL…) |
+> | `explorer.html` | any program in both views — graphemes-in-order or every-spelling-of-every-sound — with a "taught up to" slider and live decodable-word lists |
+> | `practice.html` | student tasks: sound & syllable counting, listen & write with error-aware feedback and rule micro-lessons, grapheme toggle, build-a-word, handwriting, morpheme word-builder — all tracked per child |
+> | `report.html` | teacher view: decode/encode mastery heatmaps, auto-written strengths & weaknesses, export/import, printable |
+> | `sheets.html` | printable A4 worksheets for any program/unit/accent with QR codes that play the words aloud (`play.html`) |
+> | `handwriting.html` | Victorian Modern Cursive practice with stroke-order/direction/placement scoring |
+>
+> Learner data stays on the device (IndexedDB) — nothing is uploaded.
+> Recording checklists for AU/UK/US voices live in `recordings/`.
+
 A flashcard-style drill for learning Australian English vowel sounds — modelled
 on bopomofo practice. You **pick the sounds you want to work on**, then go into
 **flashcard mode**: hear the sound, write or type your answer, check it, and

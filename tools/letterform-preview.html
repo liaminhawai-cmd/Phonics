@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letterform Preview — Vic Modern Cursive</title>
+<link rel="icon" href="data:,">
+<style>
+    :root {
+        --bg: #f4efe6;
+        --paper: #fbf7ee;
+        --ink: #1f1f1f;
+        --muted: #6b6256;
+        --line: #d8cfbb;
+        --line-soft: #e8e0cd;
+        --accent: #a83232;
+        --s1: #1f1f1f;
+        --s2: #2b5fa8;
+        --s3: #d2691e;
+        --s4: #2f6a3e;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--bg); color: var(--ink);
+        padding: 16px; min-height: 100vh;
+    }
+    .container {
+        background: var(--paper); border: 1px solid var(--line); border-radius: 12px;
+        max-width: 1400px; margin: 0 auto; padding: 20px;
+    }
+    h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 22px; letter-spacing: 0.5px; }
+    .subtitle { color: var(--muted); font-size: 13px; margin: 6px 0 14px; line-height: 1.5; }
+    .subtitle code { background: var(--bg); padding: 1px 5px; border-radius: 4px; }
+
+    .legend {
+        display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+        padding: 10px 12px; background: var(--bg); border: 1px solid var(--line-soft);
+        border-radius: 10px; margin-bottom: 14px; font-size: 12px; color: var(--muted);
+    }
+    .legend b { color: var(--ink); }
+    .swatch { display: inline-block; width: 22px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .toolbar a, .toolbar button {
+        min-height: 44px; min-width: 44px; padding: 10px 14px;
+        border: 1px solid var(--line); border-radius: 8px; background: var(--paper);
+        color: var(--ink); font-size: 13px; font-weight: 600; font-family: inherit;
+        text-decoration: none; cursor: pointer; display: inline-flex; align-items: center;
+    }
+    .toolbar a:hover, .toolbar button:hover { border-color: var(--accent); background: #faf5f0; }
+    .toolbar a.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .cell {
+        border: 1px solid var(--line-soft); border-radius: 10px; background: #fff;
+        padding: 8px; display: flex; flex-direction: column; align-items: center;
+    }
+    .cell svg { display: block; width: 100%; height: auto; }
+    .cap { font-size: 12px; color: var(--muted); margin-top: 6px; text-align: center; line-height: 1.45; }
+    .cap b { color: var(--ink); font-size: 15px; font-family: Georgia, serif; }
+    .cap a { color: var(--accent); text-decoration: none; }
+    .cap a:hover { text-decoration: underline; }
+    .cap .fam { display: block; font-size: 11px; opacity: 0.85; }
+
+    .status { padding: 24px; text-align: center; color: var(--muted); font-size: 14px; }
+    .status.err { color: var(--accent); background: #f5eaea; border-radius: 8px; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Letterform preview — Victorian Modern Cursive</h1>
+    <p class="subtitle">
+        Renders every stroke path in <code>data/handwriting/letterforms-vic-modern-cursive.json</code> on the dotted
+        thirds. Filter with <code>?letters=a,b,c</code>; zoom with <code>?size=760</code>;
+        show start rectangles with <code>?zones=1</code>.
+    </p>
+    <div class="legend">
+        <span><span class="swatch" style="background:var(--s1)"></span><b>stroke 1</b></span>
+        <span><span class="swatch" style="background:var(--s2)"></span><b>stroke 2</b></span>
+        <span><span class="swatch" style="background:var(--s3)"></span><b>stroke 3</b></span>
+        <span>&#9679; = pen down</span>
+        <span>&#9658; = direction at 25% along the stroke</span>
+        <span>y: 0 top &middot; 33.3 dotted &middot; 66.6 base &middot; 100 floor</span>
+    </div>
+    <div class="toolbar" id="toolbar"></div>
+    <div class="status" id="status">Loading letterforms&hellip;</div>
+    <div class="grid" id="grid"></div>
+</div>
+<script>
+(function () {
+    var SVGNS = 'http://www.w3.org/2000/svg';
+    var COLOURS = ['#1f1f1f', '#2b5fa8', '#d2691e', '#2f6a3e', '#7a3f9d'];
+    var params = new URLSearchParams(location.search);
+    var size = parseInt(params.get('size'), 10) || 190;
+    if (size < 60) { size = 60; }
+    if (size > 1600) { size = 1600; }
+    var showZones = params.get('zones') === '1';
+    var filter = (params.get('letters') || '').split(',')
+        .map(function (s) { return s.trim(); })
+        .filter(function (s) { return s.length > 0; });
+
+    var GUIDES = [
+        { y: 0,    kind: 'solid' },
+        { y: 33.3, kind: 'dotted' },
+        { y: 66.6, kind: 'solid' },
+        { y: 100,  kind: 'faint' }
+    ];
+
+    function el(name, attrs) {
+        var node = document.createElementNS(SVGNS, name);
+        for (var k in attrs) { if (Object.prototype.hasOwnProperty.call(attrs, k)) { node.setAttribute(k, attrs[k]); } }
+        return node;
+    }
+
+    function guideLines(svg, x0, x1) {
+        GUIDES.forEach(function (g) {
+            var attrs = {
+                x1: x0, y1: g.y, x2: x1, y2: g.y,
+                stroke: g.kind === 'faint' ? '#e3dccc' : '#b9ac91',
+                'stroke-width': g.kind === 'solid' ? 0.9 : 0.7
+            };
+            if (g.kind === 'dotted') { attrs['stroke-dasharray'] = '2.6 3.4'; }
+            if (g.kind === 'faint') { attrs['stroke-dasharray'] = '1.5 4'; }
+            svg.appendChild(el('line', attrs));
+        });
+    }
+
+    function marginLines(svg, width) {
+        [0, width].forEach(function (x) {
+            svg.appendChild(el('line', {
+                x1: x, y1: -6, x2: x, y2: 106,
+                stroke: '#efe8d8', 'stroke-width': 0.7
+            }));
+        });
+    }
+
+    // Every cell uses the same viewBox so the thirds line up across the grid
+    // and glyph sizes are directly comparable.
+    var PAD = 8;
+    var BOX_W = 96;
+    var BOX_H = 100 + PAD * 2;
+
+    function drawLetter(key, def) {
+        var width = typeof def.width === 'number' ? def.width : 55;
+        var svg = el('svg', {
+            viewBox: (-PAD) + ' ' + (-PAD) + ' ' + BOX_W + ' ' + BOX_H,
+            width: size, height: Math.round(size * BOX_H / BOX_W)
+        });
+        guideLines(svg, -PAD, BOX_W - PAD);
+        marginLines(svg, width);
+
+        var strokes = def.strokes || [];
+
+        if (showZones) {
+            strokes.forEach(function (st, i) {
+                var z = st.start_zone;
+                if (!z || z.length !== 4) { return; }
+                svg.appendChild(el('rect', {
+                    x: z[0], y: z[1], width: z[2], height: z[3],
+                    fill: 'none', stroke: COLOURS[i % COLOURS.length],
+                    'stroke-width': 0.5, 'stroke-dasharray': '2 2', opacity: 0.5
+                }));
+            });
+        }
+
+        var paths = [];
+        strokes.forEach(function (st, i) {
+            var colour = COLOURS[i % COLOURS.length];
+            var p = el('path', {
+                d: st.path, fill: 'none', stroke: colour,
+                'stroke-width': 3.2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'
+            });
+            svg.appendChild(p);
+            paths.push({ node: p, colour: colour });
+        });
+
+        // Markers need layout, so append after the paths are in the document.
+        return { svg: svg, paths: paths };
+    }
+
+    function addMarkers(rendered) {
+        rendered.paths.forEach(function (p) {
+            var node = p.node, svg = node.ownerSVGElement, total;
+            try { total = node.getTotalLength(); } catch (e) { total = 0; }
+            if (!total) { return; }
+            var start = node.getPointAtLength(0);
+            svg.appendChild(el('circle', {
+                cx: start.x, cy: start.y, r: 2.6, fill: p.colour
+            }));
+            if (total < 4) { return; }   // dots and ticks: pen-down marker only
+            var at = total * 0.25;
+            var a = node.getPointAtLength(at);
+            var b = node.getPointAtLength(Math.min(total, at + Math.max(0.5, total * 0.02)));
+            var angle = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
+            svg.appendChild(el('path', {
+                d: 'M 0,0 L -6,-3.2 L -6,3.2 Z',
+                fill: p.colour,
+                transform: 'translate(' + a.x.toFixed(2) + ',' + a.y.toFixed(2) + ') rotate(' + angle.toFixed(1) + ')'
+            }));
+        });
+    }
+
+    function caption(key, def) {
+        var cap = document.createElement('div');
+        cap.className = 'cap';
+        var name = document.createElement('b');
+        name.textContent = key;
+        cap.appendChild(name);
+        var zone = document.createElement('span');
+        zone.textContent = ' · ' + (def.zone || '?') + ' · ' + (def.strokes || []).length + ' stroke'
+            + ((def.strokes || []).length === 1 ? '' : 's');
+        cap.appendChild(zone);
+        var fam = document.createElement('span');
+        fam.className = 'fam';
+        var link = document.createElement('a');
+        link.href = '?letters=' + encodeURIComponent(key) + '&size=760' + (showZones ? '&zones=1' : '');
+        link.textContent = 'zoom 4×';
+        fam.appendChild(document.createTextNode((def.family || []).join(', ') + ' '));
+        fam.appendChild(link);
+        cap.appendChild(fam);
+        return cap;
+    }
+
+    function toolbar(keys) {
+        var bar = document.getElementById('toolbar');
+        var groups = [
+            { label: 'all', q: '' },
+            { label: 'a–z', q: '?letters=' + 'abcdefghijklmnopqrstuvwxyz'.split('').join(',') },
+            { label: '0–9', q: '?letters=' + '0123456789'.split('').join(',') },
+            { label: 'start zones', q: '?zones=1' }
+        ];
+        groups.forEach(function (g) {
+            var a = document.createElement('a');
+            a.href = g.q || location.pathname;
+            a.textContent = g.label;
+            bar.appendChild(a);
+        });
+    }
+
+    function render(data) {
+        var letters = data.letters || {};
+        var keys = filter.length ? filter : Object.keys(letters);
+        var grid = document.getElementById('grid');
+        var status = document.getElementById('status');
+        var missing = [];
+        var pending = [];
+
+        keys.forEach(function (key) {
+            var def = letters[key];
+            if (!def) { missing.push(key); return; }
+            var cell = document.createElement('div');
+            cell.className = 'cell';
+            cell.style.width = (size + 18) + 'px';
+            cell.style.minHeight = Math.round(size * BOX_H / BOX_W) + 66 + 'px';
+            var rendered = drawLetter(key, def);
+            cell.appendChild(rendered.svg);
+            cell.appendChild(caption(key, def));
+            grid.appendChild(cell);
+            pending.push(rendered);
+        });
+
+        pending.forEach(addMarkers);
+
+        var shown = keys.length - missing.length;
+        status.className = 'status';
+        status.textContent = shown + ' of ' + Object.keys(letters).length + ' letterforms shown'
+            + (missing.length ? ' — not in the bank: ' + missing.join(', ') : '');
+        toolbar(keys);
+    }
+
+    fetch('../data/handwriting/letterforms-vic-modern-cursive.json', { cache: 'no-store' })
+        .then(function (r) {
+            if (!r.ok) { throw new Error('HTTP ' + r.status); }
+            return r.json();
+        })
+        .then(render)
+        .catch(function (e) {
+            var status = document.getElementById('status');
+            status.className = 'status err';
+            status.textContent = 'Could not load letterforms: ' + e.message
+                + ' (serve the repo over http, then open /tools/letterform-preview.html)';
+        });
+}());
+</script>
+</body>
+</html>

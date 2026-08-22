@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequence Explorer — Aussie Phonics</title>
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --paper: #fbf7ee;
+            --ink: #1f1f1f;
+            --muted: #6b6256;
+            --line: #d8cfbb;
+            --line-soft: #e8e0cd;
+            --accent: #a83232;
+            --correct: #2f6a3e;
+            --wrong: #a83232;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            color: var(--ink);
+        }
+        .container {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            max-width: 1100px;
+            width: 100%;
+            padding: 28px;
+            margin-top: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .hub-link { display: inline-block; font-size: 13px; font-weight: 700; color: var(--accent);
+            text-decoration: none; margin-bottom: 4px; }
+        .hub-link:hover { text-decoration: underline; }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            font-family: Georgia, 'Times New Roman', serif;
+            letter-spacing: 0.5px;
+        }
+        .subtitle { color: var(--muted); text-align: center; margin: 6px 0 20px; font-size: 13px; max-width: 560px; margin-left: auto; margin-right: auto; line-height: 1.5; }
+
+        /* ---- controls bar ---- */
+        .explorer-controls {
+            display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end;
+            padding: 14px; margin-bottom: 6px; background: var(--bg);
+            border: 1px solid var(--line-soft); border-radius: 10px;
+        }
+        .ctrl-block { display: flex; flex-direction: column; gap: 5px; flex: 1 1 200px; min-width: 180px; }
+        .ctrl-block.ctrl-slider { flex: 2 1 260px; }
+        .ctrl-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+        .ctrl-label b { color: var(--accent); text-transform: none; letter-spacing: 0; font-size: 12px; }
+        select#programSelect {
+            padding: 10px 12px; min-height: 44px; border: 1px solid var(--line); border-radius: 8px;
+            background: var(--paper); color: var(--ink); font-size: 14px; font-family: inherit;
+        }
+        .mode-toggle { display: inline-flex; background: var(--paper); border: 1px solid var(--line-soft); border-radius: 8px; padding: 3px; }
+        .mode-toggle button {
+            border: none; background: none; padding: 9px 16px; min-height: 44px; border-radius: 6px;
+            font-weight: 600; font-size: 13px; cursor: pointer; color: var(--muted);
+            transition: all 0.15s ease; flex: 1;
+        }
+        .mode-toggle button.active { background: var(--accent); color: white; }
+        #uptoSlider { width: 100%; height: 32px; accent-color: var(--accent); cursor: pointer; }
+        .approx-note {
+            font-size: 12px; color: #6b5316; background: #f8f1de; border: 1px solid #c8992e;
+            border-radius: 8px; padding: 8px 12px; margin-bottom: 14px; line-height: 1.5;
+        }
+        .approx-note[hidden] { display: none; }
+
+        /* ---- status ---- */
+        .status-box {
+            text-align: center; padding: 30px 16px; color: var(--muted); font-size: 14px;
+        }
+        .status-box[hidden] { display: none; }
+        .status-box.status-error { color: var(--wrong); background: #f5eaea; border-radius: 8px; }
+        .status-box small { display: block; margin-top: 6px; color: var(--muted); font-weight: 400; }
+
+        .empty-note { color: var(--muted); font-size: 13px; font-style: italic; }
+
+        /* ---- unit cards (graphemes view) ---- */
+        #graphemePanel[hidden], #soundPanel[hidden] { display: none; }
+        .unit-card {
+            border: 1px solid var(--line); border-radius: 12px; background: var(--paper);
+            margin-bottom: 14px; overflow: hidden;
+        }
+        .unit-bar { padding: 10px 16px; font-weight: 700; font-family: Georgia, serif; font-size: 15px; }
+        .unit-body { padding: 14px 16px; }
+        .unit-review { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+        .unit-notes { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 10px; line-height: 1.5; }
+        .grapheme-chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+        .g-explorer-chip {
+            min-width: 44px; min-height: 44px; padding: 6px 14px;
+            border: 1px solid var(--line); border-radius: 8px; background: var(--paper);
+            font-family: Georgia, serif; font-weight: 700; font-size: 17px; color: var(--ink);
+            cursor: pointer; transition: all 0.15s ease;
+        }
+        .g-explorer-chip:hover { border-color: var(--accent); background: #faf5f0; }
+        .g-explorer-chip.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+        .detail-slot:empty { display: none; }
+        .gpc-detail {
+            margin-top: 12px; padding: 12px 14px; background: var(--bg);
+            border-radius: 8px; border-left: 3px solid var(--accent);
+        }
+        .gpc-row { padding: 8px 0; border-top: 1px dashed var(--line-soft); cursor: pointer; }
+        .gpc-row:first-child { border-top: none; padding-top: 0; }
+        .gpc-row-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .gpc-sound-label { font-family: Georgia, serif; font-weight: 700; font-size: 15px; color: var(--accent); }
+        .example-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .example-chip, .word-chip {
+            min-width: 44px; min-height: 44px; padding: 6px 12px; border: 1px solid var(--line-soft); border-radius: 16px;
+            background: var(--paper); color: var(--ink); font-size: 13px; cursor: pointer;
+            transition: all 0.15s ease; font-family: inherit;
+        }
+        .example-chip:hover, .word-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+        .word-strip { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line-soft); }
+        .word-strip-label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .word-strip-body { display: flex; flex-wrap: wrap; gap: 6px; }
+
+        .heart-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 12px; }
+        .heart-row-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px; }
+        .heart-chip {
+            min-width: 44px; min-height: 44px; padding: 6px 12px; border: 1px solid #e0b3b3; border-radius: 16px;
+            background: #fbeeee; color: var(--accent); font-size: 13px; font-weight: 600; cursor: pointer;
+            font-family: inherit;
+        }
+        .heart-chip:hover { background: #f5dede; }
+
+        /* ---- sounds view ---- */
+        .phoneme-row {
+            border: 1px solid var(--line-soft); border-radius: 10px; background: var(--paper);
+            padding: 12px 14px; margin-bottom: 8px;
+        }
+        .phoneme-row[data-type="vowel"] { border-left: 4px solid #5b9bd5; }
+        .phoneme-row[data-type="consonant"] { border-left: 4px solid var(--line); }
+        .phoneme-row[data-type="unit"], .phoneme-row[data-type="composite"] { border-left: 4px solid #7c64b0; }
+        .phoneme-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+        .phoneme-label { font-family: Georgia, serif; font-weight: 700; font-size: 17px; }
+        .ipa-badge {
+            font-family: Georgia, serif; font-size: 13px; color: var(--muted); background: var(--bg);
+            border: 1px solid var(--line); border-radius: 6px; padding: 2px 9px;
+        }
+        .speaker-btn {
+            min-width: 44px; min-height: 44px; border: none; border-radius: 50%; background: var(--ink);
+            color: var(--paper); font-size: 16px; cursor: pointer; margin-left: auto;
+        }
+        .speaker-btn:hover { background: #333; }
+        .spelling-chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .spelling-chip {
+            min-height: 44px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px;
+            background: var(--bg); cursor: pointer; text-align: center; font-family: inherit;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+            transition: all 0.15s ease;
+        }
+        .spelling-chip:hover { border-color: var(--accent); }
+        .spelling-chip.active { background: var(--accent); border-color: var(--accent); }
+        .spelling-chip.active .spelling-gr, .spelling-chip.active .spelling-unit { color: white; }
+        .spelling-gr { font-family: Georgia, serif; font-weight: 700; font-size: 15px; color: var(--ink); }
+        .spelling-unit { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+        .spelling-detail:empty { display: none; }
+        .spelling-detail { margin-top: 10px; }
+
+        @media (max-width: 640px) {
+            .container { padding: 16px; }
+            .explorer-controls { flex-direction: column; align-items: stretch; }
+            .ctrl-block { min-width: 0; }
+            .unit-bar { font-size: 14px; }
+            .g-explorer-chip { font-size: 15px; padding: 6px 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="hub-link" href="index.html">&larr; Back to trainer</a>
+        <h1>Sequence Explorer</h1>
+        <p class="subtitle">Browse any teaching program two ways — by grapheme or by sound — and see exactly which words are decodable at any point. One data bank, every scope &amp; sequence.</p>
+
+        <div class="explorer-controls">
+            <label class="ctrl-block">
+                <span class="ctrl-label">Program</span>
+                <select id="programSelect"></select>
+            </label>
+            <div class="ctrl-block">
+                <span class="ctrl-label">View</span>
+                <div class="mode-toggle" id="viewToggle" role="group" aria-label="Grapheme or sound view">
+                    <button type="button" id="viewGraphemesBtn" class="active">Graphemes</button>
+                    <button type="button" id="viewSoundsBtn">Sounds</button>
+                </div>
+            </div>
+            <label class="ctrl-block ctrl-slider">
+                <span class="ctrl-label">Taught up to: <b id="uptoLabel">&mdash;</b></span>
+                <input type="range" id="uptoSlider" min="1" max="1" value="1" step="1">
+            </label>
+        </div>
+
+        <div class="approx-note" id="approxNote" hidden></div>
+
+        <div class="status-box" id="statusBox" role="status" aria-live="polite">Loading&hellip;</div>
+
+        <main>
+            <section id="graphemePanel"></section>
+            <section id="soundPanel" hidden></section>
+        </main>
+    </div>
+
+    <script src="js/core/data.js"></script>
+    <script src="js/core/audio.js"></script>
+    <script src="js/views/explorer.js"></script>
+</body>
+</html>

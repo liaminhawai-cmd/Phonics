@@ -1,0 +1,3369 @@
+{
+  "gpcs": [
+    {
+      "id": "a.a",
+      "grapheme": "a",
+      "display": "a",
+      "phonemes": "a",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "at",
+        "cat",
+        "apple"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "a.ay",
+      "grapheme": "a",
+      "display": "a",
+      "phonemes": "ay",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "navy",
+        "apron",
+        "paper",
+        "baby"
+      ],
+      "rule_refs": [],
+      "notes": "Open-syllable a says its name (long a) before a single consonant + vowel, e.g. na-vy, a-pron."
+    },
+    {
+      "id": "a.ar",
+      "grapheme": "a",
+      "display": "a",
+      "phonemes": "ar",
+      "positions": [
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "last",
+        "bath",
+        "grass",
+        "dance"
+      ],
+      "rule_refs": [],
+      "notes": "AU/UK BATH-set words (bath, grass, dance, last) take /ar/ here; US speakers say /a/ in the same words — accent-specific."
+    },
+    {
+      "id": "a.o",
+      "grapheme": "a",
+      "display": "a",
+      "phonemes": "o",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "want",
+        "wash",
+        "swan",
+        "what"
+      ],
+      "rule_refs": [
+        "w_changes_a_to_o"
+      ],
+      "notes": "w before a changes its sound from /a/ to /o/: want, wash, swan, wander."
+    },
+    {
+      "id": "a.schwa",
+      "grapheme": "a",
+      "display": "a",
+      "phonemes": "schwa",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "about",
+        "above",
+        "again",
+        "sofa"
+      ],
+      "rule_refs": [
+        "schwa_unstressed_syllables"
+      ],
+      "notes": "Unstressed a reduces to schwa in the weak syllable."
+    },
+    {
+      "id": "b.b",
+      "grapheme": "b",
+      "display": "b",
+      "phonemes": "b",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "rib",
+        "bat",
+        "cabin"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "c.k",
+      "grapheme": "c",
+      "display": "c",
+      "phonemes": "k",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "can",
+        "cot",
+        "picnic"
+      ],
+      "rule_refs": [
+        "ck_k_c_spelling_of_k",
+        "k_not_c_before_e_i_y"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "c.s",
+      "grapheme": "c",
+      "display": "c",
+      "phonemes": "s",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "cent",
+        "city",
+        "bicycle"
+      ],
+      "rule_refs": [
+        "soft_c",
+        "k_not_c_before_e_i_y"
+      ],
+      "notes": "Soft c: c says /s/ only before e, i or y."
+    },
+    {
+      "id": "d.d",
+      "grapheme": "d",
+      "display": "d",
+      "phonemes": "d",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "lid",
+        "dog",
+        "ladder"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "e.e",
+      "grapheme": "e",
+      "display": "e",
+      "phonemes": "e",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "end",
+        "bed",
+        "elephant"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "e.ee",
+      "grapheme": "e",
+      "display": "e",
+      "phonemes": "ee",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "me",
+        "she",
+        "he",
+        "even"
+      ],
+      "rule_refs": [],
+      "notes": "Open-syllable e says its name (long e) before a single consonant + vowel."
+    },
+    {
+      "id": "f.f",
+      "grapheme": "f",
+      "display": "f",
+      "phonemes": "f",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "if",
+        "fish",
+        "after"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "g.g",
+      "grapheme": "g",
+      "display": "g",
+      "phonemes": "g",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "bag",
+        "go",
+        "wagon"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "g.j",
+      "grapheme": "g",
+      "display": "g",
+      "phonemes": "j",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "gem",
+        "giant",
+        "gym"
+      ],
+      "rule_refs": [
+        "soft_g"
+      ],
+      "notes": "Soft g: g says /j/ before e, i or y (with many exceptions e.g. get, give)."
+    },
+    {
+      "id": "h.h",
+      "grapheme": "h",
+      "display": "h",
+      "phonemes": "h",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "him",
+        "hat",
+        "behind"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "i.i",
+      "grapheme": "i",
+      "display": "i",
+      "phonemes": "i",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "sit",
+        "in",
+        "insect"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "i.igh",
+      "grapheme": "i",
+      "display": "i",
+      "phonemes": "igh",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "silent",
+        "tiger",
+        "spider",
+        "item"
+      ],
+      "rule_refs": [],
+      "notes": "Open-syllable i says its name (long i) before a single consonant + vowel: ti-ger, si-lent."
+    },
+    {
+      "id": "j.j",
+      "grapheme": "j",
+      "display": "j",
+      "phonemes": "j",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "jam",
+        "jump",
+        "enjoy"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "k.k",
+      "grapheme": "k",
+      "display": "k",
+      "phonemes": "k",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "ink",
+        "kit",
+        "kitten"
+      ],
+      "rule_refs": [
+        "ck_k_c_spelling_of_k",
+        "k_not_c_before_e_i_y"
+      ],
+      "notes": "k spells /k/ before e, i, y (kit, key) and at the end of a word after a consonant or long vowel (ink, oak)."
+    },
+    {
+      "id": "l.l",
+      "grapheme": "l",
+      "display": "l",
+      "phonemes": "l",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "leg",
+        "lip",
+        "yellow"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "m.m",
+      "grapheme": "m",
+      "display": "m",
+      "phonemes": "m",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "am",
+        "man",
+        "hammer"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "n.n",
+      "grapheme": "n",
+      "display": "n",
+      "phonemes": "n",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "in",
+        "net",
+        "dinner"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "o.o",
+      "grapheme": "o",
+      "display": "o",
+      "phonemes": "o",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "odd",
+        "hot",
+        "fox"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "o.oa",
+      "grapheme": "o",
+      "display": "o",
+      "phonemes": "oa",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "open",
+        "go",
+        "hero",
+        "total"
+      ],
+      "rule_refs": [],
+      "notes": "Open-syllable o says its name (long o) before a single consonant + vowel: o-pen, go."
+    },
+    {
+      "id": "o.oo_long",
+      "grapheme": "o",
+      "display": "o",
+      "phonemes": "oo_long",
+      "positions": [
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "do",
+        "to",
+        "who",
+        "move"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "o.u",
+      "grapheme": "o",
+      "display": "o",
+      "phonemes": "u",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "love",
+        "come",
+        "some",
+        "mother"
+      ],
+      "rule_refs": [],
+      "notes": "A handful of very common words spell short /u/ with o."
+    },
+    {
+      "id": "p.p",
+      "grapheme": "p",
+      "display": "p",
+      "phonemes": "p",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "map",
+        "pen",
+        "apple"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "qu.kw",
+      "grapheme": "qu",
+      "display": "qu",
+      "phonemes": [
+        "k",
+        "w"
+      ],
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "quit",
+        "queen",
+        "squid"
+      ],
+      "rule_refs": [
+        "qu_not_q_alone"
+      ],
+      "notes": "q is always followed by u in English; together they spell /kw/."
+    },
+    {
+      "id": "r.r",
+      "grapheme": "r",
+      "display": "r",
+      "phonemes": "r",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "rat",
+        "red",
+        "carrot"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "s.s",
+      "grapheme": "s",
+      "display": "s",
+      "phonemes": "s",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "us",
+        "sun",
+        "fast"
+      ],
+      "rule_refs": [
+        "plural_s_s_or_z"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "s.z",
+      "grapheme": "s",
+      "display": "s",
+      "phonemes": "z",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "as",
+        "dogs",
+        "runs",
+        "balls",
+        "is"
+      ],
+      "rule_refs": [
+        "plural_s_s_or_z"
+      ],
+      "notes": "Word-final/medial s often says /z/; this is also how the plural -s sounds after a voiced sound (dogs, runs)."
+    },
+    {
+      "id": "t.t",
+      "grapheme": "t",
+      "display": "t",
+      "phonemes": "t",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "bat",
+        "top",
+        "butter"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "u.u",
+      "grapheme": "u",
+      "display": "u",
+      "phonemes": "u",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "up",
+        "cup",
+        "under"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "u.yoo",
+      "grapheme": "u",
+      "display": "u",
+      "phonemes": [
+        "y",
+        "oo_long"
+      ],
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "music",
+        "unit",
+        "uniform",
+        "menu"
+      ],
+      "rule_refs": [],
+      "notes": "Open-syllable u often says its 'name', /yoo/."
+    },
+    {
+      "id": "u.oo_short",
+      "grapheme": "u",
+      "display": "u",
+      "phonemes": "oo_short",
+      "positions": [
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "put",
+        "push",
+        "full",
+        "bull"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "v.v",
+      "grapheme": "v",
+      "display": "v",
+      "phonemes": "v",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "van",
+        "very",
+        "oven"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "w.w",
+      "grapheme": "w",
+      "display": "w",
+      "phonemes": "w",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "win",
+        "wet",
+        "away"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "x.ks",
+      "grapheme": "x",
+      "display": "x",
+      "phonemes": [
+        "k",
+        "s"
+      ],
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "box",
+        "fox",
+        "exit"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "y.y",
+      "grapheme": "y",
+      "display": "y",
+      "phonemes": "y",
+      "positions": [
+        "initial"
+      ],
+      "freq": "common",
+      "examples": [
+        "yes",
+        "yak",
+        "beyond"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "y.igh",
+      "grapheme": "y",
+      "display": "y",
+      "phonemes": "igh",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "by",
+        "my",
+        "fly",
+        "try"
+      ],
+      "rule_refs": [
+        "no_word_ends_i",
+        "y_to_i_rule"
+      ],
+      "notes": "English words don't end in i, so final /igh/ at the end of a (usually 1-syllable) word is spelled y."
+    },
+    {
+      "id": "y.i",
+      "grapheme": "y",
+      "display": "y",
+      "phonemes": "i",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "gym",
+        "myth",
+        "gypsy"
+      ],
+      "rule_refs": [],
+      "notes": "y stands in for short i mid-word, mostly in words of Greek origin."
+    },
+    {
+      "id": "y.ee",
+      "grapheme": "y",
+      "display": "y",
+      "phonemes": "ee",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "happy",
+        "baby",
+        "funny",
+        "family"
+      ],
+      "rule_refs": [
+        "ee_ea_ey_y_long_e",
+        "y_to_i_rule"
+      ],
+      "notes": "Unstressed final y at the end of a longer word says /ee/."
+    },
+    {
+      "id": "z.z",
+      "grapheme": "z",
+      "display": "z",
+      "phonemes": "z",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "zoo",
+        "zip",
+        "lazy"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ai.ay",
+      "grapheme": "ai",
+      "display": "ai",
+      "phonemes": "ay",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "rain",
+        "paint",
+        "train"
+      ],
+      "rule_refs": [
+        "ai_ay_position"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ar.ar",
+      "grapheme": "ar",
+      "display": "ar",
+      "phonemes": "ar",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "far",
+        "car",
+        "park",
+        "star"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "au.or",
+      "grapheme": "au",
+      "display": "au",
+      "phonemes": "or",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "sauce",
+        "author",
+        "haul",
+        "astronaut"
+      ],
+      "rule_refs": [
+        "au_aw_augh_position"
+      ],
+      "notes": "au never ends a word — that job belongs to aw."
+    },
+    {
+      "id": "aw.or",
+      "grapheme": "aw",
+      "display": "aw",
+      "phonemes": "or",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "jaw",
+        "straw",
+        "crawl",
+        "yawn"
+      ],
+      "rule_refs": [
+        "au_aw_augh_position"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ay.ay",
+      "grapheme": "ay",
+      "display": "ay",
+      "phonemes": "ay",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "day",
+        "play",
+        "stay"
+      ],
+      "rule_refs": [
+        "ai_ay_position"
+      ],
+      "notes": "ay is the go-to spelling of /ay/ at the end of a word/syllable."
+    },
+    {
+      "id": "ch.ch",
+      "grapheme": "ch",
+      "display": "ch",
+      "phonemes": "ch",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "chop",
+        "chair",
+        "match"
+      ],
+      "rule_refs": [
+        "tch_vs_ch"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ch.k",
+      "grapheme": "ch",
+      "display": "ch",
+      "phonemes": "k",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "school",
+        "chorus",
+        "echo",
+        "stomach"
+      ],
+      "rule_refs": [],
+      "notes": "Greek-origin ch says /k/ (school, chemist, chaos)."
+    },
+    {
+      "id": "ch.sh",
+      "grapheme": "ch",
+      "display": "ch",
+      "phonemes": "sh",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "rare",
+      "examples": [
+        "chef",
+        "chalet",
+        "machine"
+      ],
+      "rule_refs": [],
+      "notes": "French-origin ch says /sh/."
+    },
+    {
+      "id": "ci.sh",
+      "grapheme": "ci",
+      "display": "ci",
+      "phonemes": "sh",
+      "positions": [
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "social",
+        "special",
+        "musician"
+      ],
+      "rule_refs": [
+        "tion_sion_shun_zhun"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ck.k",
+      "grapheme": "ck",
+      "display": "ck",
+      "phonemes": "k",
+      "positions": [
+        "final",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "neck",
+        "duck",
+        "rocket"
+      ],
+      "rule_refs": [
+        "ck_k_c_spelling_of_k",
+        "floss_rule"
+      ],
+      "notes": "ck is used straight after a short vowel at the end of a word/syllable (neck, not neek)."
+    },
+    {
+      "id": "dge.j",
+      "grapheme": "dge",
+      "display": "dge",
+      "phonemes": "j",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "bridge",
+        "judge",
+        "badge"
+      ],
+      "rule_refs": [
+        "dge_vs_ge",
+        "no_word_ends_j"
+      ],
+      "notes": "dge is used straight after a short vowel; ge is used after a consonant or long vowel/team."
+    },
+    {
+      "id": "ea.ee",
+      "grapheme": "ea",
+      "display": "ea",
+      "phonemes": "ee",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "eat",
+        "team",
+        "read",
+        "each"
+      ],
+      "rule_refs": [
+        "ee_ea_ey_y_long_e"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ea.e",
+      "grapheme": "ea",
+      "display": "ea",
+      "phonemes": "e",
+      "positions": [
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "head",
+        "bread",
+        "weather",
+        "heavy"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ea.ay",
+      "grapheme": "ea",
+      "display": "ea",
+      "phonemes": "ay",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "break",
+        "great",
+        "steak"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ear.er",
+      "grapheme": "ear",
+      "display": "ear",
+      "phonemes": "er",
+      "positions": [
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "early",
+        "earth",
+        "learn",
+        "search"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ed.d",
+      "grapheme": "ed",
+      "display": "ed",
+      "phonemes": "d",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "loved",
+        "played",
+        "opened"
+      ],
+      "rule_refs": [
+        "ed_three_sounds"
+      ],
+      "notes": "-ed says /d/ after a voiced sound."
+    },
+    {
+      "id": "ed.t",
+      "grapheme": "ed",
+      "display": "ed",
+      "phonemes": "t",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "picked",
+        "jumped",
+        "looked"
+      ],
+      "rule_refs": [
+        "ed_three_sounds"
+      ],
+      "notes": "-ed says /t/ after an unvoiced sound."
+    },
+    {
+      "id": "ed.ed",
+      "grapheme": "ed",
+      "display": "ed",
+      "phonemes": [
+        "i",
+        "d"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "landed",
+        "wanted",
+        "painted"
+      ],
+      "rule_refs": [
+        "ed_three_sounds"
+      ],
+      "notes": "-ed adds a whole extra syllable, /id/, after a base word already ending in /t/ or /d/."
+    },
+    {
+      "id": "ee.ee",
+      "grapheme": "ee",
+      "display": "ee",
+      "phonemes": "ee",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "see",
+        "tree",
+        "sleep"
+      ],
+      "rule_refs": [
+        "ee_ea_ey_y_long_e"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ei.ee",
+      "grapheme": "ei",
+      "display": "ei",
+      "phonemes": "ee",
+      "positions": [
+        "medial"
+      ],
+      "freq": "rare",
+      "examples": [
+        "receive",
+        "ceiling",
+        "protein"
+      ],
+      "rule_refs": [],
+      "notes": "'i before e except after c' — after c, ei says /ee/."
+    },
+    {
+      "id": "ei.ay",
+      "grapheme": "ei",
+      "display": "ei",
+      "phonemes": "ay",
+      "positions": [
+        "medial"
+      ],
+      "freq": "rare",
+      "examples": [
+        "veil",
+        "vein",
+        "neighbour",
+        "reindeer"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ei.igh",
+      "grapheme": "ei",
+      "display": "ei",
+      "phonemes": "igh",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "forfeit",
+        "height",
+        "either"
+      ],
+      "rule_refs": [],
+      "notes": "Realisation varies — 'either' has both /igh/ and /ee/ pronunciations across accents."
+    },
+    {
+      "id": "eigh.ay",
+      "grapheme": "eigh",
+      "display": "eigh",
+      "phonemes": "ay",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "eight",
+        "weigh",
+        "sleigh",
+        "neighbour"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "er.er",
+      "grapheme": "er",
+      "display": "er",
+      "phonemes": "er",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "her",
+        "fern",
+        "term",
+        "perfect"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "er.schwa_r",
+      "grapheme": "er",
+      "display": "er",
+      "phonemes": "schwa_r",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "teacher",
+        "ladder",
+        "letter",
+        "sister"
+      ],
+      "rule_refs": [
+        "schwa_unstressed_syllables"
+      ],
+      "notes": "Unstressed word-final -er is schwa in AU/UK, r-coloured in US."
+    },
+    {
+      "id": "ew.oo_long",
+      "grapheme": "ew",
+      "display": "ew",
+      "phonemes": "oo_long",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "grew",
+        "flew",
+        "chew",
+        "crew"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ew.yoo",
+      "grapheme": "ew",
+      "display": "ew",
+      "phonemes": [
+        "y",
+        "oo_long"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "new",
+        "few",
+        "stew",
+        "nephew"
+      ],
+      "rule_refs": [],
+      "notes": "Yod-dropping: many US speakers say plain /oo_long/ after n/t/d/l/s."
+    },
+    {
+      "id": "ey.ay",
+      "grapheme": "ey",
+      "display": "ey",
+      "phonemes": "ay",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "they",
+        "grey",
+        "obey",
+        "prey"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ey.ee",
+      "grapheme": "ey",
+      "display": "ey",
+      "phonemes": "ee",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "key",
+        "valley",
+        "monkey",
+        "honey"
+      ],
+      "rule_refs": [
+        "ee_ea_ey_y_long_e"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ey.igh",
+      "grapheme": "ey",
+      "display": "ey",
+      "phonemes": "igh",
+      "positions": [
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "donkey"
+      ],
+      "rule_refs": [],
+      "notes": "Non-standard/dialectal realisation of unstressed final -ey; most accents say /ee/ (see ey.ee) — kept only for this one classic teaching example."
+    },
+    {
+      "id": "gn.n",
+      "grapheme": "gn",
+      "display": "gn",
+      "phonemes": "n",
+      "positions": [
+        "initial",
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "gnome",
+        "gnat",
+        "sign",
+        "design"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "gu.g",
+      "grapheme": "gu",
+      "display": "gu",
+      "phonemes": "g",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "guess",
+        "guest",
+        "guitar",
+        "guard"
+      ],
+      "rule_refs": [],
+      "notes": "Silent u after g keeps g hard before e/i."
+    },
+    {
+      "id": "ie.ee",
+      "grapheme": "ie",
+      "display": "ie",
+      "phonemes": "ee",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "chief",
+        "field",
+        "believe",
+        "piece"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ie.igh",
+      "grapheme": "ie",
+      "display": "ie",
+      "phonemes": "igh",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "pie",
+        "tie",
+        "cried",
+        "tried"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ie.i",
+      "grapheme": "ie",
+      "display": "ie",
+      "phonemes": "i",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "parties",
+        "ladies",
+        "puppies"
+      ],
+      "rule_refs": [
+        "y_to_i_rule"
+      ],
+      "notes": "y at the end of a base word changes to ie before -s (y-to-i rule)."
+    },
+    {
+      "id": "igh.igh",
+      "grapheme": "igh",
+      "display": "igh",
+      "phonemes": "igh",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "light",
+        "night",
+        "high",
+        "sigh"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ir.er",
+      "grapheme": "ir",
+      "display": "ir",
+      "phonemes": "er",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "first",
+        "bird",
+        "shirt",
+        "girl"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "kn.n",
+      "grapheme": "kn",
+      "display": "kn",
+      "phonemes": "n",
+      "positions": [
+        "initial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "knot",
+        "know",
+        "knee",
+        "knife"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ng.ng",
+      "grapheme": "ng",
+      "display": "ng",
+      "phonemes": "ng",
+      "positions": [
+        "final",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "sang",
+        "ring",
+        "singer"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "oa.oa",
+      "grapheme": "oa",
+      "display": "oa",
+      "phonemes": "oa",
+      "positions": [
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "boat",
+        "road",
+        "coach"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "oe.oa",
+      "grapheme": "oe",
+      "display": "oe",
+      "phonemes": "oa",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "toe",
+        "goes",
+        "hoe",
+        "foe"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "oi.oy",
+      "grapheme": "oi",
+      "display": "oi",
+      "phonemes": "oy",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "point",
+        "coin",
+        "voice"
+      ],
+      "rule_refs": [
+        "oi_oy_position"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "oo.oo_long",
+      "grapheme": "oo",
+      "display": "oo",
+      "phonemes": "oo_long",
+      "positions": [
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "food",
+        "moon",
+        "zoo"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "oo.oo_short",
+      "grapheme": "oo",
+      "display": "oo",
+      "phonemes": "oo_short",
+      "positions": [
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "cook",
+        "book",
+        "foot",
+        "wood"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "or.or",
+      "grapheme": "or",
+      "display": "or",
+      "phonemes": "or",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "for",
+        "fork",
+        "story",
+        "actor"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ou.ow",
+      "grapheme": "ou",
+      "display": "ou",
+      "phonemes": "ow",
+      "positions": [
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "round",
+        "loud",
+        "house",
+        "found"
+      ],
+      "rule_refs": [
+        "ou_ow_position"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ou.oa",
+      "grapheme": "ou",
+      "display": "ou",
+      "phonemes": "oa",
+      "positions": [
+        "medial"
+      ],
+      "freq": "rare",
+      "examples": [
+        "shoulder",
+        "soul",
+        "boulder"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ou.oo_long",
+      "grapheme": "ou",
+      "display": "ou",
+      "phonemes": "oo_long",
+      "positions": [
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "you",
+        "soup",
+        "group",
+        "wound"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ou.schwa",
+      "grapheme": "ou",
+      "display": "ou",
+      "phonemes": "schwa",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "famous",
+        "jealous",
+        "gorgeous"
+      ],
+      "rule_refs": [
+        "schwa_unstressed_syllables"
+      ],
+      "notes": "Unstressed -ous ending reduces to schwa, not a full STRUT vowel."
+    },
+    {
+      "id": "ough.oa",
+      "grapheme": "ough",
+      "display": "ough",
+      "phonemes": "oa",
+      "positions": [
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "though",
+        "dough",
+        "although"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ough.oo_long",
+      "grapheme": "ough",
+      "display": "ough",
+      "phonemes": "oo_long",
+      "positions": [
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "through"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ough.uf",
+      "grapheme": "ough",
+      "display": "ough",
+      "phonemes": [
+        "u",
+        "f"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "rough",
+        "tough",
+        "enough"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ough.off",
+      "grapheme": "ough",
+      "display": "ough",
+      "phonemes": [
+        "o",
+        "f"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "cough",
+        "trough"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ough.or",
+      "grapheme": "ough",
+      "display": "ough",
+      "phonemes": "or",
+      "positions": [
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "thought",
+        "bought",
+        "brought"
+      ],
+      "rule_refs": [
+        "au_aw_augh_position"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ough.ow",
+      "grapheme": "ough",
+      "display": "ough",
+      "phonemes": "ow",
+      "positions": [
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "drought",
+        "bough",
+        "plough"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ow.ow",
+      "grapheme": "ow",
+      "display": "ow",
+      "phonemes": "ow",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "how",
+        "cow",
+        "town",
+        "brown"
+      ],
+      "rule_refs": [
+        "ou_ow_position"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ow.oa",
+      "grapheme": "ow",
+      "display": "ow",
+      "phonemes": "oa",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "low",
+        "snow",
+        "grow",
+        "own"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "oy.oy",
+      "grapheme": "oy",
+      "display": "oy",
+      "phonemes": "oy",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "boy",
+        "toy",
+        "enjoy"
+      ],
+      "rule_refs": [
+        "oi_oy_position"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ph.f",
+      "grapheme": "ph",
+      "display": "ph",
+      "phonemes": "f",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "phone",
+        "dolphin",
+        "photo",
+        "graph"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "sh.sh",
+      "grapheme": "sh",
+      "display": "sh",
+      "phonemes": "sh",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "dish",
+        "ship",
+        "fishing"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "si.sh",
+      "grapheme": "si",
+      "display": "si",
+      "phonemes": "sh",
+      "positions": [
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "session",
+        "mission",
+        "expansion"
+      ],
+      "rule_refs": [
+        "tion_sion_shun_zhun"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "si.zh",
+      "grapheme": "si",
+      "display": "si",
+      "phonemes": "zh",
+      "positions": [
+        "medial"
+      ],
+      "freq": "rare",
+      "examples": [
+        "vision",
+        "television",
+        "decision"
+      ],
+      "rule_refs": [
+        "tion_sion_shun_zhun"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "th.th",
+      "grapheme": "th",
+      "display": "th",
+      "phonemes": "th",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "thin",
+        "bath",
+        "think"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "th.dh",
+      "grapheme": "th",
+      "display": "th",
+      "phonemes": "dh",
+      "positions": [
+        "initial",
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "this",
+        "that",
+        "mother",
+        "bathe"
+      ],
+      "rule_refs": [],
+      "notes": "Same spelling as unvoiced th.th — voicing is contrastive but unmarked in print."
+    },
+    {
+      "id": "ti.sh",
+      "grapheme": "ti",
+      "display": "ti",
+      "phonemes": "sh",
+      "positions": [
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "nation",
+        "station",
+        "action"
+      ],
+      "rule_refs": [
+        "tion_sion_shun_zhun"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ui.oo_long",
+      "grapheme": "ui",
+      "display": "ui",
+      "phonemes": "oo_long",
+      "positions": [
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "fruit",
+        "suit",
+        "juice",
+        "cruise"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ui.yoo",
+      "grapheme": "ui",
+      "display": "ui",
+      "phonemes": [
+        "y",
+        "oo_long"
+      ],
+      "positions": [
+        "medial"
+      ],
+      "freq": "rare",
+      "examples": [
+        "nuisance"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ur.er",
+      "grapheme": "ur",
+      "display": "ur",
+      "phonemes": "er",
+      "positions": [
+        "initial",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "nurse",
+        "turn",
+        "burn",
+        "church"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "wh.w",
+      "grapheme": "wh",
+      "display": "wh",
+      "phonemes": "w",
+      "positions": [
+        "initial"
+      ],
+      "freq": "common",
+      "examples": [
+        "when",
+        "what",
+        "white",
+        "wheel"
+      ],
+      "rule_refs": [],
+      "notes": "wh says plain /w/ for AU/UK and most US speakers; the historic /hw/ contrast survives only in some accents."
+    },
+    {
+      "id": "wor.er",
+      "grapheme": "wor",
+      "display": "wor",
+      "phonemes": "er",
+      "positions": [
+        "initial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "works",
+        "word",
+        "worm",
+        "worship"
+      ],
+      "rule_refs": [
+        "w_changes_ar_and_or"
+      ],
+      "notes": "w before or changes its sound from /or/ to /er/."
+    },
+    {
+      "id": "wr.r",
+      "grapheme": "wr",
+      "display": "wr",
+      "phonemes": "r",
+      "positions": [
+        "initial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "wrap",
+        "write",
+        "wrong",
+        "wrist"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "a_e.ay",
+      "grapheme": "a_e",
+      "display": "a-e",
+      "phonemes": "ay",
+      "positions": [
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "cake",
+        "gate",
+        "name",
+        "plane"
+      ],
+      "rule_refs": [
+        "silent_e_jobs",
+        "drop_e_rule"
+      ],
+      "notes": "Magic/split e: a says its name, the e is silent."
+    },
+    {
+      "id": "e_e.ee",
+      "grapheme": "e_e",
+      "display": "e-e",
+      "phonemes": "ee",
+      "positions": [
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "these",
+        "theme",
+        "complete",
+        "extreme"
+      ],
+      "rule_refs": [
+        "silent_e_jobs",
+        "drop_e_rule"
+      ],
+      "notes": "Least common split digraph — many /ee/ words prefer ee/ea instead."
+    },
+    {
+      "id": "i_e.igh",
+      "grapheme": "i_e",
+      "display": "i-e",
+      "phonemes": "igh",
+      "positions": [
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "time",
+        "like",
+        "bike",
+        "kite"
+      ],
+      "rule_refs": [
+        "silent_e_jobs",
+        "drop_e_rule"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "o_e.oa",
+      "grapheme": "o_e",
+      "display": "o-e",
+      "phonemes": "oa",
+      "positions": [
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "bone",
+        "home",
+        "stone",
+        "hope"
+      ],
+      "rule_refs": [
+        "silent_e_jobs",
+        "drop_e_rule"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "u_e.oo_long",
+      "grapheme": "u_e",
+      "display": "u-e",
+      "phonemes": "oo_long",
+      "positions": [
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "tune",
+        "June",
+        "flute",
+        "rule"
+      ],
+      "rule_refs": [
+        "silent_e_jobs",
+        "drop_e_rule"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "u_e.yoo",
+      "grapheme": "u_e",
+      "display": "u-e",
+      "phonemes": [
+        "y",
+        "oo_long"
+      ],
+      "positions": [
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "cube",
+        "tube",
+        "mule",
+        "huge"
+      ],
+      "rule_refs": [
+        "silent_e_jobs",
+        "drop_e_rule"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "tch.ch",
+      "grapheme": "tch",
+      "display": "tch",
+      "phonemes": "ch",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "match",
+        "catch",
+        "kitchen",
+        "witch"
+      ],
+      "rule_refs": [
+        "tch_vs_ch"
+      ],
+      "notes": "tch is used straight after a short vowel (match); plain ch elsewhere (much, bench, lunch, teach)."
+    },
+    {
+      "id": "ve.v",
+      "grapheme": "ve",
+      "display": "ve",
+      "phonemes": "v",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "have",
+        "give",
+        "love",
+        "live"
+      ],
+      "rule_refs": [
+        "no_word_ends_v",
+        "silent_e_jobs"
+      ],
+      "notes": "English words don't end in bare v — add a silent e."
+    },
+    {
+      "id": "se.z",
+      "grapheme": "se",
+      "display": "se",
+      "phonemes": "z",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "cheese",
+        "please",
+        "nose",
+        "rise"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "se.s",
+      "grapheme": "se",
+      "display": "se",
+      "phonemes": "s",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "house",
+        "mouse",
+        "horse",
+        "goose"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ze.z",
+      "grapheme": "ze",
+      "display": "ze",
+      "phonemes": "z",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "freeze",
+        "size",
+        "breeze",
+        "sneeze"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ce.s",
+      "grapheme": "ce",
+      "display": "ce",
+      "phonemes": "s",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "ice",
+        "race",
+        "dance",
+        "mice"
+      ],
+      "rule_refs": [
+        "soft_c",
+        "silent_e_jobs"
+      ],
+      "notes": "Silent e keeps c soft (/s/) at the end of a word."
+    },
+    {
+      "id": "ge.j",
+      "grapheme": "ge",
+      "display": "ge",
+      "phonemes": "j",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "cage",
+        "huge",
+        "orange",
+        "large"
+      ],
+      "rule_refs": [
+        "soft_g",
+        "no_word_ends_j",
+        "silent_e_jobs"
+      ],
+      "notes": "Silent e keeps g soft (/j/) at the end of a word."
+    },
+    {
+      "id": "mb.m",
+      "grapheme": "mb",
+      "display": "mb",
+      "phonemes": "m",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "climb",
+        "comb",
+        "lamb",
+        "thumb"
+      ],
+      "rule_refs": [],
+      "notes": "b is silent after m at the end of a word."
+    },
+    {
+      "id": "ss.s",
+      "grapheme": "ss",
+      "display": "ss",
+      "phonemes": "s",
+      "positions": [
+        "final",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "miss",
+        "dress",
+        "class",
+        "message"
+      ],
+      "rule_refs": [
+        "floss_rule"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ll.l",
+      "grapheme": "ll",
+      "display": "ll",
+      "phonemes": "l",
+      "positions": [
+        "final",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "bell",
+        "well",
+        "doll",
+        "yellow"
+      ],
+      "rule_refs": [
+        "floss_rule"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ff.f",
+      "grapheme": "ff",
+      "display": "ff",
+      "phonemes": "f",
+      "positions": [
+        "final",
+        "medial"
+      ],
+      "freq": "common",
+      "examples": [
+        "cliff",
+        "staff",
+        "off",
+        "coffee"
+      ],
+      "rule_refs": [
+        "floss_rule"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "zz.z",
+      "grapheme": "zz",
+      "display": "zz",
+      "phonemes": "z",
+      "positions": [
+        "final",
+        "medial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "buzz",
+        "fuzz",
+        "jazz",
+        "dizzy"
+      ],
+      "rule_refs": [
+        "floss_rule"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "es.iz",
+      "grapheme": "es",
+      "display": "es",
+      "phonemes": [
+        "i",
+        "z"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "boxes",
+        "buses",
+        "dishes",
+        "watches"
+      ],
+      "rule_refs": [
+        "es_after_hissing_sounds"
+      ],
+      "notes": "Adds a new syllable /iz/ when the base word already ends in a hissing/buzzing sound (s, ss, x, z, ch, sh)."
+    },
+    {
+      "id": "ue.oo_long",
+      "grapheme": "ue",
+      "display": "ue",
+      "phonemes": "oo_long",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "blue",
+        "true",
+        "glue",
+        "clue"
+      ],
+      "rule_refs": [
+        "no_word_ends_u"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ue.yoo",
+      "grapheme": "ue",
+      "display": "ue",
+      "phonemes": [
+        "y",
+        "oo_long"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "rescue",
+        "value",
+        "argue",
+        "statue"
+      ],
+      "rule_refs": [
+        "no_word_ends_u"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "air.air",
+      "grapheme": "air",
+      "display": "air",
+      "phonemes": "air",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "chair",
+        "hair",
+        "stair",
+        "fairy"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "are.air",
+      "grapheme": "are",
+      "display": "are",
+      "phonemes": "air",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "care",
+        "share",
+        "dare",
+        "square"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ere.air",
+      "grapheme": "ere",
+      "display": "ere",
+      "phonemes": "air",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "there",
+        "where"
+      ],
+      "rule_refs": [],
+      "notes": "There/where are heart-word exceptions where ere says /air/, not /ear/."
+    },
+    {
+      "id": "ere.ear",
+      "grapheme": "ere",
+      "display": "ere",
+      "phonemes": "ear",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "here",
+        "mere",
+        "sincere",
+        "adhere"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "eer.ear",
+      "grapheme": "eer",
+      "display": "eer",
+      "phonemes": "ear",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "deer",
+        "cheer",
+        "steer",
+        "engineer"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "ore.or",
+      "grapheme": "ore",
+      "display": "ore",
+      "phonemes": "or",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "more",
+        "store",
+        "before",
+        "explore"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "oor.or",
+      "grapheme": "oor",
+      "display": "oor",
+      "phonemes": "or",
+      "positions": [
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "door",
+        "floor",
+        "indoor"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "oar.or",
+      "grapheme": "oar",
+      "display": "oar",
+      "phonemes": "or",
+      "positions": [
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "roar",
+        "board",
+        "soar",
+        "boar"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "our.or",
+      "grapheme": "our",
+      "display": "our",
+      "phonemes": "or",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "four",
+        "pour",
+        "court",
+        "your"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "our.ow",
+      "grapheme": "our",
+      "display": "our",
+      "phonemes": "ow",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "hour",
+        "flour",
+        "sour",
+        "our"
+      ],
+      "rule_refs": [],
+      "notes": ""
+    },
+    {
+      "id": "augh.or",
+      "grapheme": "augh",
+      "display": "augh",
+      "phonemes": "or",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "caught",
+        "taught",
+        "naughty",
+        "daughter"
+      ],
+      "rule_refs": [
+        "au_aw_augh_position"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "war.or",
+      "grapheme": "war",
+      "display": "war",
+      "phonemes": [
+        "w",
+        "or"
+      ],
+      "positions": [
+        "initial"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "warm",
+        "war",
+        "ward",
+        "towards"
+      ],
+      "rule_refs": [
+        "w_changes_ar_and_or"
+      ],
+      "notes": "w before ar changes its sound from /ar/ to /or/."
+    },
+    {
+      "id": "al.or",
+      "grapheme": "al",
+      "display": "al",
+      "phonemes": "or",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "walk",
+        "talk",
+        "chalk",
+        "stalk"
+      ],
+      "rule_refs": [],
+      "notes": "l is silent; al says /or/ before k."
+    },
+    {
+      "id": "all.or",
+      "grapheme": "all",
+      "display": "all",
+      "phonemes": [
+        "or",
+        "l"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "ball",
+        "call",
+        "tall",
+        "small"
+      ],
+      "rule_refs": [
+        "all_oll_ull"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "oll.oa",
+      "grapheme": "oll",
+      "display": "oll",
+      "phonemes": [
+        "oa",
+        "l"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "roll",
+        "toll",
+        "stroll",
+        "troll"
+      ],
+      "rule_refs": [
+        "all_oll_ull"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ull.oo_short",
+      "grapheme": "ull",
+      "display": "ull",
+      "phonemes": [
+        "oo_short",
+        "l"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "full",
+        "bull",
+        "pull"
+      ],
+      "rule_refs": [
+        "all_oll_ull"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "old.oa",
+      "grapheme": "old",
+      "display": "old",
+      "phonemes": [
+        "oa",
+        "l",
+        "d"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "cold",
+        "gold",
+        "hold",
+        "told"
+      ],
+      "rule_refs": [
+        "old_ild_ind_ost_olt"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ild.igh",
+      "grapheme": "ild",
+      "display": "ild",
+      "phonemes": [
+        "igh",
+        "l",
+        "d"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "child",
+        "wild",
+        "mild"
+      ],
+      "rule_refs": [
+        "old_ild_ind_ost_olt"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ind.igh",
+      "grapheme": "ind",
+      "display": "ind",
+      "phonemes": [
+        "igh",
+        "n",
+        "d"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "find",
+        "kind",
+        "mind",
+        "blind"
+      ],
+      "rule_refs": [
+        "old_ild_ind_ost_olt"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ost.oa",
+      "grapheme": "ost",
+      "display": "ost",
+      "phonemes": [
+        "oa",
+        "s",
+        "t"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "most",
+        "post",
+        "host"
+      ],
+      "rule_refs": [
+        "old_ild_ind_ost_olt"
+      ],
+      "notes": "Exceptions with short o: cost, lost, frost."
+    },
+    {
+      "id": "olt.oa",
+      "grapheme": "olt",
+      "display": "olt",
+      "phonemes": [
+        "oa",
+        "l",
+        "t"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "bolt",
+        "colt",
+        "jolt"
+      ],
+      "rule_refs": [
+        "old_ild_ind_ost_olt"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "le.el",
+      "grapheme": "le",
+      "display": "le",
+      "phonemes": [
+        "schwa",
+        "l"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "candle",
+        "table",
+        "apple",
+        "little"
+      ],
+      "rule_refs": [
+        "le_final_stable_syllable"
+      ],
+      "notes": "Final stable syllable: le is unstressed and the e is silent; the l is often syllabic. Often taught as 'le says /el/'."
+    },
+    {
+      "id": "or.schwa",
+      "grapheme": "or",
+      "display": "or",
+      "phonemes": "schwa",
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "doctor",
+        "actor",
+        "tractor",
+        "visitor"
+      ],
+      "rule_refs": [
+        "schwa_unstressed_syllables"
+      ],
+      "notes": "Unstressed word-final -or reduces to schwa, same sound as -er/-a in teacher/sofa."
+    },
+    {
+      "id": "o.schwa",
+      "grapheme": "o",
+      "display": "o",
+      "phonemes": "schwa",
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "lemon",
+        "gallon",
+        "wagon",
+        "control"
+      ],
+      "rule_refs": [
+        "schwa_unstressed_syllables"
+      ],
+      "notes": "Unstressed o reduces to schwa in a weak syllable."
+    },
+    {
+      "id": "ear.ear",
+      "grapheme": "ear",
+      "display": "ear",
+      "phonemes": "ear",
+      "positions": [
+        "medial",
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "hear",
+        "near",
+        "dear",
+        "year",
+        "clear"
+      ],
+      "rule_refs": [],
+      "notes": "The most common spelling of the NEAR vowel (contrast eer.ear: deer, cheer)."
+    },
+    {
+      "id": "ure.ure",
+      "grapheme": "ure",
+      "display": "ure",
+      "phonemes": "ure",
+      "positions": [
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "cure",
+        "pure",
+        "lure",
+        "mature"
+      ],
+      "rule_refs": [],
+      "notes": "Rare and unstable — many speakers merge this with /or/ (see phonemes.json note on 'ure')."
+    },
+    {
+      "id": "am.am",
+      "grapheme": "am",
+      "display": "am",
+      "phonemes": [
+        "a",
+        "m"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "ham",
+        "jam",
+        "clam",
+        "swam"
+      ],
+      "rule_refs": [],
+      "notes": "UFLI-style 'glued sound' — short a blends tightly with a following m; taught as one chunk for fluency, same phonemes as a.a + m.m."
+    },
+    {
+      "id": "an.an",
+      "grapheme": "an",
+      "display": "an",
+      "phonemes": [
+        "a",
+        "n"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "can",
+        "man",
+        "pan",
+        "plan"
+      ],
+      "rule_refs": [],
+      "notes": "UFLI-style 'glued sound' — short a blends tightly with a following n; same phonemes as a.a + n.n."
+    },
+    {
+      "id": "ang.ang",
+      "grapheme": "ang",
+      "display": "ang",
+      "phonemes": [
+        "a",
+        "ng"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "sang",
+        "rang",
+        "hang",
+        "bang"
+      ],
+      "rule_refs": [],
+      "notes": "Glued sound: vowel quality shifts slightly before ng."
+    },
+    {
+      "id": "ing.ing",
+      "grapheme": "ing",
+      "display": "ing",
+      "phonemes": [
+        "i",
+        "ng"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "sing",
+        "king",
+        "ring",
+        "wing"
+      ],
+      "rule_refs": [],
+      "notes": "Glued sound (as a rime, e.g. king/sing) — the same spelling also carries the verb suffix -ing (jumping, running)."
+    },
+    {
+      "id": "ong.ong",
+      "grapheme": "ong",
+      "display": "ong",
+      "phonemes": [
+        "o",
+        "ng"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "song",
+        "long",
+        "strong",
+        "wrong"
+      ],
+      "rule_refs": [],
+      "notes": "Glued sound: vowel quality shifts slightly before ng."
+    },
+    {
+      "id": "ung.ung",
+      "grapheme": "ung",
+      "display": "ung",
+      "phonemes": [
+        "u",
+        "ng"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "sung",
+        "rung",
+        "lung",
+        "hung"
+      ],
+      "rule_refs": [],
+      "notes": "Glued sound: vowel quality shifts slightly before ng."
+    },
+    {
+      "id": "ank.ank",
+      "grapheme": "ank",
+      "display": "ank",
+      "phonemes": [
+        "a",
+        "ng",
+        "k"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "bank",
+        "tank",
+        "thank",
+        "blank"
+      ],
+      "rule_refs": [],
+      "notes": "Glued sound: n before k is pronounced /ng/ (velar nasal), not /n/."
+    },
+    {
+      "id": "ink.ink",
+      "grapheme": "ink",
+      "display": "ink",
+      "phonemes": [
+        "i",
+        "ng",
+        "k"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "pink",
+        "sink",
+        "think",
+        "blink"
+      ],
+      "rule_refs": [],
+      "notes": "Glued sound: n before k is pronounced /ng/ (velar nasal), not /n/."
+    },
+    {
+      "id": "onk.onk",
+      "grapheme": "onk",
+      "display": "onk",
+      "phonemes": [
+        "o",
+        "ng",
+        "k"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "rare",
+      "examples": [
+        "honk",
+        "conk",
+        "bonk"
+      ],
+      "rule_refs": [],
+      "notes": "Glued sound: n before k is pronounced /ng/ (velar nasal), not /n/."
+    },
+    {
+      "id": "unk.unk",
+      "grapheme": "unk",
+      "display": "unk",
+      "phonemes": [
+        "u",
+        "ng",
+        "k"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "less-common",
+      "examples": [
+        "sunk",
+        "trunk",
+        "skunk",
+        "chunk"
+      ],
+      "rule_refs": [],
+      "notes": "Glued sound: n before k is pronounced /ng/ (velar nasal), not /n/."
+    },
+    {
+      "id": "est.est",
+      "grapheme": "est",
+      "display": "est",
+      "phonemes": [
+        "e",
+        "s",
+        "t"
+      ],
+      "positions": [
+        "final"
+      ],
+      "freq": "common",
+      "examples": [
+        "biggest",
+        "fastest",
+        "smallest",
+        "happiest"
+      ],
+      "rule_refs": [],
+      "notes": "Superlative suffix -est."
+    }
+  ]
+}

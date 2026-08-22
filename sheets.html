@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sheet Generator — Aussie Phonics</title>
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --paper: #fbf7ee;
+            --ink: #1f1f1f;
+            --muted: #6b6256;
+            --line: #d8cfbb;
+            --line-soft: #e8e0cd;
+            --accent: #a83232;
+            --correct: #2f6a3e;
+            --wrong: #a83232;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            color: var(--ink);
+        }
+        .container {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            max-width: 1100px;
+            width: 100%;
+            padding: 28px;
+            margin-top: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .hub-link { display: inline-block; font-size: 13px; font-weight: 700; color: var(--accent);
+            text-decoration: none; margin-bottom: 4px; }
+        .hub-link:hover { text-decoration: underline; }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            font-family: Georgia, 'Times New Roman', serif;
+            letter-spacing: 0.5px;
+        }
+        .subtitle { color: var(--muted); text-align: center; margin: 6px auto 20px; font-size: 13px;
+            max-width: 620px; line-height: 1.5; }
+
+        /* ---- controls bar (never printed) ---- */
+        .sheet-controls {
+            display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end;
+            padding: 14px; background: var(--bg);
+            border: 1px solid var(--line-soft); border-radius: 10px;
+        }
+        .ctrl-block { display: flex; flex-direction: column; gap: 5px; flex: 1 1 170px; min-width: 150px; }
+        .ctrl-block[hidden] { display: none; }
+        .ctrl-block.ctrl-wide { flex: 2 1 260px; }
+        .ctrl-block.ctrl-actions { flex: 1 1 220px; flex-direction: row; align-items: flex-end; gap: 8px; }
+        .ctrl-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+        .sheet-controls select {
+            padding: 10px 12px; min-height: 44px; width: 100%;
+            border: 1px solid var(--line); border-radius: 8px;
+            background: var(--paper); color: var(--ink); font-size: 14px; font-family: inherit;
+        }
+        .sheet-controls select:focus { outline: none; border-color: var(--accent); }
+        .check-row { display: flex; align-items: center; gap: 8px; min-height: 44px; font-size: 13px; color: var(--ink); cursor: pointer; }
+        .check-row input { width: 22px; height: 22px; accent-color: var(--accent); cursor: pointer; }
+        .btn {
+            min-height: 44px; min-width: 44px; padding: 10px 18px; border-radius: 8px; cursor: pointer;
+            font-family: inherit; font-size: 14px; font-weight: 600; border: 1px solid var(--line);
+            background: var(--paper); color: var(--ink); flex: 1 1 auto;
+        }
+        .btn:hover { border-color: var(--accent); color: var(--accent); }
+        .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .btn.primary:hover { background: #8f2a2a; color: #fff; }
+        .seed-note { font-size: 11px; color: var(--muted); text-align: center; margin: 10px 0 0; }
+        .seed-note b { color: var(--accent); }
+
+        .status-box { text-align: center; padding: 14px 16px; color: var(--muted); font-size: 14px; }
+        .status-box[hidden] { display: none; }
+        .status-box.status-error { color: var(--wrong); background: #f5eaea; border-radius: 8px; margin-top: 12px; }
+
+        /* ---- A4 preview ---- */
+        .preview-outer { margin-top: 18px; }
+        .preview-head { display: flex; justify-content: space-between; align-items: baseline;
+            font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px;
+            font-weight: 700; margin-bottom: 8px; }
+        .preview-head span { text-transform: none; letter-spacing: 0; font-weight: 400; }
+        .preview-wrap { width: 100%; max-width: 210mm; margin: 0 auto; overflow: hidden; }
+        .preview-scaler { width: 210mm; transform-origin: top left; }
+
+        /* ============================================================
+           THE SHEET ITSELF — one A4 page. Sized in mm so the screen
+           preview and the paper are the same object; @page supplies
+           the 12mm margin when printing.
+           ============================================================ */
+        @page { size: A4 portrait; margin: 12mm; }
+
+        .page {
+            width: 210mm; height: 297mm; padding: 12mm;
+            background: #fff; color: #1f1f1f;
+            display: flex; flex-direction: column;
+            box-shadow: 0 3px 16px rgba(0,0,0,0.16);
+            --unit: #cfe0f5; --unit-ink: #1f1f1f; --box: 13mm; --rowfont: 15pt;
+        }
+        /* Unit colours are the point of these sheets — keep them in print. */
+        .page, .page * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+        .sheet-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 6mm;
+            border-bottom: 1.2mm solid var(--unit); padding-bottom: 3mm; }
+        .sheet-title { font-family: Georgia, 'Times New Roman', serif; font-size: 19pt; line-height: 1.15; }
+        .sheet-instruction { font-size: 10pt; color: #4a453c; margin-top: 1.8mm; line-height: 1.35; }
+        .head-unit { flex-shrink: 0; text-align: right; }
+        .unit-chip { display: inline-block; background: var(--unit); color: var(--unit-ink);
+            border-radius: 2mm; padding: 1.5mm 3.5mm; font-family: Georgia, serif; font-weight: 700; font-size: 13pt; }
+        .unit-label { display: block; font-size: 8.5pt; color: #6b6256; margin-top: 1.2mm; }
+
+        .name-line { display: flex; align-items: flex-end; gap: 2.5mm; margin: 4mm 0 3.5mm;
+            font-size: 9.5pt; color: #6b6256; }
+        .nl-rule { flex: 1 1 auto; border-bottom: 0.4mm solid #b9b0a0; height: 5mm; }
+        .nl-rule.short { flex: 0 0 40mm; }
+
+        .sheet-body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+        .empty-note { font-size: 11pt; color: #6b6256; font-style: italic; margin: auto; text-align: center; }
+
+        /* dotted thirds: dotted ascender line, dashed x-height line,
+           solid baseline, dotted descender line */
+        .thirds { position: relative; }
+        .thirds.guides { border-top: 0.3mm dotted #c2b9a8; border-bottom: 0.3mm dotted #c2b9a8; }
+        .thirds.guides::before { content: ""; position: absolute; left: 0; right: 0; top: 33.333%;
+            border-top: 0.3mm dashed #cfc6b4; }
+        .thirds.guides::after { content: ""; position: absolute; left: 0; right: 0; top: 66.666%;
+            border-top: 0.35mm solid #a9a091; }
+
+        /* (a) reading words — big word cards */
+        .card-grid { flex: 1 1 auto; display: grid; grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(var(--rows, 4), 1fr); gap: 4mm; --cardfont: 28pt; }
+        .word-card { border: 0.5mm solid var(--unit); border-radius: 3mm; padding: 2mm 3mm;
+            display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .wc-thirds { width: 100%; height: 16mm; }
+        .wc-word { position: absolute; left: 0; right: 0; top: 66.666%;
+            transform: translateY(calc(-100% + 0.2em)); text-align: center;
+            font-family: Georgia, 'Times New Roman', serif; font-weight: 700;
+            font-size: var(--cardfont); line-height: 1; }
+
+        /* (b/c/d) row sheets — rows spread evenly down the page */
+        .row-list { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: space-between;
+            list-style: none; margin: 0; padding: 0; }
+        .wrow { display: flex; align-items: center; gap: 3mm; }
+        .wnum { flex: 0 0 7mm; text-align: right; font-size: 10pt; color: #6b6256; }
+
+        .ek-boxes { display: flex; gap: 1.6mm; flex-shrink: 0; }
+        .ek-box { width: var(--box); height: var(--box); border: 0.45mm solid #3a352c; border-radius: 1.5mm;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: var(--rowfont); }
+        .ek-box.blank { border-width: 0.9mm; border-color: var(--unit); position: relative; }
+        /* pale unit colours print near-invisible — a guaranteed-contrast
+           dashed inner outline keeps the box visible on paper regardless. */
+        .ek-box.blank::after { content: ""; position: absolute; inset: 1.4mm;
+            border: 0.35mm dashed #6b6256; border-radius: 1mm; pointer-events: none; }
+
+        .syl-circles { display: flex; gap: 1.6mm; flex: 0 0 auto; }
+        .syl-dot { display: block; width: 5mm; height: 5mm; border: 0.4mm solid #6b6256; border-radius: 50%; }
+        .write-line { flex: 1 1 auto; min-width: 28mm; height: var(--box); }
+
+        .rule-note { font-size: 9.5pt; line-height: 1.45; background: #f8f4ea; color: #4a453c;
+            border-left: 1.2mm solid var(--unit); border-radius: 0 2mm 2mm 0; padding: 2.5mm 3mm; margin-bottom: 3.5mm; }
+        .rule-note b { color: #1f1f1f; }
+        .choice-row .cw { display: flex; align-items: center; gap: 1mm; flex: 0 0 auto;
+            font-family: Georgia, 'Times New Roman', serif; font-size: var(--rowfont); }
+        .cw-part { font-weight: 700; letter-spacing: 0.3mm; }
+        .opt-group { display: inline-flex; gap: 1.5mm; margin: 0 1mm; }
+        .opt { border: 0.35mm dashed #6b6256; border-radius: 8mm; padding: 0.8mm 2.6mm;
+            font-size: calc(var(--rowfont) - 2pt); line-height: 1.15; }
+
+        .sheet-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 5mm;
+            border-top: 0.4mm solid #d8cfbb; padding-top: 2.5mm; margin-top: 3.5mm;
+            font-size: 8.5pt; color: #6b6256; }
+        .foot-line { font-size: 9.5pt; color: #4a453c; }
+        .foot-meta { margin-top: 0.8mm; }
+        .foot-qr { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 1mm; text-align: center; }
+        .qr-img { display: block; width: 20mm; height: 20mm; image-rendering: pixelated; }
+        .qr-cap { font-size: 7pt; line-height: 1.2; max-width: 26mm; }
+        .qr-missing { width: 20mm; height: 20mm; border: 0.5mm dashed #a83232; border-radius: 1.5mm;
+            color: #a83232; font-size: 6.5pt; line-height: 1.15; padding: 1mm; text-align: center;
+            display: flex; align-items: center; justify-content: center; }
+
+        @media (max-width: 640px) {
+            body { padding: 8px; }
+            .container { padding: 16px; }
+            .sheet-controls { flex-direction: column; align-items: stretch; }
+            .ctrl-block { min-width: 0; }
+        }
+
+        /* ---- print: controls vanish, the page becomes the paper ---- */
+        @media print {
+            body { background: #fff; padding: 0; display: block; }
+            .no-print { display: none !important; }
+            .container { border: none; box-shadow: none; background: #fff; padding: 0; margin: 0; max-width: none; }
+            .preview-outer { margin: 0; }
+            .preview-wrap { max-width: none; overflow: visible; height: auto !important; }
+            .preview-scaler { width: auto; transform: none !important; }
+            .page { width: 100%; height: 272mm; padding: 0; margin: 0;
+                box-shadow: none; border-radius: 0; page-break-after: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="no-print">
+            <a class="hub-link" href="index.html">&larr; Back to trainer</a>
+            <h1>Sheet Generator</h1>
+            <p class="subtitle">The paper form of the same exercises &mdash; reading cards, Elkonin boxes, segment &amp; spell,
+                spelling-choice rules &mdash; regenerated for <em>any</em> program, unit and accent. Every sheet carries a QR code
+                that plays its words, and a seed so you can print the identical sheet again.</p>
+
+            <div class="sheet-controls">
+                <label class="ctrl-block ctrl-wide">
+                    <span class="ctrl-label">Program</span>
+                    <select id="programSelect"></select>
+                </label>
+                <label class="ctrl-block ctrl-wide">
+                    <span class="ctrl-label">Unit</span>
+                    <select id="unitSelect"></select>
+                </label>
+                <label class="ctrl-block ctrl-wide">
+                    <span class="ctrl-label">Sheet type</span>
+                    <select id="typeSelect"></select>
+                </label>
+                <label class="ctrl-block" id="ruleBlock" hidden>
+                    <span class="ctrl-label">Spelling rule</span>
+                    <select id="ruleSelect"></select>
+                </label>
+                <label class="ctrl-block">
+                    <span class="ctrl-label">Accent</span>
+                    <select id="accentSelect">
+                        <option value="au">AU (Vic)</option>
+                        <option value="uk">UK</option>
+                        <option value="us">US</option>
+                    </select>
+                </label>
+                <label class="ctrl-block">
+                    <span class="ctrl-label">Words</span>
+                    <select id="countSelect">
+                        <option value="8">8</option>
+                        <option value="12" selected>12</option>
+                        <option value="16">16</option>
+                    </select>
+                </label>
+                <div class="ctrl-block" id="dottedBlock" hidden>
+                    <span class="ctrl-label">Guides</span>
+                    <label class="check-row"><input type="checkbox" id="dottedToggle"> Dotted thirds</label>
+                </div>
+                <div class="ctrl-block ctrl-actions">
+                    <button type="button" class="btn" id="shuffleBtn">&#127922; Shuffle</button>
+                    <button type="button" class="btn primary" id="printBtn">&#128424; Print</button>
+                </div>
+            </div>
+            <p class="seed-note">Seed <b id="seedOut">1</b> &mdash; the sheet is rebuilt exactly from the address bar,
+                so bookmark or share the URL to reprint this same sheet. Print at 100&percnt; scale on A4.</p>
+
+            <div class="status-box" id="statusBox" role="status" aria-live="polite">Loading&hellip;</div>
+        </div>
+
+        <div class="preview-outer">
+            <div class="preview-head no-print">A4 preview <span>210 &times; 297&nbsp;mm</span></div>
+            <div class="preview-wrap" id="previewWrap">
+                <div class="preview-scaler" id="previewScaler">
+                    <div class="page" id="page"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/core/data.js"></script>
+    <script src="js/core/audio.js"></script>
+    <script src="js/vendor/qrcode-generator.js"></script>
+    <script src="js/views/sheets.js"></script>
+</body>
+</html>

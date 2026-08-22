@@ -1,0 +1,318 @@
+{
+  "source": "Morpheme Matrices, Marn Frank, ATLAS/Hamline University (expanded March 2018), p.5 'Twenty Greek Forms and Meanings'",
+  "extraction_notes": [
+    "Table is printed as two side-by-side columns of 10; frequency_rank 1-10 follows the left column top-to-bottom and 11-20 follows the right column top-to-bottom, matching the source's Latin-root single-column convention.",
+    "'phon, phono' spellings[] additionally includes 'phone' (telephone, microphone) and 'sphere' additionally includes 'spher, sphero' as allomorphs needed by the Word Key."
+  ],
+  "greek_forms": [
+    {
+      "id": "phon_phono",
+      "spellings": [
+        "phon",
+        "phono",
+        "phone"
+      ],
+      "meaning": "sound",
+      "frequency_rank": 1,
+      "examples": [
+        "phonogram",
+        "phonograph",
+        "phonographic",
+        "phonography",
+        "phonology"
+      ]
+    },
+    {
+      "id": "photo",
+      "spellings": [
+        "photo"
+      ],
+      "meaning": "light",
+      "frequency_rank": 2,
+      "examples": [
+        "photogram",
+        "photograph",
+        "photographer",
+        "photographic",
+        "photographical"
+      ]
+    },
+    {
+      "id": "gram_graph",
+      "spellings": [
+        "gram",
+        "graph"
+      ],
+      "meaning": "written or drawn",
+      "frequency_rank": 3,
+      "examples": [
+        "autograph",
+        "biograph",
+        "chronogram",
+        "chronograph",
+        "hydrograph"
+      ]
+    },
+    {
+      "id": "meter_metr",
+      "spellings": [
+        "meter",
+        "metr"
+      ],
+      "meaning": "measure",
+      "frequency_rank": 4,
+      "examples": [
+        "chronometer",
+        "geometer",
+        "hydrometer",
+        "micrometer",
+        "photometer"
+      ]
+    },
+    {
+      "id": "tele",
+      "spellings": [
+        "tele"
+      ],
+      "meaning": "distant",
+      "frequency_rank": 5,
+      "examples": [
+        "telegram",
+        "telegraph",
+        "telegrapher",
+        "telegraphic",
+        "telegraphy"
+      ]
+    },
+    {
+      "id": "bio",
+      "spellings": [
+        "bio"
+      ],
+      "meaning": "life",
+      "frequency_rank": 6,
+      "examples": [
+        "biograph",
+        "biographer",
+        "biographic",
+        "autobiographic",
+        "biographical"
+      ]
+    },
+    {
+      "id": "micro",
+      "spellings": [
+        "micro"
+      ],
+      "meaning": "small",
+      "frequency_rank": 7,
+      "examples": [
+        "microbiology",
+        "microbiologic",
+        "microbiological",
+        "microbiologist",
+        "micrometer"
+      ]
+    },
+    {
+      "id": "hydra_hydro",
+      "spellings": [
+        "hydra",
+        "hydro"
+      ],
+      "meaning": "water",
+      "frequency_rank": 8,
+      "examples": [
+        "hydrograph",
+        "hydrographer",
+        "hydrographic",
+        "hydrographical",
+        "hydrography"
+      ]
+    },
+    {
+      "id": "therm_thermo",
+      "spellings": [
+        "therm",
+        "thermo"
+      ],
+      "meaning": "heat or hot",
+      "frequency_rank": 9,
+      "examples": [
+        "thermograph",
+        "thermography",
+        "thermometer",
+        "thermometric",
+        "thermometry"
+      ]
+    },
+    {
+      "id": "cracy_crat",
+      "spellings": [
+        "cracy",
+        "crat"
+      ],
+      "meaning": "rule",
+      "frequency_rank": 10,
+      "examples": [
+        "autocracy",
+        "democracy",
+        "technocracy",
+        "autocrat",
+        "democrat"
+      ]
+    },
+    {
+      "id": "scope",
+      "spellings": [
+        "scope",
+        "scop"
+      ],
+      "meaning": "watch or see",
+      "frequency_rank": 11,
+      "examples": [
+        "bioscope",
+        "chronoscope",
+        "hydroscope",
+        "microscope",
+        "phonoscope"
+      ]
+    },
+    {
+      "id": "metro",
+      "spellings": [
+        "metro"
+      ],
+      "meaning": "city or measure",
+      "frequency_rank": 12,
+      "examples": []
+    },
+    {
+      "id": "dem_demo",
+      "spellings": [
+        "dem",
+        "demo"
+      ],
+      "meaning": "people",
+      "frequency_rank": 13,
+      "examples": [
+        "demographer",
+        "demographic",
+        "demography",
+        "democracy",
+        "democrat"
+      ]
+    },
+    {
+      "id": "geo",
+      "spellings": [
+        "geo"
+      ],
+      "meaning": "earth",
+      "frequency_rank": 14,
+      "examples": [
+        "geographer",
+        "geographic",
+        "geography",
+        "geology",
+        "geologic"
+      ]
+    },
+    {
+      "id": "techn",
+      "spellings": [
+        "techn",
+        "techno"
+      ],
+      "meaning": "skill or art",
+      "frequency_rank": 15,
+      "examples": [
+        "technology",
+        "technologic",
+        "technological",
+        "technologist",
+        "technocracy"
+      ]
+    },
+    {
+      "id": "chron_chrono",
+      "spellings": [
+        "chron",
+        "chrono"
+      ],
+      "meaning": "time",
+      "frequency_rank": 16,
+      "examples": [
+        "chronogram",
+        "chronograph",
+        "chronographer",
+        "chronographic",
+        "chronology"
+      ]
+    },
+    {
+      "id": "psych",
+      "spellings": [
+        "psych"
+      ],
+      "meaning": "mind or soul",
+      "frequency_rank": 17,
+      "examples": [
+        "psychology",
+        "psychologic",
+        "psychological",
+        "psychologist"
+      ]
+    },
+    {
+      "id": "auto",
+      "spellings": [
+        "auto"
+      ],
+      "meaning": "self",
+      "frequency_rank": 18,
+      "examples": [
+        "autograph",
+        "autographic",
+        "autobiographic",
+        "autographical",
+        "autobiographical"
+      ]
+    },
+    {
+      "id": "logy_ology",
+      "spellings": [
+        "logy",
+        "ology",
+        "log",
+        "olog"
+      ],
+      "meaning": "study of",
+      "frequency_rank": 19,
+      "examples": [
+        "biology",
+        "chronology",
+        "geology",
+        "hydrology",
+        "graphology"
+      ]
+    },
+    {
+      "id": "sphere",
+      "spellings": [
+        "sphere",
+        "spher",
+        "sphero"
+      ],
+      "meaning": "circle",
+      "frequency_rank": 20,
+      "examples": [
+        "spherical",
+        "astrosphere",
+        "biosphere",
+        "ecosphere",
+        "geosphere"
+      ]
+    }
+  ]
+}

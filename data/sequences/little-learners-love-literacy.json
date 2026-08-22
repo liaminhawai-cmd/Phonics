@@ -1,0 +1,133 @@
+{
+  "id": "little-learners-love-literacy",
+  "name": "Little Learners Love Literacy",
+  "region": "AU",
+  "native_view": "grapheme_first",
+  "source": "LLLL (Pip and Tim) staged sequence, widely used in Victorian schools",
+  "licence_note": "Ordering of taught correspondences only (facts); no LLLL lesson text, characters or materials included",
+  "units": [
+    {
+      "n": 1,
+      "label": "Stage 1",
+      "teaches": [
+        "m.m",
+        "s.s",
+        "f.f",
+        "a.a",
+        "p.p",
+        "t.t"
+      ],
+      "review": [],
+      "heart_words": [
+        "the",
+        "a",
+        "is"
+      ],
+      "notes": ""
+    },
+    {
+      "n": 2,
+      "label": "Stage 2",
+      "teaches": [
+        "i.i",
+        "c.k",
+        "b.b",
+        "g.g",
+        "o.o",
+        "d.d"
+      ],
+      "review": [],
+      "heart_words": [
+        "was",
+        "to"
+      ],
+      "notes": ""
+    },
+    {
+      "n": 3,
+      "label": "Stage 3",
+      "teaches": [
+        "n.n",
+        "r.r",
+        "e.e",
+        "h.h",
+        "l.l",
+        "u.u"
+      ],
+      "review": [],
+      "heart_words": [
+        "you",
+        "are"
+      ],
+      "notes": ""
+    },
+    {
+      "n": 4,
+      "label": "Stage 4",
+      "teaches": [
+        "j.j",
+        "k.k",
+        "v.v",
+        "w.w",
+        "z.z",
+        "x.ks",
+        "y.y",
+        "qu.kw"
+      ],
+      "review": [],
+      "heart_words": [
+        "they",
+        "for"
+      ],
+      "notes": ""
+    },
+    {
+      "n": 5,
+      "label": "Stage 5",
+      "teaches": [
+        "ck.k",
+        "sh.sh",
+        "ch.ch",
+        "th.th",
+        "th.dh",
+        "wh.w"
+      ],
+      "review": [],
+      "heart_words": [
+        "said",
+        "have"
+      ],
+      "notes": "both th sounds taught together (thin/this)"
+    },
+    {
+      "n": 6,
+      "label": "Stage 6",
+      "teaches": [
+        "ng.ng",
+        "ll.l",
+        "ss.s",
+        "ff.f",
+        "zz.z"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": "floss-pattern doubles and ng"
+    },
+    {
+      "n": 7,
+      "label": "Stage 7",
+      "teaches": [
+        "ee.ee",
+        "ai.ay",
+        "oa.oa",
+        "ar.ar",
+        "or.or",
+        "er.er"
+      ],
+      "review": [],
+      "heart_words": [],
+      "notes": "first long-vowel and r-controlled spellings; later LLLL stages continue alternative spellings — extend this file from the official chart"
+    }
+  ],
+  "accuracy_note": "Stage contents reconstructed from general knowledge of the published stages — verify against the official LLLL scope & sequence chart before classroom use."
+}

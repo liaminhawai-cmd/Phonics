@@ -1,0 +1,300 @@
+{
+  "source": "Morpheme Matrices, Marn Frank, ATLAS/Hamline University (expanded March 2018), p.5 'Eighteen Latin Roots and Meanings'",
+  "extraction_notes": [
+    "spellings[] extends each chart entry with the extra orthographic allomorphs needed to segment the Word Key correctly (e.g. 'pos, pound' -> also 'pose', 'posit'; 'duce, duct' -> also 'duc'); the chart's own printed spellings are always listed first."
+  ],
+  "roots": [
+    {
+      "id": "form",
+      "spellings": [
+        "form"
+      ],
+      "meaning": "to shape",
+      "frequency_rank": 1,
+      "examples": [
+        "forms",
+        "formed",
+        "forming",
+        "former",
+        "formation"
+      ]
+    },
+    {
+      "id": "port",
+      "spellings": [
+        "port"
+      ],
+      "meaning": "to carry",
+      "frequency_rank": 2,
+      "examples": [
+        "ports",
+        "ported",
+        "porting",
+        "porter",
+        "portion"
+      ]
+    },
+    {
+      "id": "rupt",
+      "spellings": [
+        "rupt"
+      ],
+      "meaning": "to break or burst",
+      "frequency_rank": 3,
+      "examples": [
+        "disrupt",
+        "interrupt",
+        "erupt",
+        "disrupts",
+        "disrupted"
+      ]
+    },
+    {
+      "id": "tract",
+      "spellings": [
+        "tract"
+      ],
+      "meaning": "to draw or pull",
+      "frequency_rank": 4,
+      "examples": [
+        "tracts",
+        "tractor",
+        "traction",
+        "tractable",
+        "distract"
+      ]
+    },
+    {
+      "id": "scrib_script",
+      "spellings": [
+        "scrib",
+        "script",
+        "scribe"
+      ],
+      "meaning": "to write",
+      "frequency_rank": 5,
+      "examples": [
+        "scripts",
+        "scripted",
+        "scripting",
+        "scripter",
+        "inscribe"
+      ]
+    },
+    {
+      "id": "spect",
+      "spellings": [
+        "spect"
+      ],
+      "meaning": "to see, watch, or observe",
+      "frequency_rank": 6,
+      "examples": [
+        "inspect",
+        "respect",
+        "suspect",
+        "inspects",
+        "inspected"
+      ]
+    },
+    {
+      "id": "struct",
+      "spellings": [
+        "struct"
+      ],
+      "meaning": "to build",
+      "frequency_rank": 7,
+      "examples": [
+        "instruct",
+        "destruct",
+        "construct",
+        "instructs",
+        "instructed"
+      ]
+    },
+    {
+      "id": "flect_flex",
+      "spellings": [
+        "flect",
+        "flex"
+      ],
+      "meaning": "to bend or curve",
+      "frequency_rank": 8,
+      "examples": [
+        "flexes",
+        "flexed",
+        "flexing",
+        "flexor",
+        "flexion"
+      ]
+    },
+    {
+      "id": "dict",
+      "spellings": [
+        "dict"
+      ],
+      "meaning": "to say or tell",
+      "frequency_rank": 9,
+      "examples": [
+        "indict",
+        "predict",
+        "interdict",
+        "indicts",
+        "indicted"
+      ]
+    },
+    {
+      "id": "fer",
+      "spellings": [
+        "fer"
+      ],
+      "meaning": "to bear or yield",
+      "frequency_rank": 10,
+      "examples": [
+        "infer",
+        "refer",
+        "defer",
+        "prefer",
+        "transfer"
+      ]
+    },
+    {
+      "id": "mit_miss",
+      "spellings": [
+        "mit",
+        "miss"
+      ],
+      "meaning": "to send",
+      "frequency_rank": 11,
+      "examples": [
+        "remit",
+        "submit",
+        "transmit",
+        "remits",
+        "remitted"
+      ]
+    },
+    {
+      "id": "duce_duct",
+      "spellings": [
+        "duce",
+        "duct",
+        "duc"
+      ],
+      "meaning": "to lead",
+      "frequency_rank": 12,
+      "examples": [
+        "induce",
+        "deduce",
+        "reduce",
+        "produce",
+        "induces"
+      ]
+    },
+    {
+      "id": "vers_vert",
+      "spellings": [
+        "vers",
+        "vert",
+        "verse"
+      ],
+      "meaning": "to turn",
+      "frequency_rank": 13,
+      "examples": [
+        "inverse",
+        "reverse",
+        "converse",
+        "inverses",
+        "inversed"
+      ]
+    },
+    {
+      "id": "fact_fect_fict",
+      "spellings": [
+        "fact",
+        "fect",
+        "fict"
+      ],
+      "meaning": "to make or do",
+      "frequency_rank": 14,
+      "examples": [
+        "facts",
+        "factor",
+        "faction",
+        "factual",
+        "infect"
+      ]
+    },
+    {
+      "id": "tend_tens_tent",
+      "spellings": [
+        "tend",
+        "tens",
+        "tent",
+        "tense"
+      ],
+      "meaning": "to stretch or strain",
+      "frequency_rank": 15,
+      "examples": [
+        "intend",
+        "distend",
+        "pretend",
+        "contend",
+        "intends"
+      ]
+    },
+    {
+      "id": "ceipt_ceive_cept",
+      "spellings": [
+        "ceipt",
+        "ceive",
+        "cept",
+        "ceit",
+        "ceiv"
+      ],
+      "meaning": "to take or catch",
+      "frequency_rank": 16,
+      "examples": [
+        "deceit",
+        "receipt",
+        "conceit",
+        "receipts",
+        "deceive"
+      ]
+    },
+    {
+      "id": "tain_ten_tin",
+      "spellings": [
+        "tain",
+        "ten",
+        "tin"
+      ],
+      "meaning": "to hold",
+      "frequency_rank": 17,
+      "examples": [
+        "retain",
+        "detain",
+        "contain",
+        "pertain",
+        "sustain"
+      ]
+    },
+    {
+      "id": "pos_pound",
+      "spellings": [
+        "pos",
+        "pound",
+        "pose",
+        "posit"
+      ],
+      "meaning": "to put in place or set",
+      "frequency_rank": 18,
+      "examples": [
+        "pounds",
+        "pounded",
+        "pounding",
+        "pounder",
+        "impose"
+      ]
+    }
+  ]
+}

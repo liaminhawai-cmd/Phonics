@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Practice — Aussie Phonics</title>
+    <link rel="icon" href="data:,">
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --paper: #fbf7ee;
+            --ink: #1f1f1f;
+            --muted: #6b6256;
+            --line: #d8cfbb;
+            --line-soft: #e8e0cd;
+            --accent: #a83232;
+            --correct: #2f6a3e;
+            --wrong: #a83232;
+            --warn: #c8992e;
+            --warn-ink: #6b5316;
+            --warn-bg: #f8f1de;
+            --good-bg: #ebf3ec;
+            --bad-bg: #f5eaea;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        [hidden] { display: none !important; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--ink);
+        }
+        .container {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            max-width: 640px;
+            width: 100%;
+            padding: 24px;
+            margin-top: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        h1 {
+            text-align: center;
+            font-size: 22px;
+            font-family: Georgia, 'Times New Roman', serif;
+            letter-spacing: 0.5px;
+        }
+        .subtitle { color: var(--muted); text-align: center; margin: 6px 0 18px; font-size: 13px; line-height: 1.5; }
+
+        /* ---- header (menu / task / summary screens) ---- */
+        .pr-header {
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+            padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px dashed var(--line-soft);
+        }
+        .pr-header[hidden] { display: none; }
+        .chip-btn {
+            min-height: 44px; padding: 6px 16px; border: 1px solid var(--line); border-radius: 22px;
+            background: var(--bg); color: var(--ink); font-weight: 700; font-size: 14px;
+            font-family: inherit; cursor: pointer; transition: all 0.15s ease;
+        }
+        .chip-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .prog-name { font-size: 12px; color: var(--muted); font-weight: 600; flex: 1; min-width: 0;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .head-links { display: flex; gap: 4px; }
+        .head-links a {
+            display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px;
+            font-size: 13px; font-weight: 700; color: var(--accent); text-decoration: none;
+        }
+        .head-links a:hover { text-decoration: underline; }
+
+        /* ---- status / loading / error ---- */
+        .status-box { text-align: center; padding: 34px 16px; color: var(--muted); font-size: 14px; }
+        .status-box[hidden] { display: none; }
+        .status-box.status-error { color: var(--wrong); background: var(--bad-bg); border-radius: 8px; }
+        .status-box small { display: block; margin-top: 6px; font-weight: 400; }
+
+        .screen[hidden] { display: none; }
+
+        /* ---- profile cards ---- */
+        .profile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; margin-top: 20px; }
+        .profile-card {
+            border: 1px solid var(--line); border-radius: 12px; background: var(--paper);
+            padding: 22px 12px; cursor: pointer; text-align: center; font-family: inherit;
+            transition: all 0.18s ease; min-height: 120px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+        }
+        .profile-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+        .profile-card .p-emoji { font-size: 34px; }
+        .profile-card .p-name { font-family: Georgia, serif; font-size: 17px; font-weight: 700; color: var(--ink); word-break: break-word; }
+        .profile-card .p-accent { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 700; }
+        .profile-card.new { border-style: dashed; background: var(--bg); color: var(--muted); }
+        .profile-card.new:hover { color: var(--accent); }
+
+        .nl-form { margin-top: 20px; border: 1px solid var(--line); border-radius: 12px; padding: 18px; background: var(--bg); }
+        .nl-form[hidden] { display: none; }
+        .nl-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+        .nl-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+        .nl-form input, .nl-form select {
+            min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px;
+            background: var(--paper); color: var(--ink); font-size: 15px; font-family: inherit;
+        }
+        .nl-actions { display: flex; gap: 10px; }
+
+        /* ---- task menu cards ---- */
+        .task-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 16px; }
+        @media (min-width: 560px) { .task-grid { grid-template-columns: 1fr 1fr; } }
+        .task-card {
+            display: flex; align-items: center; gap: 14px; text-align: left;
+            padding: 16px; border: 1px solid var(--line); border-radius: 12px;
+            background: var(--paper); cursor: pointer; min-height: 80px;
+            font-family: inherit; transition: all 0.18s ease;
+        }
+        .task-card:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+        .task-card:disabled { opacity: 0.6; cursor: not-allowed; background: var(--bg); }
+        .task-icon { font-size: 30px; flex: 0 0 auto; }
+        .task-meta { min-width: 0; }
+        .task-title { display: block; font-family: Georgia, serif; font-weight: 700; font-size: 17px; color: var(--ink); }
+        .task-sub { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+        .task-lock { display: block; font-size: 12px; color: var(--accent); margin-top: 5px; font-weight: 600; }
+        .menu-empty { margin-top: 20px; text-align: center; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+        /* ---- task host ---- */
+        .task-topbar { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .back-link {
+            background: none; border: none; color: var(--muted); font-weight: 700; font-size: 14px;
+            cursor: pointer; min-height: 44px; padding: 4px 8px 4px 0; font-family: inherit;
+        }
+        .back-link:hover { color: var(--ink); }
+        .task-titlebar { font-family: Georgia, serif; font-weight: 700; font-size: 16px; }
+        .task-host-error { text-align: center; color: var(--wrong); background: var(--bad-bg); border-radius: 8px; padding: 24px 14px; font-size: 14px; }
+
+        /* ---- shared task widgets (used by t3/t4/t5/t6) ---- */
+        .pt-progress { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: var(--muted); text-align: center; margin-top: 6px; }
+        .pt-bigplay {
+            display: block; margin: 16px auto 6px; width: 84px; height: 84px; border-radius: 50%;
+            border: none; background: var(--ink); color: var(--paper); font-size: 34px; cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.18); transition: transform 0.12s ease;
+        }
+        .pt-bigplay:active { transform: scale(0.94); }
+        .pt-prompt { text-align: center; font-family: Georgia, serif; font-size: 18px; font-weight: 700; margin: 12px 0 10px; line-height: 1.4; }
+        .pt-choices { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .pt-choice {
+            min-width: 58px; min-height: 58px; font-size: 22px; font-weight: 700; font-family: Georgia, serif;
+            border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink);
+            cursor: pointer; transition: all 0.15s ease;
+        }
+        .pt-choice:hover:not(:disabled) { border-color: var(--accent); }
+        .pt-choice.good { background: var(--correct); border-color: var(--correct); color: #fff; }
+        .pt-choice.bad { background: var(--wrong); border-color: var(--wrong); color: #fff; animation: pt-shake 0.3s ease; }
+        .pt-elk-row { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 16px 0 8px; min-height: 68px; align-items: center; }
+        .pt-elk-box {
+            width: 60px; min-height: 66px; border: 2px solid var(--ink); border-radius: 10px;
+            background: var(--paper); color: var(--ink);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+            font-family: Georgia, serif; font-size: 21px; font-weight: 700;
+            animation: pt-pop 0.18s ease; transition: transform 0.15s ease, border-color 0.15s ease;
+            padding: 4px 2px;
+        }
+        button.pt-elk-box { cursor: pointer; }
+        .pt-elk-box.sel { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(168,50,50,0.18); }
+        .pt-elk-box.good { border-color: var(--correct); background: var(--good-bg); color: var(--correct); }
+        .pt-elk-box.warn { border-color: var(--warn); background: var(--warn-bg); color: var(--warn-ink); }
+        .pt-elk-box.bad  { border-color: var(--wrong); background: var(--bad-bg); color: var(--wrong); }
+        .pt-elk-box.lit  { transform: scale(1.1); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(168,50,50,0.22); }
+        .pt-fix { font-size: 16px; color: var(--correct); font-weight: 700; line-height: 1.25; }
+        .pt-fix .pt-fix-g { font-size: 20px; }
+        .pt-elk-input {
+            width: 60px; height: 66px; border: 2px solid var(--ink); border-radius: 10px; background: var(--paper);
+            font-family: Georgia, serif; font-size: 21px; font-weight: 700; text-align: center; color: var(--ink);
+        }
+        .pt-elk-input:focus { outline: none; border-color: var(--accent); }
+        .pt-elk-input.good { border-color: var(--correct); background: var(--good-bg); color: var(--correct); }
+        .pt-elk-input.warn { border-color: var(--warn); background: var(--warn-bg); color: var(--warn-ink); }
+        .pt-elk-input.bad  { border-color: var(--wrong); background: var(--bad-bg); color: var(--wrong); }
+        .pt-chip-row { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; min-height: 52px; margin: 6px 0; }
+        .pt-chip {
+            min-width: 52px; min-height: 48px; padding: 4px 12px; font-size: 19px; font-family: Georgia, serif;
+            font-weight: 700; border: 1px solid var(--line); border-radius: 10px; background: var(--bg);
+            color: var(--ink); cursor: pointer; transition: all 0.15s ease;
+        }
+        .pt-chip:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+        .pt-counter { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 6px 0; }
+        .pt-plus {
+            width: 64px; height: 64px; font-size: 30px; border-radius: 50%; border: 2px solid var(--ink);
+            background: var(--paper); color: var(--ink); cursor: pointer; font-weight: 700;
+            transition: transform 0.12s ease;
+        }
+        .pt-plus:active { transform: scale(0.92); }
+        .pt-reset { border: none; background: none; color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; min-height: 44px; font-family: inherit; }
+        .pt-reset:hover { color: var(--ink); }
+        .pt-primary {
+            display: block; margin: 12px auto 0; min-height: 48px; padding: 10px 30px; border-radius: 10px;
+            border: none; background: var(--accent); color: #fff; font-weight: 700; font-size: 16px;
+            cursor: pointer; font-family: inherit; transition: all 0.15s ease;
+        }
+        .pt-primary:hover:not(:disabled) { filter: brightness(1.08); }
+        .pt-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+        .pt-secondary {
+            display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 16px;
+            border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--muted);
+            font-weight: 600; font-size: 13px; cursor: pointer; font-family: inherit;
+        }
+        .pt-secondary:hover { color: var(--ink); border-color: var(--ink); }
+        .pt-feedback { text-align: center; min-height: 24px; font-size: 14.5px; margin-top: 10px; font-weight: 600; line-height: 1.5; }
+        .pt-feedback.good { color: var(--correct); }
+        .pt-feedback.warn { color: var(--warn-ink); }
+        .pt-feedback.bad  { color: var(--wrong); }
+        .pt-toolrow { display: flex; justify-content: center; gap: 10px; margin-top: 6px; }
+        @keyframes pt-pop { from { transform: scale(0.6); opacity: 0.4; } to { transform: scale(1); opacity: 1; } }
+        @keyframes pt-shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); } 75% { transform: translateX(4px); }
+        }
+
+        /* ---- summary ---- */
+        .summary-card { text-align: center; padding: 28px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); margin-top: 8px; }
+        .summary-emoji { font-size: 46px; }
+        .summary-title { font-family: Georgia, serif; font-size: 22px; font-weight: 700; margin: 10px 0 4px; }
+        .summary-score { font-size: 16px; color: var(--muted); margin-bottom: 6px; }
+        .summary-note { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+        .sound-chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 14px 0 6px; }
+        .sound-chip { border: 1px solid var(--line); border-radius: 14px; padding: 5px 11px; font-size: 13px; background: var(--bg); font-family: Georgia, serif; font-weight: 700; }
+        .sound-chips-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px; }
+
+        /* ---- rule lesson modal ---- */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(31,31,31,0.45);
+            display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50;
+        }
+        .modal-overlay[hidden] { display: none; }
+        .modal-card {
+            background: var(--paper); border-radius: 14px; max-width: 460px; width: 100%;
+            padding: 24px 20px 20px; position: relative; max-height: 90vh; overflow: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.28);
+        }
+        .modal-close {
+            position: absolute; top: 6px; right: 6px; min-width: 44px; min-height: 44px;
+            border: none; background: none; font-size: 20px; cursor: pointer; color: var(--muted);
+        }
+        .modal-close:hover { color: var(--ink); }
+        .rule-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--accent); text-align: center; }
+        .rule-statement { font-family: Georgia, serif; font-size: 20px; font-weight: 700; text-align: center; margin: 10px 0 14px; line-height: 1.45; }
+        .rule-dots { text-align: center; color: var(--muted); letter-spacing: 5px; font-size: 13px; margin-bottom: 4px; }
+        .rule-word { display: flex; justify-content: center; align-items: center; gap: 2px; font-family: Georgia, serif; font-size: 30px; font-weight: 700; margin: 12px 0 4px; flex-wrap: wrap; }
+        .rule-slot {
+            min-width: 58px; min-height: 52px; border: 2px dashed var(--accent); border-radius: 10px;
+            background: #fbeeee; color: var(--accent); font-family: Georgia, serif; font-size: 26px;
+            font-weight: 700; cursor: pointer; padding: 2px 10px;
+        }
+        .rule-slot.good { border-style: solid; border-color: var(--correct); background: var(--good-bg); color: var(--correct); }
+        .rule-slot.bad  { border-style: solid; border-color: var(--wrong); background: var(--bad-bg); color: var(--wrong); animation: pt-shake 0.3s ease; }
+        .rule-slot-hint { text-align: center; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+
+        /* ---- toast ---- */
+        #toastRoot {
+            position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px);
+            background: var(--ink); color: var(--paper); padding: 11px 20px; border-radius: 22px;
+            font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none;
+            transition: all 0.25s ease; z-index: 60; max-width: 90vw; text-align: center;
+        }
+        #toastRoot.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        @media (max-width: 480px) {
+            .container { padding: 16px; }
+            .pt-elk-box, .pt-elk-input { width: 52px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="pr-header" id="prHeader" hidden>
+            <button type="button" class="chip-btn" id="profileChip" title="Change learner">🙂</button>
+            <span class="prog-name" id="programName"></span>
+            <span class="head-links">
+                <a href="report.html">Report</a>
+                <a href="index.html">Home</a>
+            </span>
+        </header>
+
+        <div class="status-box" id="statusBox" role="status" aria-live="polite">Getting everything ready&hellip;</div>
+
+        <section class="screen" id="screenProfiles" hidden>
+            <h1>Who's practising today?</h1>
+            <p class="subtitle">Tap your name to start, or add a new learner.</p>
+            <div class="profile-grid" id="profileGrid"></div>
+            <form class="nl-form" id="nlForm" hidden>
+                <div class="nl-row">
+                    <label class="nl-label" for="nlName">Name</label>
+                    <input type="text" id="nlName" maxlength="40" autocomplete="off" placeholder="e.g. Ruby">
+                </div>
+                <div class="nl-row">
+                    <label class="nl-label" for="nlAccent">Accent</label>
+                    <select id="nlAccent">
+                        <option value="au" selected>Australian</option>
+                        <option value="uk">British</option>
+                        <option value="us">American</option>
+                    </select>
+                </div>
+                <div class="nl-actions">
+                    <button type="submit" class="pt-primary" style="margin:0" data-role="nl-create">Let's go!</button>
+                    <button type="button" class="pt-secondary" data-role="nl-cancel">Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="screen" id="screenMenu" hidden>
+            <h1>Pick an activity</h1>
+            <p class="subtitle">Locked ones open up as you practise.</p>
+            <div class="task-grid" id="taskGrid"></div>
+        </section>
+
+        <section class="screen" id="screenTask" hidden>
+            <div class="task-topbar">
+                <button type="button" class="back-link" id="taskBack">&larr; Back</button>
+                <span class="task-titlebar" id="taskTitleBar"></span>
+            </div>
+            <div id="taskHost"></div>
+        </section>
+
+        <section class="screen" id="screenSummary" hidden>
+            <div id="summaryHolder"></div>
+        </section>
+    </div>
+
+    <div class="modal-overlay" id="ruleModal" hidden></div>
+    <div id="toastRoot" role="status" aria-live="polite"></div>
+
+    <script src="js/core/data.js"></script>
+    <script src="js/core/audio.js"></script>
+    <script src="js/core/mastery.js"></script>
+    <script src="js/core/errors.js"></script>
+    <script src="js/core/tracker.js"></script>
+    <script src="js/views/practice.js"></script>
+    <script src="js/tasks/t3_counting.js"></script>
+    <script src="js/tasks/t4_listen_write.js"></script>
+    <script src="js/tasks/t5_toggle.js"></script>
+    <script src="js/tasks/t6_build.js"></script>
+    <script src="js/core/handwriting/score.js"></script>
+    <script src="js/tasks/t9_handwriting.js"></script>
+    <script src="js/tasks/t10_morph.js"></script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+{
+  "source": "Morpheme Matrices, Marn Frank, ATLAS/Hamline University (expanded March 2018), p.3-4 and matrix prefix boxes",
+  "extraction_notes": [
+    "Source is a pdftotext extraction of a 38-page PDF; page-marker artifacts and form underscores ('New Words: 1. ____') were stripped and are not represented here.",
+    "The top-10 prefix and suffix charts (p.4) and the 18-root / 20-form charts (p.5) are reproduced in full; frequency_rank follows the source's printed order (Greek forms: left column ranked 1-10, right column ranked 11-20).",
+    "'un', 'mis', and 'en/em' (top-10 prefixes) and 'ly' (top-10 suffix) do not appear in any of the 25 matrices or the Word Key, so their examples[] arrays are empty; the source gives no matrix-derived example words for them.",
+    "'less common' prefixes shown inside individual Latin-root matrices (e, sus, con/com, trans, pro, per, ex) are not on the p.4 chart; they are catalogued in prefixes.json with frequency_rank=null."
+  ],
+  "prefixes": [
+    {
+      "id": "in_im",
+      "spellings": [
+        "in",
+        "im"
+      ],
+      "meaning": "in, into, or toward",
+      "frequency_rank": 1,
+      "examples": [
+        "inform",
+        "informs",
+        "informed",
+        "informing",
+        "informer"
+      ]
+    },
+    {
+      "id": "un",
+      "spellings": [
+        "un"
+      ],
+      "meaning": "not or opposite of",
+      "frequency_rank": 2,
+      "examples": []
+    },
+    {
+      "id": "mis",
+      "spellings": [
+        "mis"
+      ],
+      "meaning": "bad or wrong",
+      "frequency_rank": 3,
+      "examples": []
+    },
+    {
+      "id": "dis",
+      "spellings": [
+        "dis"
+      ],
+      "meaning": "not or apart",
+      "frequency_rank": 4,
+      "examples": [
+        "disrupt",
+        "disrupts",
+        "disrupted",
+        "disrupting",
+        "disrupter"
+      ]
+    },
+    {
+      "id": "re",
+      "spellings": [
+        "re"
+      ],
+      "meaning": "again or back",
+      "frequency_rank": 5,
+      "examples": [
+        "reform",
+        "reforms",
+        "reformed",
+        "reforming",
+        "reformer"
+      ]
+    },
+    {
+      "id": "de",
+      "spellings": [
+        "de"
+      ],
+      "meaning": "down or away from",
+      "frequency_rank": 6,
+      "examples": [
+        "deform",
+        "deforms",
+        "deformed",
+        "deforming",
+        "deformer"
+      ]
+    },
+    {
+      "id": "pre",
+      "spellings": [
+        "pre"
+      ],
+      "meaning": "before or earlier",
+      "frequency_rank": 7,
+      "examples": [
+        "prescribe",
+        "prescribes",
+        "prescribed",
+        "prescribing",
+        "prescriber"
+      ]
+    },
+    {
+      "id": "en_em",
+      "spellings": [
+        "en",
+        "em"
+      ],
+      "meaning": "put into or onto",
+      "frequency_rank": 8,
+      "examples": []
+    },
+    {
+      "id": "sub",
+      "spellings": [
+        "sub"
+      ],
+      "meaning": "below or under",
+      "frequency_rank": 9,
+      "examples": [
+        "subtract",
+        "subtracts",
+        "subtracted",
+        "subtraction",
+        "subscribe"
+      ]
+    },
+    {
+      "id": "inter",
+      "spellings": [
+        "inter"
+      ],
+      "meaning": "between",
+      "frequency_rank": 10,
+      "examples": [
+        "interrupt",
+        "interrupts",
+        "interrupted",
+        "interrupting",
+        "interrupter"
+      ]
+    },
+    {
+      "id": "e",
+      "spellings": [
+        "e"
+      ],
+      "meaning": "out",
+      "frequency_rank": null,
+      "examples": [
+        "erupt",
+        "erupts",
+        "erupted",
+        "erupting",
+        "eruption"
+      ]
+    },
+    {
+      "id": "sus",
+      "spellings": [
+        "sus"
+      ],
+      "meaning": "under",
+      "frequency_rank": null,
+      "examples": [
+        "suspect",
+        "suspects",
+        "suspected",
+        "suspecting",
+        "suspicion"
+      ]
+    },
+    {
+      "id": "com_con",
+      "spellings": [
+        "com",
+        "con"
+      ],
+      "meaning": "together",
+      "frequency_rank": null,
+      "examples": [
+        "construct",
+        "constructs",
+        "constructed",
+        "constructing",
+        "constructor"
+      ]
+    },
+    {
+      "id": "trans",
+      "spellings": [
+        "trans"
+      ],
+      "meaning": "across",
+      "frequency_rank": null,
+      "examples": [
+        "transfer",
+        "transfers",
+        "transferred",
+        "transferring",
+        "transferable"
+      ]
+    },
+    {
+      "id": "pro",
+      "spellings": [
+        "pro"
+      ],
+      "meaning": "forward",
+      "frequency_rank": null,
+      "examples": [
+        "produce",
+        "produces",
+        "produced",
+        "producing",
+        "producible"
+      ]
+    },
+    {
+      "id": "per",
+      "spellings": [
+        "per"
+      ],
+      "meaning": "through",
+      "frequency_rank": null,
+      "examples": [
+        "perfect",
+        "perfects",
+        "perfected",
+        "perfecting",
+        "perfection"
+      ]
+    },
+    {
+      "id": "ex",
+      "spellings": [
+        "ex"
+      ],
+      "meaning": "out",
+      "frequency_rank": null,
+      "examples": [
+        "except",
+        "excepts",
+        "excepted",
+        "excepting",
+        "exception"
+      ]
+    }
+  ]
+}

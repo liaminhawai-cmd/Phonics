@@ -1,0 +1,10 @@
+{
+  "id": "custom-template",
+  "name": "Custom Sequence Template",
+  "region": "",
+  "native_view": "grapheme_first",
+  "source": "Teacher-authored",
+  "licence_note": "Original to this project",
+  "instructions": "This is an empty starting point for a teacher-authored (or school-specific) scope & sequence. To use it: (1) copy this file to a new filename in data/sequences/, (2) give it a unique id and name, (3) set region to whatever fits (AU/UK/US/other, or leave blank), (4) set native_view to 'grapheme_first' if you think in letters-to-sounds order (most UK/AU synthetic phonics programs teach this way) or 'phoneme_first' if you think in sounds-to-spellings order (like Sound Waves) — the app derives the OTHER view automatically from gpcs.json, so pick whichever matches how you actually plan lessons and don't worry about the other one. (5) Fill in units in the exact order you want to teach them: each unit needs a unique n (sequence position, 1, 2, 3…), a label (whatever you want displayed, e.g. 'Week 3' or 'Lesson 12 — sh, th'), an optional colour (a hex string, only used if you want a bookmark-style coloured display), a teaches array of GPC ids being newly taught this unit, a review array of GPC ids being revisited (not new), a heart_words array of word ids (from data/words/words.json) for any irregular high-frequency words introduced at this point, and a free-text notes field for anything else. GPC ids are always '<grapheme>.<phoneme id>' (e.g. 'ai.ay', 'c.s', 'x.ks') regardless of which native_view you picked — never write raw sounds or letters directly, always reference the shared bank in data/gpcs.json. A unit that teaches no new GPCs (e.g. a pure blending/review lesson) is valid — just leave teaches as an empty array and use review instead, the same convention used across the other sequence files in this folder.",
+  "units": []
+}

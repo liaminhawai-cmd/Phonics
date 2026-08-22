@@ -11,96 +11,15 @@
 // bookmark level those codes belong to.
 // ============================================================
 
-const GRAPHEMES = [
-  { grapheme: "a",  audio: "A",    sounds: [{s:"ă", ex:"at"}, {s:"ā", ex:"navy"}, {s:"ah", ex:"last"}] },
-  { grapheme: "b",  audio: "B",    sounds: [{s:"b", ex:"rib"}] },
-  { grapheme: "c",  audio: "C",    sounds: [{s:"k", ex:"can"}, {s:"s", ex:"cent"}] },
-  { grapheme: "d",  audio: "D",    sounds: [{s:"d", ex:"lid"}] },
-  { grapheme: "e",  audio: "E",    sounds: [{s:"ĕ", ex:"end"}, {s:"ē", ex:"me"}] },
-  { grapheme: "f",  audio: "F",    sounds: [{s:"f", ex:"if"}] },
-  { grapheme: "g",  audio: "G",    sounds: [{s:"g", ex:"bag"}, {s:"j", ex:"gem"}] },
-  { grapheme: "h",  audio: "H",    sounds: [{s:"h", ex:"him"}] },
-  { grapheme: "i",  audio: "I",    sounds: [{s:"ĭ", ex:"sit"}, {s:"ī", ex:"silent"}] },
-  { grapheme: "j",  audio: "J",    sounds: [{s:"j", ex:"jam"}] },
-  { grapheme: "k",  audio: "K",    sounds: [{s:"k", ex:"ink"}] },
-  { grapheme: "l",  audio: "L",    sounds: [{s:"l", ex:"leg"}] },
-  { grapheme: "m",  audio: "M",    sounds: [{s:"m", ex:"am"}] },
-  { grapheme: "n",  audio: "N",    sounds: [{s:"n", ex:"in"}] },
-  { grapheme: "o",  audio: "O",    sounds: [{s:"ŏ", ex:"odd"}, {s:"ō", ex:"open"}, {s:"oo", ex:"do"}] },
-  { grapheme: "p",  audio: "P",    sounds: [{s:"p", ex:"map"}] },
-  { grapheme: "qu", audio: "Qu",   sounds: [{s:"kw", ex:"quit"}] },
-  { grapheme: "r",  audio: "R",    sounds: [{s:"r", ex:"rat"}] },
-  { grapheme: "s",  audio: "S",    sounds: [{s:"s", ex:"us"}, {s:"z", ex:"as"}] },
-  { grapheme: "t",  audio: "T",    sounds: [{s:"t", ex:"bat"}] },
-  { grapheme: "u",  audio: "U",    sounds: [{s:"ŭ", ex:"up"}, {s:"ū", ex:"music"}, {s:"oo", ex:"put"}] },
-  { grapheme: "v",  audio: "V",    sounds: [{s:"v", ex:"van"}] },
-  { grapheme: "w",  audio: "W",    sounds: [{s:"w", ex:"win"}] },
-  { grapheme: "x",  audio: "X",    sounds: [{s:"ks", ex:"box"}] },
-  { grapheme: "y",  audio: "Y",    sounds: [{s:"y", ex:"yes"}, {s:"ī", ex:"by"}, {s:"ĭ", ex:"gym"}] },
-  { grapheme: "z",  audio: "Z",    sounds: [{s:"z", ex:"zoo"}] },
-  { grapheme: "ai",   audio: "Ai",   sounds: [{s:"ā", ex:"rain"}] },
-  { grapheme: "ar",   audio: "Ar",   sounds: [{s:"ar", ex:"far"}] },
-  { grapheme: "au",   audio: "Au",   sounds: [{s:"au", ex:"sauce"}] },
-  { grapheme: "aw",   audio: "Aw",   sounds: [{s:"aw", ex:"jaw"}] },
-  { grapheme: "ay",   audio: "Ay",   sounds: [{s:"ā", ex:"day"}] },
-  { grapheme: "ch",   audio: "Ch",   sounds: [{s:"ch", ex:"chop"}, {s:"k", ex:"school"}, {s:"sh", ex:"chef"}] },
-  { grapheme: "ci",   audio: "Ci",   sounds: [{s:"sh", ex:"social"}] },
-  { grapheme: "ck",   audio: "Ck",   sounds: [{s:"k", ex:"neck"}] },
-  { grapheme: "dge",  audio: "Dge",  sounds: [{s:"j", ex:"bridge"}] },
-  { grapheme: "ea",   audio: "Ea",   sounds: [{s:"ē", ex:"eat"}, {s:"ĕ", ex:"head"}, {s:"ā", ex:"break"}] },
-  { grapheme: "ear",  audio: "Ear",  sounds: [{s:"er", ex:"early"}] },
-  { grapheme: "ed",   audio: "Ed",   sounds: [{s:"ĕd", ex:"landed"}, {s:"d", ex:"loved"}, {s:"t", ex:"picked"}] },
-  { grapheme: "ee",   audio: "Ee",   sounds: [{s:"ē", ex:"see"}] },
-  { grapheme: "ei",   audio: "Ei",   sounds: [{s:"ē", ex:"receive"}, {s:"ā", ex:"veil"}, {s:"ī", ex:"forfeit"}] },
-  { grapheme: "eigh", audio: "Eigh", sounds: [{s:"ā", ex:"eight"}] },
-  { grapheme: "er",   audio: "Er",   sounds: [{s:"er", ex:"her"}] },
-  { grapheme: "ew",   audio: "Ew",   sounds: [{s:"ōō", ex:"grew"}, {s:"ū", ex:"new"}] },
-  { grapheme: "ey",   audio: "Ey",   sounds: [{s:"ā", ex:"they"}, {s:"ē", ex:"key"}, {s:"ī", ex:"donkey"}] },
-  { grapheme: "gn",   audio: "Gn",   sounds: [{s:"n", ex:"gnome"}] },
-  { grapheme: "gu",   audio: "Gu",   sounds: [{s:"g", ex:"guess"}] },
-  { grapheme: "ie",   audio: "Ie",   sounds: [{s:"ē", ex:"chief"}, {s:"ī", ex:"pie"}, {s:"ĭ", ex:"parties"}] },
-  { grapheme: "igh",  audio: "Igh",  sounds: [{s:"ī", ex:"light"}] },
-  { grapheme: "ir",   audio: "Ir",   sounds: [{s:"er", ex:"first"}] },
-  { grapheme: "kn",   audio: "Kn",   sounds: [{s:"n", ex:"knot"}] },
-  { grapheme: "ng",   audio: "Ng",   sounds: [{s:"ng", ex:"sang"}] },
-  { grapheme: "oa",   audio: "Oa",   sounds: [{s:"ō", ex:"boat"}] },
-  { grapheme: "oe",   audio: "Oe",   sounds: [{s:"ō", ex:"toe"}] },
-  { grapheme: "oi",   audio: "Oi",   sounds: [{s:"oi", ex:"point"}] },
-  { grapheme: "oo",   audio: "Oo",   sounds: [{s:"ōō", ex:"food"}, {s:"ŏŏ", ex:"cook"}] },
-  { grapheme: "or",   audio: "Or",   sounds: [{s:"or", ex:"for"}] },
-  { grapheme: "ou",   audio: "Ou",   sounds: [{s:"ow", ex:"round"}, {s:"ō", ex:"shoulder"}, {s:"oo", ex:"you"}, {s:"ŭ", ex:"famous"}] },
-  { grapheme: "ough", audio: "Ough", sounds: [{s:"ō", ex:"though"}, {s:"ōō", ex:"through"}, {s:"ŭf", ex:"rough"}, {s:"ŏff", ex:"cough"}, {s:"aw", ex:"thought"}, {s:"ow", ex:"drought"}] },
-  { grapheme: "ow",   audio: "Ow",   sounds: [{s:"ow", ex:"how"}, {s:"ō", ex:"low"}] },
-  { grapheme: "oy",   audio: "Oy",   sounds: [{s:"oy", ex:"boy"}] },
-  { grapheme: "ph",   audio: "Ph",   sounds: [{s:"f", ex:"phone"}] },
-  { grapheme: "sh",   audio: "Sh",   sounds: [{s:"sh", ex:"dish"}] },
-  { grapheme: "si",   audio: "Si",   sounds: [{s:"sh", ex:"session"}, {s:"zh", ex:"vision"}] },
-  { grapheme: "th",   audio: "Th",   sounds: [{s:"th", ex:"thin"}, {s:"th", ex:"this"}] },
-  { grapheme: "ti",   audio: "Ti",   sounds: [{s:"sh", ex:"nation"}] },
-  { grapheme: "ui",   audio: "Ui",   sounds: [{s:"ōō", ex:"fruit"}, {s:"ū", ex:"nuisance"}] },
-  { grapheme: "ur",   audio: "Ur",   sounds: [{s:"er", ex:"nurse"}] },
-  { grapheme: "wh",   audio: "Wh",   sounds: [{s:"hw", ex:"when"}] },
-  { grapheme: "wor",  audio: "Wor",  sounds: [{s:"er", ex:"works"}] },
-  { grapheme: "wr",   audio: "Wr",   sounds: [{s:"r", ex:"wrap"}] },
-];
-
-// Colours match the printed physical bookmarks (read off bookmarks.pdf).
-const BOOKMARK_LEVELS = [
-  { name: "Level 1 – APTIN",  graphemes: ["a","p","t","i","n"],        colour: "#cfe0f5" },
-  { name: "Level 2 – SMOBC",  graphemes: ["s","m","o","b","c"],        colour: "#5b9bd5" },
-  { name: "Level 3 – GHKDE",  graphemes: ["g","h","k","d","e"],        colour: "#dcd6ec" },
-  { name: "Level 4 – LRFVU",  graphemes: ["l","r","f","v","u"],        colour: "#7c64b0" },
-  { name: "Level 5 – JWZXY",  graphemes: ["j","w","z","x","y"],        colour: "#d4e6c5" },
-  { name: "Level 6",          graphemes: ["qu","sh","th","ch","ay"],   colour: "#84b063" },
-  { name: "Level 7",          graphemes: ["wh","ck","ee","er","ar"],   colour: "#fbecc2" },
-  { name: "Level 8",          graphemes: ["ed","oo","igh","ai","oy"],  colour: "#f5c33c" },
-  { name: "Level 9",          graphemes: ["oi","oa","ea","ir","ow"],   colour: "#f3cbc4" },
-  { name: "Level 10",         graphemes: ["oe","au","aw","or","wr"],   colour: "#d75f50" },
-  { name: "Level 11",         graphemes: ["ph","kn","ie","ei","eigh"], colour: "#ededed" },
-  { name: "Level 12",         graphemes: ["ou","ew","ur","ear","wor"], colour: "#d6e5ec" },
-  { name: "Level 13",         graphemes: ["dge","ui","ng","ey","ough"],colour: "#97b5d7" },
-  { name: "Level 14",         graphemes: ["gu","ti","si","ci","gn"],   colour: "#cacaca" },
-];
+// GRAPHEMES and BOOKMARK_LEVELS used to be hardcoded here. Now the app is
+// data-bank driven (docs/ARCHITECTURE.md §2, §11): they're built from the
+// ACTIVE PhonicsBank sequence on boot (see bootBank() / applySequenceData()
+// near the bottom of this file), via the pure builders in
+// js/core/bank-adapt.js. For the default program (elc-bookmarks) the built
+// arrays reproduce these exact 70 graphemes / 14 levels — see
+// data/sequences/elc-bookmarks.json.
+let GRAPHEMES = [];
+let BOOKMARK_LEVELS = [];
 
 const F = "https://drive.google.com/file/d/";
 const A = "activities/level-";
@@ -160,23 +79,17 @@ const BOOKMARK_RESOURCES = [
   { reading: F+"1TzfD4KFQjUkxHzcQPFA9z5U1ayMD2MAN/view", writing: null, activities: [] },
 ];
 
-// Sound-group names follow the Victorian Education State "44 Sounds"
-// scope & sequence: vowels split into Short / Long / R-Controlled / Other,
-// consonants grouped by manner of articulation.
-const PHON_GROUPS = [
-  { name: "Short Vowels",        graphemes: ["a","e","i","o","u"] },
-  { name: "Long Vowels",         graphemes: ["ay","ai","ee","ea","ie","igh","oe","oa","ow","oo","ew","ui","ey","ei","eigh"] },
-  { name: "R-Controlled Vowels", graphemes: ["ar","er","ir","ur","or","ear","wor"] },
-  { name: "Other Vowels",        graphemes: ["ou","oy","oi","au","aw"] },
-  { name: "Stops",               graphemes: ["p","b","t","d","k","c","g","ck","qu","x","gu"] },
-  { name: "Nasals",              graphemes: ["m","n","ng","kn","gn"] },
-  { name: "Fricatives",          graphemes: ["f","v","th","s","z","sh","h","ph","wh","ci","si","ti"] },
-  { name: "Affricates",          graphemes: ["ch","j","dge"] },
-  { name: "Approximants",        graphemes: ["w","r","y","wr"] },
-  { name: "Lateral",             graphemes: ["l"] },
-  { name: "Other Codes",         graphemes: ["ed","ough"] },
-];
+// PHON_GROUPS used to be hardcoded here too — now built from
+// PhonicsBank.phonemeView() by PhonicsBankAdapt.buildPhonGroups() (same
+// group names: Short/Long/R-Controlled/Other Vowels, Stops, Nasals,
+// Fricatives, Affricates, Approximants, Lateral, Other Codes).
+let PHON_GROUPS = [];
 
+// YEAR_LEVELS and BOOKMARK_RESOURCES are specific to the elc-bookmarks
+// program (Victorian Pre–Yr4 scope & the printed bookmarks' Google Drive
+// demo videos / activity sheets) — they stay hardcoded, but their UI only
+// renders when that sequence is active (see isElcBookmarks() / the "Year
+// Levels" choice card / renderRemediation()).
 const YEAR_LEVELS = {
   "Pre":  ["a","p","t","i","n","s","m","o","b","c","g","h","k","d","e","l","r","f","v","u","j","w","z","x","y"],
   "Yr 1": ["qu","sh","th","ch","ay","wh","ck","ee","er","ar"],
@@ -185,13 +98,35 @@ const YEAR_LEVELS = {
   "Yr 4": ["ou","ew","ur","ear","wor","dge","ui","ng","ey","ough","gu","ti","si","ci","gn"],
 };
 
-const graphemeIndex = {};
-GRAPHEMES.forEach((g, i) => { graphemeIndex[g.grapheme] = i; });
+let graphemeIndex = {};
+let graphemeToBookmark = {};
 
-const graphemeToBookmark = {};
-BOOKMARK_LEVELS.forEach((lvl, i) => {
-  lvl.graphemes.forEach((gr) => { graphemeToBookmark[gr] = i; });
-});
+function rebuildIndexes() {
+  graphemeIndex = {};
+  GRAPHEMES.forEach((g, i) => { graphemeIndex[g.grapheme] = i; });
+
+  graphemeToBookmark = {};
+  BOOKMARK_LEVELS.forEach((lvl, i) => {
+    lvl.graphemes.forEach((gr) => { graphemeToBookmark[gr] = i; });
+  });
+}
+
+// Rebuilds GRAPHEMES / BOOKMARK_LEVELS / PHON_GROUPS from whatever sequence
+// is currently active in PhonicsBank, then the indexes derived from them.
+// Called once on boot and again whenever the program picker changes.
+function applySequenceData() {
+  const gView = PhonicsBank.graphemeView();
+  const pView = PhonicsBank.phonemeView();
+  GRAPHEMES = PhonicsBankAdapt.buildGraphemes(gView, PhonicsBank);
+  BOOKMARK_LEVELS = PhonicsBankAdapt.buildBookmarkLevels(gView);
+  PHON_GROUPS = PhonicsBankAdapt.buildPhonGroups(pView, PhonicsBank);
+  rebuildIndexes();
+}
+
+function isElcBookmarks() {
+  const seq = PhonicsBank.seq();
+  return !!seq && seq.id === "elc-bookmarks";
+}
 
 let practiceMode = "say";
 let viewMode = "bookmark";
@@ -754,9 +689,14 @@ function renderRemediation() {
       ? "Codes to read again — tap to watch the reading demo or open the activity sheets."
       : "Codes to write again — tap to watch the writing demo or open the activity sheets.") + '</p>';
 
+  // The reading/writing demo videos + activity sheets are specific to the
+  // elc-bookmarks program's printed levels — only look them up (and show
+  // the remedy-links row) when that sequence is active.
+  const withResources = isElcBookmarks();
+
   Object.keys(levelToCodes).map(Number).sort((a, b) => a - b).forEach((lvl) => {
     const meta = BOOKMARK_LEVELS[lvl];
-    const res = BOOKMARK_RESOURCES[lvl];
+    const res = withResources ? BOOKMARK_RESOURCES[lvl] : null;
     const codes = levelToCodes[lvl];
 
     html += '<div class="remedy-card" style="border-left-color:' + meta.colour + '">';
@@ -764,21 +704,23 @@ function renderRemediation() {
       meta.name + '</div>';
     html += '<div class="remedy-codes">' + codes.map((g) => '<span class="rcode">' + g + '</span>').join("") + '</div>';
 
-    const links = [];
-    if (practiceMode === "say") {
-      if (res.reading) links.push(linkBtn("▶ Reading demo", res.reading));
-      res.activities.filter((a) => ["read", "look"].includes(a.kind)).forEach((a) => {
-        links.push(linkBtn("📄 " + a.name, a.url));
-      });
-    } else {
-      if (res.writing) links.push(linkBtn("▶ Writing demo", res.writing));
-      res.activities.filter((a) => ["write", "look"].includes(a.kind)).forEach((a) => {
-        links.push(linkBtn("📄 " + a.name, a.url));
-      });
+    if (res) {
+      const links = [];
+      if (practiceMode === "say") {
+        if (res.reading) links.push(linkBtn("▶ Reading demo", res.reading));
+        res.activities.filter((a) => ["read", "look"].includes(a.kind)).forEach((a) => {
+          links.push(linkBtn("📄 " + a.name, a.url));
+        });
+      } else {
+        if (res.writing) links.push(linkBtn("▶ Writing demo", res.writing));
+        res.activities.filter((a) => ["write", "look"].includes(a.kind)).forEach((a) => {
+          links.push(linkBtn("📄 " + a.name, a.url));
+        });
+      }
+      if (links.length === 0 && res.reading) links.push(linkBtn("▶ Demo", res.reading));
+      html += '<div class="remedy-links">' + links.join("") + '</div>';
     }
-    if (links.length === 0 && res.reading) links.push(linkBtn("▶ Demo", res.reading));
-
-    html += '<div class="remedy-links">' + links.join("") + '</div></div>';
+    html += '</div>';
   });
 
   box.innerHTML = html;
@@ -832,13 +774,29 @@ function playCurrent() {
   if (!current) return;
   const btn = $("listenBtn");
   if (audioEl) { audioEl.pause(); audioEl = null; }
-  audioEl = new Audio(current.audio + ".mp4");
-  if (btn) {
-    audioEl.addEventListener("play",  () => btn.classList.add("playing"));
-    audioEl.addEventListener("ended", () => btn.classList.remove("playing"));
-    audioEl.addEventListener("error", () => btn.classList.remove("playing"));
+
+  if (current.audio) {
+    // Exactly today's behaviour: the grapheme has a root-level mouth video.
+    audioEl = new Audio(current.audio + ".mp4");
+    if (btn) {
+      audioEl.addEventListener("play",  () => btn.classList.add("playing"));
+      audioEl.addEventListener("ended", () => btn.classList.remove("playing"));
+      audioEl.addEventListener("error", () => btn.classList.remove("playing"));
+    }
+    audioEl.play().catch(() => {});
+    return;
   }
-  audioEl.play().catch(() => {});
+
+  // No mouth video for this grapheme (a non-elc-bookmarks sequence) — fall
+  // back to the bank's audio chain: recordings -> legacy sounds -> speech.
+  const gpcId = current.gpcIds && current.gpcIds[0];
+  if (btn) btn.classList.add("playing");
+  const done = () => { if (btn) btn.classList.remove("playing"); };
+  if (gpcId && window.PhonicsAudio) {
+    PhonicsAudio.playGpc(gpcId).then(done, done);
+  } else {
+    done();
+  }
 }
 
 let canvas, ctx, drawing = false;
@@ -888,7 +846,72 @@ function shuffle(arr) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+// ---- Program picker (data-bank sequence switcher) ----
+// Year Levels / bookmark demo links are elc-bookmarks-specific (see
+// isElcBookmarks()); everything else — the drill, the tracker grid, the
+// grapheme grid, the report — works for whichever sequence is active.
+
+function populateSeqPicker() {
+  const sel = $("seqPicker");
+  if (!sel) return;
+  const activeId = PhonicsBank.seq() && PhonicsBank.seq().id;
+  sel.innerHTML = "";
+  PhonicsBank.sequences().forEach((s) => {
+    if (!s.units) return; // skip empty templates (e.g. custom-template)
+    const opt = document.createElement("option");
+    opt.value = s.id;
+    opt.textContent = s.name + (s.approximate ? " (approximate)" : "");
+    if (s.id === activeId) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function updateElcSpecificUI() {
+  const isElc = isElcBookmarks();
+  const yearBtn = $("viewYearBtn");
+  if (yearBtn) yearBtn.style.display = isElc ? "" : "none";
+  const bmDesc = document.querySelector("#viewBookmarkBtn .desc");
+  if (bmDesc) {
+    bmDesc.textContent = isElc
+      ? "The 14 levels — APTIN, SMOBC, GHKDE… with the colour tracker."
+      : "The levels of the active program, with the colour tracker.";
+  }
+}
+
+// Reset everything session/selection state so a stale selection from the
+// previous program can't leak into the new one.
+function resetSessionState() {
+  selected.clear();
+  activeLevels = new Set();
+  activeCats = new Set();
+  queue = [];
+  current = null;
+  sessionTotal = 0;
+  attempts = {};
+  masteredOnTry = {};
+  missed = new Set();
+  // "Year Levels" is elc-bookmarks-specific — fall back to bookmark/unit
+  // view for any other program.
+  if (!isElcBookmarks() && viewMode === "year") viewMode = "bookmark";
+}
+
+async function onSeqPickerChange(e) {
+  const id = e.target.value;
+  if (!id || (PhonicsBank.seq() && PhonicsBank.seq().id === id)) return;
+  try {
+    await PhonicsBank.setSequence(id);
+  } catch (err) {
+    console.error(err);
+    populateSeqPicker(); // snap the dropdown back to whatever is actually active
+    return;
+  }
+  applySequenceData();
+  resetSessionState();
+  updateElcSpecificUI();
+  showScreen("mode");
+}
+
+function initUI() {
   screens.mode   = $("modeScreen");
   screens.view   = $("viewScreen");
   screens.select = $("selectScreen");
@@ -897,6 +920,10 @@ document.addEventListener("DOMContentLoaded", () => {
   screens.wall   = $("wallScreen");
 
   initCanvas();
+  populateSeqPicker();
+  updateElcSpecificUI();
+  const seqPicker = $("seqPicker");
+  if (seqPicker) seqPicker.addEventListener("change", onSeqPickerChange);
 
   $("modeSayBtn").addEventListener("click", () => chooseMode("say"));
   $("modeWriteBtn").addEventListener("click", () => chooseMode("write"));
@@ -940,4 +967,32 @@ document.addEventListener("DOMContentLoaded", () => {
   $("practiceSheetBtn").addEventListener("click", openPracticeSheet);
   $("reportReviewBtn").addEventListener("click", reviewMissed);
   $("reportRestartBtn").addEventListener("click", () => showScreen("mode"));
-});
+}
+
+// ---- Boot: load the data bank, build today's runtime structures from the
+// active sequence, then wire up the UI. Nothing above this point touches
+// the DOM or the bank at load time — GRAPHEMES/BOOKMARK_LEVELS/PHON_GROUPS
+// stay empty until this runs. ----
+async function bootBank() {
+  try {
+    await PhonicsBank.load();
+  } catch (err) {
+    console.error("PhonicsBank failed to load:", err);
+    const mode = $("modeScreen");
+    if (mode) {
+      mode.innerHTML =
+        '<div class="report-headline">Sorry — the phonics data bank could not be loaded.</div>' +
+        '<p class="subtitle">Check your connection and reload the page. ' +
+        '(' + (err && err.message ? err.message : "unknown error") + ')</p>';
+    }
+    return;
+  }
+  applySequenceData();
+  initUI();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bootBank);
+} else {
+  bootBank();
+}
