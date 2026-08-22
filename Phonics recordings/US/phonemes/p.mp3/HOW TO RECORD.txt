@@ -1,0 +1,12 @@
+PHONEME: /p/ as in pen
+
+This is a stop consonant — say the shortest possible release,
+no vowel tacked on (say /p/, not "puh").
+
+Example words that use this sound: pen, map, happy
+
+General rules (same for every folder):
+- One take per file. Say it once, naturally.
+- Quiet room, phone voice-memo is genuinely fine.
+- Any filename and format is OK in here (m4a, wav, mp3...) — just one file per folder.
+- Trim dead silence off the start/end if you can; not essential.

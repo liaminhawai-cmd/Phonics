@@ -1,0 +1,9 @@
+WORD: musician
+
+Say this word once, naturally, as you would in a sentence.
+
+General rules (same for every folder):
+- One take per file. Say it once, naturally.
+- Quiet room, phone voice-memo is genuinely fine.
+- Any filename and format is OK in here (m4a, wav, mp3...) — just one file per folder.
+- Trim dead silence off the start/end if you can; not essential.
