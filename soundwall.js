@@ -17,7 +17,7 @@ window.SoundWall = (() => {
 
   const SECTIONS = [
     { key:"consonants", title:"Consonants",
-      blurb:"The pulsing dot is where the sound happens — lips, teeth, the ridge behind your teeth, or the soft roof at the back." },
+      blurb:"Each one zooms in on the part of the mouth that makes it and plays the movement on a loop — lips closing, a tongue tip tapping the ridge, air hissing through a gap. The red bar is the moment the two parts touch." },
     { key:"vowels", title:"Vowels",
       blurb:"No blocking, just an open tube. What changes is where the tongue humps up and whether your lips round." },
     { key:"diphthongs", title:"Diphthongs",
