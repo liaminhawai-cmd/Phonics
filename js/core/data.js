@@ -226,19 +226,26 @@ window.PhonicsBank = (() => {
   // the darkest shade earns a gold rim (the black-belt tier). Works
   // for a sequence of any length; shades 0-1 are the bookmarks' own
   // faint/bold values so generated programs feel like siblings.
+  // Hue order alternates cool/warm so CONSECUTIVE levels never share a
+  // hue family — the shade only changes once per full lap of the seven.
   const BELT_HUES = [
     ["#cfe0f5", "#5b9bd5", "#3a6f9f", "#274d70"],   // blue
+    ["#fbecc2", "#f5c33c", "#c99a1d", "#8f6d12"],   // gold
     ["#dcd6ec", "#7c64b0", "#5c4a86", "#413460"],   // purple
     ["#d4e6c5", "#84b063", "#5f8546", "#425e30"],   // green
-    ["#fbecc2", "#f5c33c", "#c99a1d", "#8f6d12"],   // gold
     ["#f3cbc4", "#d75f50", "#a83f33", "#772b22"],   // red
+    ["#cfe8e4", "#4fa89b", "#35786e", "#24534c"],   // teal
+    ["#fadfc8", "#e08a3c", "#b06520", "#7d4715"],   // orange
   ];
   function beltColour(i) {
-    const pair = Math.floor(i / 2);
-    const hue = BELT_HUES[pair % BELT_HUES.length];
-    const shadeBase = 2 * Math.floor(pair / BELT_HUES.length);
-    const shade = Math.min(3, shadeBase + (i % 2));
-    const sparkle = shadeBase + (i % 2) > 3;        // past the darkest: gold rim
+    const hue = BELT_HUES[i % BELT_HUES.length];
+    const lap = Math.floor(i / BELT_HUES.length);
+    // Every step changes hue AND flips light/dark, so no two neighbours ever
+    // look alike; each lap of the seven starts a shade deeper.
+    // (i + lap) rather than i alone keeps the light/dark phase shifting per
+    // lap, so a long sequence gets 25 distinct belts before any repeat.
+    const shade = Math.min(hue.length - 1, lap + ((i + lap) % 2));
+    const sparkle = lap >= hue.length;               // past the darkest lap: gold rim
     const bg = hue[shade];
     const r = parseInt(bg.slice(1, 3), 16), g = parseInt(bg.slice(3, 5), 16), b = parseInt(bg.slice(5, 7), 16);
     const ink = (r * 299 + g * 587 + b * 114) / 1000 >= 140 ? "#1f1f1f" : "#fbf7ee";
