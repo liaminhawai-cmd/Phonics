@@ -1,53 +1,53 @@
 # Recording checklist — AU
 
-**40 / 1073 recorded.** Save files into `recordings/au/phonemes/` and `recordings/au/words/` — filename must match exactly. See recordings/README.md for tips.
+**64 / 1073 recorded.** Save files into `recordings/au/phonemes/` and `recordings/au/words/` — filename must match exactly. See recordings/README.md for tips.
 
 ## Phonemes & teaching units
 
-- [x] `p.mp3` — /p/ as in pen (legacy sounds/p ([p]en)/)
-- [x] `b.mp3` — /b/ as in bed (legacy sounds/b ([b]ed)/)
-- [x] `t.mp3` — /t/ as in ten (legacy sounds/t ([t]wo)/)
-- [x] `d.mp3` — /d/ as in dog (legacy sounds/d ([d]o)/)
-- [x] `k.mp3` — /k/ as in cat (legacy sounds/k ([k]ite)/)
-- [x] `g.mp3` — /g/ as in go (legacy sounds/g ([g]o)/)
-- [x] `ch.mp3` — /ch/ as in chop (legacy sounds/tʃ ([ch]air)/)
-- [x] `j.mp3` — /j/ as in jam (legacy sounds/dʒ ([j]am)/)
-- [x] `f.mp3` — /f/ as in fish (legacy sounds/f ([f]ish)/)
-- [x] `v.mp3` — /v/ as in van (legacy sounds/v ([v]ery)/)
-- [x] `th.mp3` — /th/ (quiet) as in thin (legacy sounds/θ ([th]in)/)
-- [x] `dh.mp3` — /th/ (noisy) as in this (legacy sounds/ð ([th]is)/)
-- [x] `s.mp3` — /s/ as in sun (legacy sounds/s ([s]ee)/)
-- [x] `z.mp3` — /z/ as in zoo (legacy sounds/z ([z]oo)/)
-- [x] `sh.mp3` — /sh/ as in ship (legacy sounds/ʃ ([sh]e)/)
-- [x] `zh.mp3` — /zh/ as in vision (legacy sounds/ʒ (vi[si]on)/)
-- [x] `h.mp3` — /h/ as in hat (legacy sounds/h ([h]at)/)
-- [x] `m.mp3` — /m/ as in man (legacy sounds/m ([m]e)/)
-- [x] `n.mp3` — /n/ as in net (legacy sounds/n ([n]o)/)
-- [x] `ng.mp3` — /ng/ as in ring (legacy sounds/ŋ (si[ng])/)
-- [x] `l.mp3` — /l/ as in leg (legacy sounds/l ([l]ook)/)
-- [x] `r.mp3` — /r/ as in red (legacy sounds/r ([r]ed)/)
-- [x] `w.mp3` — /w/ as in wet (legacy sounds/w ([w]e)/)
-- [ ] `y.mp3` — /y/ as in yes
-- [x] `a.mp3` — /a/ as in cat (legacy sounds/æ (c[a]t)/)
-- [x] `e.mp3` — /e/ as in bed (legacy sounds/e (b[e]d)/)
-- [x] `i.mp3` — /i/ as in sit (legacy sounds/ɪ (s[i]t)/)
-- [x] `o.mp3` — /o/ as in hot (legacy sounds/ɔ (h[o]t)/)
-- [x] `u.mp3` — /u/ as in cup (legacy sounds/ɐ (c[u]t)/)
-- [x] `oo_short.mp3` — /oo/ (short) as in book (legacy sounds/ʊ (p[u]t)/)
-- [x] `ay.mp3` — /ay/ as in play (long a) (legacy sounds/eɪ (d[ay])/)
-- [x] `ee.mp3` — /ee/ as in see (long e) (legacy sounds/iː (s[ee])/)
-- [x] `igh.mp3` — /igh/ as in light (long i) (legacy sounds/aɪ (m[y])/)
-- [x] `oa.mp3` — /oa/ as in boat (long o) (legacy sounds/əʉ (g[o])/)
-- [x] `oo_long.mp3` — /oo/ (long) as in moon (legacy sounds/ʉː (f[oo]d)/)
-- [x] `ow.mp3` — /ow/ as in cow (legacy sounds/aʊ (n[ow])/)
-- [x] `oy.mp3` — /oy/ as in boy (legacy sounds/ɔɪ (b[oy])/)
-- [x] `ar.mp3` — /ar/ as in car (legacy sounds/aː (sp[a])/)
-- [x] `or.mp3` — /or/ as in fork (legacy sounds/ɔː (d[oor])/)
-- [x] `er.mp3` — /er/ as in her (legacy sounds/ɜː (h[er])/)
-- [ ] `air.mp3` — /air/ as in chair
+- [x] `p.mp3` — /p/ as in pen
+- [x] `b.mp3` — /b/ as in bed
+- [x] `t.mp3` — /t/ as in ten
+- [x] `d.mp3` — /d/ as in dog
+- [x] `k.mp3` — /k/ as in cat
+- [x] `g.mp3` — /g/ as in go
+- [x] `ch.mp3` — /ch/ as in chop
+- [x] `j.mp3` — /j/ as in jam
+- [x] `f.mp3` — /f/ as in fish
+- [x] `v.mp3` — /v/ as in van
+- [x] `th.mp3` — /th/ (quiet) as in thin
+- [x] `dh.mp3` — /th/ (noisy) as in this
+- [x] `s.mp3` — /s/ as in sun
+- [x] `z.mp3` — /z/ as in zoo
+- [x] `sh.mp3` — /sh/ as in ship
+- [x] `zh.mp3` — /zh/ as in vision
+- [x] `h.mp3` — /h/ as in hat
+- [x] `m.mp3` — /m/ as in man
+- [x] `n.mp3` — /n/ as in net
+- [x] `ng.mp3` — /ng/ as in ring
+- [x] `l.mp3` — /l/ as in leg
+- [x] `r.mp3` — /r/ as in red
+- [x] `w.mp3` — /w/ as in wet
+- [x] `y.mp3` — /y/ as in yes
+- [x] `a.mp3` — /a/ as in cat
+- [x] `e.mp3` — /e/ as in bed
+- [x] `i.mp3` — /i/ as in sit
+- [x] `o.mp3` — /o/ as in hot
+- [x] `u.mp3` — /u/ as in cup
+- [x] `oo_short.mp3` — /oo/ (short) as in book
+- [x] `ay.mp3` — /ay/ as in play (long a)
+- [x] `ee.mp3` — /ee/ as in see (long e)
+- [x] `igh.mp3` — /igh/ as in light (long i)
+- [x] `oa.mp3` — /oa/ as in boat (long o)
+- [x] `oo_long.mp3` — /oo/ (long) as in moon
+- [x] `ow.mp3` — /ow/ as in cow
+- [x] `oy.mp3` — /oy/ as in boy
+- [x] `ar.mp3` — /ar/ as in car
+- [x] `or.mp3` — /or/ as in fork
+- [x] `er.mp3` — /er/ as in her
+- [x] `air.mp3` — /air/ as in chair
 - [ ] `ear.mp3` — /ear/ as in near
 - [ ] `ure.mp3` — /ure/ as in cure
-- [x] `schwa.mp3` — /uh/ — schwa, as in about (legacy sounds/ə ([a]bout)/)
+- [x] `schwa.mp3` — /uh/ — schwa, as in about
 - [ ] `ks.mp3` — /ks/ as in box (letter x)
 - [ ] `kw.mp3` — /kw/ as in queen (qu)
 - [ ] `yoo.mp3` — /yoo/ as in music (long u)
@@ -79,11 +79,11 @@ Short and warm — the way you'd say it across a table.
 ## Words (by tier)
 
 - [ ] `I.mp3` — tier 1
-- [ ] `a.mp3` — tier 1
-- [ ] `about.mp3` — tier 1
-- [ ] `act.mp3` — tier 1
-- [ ] `action.mp3` — tier 1
-- [ ] `after.mp3` — tier 1
+- [x] `a.mp3` — tier 1
+- [x] `about.mp3` — tier 1
+- [x] `act.mp3` — tier 1
+- [x] `action.mp3` — tier 1
+- [x] `after.mp3` — tier 1
 - [ ] `again.mp3` — tier 1
 - [ ] `all.mp3` — tier 1
 - [ ] `am.mp3` — tier 1
@@ -91,7 +91,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `apple.mp3` — tier 1
 - [ ] `are.mp3` — tier 1
 - [ ] `arrow.mp3` — tier 1
-- [ ] `as.mp3` — tier 1
+- [x] `as.mp3` — tier 1
 - [ ] `ask.mp3` — tier 1
 - [ ] `at.mp3` — tier 1
 - [ ] `away.mp3` — tier 1
@@ -120,7 +120,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `best.mp3` — tier 1
 - [ ] `better.mp3` — tier 1
 - [ ] `bib.mp3` — tier 1
-- [ ] `bike.mp3` — tier 1
+- [x] `bike.mp3` — tier 1
 - [ ] `bin.mp3` — tier 1
 - [ ] `bird.mp3` — tier 1
 - [ ] `black.mp3` — tier 1
@@ -140,7 +140,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `bridge.mp3` — tier 1
 - [ ] `bring.mp3` — tier 1
 - [ ] `brought.mp3` — tier 1
-- [ ] `brown.mp3` — tier 1
+- [x] `brown.mp3` — tier 1
 - [ ] `brush.mp3` — tier 1
 - [ ] `bud.mp3` — tier 1
 - [ ] `bug.mp3` — tier 1
@@ -149,12 +149,12 @@ Short and warm — the way you'd say it across a table.
 - [ ] `burn.mp3` — tier 1
 - [ ] `butter.mp3` — tier 1
 - [ ] `buzz.mp3` — tier 1
-- [ ] `cake.mp3` — tier 1
+- [x] `cake.mp3` — tier 1
 - [ ] `call.mp3` — tier 1
 - [ ] `called.mp3` — tier 1
-- [ ] `can.mp3` — tier 1
+- [x] `can.mp3` — tier 1
 - [ ] `candle.mp3` — tier 1
-- [ ] `cap.mp3` — tier 1
+- [x] `cap.mp3` — tier 1
 - [ ] `car.mp3` — tier 1
 - [ ] `carpet.mp3` — tier 1
 - [ ] `carrot.mp3` — tier 1
@@ -221,7 +221,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `do.mp3` — tier 1
 - [ ] `doctor.mp3` — tier 1
 - [ ] `dodge.mp3` — tier 1
-- [ ] `dog.mp3` — tier 1
+- [x] `dog.mp3` — tier 1
 - [ ] `dogs.mp3` — tier 1
 - [ ] `doll.mp3` — tier 1
 - [ ] `done.mp3` — tier 1
@@ -277,7 +277,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `for.mp3` — tier 1
 - [ ] `fork.mp3` — tier 1
 - [ ] `found.mp3` — tier 1
-- [ ] `fox.mp3` — tier 1
+- [x] `fox.mp3` — tier 1
 - [ ] `frog.mp3` — tier 1
 - [ ] `from.mp3` — tier 1
 - [ ] `fruit.mp3` — tier 1
@@ -368,7 +368,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `judge.mp3` — tier 1
 - [ ] `juice.mp3` — tier 1
 - [ ] `jump.mp3` — tier 1
-- [ ] `jumped.mp3` — tier 1
+- [x] `jumped.mp3` — tier 1
 - [ ] `june.mp3` — tier 1
 - [ ] `keep.mp3` — tier 1
 - [ ] `key.mp3` — tier 1
@@ -389,7 +389,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `lap.mp3` — tier 1
 - [ ] `last.mp3` — tier 1
 - [ ] `law.mp3` — tier 1
-- [ ] `lazy.mp3` — tier 1
+- [x] `lazy.mp3` — tier 1
 - [ ] `learn.mp3` — tier 1
 - [ ] `leg.mp3` — tier 1
 - [ ] `lemon.mp3` — tier 1
@@ -470,7 +470,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `one.mp3` — tier 1
 - [ ] `open.mp3` — tier 1
 - [ ] `out.mp3` — tier 1
-- [ ] `over.mp3` — tier 1
+- [x] `over.mp3` — tier 1
 - [ ] `pack.mp3` — tier 1
 - [ ] `pain.mp3` — tier 1
 - [ ] `pan.mp3` — tier 1
@@ -515,7 +515,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `put.mp3` — tier 1
 - [ ] `quack.mp3` — tier 1
 - [ ] `queen.mp3` — tier 1
-- [ ] `quick.mp3` — tier 1
+- [x] `quick.mp3` — tier 1
 - [ ] `quit.mp3` — tier 1
 - [ ] `rabbit.mp3` — tier 1
 - [ ] `rain.mp3` — tier 1
@@ -630,7 +630,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `suck.mp3` — tier 1
 - [ ] `sudden.mp3` — tier 1
 - [ ] `summer.mp3` — tier 1
-- [ ] `sun.mp3` — tier 1
+- [x] `sun.mp3` — tier 1
 - [ ] `sunset.mp3` — tier 1
 - [ ] `surf.mp3` — tier 1
 - [ ] `swim.mp3` — tier 1
@@ -646,7 +646,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `tennis.mp3` — tier 1
 - [ ] `tent.mp3` — tier 1
 - [ ] `that.mp3` — tier 1
-- [ ] `the.mp3` — tier 1
+- [x] `the.mp3` — tier 1
 - [ ] `their.mp3` — tier 1
 - [ ] `them.mp3` — tier 1
 - [ ] `theme.mp3` — tier 1
@@ -656,7 +656,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `they.mp3` — tier 1
 - [ ] `thick.mp3` — tier 1
 - [ ] `thief.mp3` — tier 1
-- [ ] `thin.mp3` — tier 1
+- [x] `thin.mp3` — tier 1
 - [ ] `thing.mp3` — tier 1
 - [ ] `think.mp3` — tier 1
 - [ ] `this.mp3` — tier 1
@@ -750,7 +750,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `zap.mp3` — tier 1
 - [ ] `zip.mp3` — tier 1
 - [ ] `zoo.mp3` — tier 1
-- [ ] `actor.mp3` — tier 2
+- [x] `actor.mp3` — tier 2
 - [ ] `alphabet.mp3` — tier 2
 - [ ] `ancient.mp3` — tier 2
 - [ ] `ankle.mp3` — tier 2
@@ -767,7 +767,7 @@ Short and warm — the way you'd say it across a table.
 - [ ] `bonus.mp3` — tier 2
 - [ ] `bop.mp3` — tier 2
 - [ ] `borrow.mp3` — tier 2
-- [ ] `bot.mp3` — tier 2
+- [x] `bot.mp3` — tier 2
 - [ ] `brain.mp3` — tier 2
 - [ ] `brave.mp3` — tier 2
 - [ ] `bright.mp3` — tier 2

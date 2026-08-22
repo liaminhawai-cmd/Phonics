@@ -1,48 +1,48 @@
 kind,id,filename,exists,notes
-phoneme,p,p.mp3,yes,/p/ as in pen (legacy sounds/p ([p]en)/)
-phoneme,b,b.mp3,yes,/b/ as in bed (legacy sounds/b ([b]ed)/)
-phoneme,t,t.mp3,yes,/t/ as in ten (legacy sounds/t ([t]wo)/)
-phoneme,d,d.mp3,yes,/d/ as in dog (legacy sounds/d ([d]o)/)
-phoneme,k,k.mp3,yes,/k/ as in cat (legacy sounds/k ([k]ite)/)
-phoneme,g,g.mp3,yes,/g/ as in go (legacy sounds/g ([g]o)/)
-phoneme,ch,ch.mp3,yes,/ch/ as in chop (legacy sounds/tʃ ([ch]air)/)
-phoneme,j,j.mp3,yes,/j/ as in jam (legacy sounds/dʒ ([j]am)/)
-phoneme,f,f.mp3,yes,/f/ as in fish (legacy sounds/f ([f]ish)/)
-phoneme,v,v.mp3,yes,/v/ as in van (legacy sounds/v ([v]ery)/)
-phoneme,th,th.mp3,yes,/th/ (quiet) as in thin (legacy sounds/θ ([th]in)/)
-phoneme,dh,dh.mp3,yes,/th/ (noisy) as in this (legacy sounds/ð ([th]is)/)
-phoneme,s,s.mp3,yes,/s/ as in sun (legacy sounds/s ([s]ee)/)
-phoneme,z,z.mp3,yes,/z/ as in zoo (legacy sounds/z ([z]oo)/)
-phoneme,sh,sh.mp3,yes,/sh/ as in ship (legacy sounds/ʃ ([sh]e)/)
-phoneme,zh,zh.mp3,yes,/zh/ as in vision (legacy sounds/ʒ (vi[si]on)/)
-phoneme,h,h.mp3,yes,/h/ as in hat (legacy sounds/h ([h]at)/)
-phoneme,m,m.mp3,yes,/m/ as in man (legacy sounds/m ([m]e)/)
-phoneme,n,n.mp3,yes,/n/ as in net (legacy sounds/n ([n]o)/)
-phoneme,ng,ng.mp3,yes,/ng/ as in ring (legacy sounds/ŋ (si[ng])/)
-phoneme,l,l.mp3,yes,/l/ as in leg (legacy sounds/l ([l]ook)/)
-phoneme,r,r.mp3,yes,/r/ as in red (legacy sounds/r ([r]ed)/)
-phoneme,w,w.mp3,yes,/w/ as in wet (legacy sounds/w ([w]e)/)
-phoneme,y,y.mp3,,/y/ as in yes
-phoneme,a,a.mp3,yes,/a/ as in cat (legacy sounds/æ (c[a]t)/)
-phoneme,e,e.mp3,yes,/e/ as in bed (legacy sounds/e (b[e]d)/)
-phoneme,i,i.mp3,yes,/i/ as in sit (legacy sounds/ɪ (s[i]t)/)
-phoneme,o,o.mp3,yes,/o/ as in hot (legacy sounds/ɔ (h[o]t)/)
-phoneme,u,u.mp3,yes,/u/ as in cup (legacy sounds/ɐ (c[u]t)/)
-phoneme,oo_short,oo_short.mp3,yes,/oo/ (short) as in book (legacy sounds/ʊ (p[u]t)/)
-phoneme,ay,ay.mp3,yes,/ay/ as in play (long a) (legacy sounds/eɪ (d[ay])/)
-phoneme,ee,ee.mp3,yes,/ee/ as in see (long e) (legacy sounds/iː (s[ee])/)
-phoneme,igh,igh.mp3,yes,/igh/ as in light (long i) (legacy sounds/aɪ (m[y])/)
-phoneme,oa,oa.mp3,yes,/oa/ as in boat (long o) (legacy sounds/əʉ (g[o])/)
-phoneme,oo_long,oo_long.mp3,yes,/oo/ (long) as in moon (legacy sounds/ʉː (f[oo]d)/)
-phoneme,ow,ow.mp3,yes,/ow/ as in cow (legacy sounds/aʊ (n[ow])/)
-phoneme,oy,oy.mp3,yes,/oy/ as in boy (legacy sounds/ɔɪ (b[oy])/)
-phoneme,ar,ar.mp3,yes,/ar/ as in car (legacy sounds/aː (sp[a])/)
-phoneme,or,or.mp3,yes,/or/ as in fork (legacy sounds/ɔː (d[oor])/)
-phoneme,er,er.mp3,yes,/er/ as in her (legacy sounds/ɜː (h[er])/)
-phoneme,air,air.mp3,,/air/ as in chair
+phoneme,p,p.mp3,yes,/p/ as in pen
+phoneme,b,b.mp3,yes,/b/ as in bed
+phoneme,t,t.mp3,yes,/t/ as in ten
+phoneme,d,d.mp3,yes,/d/ as in dog
+phoneme,k,k.mp3,yes,/k/ as in cat
+phoneme,g,g.mp3,yes,/g/ as in go
+phoneme,ch,ch.mp3,yes,/ch/ as in chop
+phoneme,j,j.mp3,yes,/j/ as in jam
+phoneme,f,f.mp3,yes,/f/ as in fish
+phoneme,v,v.mp3,yes,/v/ as in van
+phoneme,th,th.mp3,yes,/th/ (quiet) as in thin
+phoneme,dh,dh.mp3,yes,/th/ (noisy) as in this
+phoneme,s,s.mp3,yes,/s/ as in sun
+phoneme,z,z.mp3,yes,/z/ as in zoo
+phoneme,sh,sh.mp3,yes,/sh/ as in ship
+phoneme,zh,zh.mp3,yes,/zh/ as in vision
+phoneme,h,h.mp3,yes,/h/ as in hat
+phoneme,m,m.mp3,yes,/m/ as in man
+phoneme,n,n.mp3,yes,/n/ as in net
+phoneme,ng,ng.mp3,yes,/ng/ as in ring
+phoneme,l,l.mp3,yes,/l/ as in leg
+phoneme,r,r.mp3,yes,/r/ as in red
+phoneme,w,w.mp3,yes,/w/ as in wet
+phoneme,y,y.mp3,yes,/y/ as in yes
+phoneme,a,a.mp3,yes,/a/ as in cat
+phoneme,e,e.mp3,yes,/e/ as in bed
+phoneme,i,i.mp3,yes,/i/ as in sit
+phoneme,o,o.mp3,yes,/o/ as in hot
+phoneme,u,u.mp3,yes,/u/ as in cup
+phoneme,oo_short,oo_short.mp3,yes,/oo/ (short) as in book
+phoneme,ay,ay.mp3,yes,/ay/ as in play (long a)
+phoneme,ee,ee.mp3,yes,/ee/ as in see (long e)
+phoneme,igh,igh.mp3,yes,/igh/ as in light (long i)
+phoneme,oa,oa.mp3,yes,/oa/ as in boat (long o)
+phoneme,oo_long,oo_long.mp3,yes,/oo/ (long) as in moon
+phoneme,ow,ow.mp3,yes,/ow/ as in cow
+phoneme,oy,oy.mp3,yes,/oy/ as in boy
+phoneme,ar,ar.mp3,yes,/ar/ as in car
+phoneme,or,or.mp3,yes,/or/ as in fork
+phoneme,er,er.mp3,yes,/er/ as in her
+phoneme,air,air.mp3,yes,/air/ as in chair
 phoneme,ear,ear.mp3,,/ear/ as in near
 phoneme,ure,ure.mp3,,/ure/ as in cure
-phoneme,schwa,schwa.mp3,yes,"/uh/ — schwa, as in about (legacy sounds/ə ([a]bout)/)"
+phoneme,schwa,schwa.mp3,yes,"/uh/ — schwa, as in about"
 teaching-unit,ks,ks.mp3,,/ks/ as in box (letter x)
 teaching-unit,kw,kw.mp3,,/kw/ as in queen (qu)
 teaching-unit,yoo,yoo.mp3,,/yoo/ as in music (long u)
@@ -66,11 +66,11 @@ ui-prompt,lets_look,lets_look.mp3,,"""Let's look together"" — reveal after the
 ui-prompt,next_one,next_one.mp3,,"""Next one"" — advance"
 ui-prompt,all_done,all_done.mp3,,"""All done — great work!"" — session summary"
 word,I,I.mp3,,tier 1
-word,a,a.mp3,,tier 1
-word,about,about.mp3,,tier 1
-word,act,act.mp3,,tier 1
-word,action,action.mp3,,tier 1
-word,after,after.mp3,,tier 1
+word,a,a.mp3,yes,tier 1
+word,about,about.mp3,yes,tier 1
+word,act,act.mp3,yes,tier 1
+word,action,action.mp3,yes,tier 1
+word,after,after.mp3,yes,tier 1
 word,again,again.mp3,,tier 1
 word,all,all.mp3,,tier 1
 word,am,am.mp3,,tier 1
@@ -78,7 +78,7 @@ word,any,any.mp3,,tier 1
 word,apple,apple.mp3,,tier 1
 word,are,are.mp3,,tier 1
 word,arrow,arrow.mp3,,tier 1
-word,as,as.mp3,,tier 1
+word,as,as.mp3,yes,tier 1
 word,ask,ask.mp3,,tier 1
 word,at,at.mp3,,tier 1
 word,away,away.mp3,,tier 1
@@ -107,7 +107,7 @@ word,belt,belt.mp3,,tier 1
 word,best,best.mp3,,tier 1
 word,better,better.mp3,,tier 1
 word,bib,bib.mp3,,tier 1
-word,bike,bike.mp3,,tier 1
+word,bike,bike.mp3,yes,tier 1
 word,bin,bin.mp3,,tier 1
 word,bird,bird.mp3,,tier 1
 word,black,black.mp3,,tier 1
@@ -127,7 +127,7 @@ word,brick,brick.mp3,,tier 1
 word,bridge,bridge.mp3,,tier 1
 word,bring,bring.mp3,,tier 1
 word,brought,brought.mp3,,tier 1
-word,brown,brown.mp3,,tier 1
+word,brown,brown.mp3,yes,tier 1
 word,brush,brush.mp3,,tier 1
 word,bud,bud.mp3,,tier 1
 word,bug,bug.mp3,,tier 1
@@ -136,12 +136,12 @@ word,bull,bull.mp3,,tier 1
 word,burn,burn.mp3,,tier 1
 word,butter,butter.mp3,,tier 1
 word,buzz,buzz.mp3,,tier 1
-word,cake,cake.mp3,,tier 1
+word,cake,cake.mp3,yes,tier 1
 word,call,call.mp3,,tier 1
 word,called,called.mp3,,tier 1
-word,can,can.mp3,,tier 1
+word,can,can.mp3,yes,tier 1
 word,candle,candle.mp3,,tier 1
-word,cap,cap.mp3,,tier 1
+word,cap,cap.mp3,yes,tier 1
 word,car,car.mp3,,tier 1
 word,carpet,carpet.mp3,,tier 1
 word,carrot,carrot.mp3,,tier 1
@@ -208,7 +208,7 @@ word,dive,dive.mp3,,tier 1
 word,do,do.mp3,,tier 1
 word,doctor,doctor.mp3,,tier 1
 word,dodge,dodge.mp3,,tier 1
-word,dog,dog.mp3,,tier 1
+word,dog,dog.mp3,yes,tier 1
 word,dogs,dogs.mp3,,tier 1
 word,doll,doll.mp3,,tier 1
 word,done,done.mp3,,tier 1
@@ -264,7 +264,7 @@ word,foot,foot.mp3,,tier 1
 word,for,for.mp3,,tier 1
 word,fork,fork.mp3,,tier 1
 word,found,found.mp3,,tier 1
-word,fox,fox.mp3,,tier 1
+word,fox,fox.mp3,yes,tier 1
 word,frog,frog.mp3,,tier 1
 word,from,from.mp3,,tier 1
 word,fruit,fruit.mp3,,tier 1
@@ -355,7 +355,7 @@ word,joy,joy.mp3,,tier 1
 word,judge,judge.mp3,,tier 1
 word,juice,juice.mp3,,tier 1
 word,jump,jump.mp3,,tier 1
-word,jumped,jumped.mp3,,tier 1
+word,jumped,jumped.mp3,yes,tier 1
 word,june,june.mp3,,tier 1
 word,keep,keep.mp3,,tier 1
 word,key,key.mp3,,tier 1
@@ -376,7 +376,7 @@ word,lamp,lamp.mp3,,tier 1
 word,lap,lap.mp3,,tier 1
 word,last,last.mp3,,tier 1
 word,law,law.mp3,,tier 1
-word,lazy,lazy.mp3,,tier 1
+word,lazy,lazy.mp3,yes,tier 1
 word,learn,learn.mp3,,tier 1
 word,leg,leg.mp3,,tier 1
 word,lemon,lemon.mp3,,tier 1
@@ -457,7 +457,7 @@ word,oil,oil.mp3,,tier 1
 word,one,one.mp3,,tier 1
 word,open,open.mp3,,tier 1
 word,out,out.mp3,,tier 1
-word,over,over.mp3,,tier 1
+word,over,over.mp3,yes,tier 1
 word,pack,pack.mp3,,tier 1
 word,pain,pain.mp3,,tier 1
 word,pan,pan.mp3,,tier 1
@@ -502,7 +502,7 @@ word,purse,purse.mp3,,tier 1
 word,put,put.mp3,,tier 1
 word,quack,quack.mp3,,tier 1
 word,queen,queen.mp3,,tier 1
-word,quick,quick.mp3,,tier 1
+word,quick,quick.mp3,yes,tier 1
 word,quit,quit.mp3,,tier 1
 word,rabbit,rabbit.mp3,,tier 1
 word,rain,rain.mp3,,tier 1
@@ -617,7 +617,7 @@ word,such,such.mp3,,tier 1
 word,suck,suck.mp3,,tier 1
 word,sudden,sudden.mp3,,tier 1
 word,summer,summer.mp3,,tier 1
-word,sun,sun.mp3,,tier 1
+word,sun,sun.mp3,yes,tier 1
 word,sunset,sunset.mp3,,tier 1
 word,surf,surf.mp3,,tier 1
 word,swim,swim.mp3,,tier 1
@@ -633,7 +633,7 @@ word,ten,ten.mp3,,tier 1
 word,tennis,tennis.mp3,,tier 1
 word,tent,tent.mp3,,tier 1
 word,that,that.mp3,,tier 1
-word,the,the.mp3,,tier 1
+word,the,the.mp3,yes,tier 1
 word,their,their.mp3,,tier 1
 word,them,them.mp3,,tier 1
 word,theme,theme.mp3,,tier 1
@@ -643,7 +643,7 @@ word,these,these.mp3,,tier 1
 word,they,they.mp3,,tier 1
 word,thick,thick.mp3,,tier 1
 word,thief,thief.mp3,,tier 1
-word,thin,thin.mp3,,tier 1
+word,thin,thin.mp3,yes,tier 1
 word,thing,thing.mp3,,tier 1
 word,think,think.mp3,,tier 1
 word,this,this.mp3,,tier 1
@@ -737,7 +737,7 @@ word,your,your.mp3,,tier 1
 word,zap,zap.mp3,,tier 1
 word,zip,zip.mp3,,tier 1
 word,zoo,zoo.mp3,,tier 1
-word,actor,actor.mp3,,tier 2
+word,actor,actor.mp3,yes,tier 2
 word,alphabet,alphabet.mp3,,tier 2
 word,ancient,ancient.mp3,,tier 2
 word,ankle,ankle.mp3,,tier 2
@@ -754,7 +754,7 @@ word,bold,bold.mp3,,tier 2
 word,bonus,bonus.mp3,,tier 2
 word,bop,bop.mp3,,tier 2
 word,borrow,borrow.mp3,,tier 2
-word,bot,bot.mp3,,tier 2
+word,bot,bot.mp3,yes,tier 2
 word,brain,brain.mp3,,tier 2
 word,brave,brave.mp3,,tier 2
 word,bright,bright.mp3,,tier 2
