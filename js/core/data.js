@@ -58,6 +58,14 @@ window.PhonicsBank = (() => {
     return res.json();
   }
 
+  // A link can force a program via a #seq=<id> hash (e.g. the ELC Hub's
+  // homework card links to "#seq=elc-bookmarks") — this beats whatever the
+  // student last picked, and the pick then persists normally via setSequence.
+  function hashSequenceId() {
+    const m = /(?:^|[#&])seq=([^&]+)/.exec(location.hash);
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+
   async function load(opts = {}) {
     base = opts.base || "";
     accent = localStorage.getItem(LS_ACCENT) || "au";
@@ -77,7 +85,7 @@ window.PhonicsBank = (() => {
       (gpcsByGrapheme[g.grapheme] = gpcsByGrapheme[g.grapheme] || []).push(g);
       gpcBySegKey[segKeyOf(g.grapheme, g.phonemes)] = g;
     }
-    const wanted = opts.sequenceId || localStorage.getItem(LS_SEQ) || DEFAULT_SEQ;
+    const wanted = opts.sequenceId || hashSequenceId() || localStorage.getItem(LS_SEQ) || DEFAULT_SEQ;
     await setSequence(seqIndex.sequences.some(s => s.id === wanted) ? wanted : DEFAULT_SEQ);
   }
 
