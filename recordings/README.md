@@ -13,15 +13,24 @@ So nothing blocks on recording: drop a file in and that item upgrades itself.
 ```
 recordings/
 ├── au/phonemes/<phoneme id>.mp3      e.g. ay.mp3, oo_long.mp3, dh.mp3
+├── au/letters/<a-z>.mp3              the alphabet name only, e.g. letters/b.mp3 = "bee"
 ├── au/words/<word id>.mp3            e.g. boat.mp3, bridge.mp3
 ├── au/words-segmented/<word id>.mp3  optional: "boat … b-oa-t … boat"
-├── uk/…                              same three folders
-├── us/…                              same three folders
+├── uk/…                              same four folders
+├── us/…                              same four folders
 └── tts/{au,uk,us}/…                  machine-generated stand-ins (same names)
 ```
 
 - Filenames come from ids in `data/phonemes.json` and `data/words/words.json`
   — **never rename**; the app finds audio by id.
+- `letters/` is a separate namespace from `phonemes/` on purpose: the letter
+  *name* ("bee") and the phoneme *sound* (/b/) are different clips that can
+  share a single-character id (`b`) without colliding, because they live in
+  different folders. Not app-wired yet — the plan is to splice
+  `letters/<x>.mp3` + one or more `phonemes/<id>.mp3` on the fly per grapheme,
+  replacing the old single-clip `<Grapheme>.mp4` recordings ("A, /a/, /ay/,
+  /ah/" all said in one take) with a composed sequence built from these
+  reusable pieces.
 - mp3 preferred (m4a/wav/mp4 accepted; mp3 wins if duplicates exist).
 - One item per file. Words: say the word once, naturally. Phonemes: the pure
   sound, ~1s, **no schwa tacked on** (say /mmm/, not "muh") — stops (p, b, t,

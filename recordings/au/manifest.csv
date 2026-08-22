@@ -40,12 +40,13 @@ phoneme,ar,ar.mp3,yes,/ar/ as in car
 phoneme,or,or.mp3,yes,/or/ as in fork
 phoneme,er,er.mp3,yes,/er/ as in her
 phoneme,air,air.mp3,yes,/air/ as in chair
-phoneme,ear,ear.mp3,,/ear/ as in near
-phoneme,ure,ure.mp3,,/ure/ as in cure
+phoneme,ear,ear.mp3,yes,/ear/ as in near
+phoneme,ure,ure.mp3,yes,/ure/ as in cure
 phoneme,schwa,schwa.mp3,yes,"/uh/ — schwa, as in about"
+phoneme,yoo,yoo.mp3,yes,/yoo/ as in music (long u with a y-glide)
 teaching-unit,ks,ks.mp3,,/ks/ as in box (letter x)
 teaching-unit,kw,kw.mp3,,/kw/ as in queen (qu)
-teaching-unit,yoo,yoo.mp3,,/yoo/ as in music (long u)
+teaching-unit,yoo,yoo.mp3,yes,/yoo/ as in music (long u)
 teaching-unit,schwa_r,schwa_r.mp3,,unstressed -er as in letter
 ui-prompt,write,write.mp3,,"""Write it"" — handwriting task: start a trace/copy/memory attempt"
 ui-prompt,check,check.mp3,,"""Check"" — the Check button on any task"

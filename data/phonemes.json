@@ -2,61 +2,1089 @@
   "$schema": "./schema/phonemes.schema.json",
   "comment": "The 44 phonemes of English as taught in synthetic phonics, keyed by stable ASCII ids that double as recording filenames. IPA given per accent: au = Australian English (Mitchell/Harrington broad transcription per australianlinguistics.com, matching this repo's sounds/ folders), uk = SSB (RP-derived), us = General American. Articulation place names match anatomy.js SPOTS keys so the mouth cutaway can be driven straight from this file.",
   "phonemes": [
-    { "id": "p",  "type": "consonant", "label": "/p/ as in pen", "ipa": {"au": "p", "uk": "p", "us": "p"}, "articulation": {"place": "Bilabial", "manner": "stop", "voiced": false}, "examples": ["pen", "map", "happy"], "recording": {"filename": "p.mp3", "legacy_sounds_folder": "p ([p]en)"} },
-    { "id": "b",  "type": "consonant", "label": "/b/ as in bed", "ipa": {"au": "b", "uk": "b", "us": "b"}, "articulation": {"place": "Bilabial", "manner": "stop", "voiced": true}, "examples": ["bed", "rib", "rabbit"], "recording": {"filename": "b.mp3", "legacy_sounds_folder": "b ([b]ed)"} },
-    { "id": "t",  "type": "consonant", "label": "/t/ as in ten", "ipa": {"au": "t", "uk": "t", "us": "t"}, "articulation": {"place": "Alveolar", "manner": "stop", "voiced": false}, "examples": ["ten", "sit", "butter"], "notes": "US flaps medial t (butter) — realisation only, same phoneme.", "recording": {"filename": "t.mp3", "legacy_sounds_folder": "t ([t]wo)"} },
-    { "id": "d",  "type": "consonant", "label": "/d/ as in dog", "ipa": {"au": "d", "uk": "d", "us": "d"}, "articulation": {"place": "Alveolar", "manner": "stop", "voiced": true}, "examples": ["dog", "lid", "ladder"], "recording": {"filename": "d.mp3", "legacy_sounds_folder": "d ([d]o)"} },
-    { "id": "k",  "type": "consonant", "label": "/k/ as in cat", "ipa": {"au": "k", "uk": "k", "us": "k"}, "articulation": {"place": "Velar", "manner": "stop", "voiced": false}, "examples": ["cat", "kite", "duck", "school"], "recording": {"filename": "k.mp3", "legacy_sounds_folder": "k ([k]ite)"} },
-    { "id": "g",  "type": "consonant", "label": "/g/ as in go", "ipa": {"au": "g", "uk": "g", "us": "g"}, "articulation": {"place": "Velar", "manner": "stop", "voiced": true}, "examples": ["go", "bag", "guess"], "recording": {"filename": "g.mp3", "legacy_sounds_folder": "g ([g]o)"} },
-    { "id": "ch", "type": "consonant", "label": "/ch/ as in chop", "ipa": {"au": "tʃ", "uk": "tʃ", "us": "tʃ"}, "articulation": {"place": "Post-alveolar", "manner": "affricate", "voiced": false}, "examples": ["chop", "chair", "match"], "recording": {"filename": "ch.mp3", "legacy_sounds_folder": "tʃ ([ch]air)"} },
-    { "id": "j",  "type": "consonant", "label": "/j/ as in jam", "ipa": {"au": "dʒ", "uk": "dʒ", "us": "dʒ"}, "articulation": {"place": "Post-alveolar", "manner": "affricate", "voiced": true}, "examples": ["jam", "gem", "bridge"], "recording": {"filename": "j.mp3", "legacy_sounds_folder": "dʒ ([j]am)"} },
-    { "id": "f",  "type": "consonant", "label": "/f/ as in fish", "ipa": {"au": "f", "uk": "f", "us": "f"}, "articulation": {"place": "Labio-dental", "manner": "fricative", "voiced": false}, "examples": ["fish", "if", "phone", "cliff"], "recording": {"filename": "f.mp3", "legacy_sounds_folder": "f ([f]ish)"} },
-    { "id": "v",  "type": "consonant", "label": "/v/ as in van", "ipa": {"au": "v", "uk": "v", "us": "v"}, "articulation": {"place": "Labio-dental", "manner": "fricative", "voiced": true}, "examples": ["van", "very", "have"], "recording": {"filename": "v.mp3", "legacy_sounds_folder": "v ([v]ery)"} },
-    { "id": "th", "type": "consonant", "label": "/th/ (quiet) as in thin", "ipa": {"au": "θ", "uk": "θ", "us": "θ"}, "articulation": {"place": "Dental", "manner": "fricative", "voiced": false}, "examples": ["thin", "bath", "maths"], "recording": {"filename": "th.mp3", "legacy_sounds_folder": "θ ([th]in)"} },
-    { "id": "dh", "type": "consonant", "label": "/th/ (noisy) as in this", "ipa": {"au": "ð", "uk": "ð", "us": "ð"}, "articulation": {"place": "Dental", "manner": "fricative", "voiced": true}, "examples": ["this", "that", "mother"], "recording": {"filename": "dh.mp3", "legacy_sounds_folder": "ð ([th]is)"} },
-    { "id": "s",  "type": "consonant", "label": "/s/ as in sun", "ipa": {"au": "s", "uk": "s", "us": "s"}, "articulation": {"place": "Alveolar", "manner": "fricative", "voiced": false}, "examples": ["sun", "us", "cent", "miss"], "recording": {"filename": "s.mp3", "legacy_sounds_folder": "s ([s]ee)"} },
-    { "id": "z",  "type": "consonant", "label": "/z/ as in zoo", "ipa": {"au": "z", "uk": "z", "us": "z"}, "articulation": {"place": "Alveolar", "manner": "fricative", "voiced": true}, "examples": ["zoo", "as", "buzz", "dogs"], "recording": {"filename": "z.mp3", "legacy_sounds_folder": "z ([z]oo)"} },
-    { "id": "sh", "type": "consonant", "label": "/sh/ as in ship", "ipa": {"au": "ʃ", "uk": "ʃ", "us": "ʃ"}, "articulation": {"place": "Post-alveolar", "manner": "fricative", "voiced": false}, "examples": ["ship", "dish", "chef", "nation"], "recording": {"filename": "sh.mp3", "legacy_sounds_folder": "ʃ ([sh]e)"} },
-    { "id": "zh", "type": "consonant", "label": "/zh/ as in vision", "ipa": {"au": "ʒ", "uk": "ʒ", "us": "ʒ"}, "articulation": {"place": "Post-alveolar", "manner": "fricative", "voiced": true}, "examples": ["vision", "treasure", "beige"], "recording": {"filename": "zh.mp3", "legacy_sounds_folder": "ʒ (vi[si]on)"} },
-    { "id": "h",  "type": "consonant", "label": "/h/ as in hat", "ipa": {"au": "h", "uk": "h", "us": "h"}, "articulation": {"place": "Glottal", "manner": "fricative", "voiced": false}, "examples": ["hat", "him", "who"], "recording": {"filename": "h.mp3", "legacy_sounds_folder": "h ([h]at)"} },
-    { "id": "m",  "type": "consonant", "label": "/m/ as in man", "ipa": {"au": "m", "uk": "m", "us": "m"}, "articulation": {"place": "Bilabial", "manner": "nasal", "voiced": true}, "examples": ["man", "am", "hammer", "lamb"], "recording": {"filename": "m.mp3", "legacy_sounds_folder": "m ([m]e)"} },
-    { "id": "n",  "type": "consonant", "label": "/n/ as in net", "ipa": {"au": "n", "uk": "n", "us": "n"}, "articulation": {"place": "Alveolar", "manner": "nasal", "voiced": true}, "examples": ["net", "in", "knot", "gnome"], "recording": {"filename": "n.mp3", "legacy_sounds_folder": "n ([n]o)"} },
-    { "id": "ng", "type": "consonant", "label": "/ng/ as in ring", "ipa": {"au": "ŋ", "uk": "ŋ", "us": "ŋ"}, "articulation": {"place": "Velar", "manner": "nasal", "voiced": true}, "examples": ["ring", "sang", "think"], "recording": {"filename": "ng.mp3", "legacy_sounds_folder": "ŋ (si[ng])"} },
-    { "id": "l",  "type": "consonant", "label": "/l/ as in leg", "ipa": {"au": "l", "uk": "l", "us": "l"}, "articulation": {"place": "Alveolar", "manner": "lateral", "voiced": true}, "examples": ["leg", "look", "bell"], "recording": {"filename": "l.mp3", "legacy_sounds_folder": "l ([l]ook)"} },
-    { "id": "r",  "type": "consonant", "label": "/r/ as in red", "ipa": {"au": "ɹ", "uk": "ɹ", "us": "ɹ"}, "articulation": {"place": "Post-alveolar", "manner": "approximant", "voiced": true}, "examples": ["red", "rat", "wrap", "berry"], "recording": {"filename": "r.mp3", "legacy_sounds_folder": "r ([r]ed)"} },
-    { "id": "w",  "type": "consonant", "label": "/w/ as in wet", "ipa": {"au": "w", "uk": "w", "us": "w"}, "articulation": {"place": "Bilabial", "manner": "approximant", "voiced": true}, "examples": ["wet", "we", "when"], "notes": "wh in when = /w/ for AU/UK/most US; the historical /hw/ contrast survives only in some accents — treat wh as a grapheme for /w/.", "recording": {"filename": "w.mp3", "legacy_sounds_folder": "w ([w]e)"} },
-    { "id": "y",  "type": "consonant", "label": "/y/ as in yes", "ipa": {"au": "j", "uk": "j", "us": "j"}, "articulation": {"place": "Palatal", "manner": "approximant", "voiced": true}, "examples": ["yes", "yak", "beyond"], "recording": {"filename": "y.mp3", "legacy_sounds_folder": null} },
-
-    { "id": "a",  "type": "vowel", "subtype": "short", "label": "/a/ as in cat", "lexical_set": "TRAP", "ipa": {"au": "æ", "uk": "æ", "us": "æ"}, "examples": ["cat", "at", "apple"], "recording": {"filename": "a.mp3", "legacy_sounds_folder": "æ (c[a]t)"} },
-    { "id": "e",  "type": "vowel", "subtype": "short", "label": "/e/ as in bed", "lexical_set": "DRESS", "ipa": {"au": "e", "uk": "ɛ", "us": "ɛ"}, "examples": ["bed", "end", "head", "said"], "recording": {"filename": "e.mp3", "legacy_sounds_folder": "e (b[e]d)"} },
-    { "id": "i",  "type": "vowel", "subtype": "short", "label": "/i/ as in sit", "lexical_set": "KIT", "ipa": {"au": "ɪ", "uk": "ɪ", "us": "ɪ"}, "examples": ["sit", "in", "gym"], "recording": {"filename": "i.mp3", "legacy_sounds_folder": "ɪ (s[i]t)"} },
-    { "id": "o",  "type": "vowel", "subtype": "short", "label": "/o/ as in hot", "lexical_set": "LOT", "ipa": {"au": "ɔ", "uk": "ɒ", "us": "ɑ"}, "examples": ["hot", "odd", "want"], "notes": "US LOT merges toward PALM — /ɑ/; AU/UK keep a rounded short o.", "recording": {"filename": "o.mp3", "legacy_sounds_folder": "ɔ (h[o]t)"} },
-    { "id": "u",  "type": "vowel", "subtype": "short", "label": "/u/ as in cup", "lexical_set": "STRUT", "ipa": {"au": "ɐ", "uk": "ʌ", "us": "ʌ"}, "examples": ["cup", "up", "mum", "come"], "recording": {"filename": "u.mp3", "legacy_sounds_folder": "ɐ (c[u]t)"} },
-    { "id": "oo_short", "type": "vowel", "subtype": "short", "label": "/oo/ (short) as in book", "lexical_set": "FOOT", "ipa": {"au": "ʊ", "uk": "ʊ", "us": "ʊ"}, "examples": ["book", "put", "could"], "recording": {"filename": "oo_short.mp3", "legacy_sounds_folder": "ʊ (p[u]t)"} },
-
-    { "id": "ay",  "type": "vowel", "subtype": "long", "label": "/ay/ as in play (long a)", "lexical_set": "FACE", "ipa": {"au": "æɪ", "uk": "eɪ", "us": "eɪ"}, "examples": ["play", "rain", "cake", "eight"], "recording": {"filename": "ay.mp3", "legacy_sounds_folder": "eɪ (d[ay])"} },
-    { "id": "ee",  "type": "vowel", "subtype": "long", "label": "/ee/ as in see (long e)", "lexical_set": "FLEECE", "ipa": {"au": "iː", "uk": "iː", "us": "i"}, "examples": ["see", "me", "chief", "happy"], "recording": {"filename": "ee.mp3", "legacy_sounds_folder": "iː (s[ee])"} },
-    { "id": "igh", "type": "vowel", "subtype": "long", "label": "/igh/ as in light (long i)", "lexical_set": "PRICE", "ipa": {"au": "ɑe", "uk": "aɪ", "us": "aɪ"}, "examples": ["light", "my", "pie", "five"], "recording": {"filename": "igh.mp3", "legacy_sounds_folder": "aɪ (m[y])"} },
-    { "id": "oa",  "type": "vowel", "subtype": "long", "label": "/oa/ as in boat (long o)", "lexical_set": "GOAT", "ipa": {"au": "əʉ", "uk": "əʊ", "us": "oʊ"}, "examples": ["boat", "go", "snow", "though"], "recording": {"filename": "oa.mp3", "legacy_sounds_folder": "əʉ (g[o])"} },
-    { "id": "oo_long", "type": "vowel", "subtype": "long", "label": "/oo/ (long) as in moon", "lexical_set": "GOOSE", "ipa": {"au": "ʉː", "uk": "uː", "us": "u"}, "examples": ["moon", "food", "grew", "fruit"], "recording": {"filename": "oo_long.mp3", "legacy_sounds_folder": "ʉː (f[oo]d)"} },
-
-    { "id": "ow", "type": "vowel", "subtype": "diphthong", "label": "/ow/ as in cow", "lexical_set": "MOUTH", "ipa": {"au": "æɔ", "uk": "aʊ", "us": "aʊ"}, "examples": ["cow", "now", "round", "drought"], "recording": {"filename": "ow.mp3", "legacy_sounds_folder": "aʊ (n[ow])"} },
-    { "id": "oy", "type": "vowel", "subtype": "diphthong", "label": "/oy/ as in boy", "lexical_set": "CHOICE", "ipa": {"au": "oɪ", "uk": "ɔɪ", "us": "ɔɪ"}, "examples": ["boy", "point", "toys"], "recording": {"filename": "oy.mp3", "legacy_sounds_folder": "ɔɪ (b[oy])"} },
-
-    { "id": "ar", "type": "vowel", "subtype": "r_controlled", "label": "/ar/ as in car", "lexical_set": "START/PALM/BATH", "ipa": {"au": "aː", "uk": "ɑː", "us": "ɑɹ"}, "examples": ["car", "park", "father", "grass (AU/UK)"], "notes": "Rhotic in US (vowel+r), plain long vowel in AU/UK. AU/UK BATH words (grass, path, dance) take /ar/; US takes /a/ — word entries carry an accents override for these.", "recording": {"filename": "ar.mp3", "legacy_sounds_folder": "aː (sp[a])"} },
-    { "id": "or", "type": "vowel", "subtype": "r_controlled", "label": "/or/ as in fork", "lexical_set": "THOUGHT/NORTH/FORCE", "ipa": {"au": "oː", "uk": "ɔː", "us": "ɔɹ"}, "examples": ["fork", "door", "saw", "thought", "pour"], "notes": "Covers or/aw/au/ough(t) — AU/UK merge THOUGHT and NORTH; US splits /ɔ/ (saw) from /ɔr/ (for): word entries carry accents overrides where the US has no r.", "recording": {"filename": "or.mp3", "legacy_sounds_folder": "ɔː (d[oor])"} },
-    { "id": "er", "type": "vowel", "subtype": "r_controlled", "label": "/er/ as in her", "lexical_set": "NURSE", "ipa": {"au": "ɜː", "uk": "ɜː", "us": "ɝ"}, "examples": ["her", "first", "nurse", "works"], "recording": {"filename": "er.mp3", "legacy_sounds_folder": "ɜː (h[er])"} },
-    { "id": "air", "type": "vowel", "subtype": "r_controlled", "label": "/air/ as in chair", "lexical_set": "SQUARE", "ipa": {"au": "eː", "uk": "ɛː", "us": "ɛɹ"}, "examples": ["chair", "square", "bear", "there"], "recording": {"filename": "air.mp3", "legacy_sounds_folder": null} },
-    { "id": "ear", "type": "vowel", "subtype": "r_controlled", "label": "/ear/ as in near", "lexical_set": "NEAR", "ipa": {"au": "ɪə", "uk": "ɪə", "us": "ɪɹ"}, "examples": ["near", "here", "deer", "pier"], "recording": {"filename": "ear.mp3", "legacy_sounds_folder": null} },
-    { "id": "ure", "type": "vowel", "subtype": "r_controlled", "label": "/ure/ as in cure", "lexical_set": "CURE", "ipa": {"au": "ʊə", "uk": "ʊə", "us": "ʊɹ"}, "examples": ["cure", "tour", "sure"], "notes": "Rare and unstable (many speakers merge with /or/); several programs omit it — sequences may skip this phoneme.", "recording": {"filename": "ure.mp3", "legacy_sounds_folder": null} },
-
-    { "id": "schwa", "type": "vowel", "subtype": "schwa", "label": "/uh/ — schwa, as in about", "lexical_set": "commA/lettER", "ipa": {"au": "ə", "uk": "ə", "us": "ə"}, "examples": ["about", "the", "doctor", "famous"], "notes": "Unstressed only. In US, letter-final -er/-or/-ar is r-coloured /ɚ/ — see teaching_units.schwa_r.", "recording": {"filename": "schwa.mp3", "legacy_sounds_folder": "ə ([a]bout)"} }
+    {
+      "id": "p",
+      "type": "consonant",
+      "label": "/p/ as in pen",
+      "ipa": {
+        "au": "p",
+        "uk": "p",
+        "us": "p"
+      },
+      "articulation": {
+        "place": "Bilabial",
+        "manner": "stop",
+        "voiced": false
+      },
+      "examples": [
+        "pen",
+        "map",
+        "happy"
+      ],
+      "recording": {
+        "filename": "p.mp3",
+        "legacy_sounds_folder": "p ([p]en)"
+      }
+    },
+    {
+      "id": "b",
+      "type": "consonant",
+      "label": "/b/ as in bed",
+      "ipa": {
+        "au": "b",
+        "uk": "b",
+        "us": "b"
+      },
+      "articulation": {
+        "place": "Bilabial",
+        "manner": "stop",
+        "voiced": true
+      },
+      "examples": [
+        "bed",
+        "rib",
+        "rabbit"
+      ],
+      "recording": {
+        "filename": "b.mp3",
+        "legacy_sounds_folder": "b ([b]ed)"
+      }
+    },
+    {
+      "id": "t",
+      "type": "consonant",
+      "label": "/t/ as in ten",
+      "ipa": {
+        "au": "t",
+        "uk": "t",
+        "us": "t"
+      },
+      "articulation": {
+        "place": "Alveolar",
+        "manner": "stop",
+        "voiced": false
+      },
+      "examples": [
+        "ten",
+        "sit",
+        "butter"
+      ],
+      "notes": "US flaps medial t (butter) — realisation only, same phoneme.",
+      "recording": {
+        "filename": "t.mp3",
+        "legacy_sounds_folder": "t ([t]wo)"
+      }
+    },
+    {
+      "id": "d",
+      "type": "consonant",
+      "label": "/d/ as in dog",
+      "ipa": {
+        "au": "d",
+        "uk": "d",
+        "us": "d"
+      },
+      "articulation": {
+        "place": "Alveolar",
+        "manner": "stop",
+        "voiced": true
+      },
+      "examples": [
+        "dog",
+        "lid",
+        "ladder"
+      ],
+      "recording": {
+        "filename": "d.mp3",
+        "legacy_sounds_folder": "d ([d]o)"
+      }
+    },
+    {
+      "id": "k",
+      "type": "consonant",
+      "label": "/k/ as in cat",
+      "ipa": {
+        "au": "k",
+        "uk": "k",
+        "us": "k"
+      },
+      "articulation": {
+        "place": "Velar",
+        "manner": "stop",
+        "voiced": false
+      },
+      "examples": [
+        "cat",
+        "kite",
+        "duck",
+        "school"
+      ],
+      "recording": {
+        "filename": "k.mp3",
+        "legacy_sounds_folder": "k ([k]ite)"
+      }
+    },
+    {
+      "id": "g",
+      "type": "consonant",
+      "label": "/g/ as in go",
+      "ipa": {
+        "au": "g",
+        "uk": "g",
+        "us": "g"
+      },
+      "articulation": {
+        "place": "Velar",
+        "manner": "stop",
+        "voiced": true
+      },
+      "examples": [
+        "go",
+        "bag",
+        "guess"
+      ],
+      "recording": {
+        "filename": "g.mp3",
+        "legacy_sounds_folder": "g ([g]o)"
+      }
+    },
+    {
+      "id": "ch",
+      "type": "consonant",
+      "label": "/ch/ as in chop",
+      "ipa": {
+        "au": "tʃ",
+        "uk": "tʃ",
+        "us": "tʃ"
+      },
+      "articulation": {
+        "place": "Post-alveolar",
+        "manner": "affricate",
+        "voiced": false
+      },
+      "examples": [
+        "chop",
+        "chair",
+        "match"
+      ],
+      "recording": {
+        "filename": "ch.mp3",
+        "legacy_sounds_folder": "tʃ ([ch]air)"
+      }
+    },
+    {
+      "id": "j",
+      "type": "consonant",
+      "label": "/j/ as in jam",
+      "ipa": {
+        "au": "dʒ",
+        "uk": "dʒ",
+        "us": "dʒ"
+      },
+      "articulation": {
+        "place": "Post-alveolar",
+        "manner": "affricate",
+        "voiced": true
+      },
+      "examples": [
+        "jam",
+        "gem",
+        "bridge"
+      ],
+      "recording": {
+        "filename": "j.mp3",
+        "legacy_sounds_folder": "dʒ ([j]am)"
+      }
+    },
+    {
+      "id": "f",
+      "type": "consonant",
+      "label": "/f/ as in fish",
+      "ipa": {
+        "au": "f",
+        "uk": "f",
+        "us": "f"
+      },
+      "articulation": {
+        "place": "Labio-dental",
+        "manner": "fricative",
+        "voiced": false
+      },
+      "examples": [
+        "fish",
+        "if",
+        "phone",
+        "cliff"
+      ],
+      "recording": {
+        "filename": "f.mp3",
+        "legacy_sounds_folder": "f ([f]ish)"
+      }
+    },
+    {
+      "id": "v",
+      "type": "consonant",
+      "label": "/v/ as in van",
+      "ipa": {
+        "au": "v",
+        "uk": "v",
+        "us": "v"
+      },
+      "articulation": {
+        "place": "Labio-dental",
+        "manner": "fricative",
+        "voiced": true
+      },
+      "examples": [
+        "van",
+        "very",
+        "have"
+      ],
+      "recording": {
+        "filename": "v.mp3",
+        "legacy_sounds_folder": "v ([v]ery)"
+      }
+    },
+    {
+      "id": "th",
+      "type": "consonant",
+      "label": "/th/ (quiet) as in thin",
+      "ipa": {
+        "au": "θ",
+        "uk": "θ",
+        "us": "θ"
+      },
+      "articulation": {
+        "place": "Dental",
+        "manner": "fricative",
+        "voiced": false
+      },
+      "examples": [
+        "thin",
+        "bath",
+        "maths"
+      ],
+      "recording": {
+        "filename": "th.mp3",
+        "legacy_sounds_folder": "θ ([th]in)"
+      }
+    },
+    {
+      "id": "dh",
+      "type": "consonant",
+      "label": "/th/ (noisy) as in this",
+      "ipa": {
+        "au": "ð",
+        "uk": "ð",
+        "us": "ð"
+      },
+      "articulation": {
+        "place": "Dental",
+        "manner": "fricative",
+        "voiced": true
+      },
+      "examples": [
+        "this",
+        "that",
+        "mother"
+      ],
+      "recording": {
+        "filename": "dh.mp3",
+        "legacy_sounds_folder": "ð ([th]is)"
+      }
+    },
+    {
+      "id": "s",
+      "type": "consonant",
+      "label": "/s/ as in sun",
+      "ipa": {
+        "au": "s",
+        "uk": "s",
+        "us": "s"
+      },
+      "articulation": {
+        "place": "Alveolar",
+        "manner": "fricative",
+        "voiced": false
+      },
+      "examples": [
+        "sun",
+        "us",
+        "cent",
+        "miss"
+      ],
+      "recording": {
+        "filename": "s.mp3",
+        "legacy_sounds_folder": "s ([s]ee)"
+      }
+    },
+    {
+      "id": "z",
+      "type": "consonant",
+      "label": "/z/ as in zoo",
+      "ipa": {
+        "au": "z",
+        "uk": "z",
+        "us": "z"
+      },
+      "articulation": {
+        "place": "Alveolar",
+        "manner": "fricative",
+        "voiced": true
+      },
+      "examples": [
+        "zoo",
+        "as",
+        "buzz",
+        "dogs"
+      ],
+      "recording": {
+        "filename": "z.mp3",
+        "legacy_sounds_folder": "z ([z]oo)"
+      }
+    },
+    {
+      "id": "sh",
+      "type": "consonant",
+      "label": "/sh/ as in ship",
+      "ipa": {
+        "au": "ʃ",
+        "uk": "ʃ",
+        "us": "ʃ"
+      },
+      "articulation": {
+        "place": "Post-alveolar",
+        "manner": "fricative",
+        "voiced": false
+      },
+      "examples": [
+        "ship",
+        "dish",
+        "chef",
+        "nation"
+      ],
+      "recording": {
+        "filename": "sh.mp3",
+        "legacy_sounds_folder": "ʃ ([sh]e)"
+      }
+    },
+    {
+      "id": "zh",
+      "type": "consonant",
+      "label": "/zh/ as in vision",
+      "ipa": {
+        "au": "ʒ",
+        "uk": "ʒ",
+        "us": "ʒ"
+      },
+      "articulation": {
+        "place": "Post-alveolar",
+        "manner": "fricative",
+        "voiced": true
+      },
+      "examples": [
+        "vision",
+        "treasure",
+        "beige"
+      ],
+      "recording": {
+        "filename": "zh.mp3",
+        "legacy_sounds_folder": "ʒ (vi[si]on)"
+      }
+    },
+    {
+      "id": "h",
+      "type": "consonant",
+      "label": "/h/ as in hat",
+      "ipa": {
+        "au": "h",
+        "uk": "h",
+        "us": "h"
+      },
+      "articulation": {
+        "place": "Glottal",
+        "manner": "fricative",
+        "voiced": false
+      },
+      "examples": [
+        "hat",
+        "him",
+        "who"
+      ],
+      "recording": {
+        "filename": "h.mp3",
+        "legacy_sounds_folder": "h ([h]at)"
+      }
+    },
+    {
+      "id": "m",
+      "type": "consonant",
+      "label": "/m/ as in man",
+      "ipa": {
+        "au": "m",
+        "uk": "m",
+        "us": "m"
+      },
+      "articulation": {
+        "place": "Bilabial",
+        "manner": "nasal",
+        "voiced": true
+      },
+      "examples": [
+        "man",
+        "am",
+        "hammer",
+        "lamb"
+      ],
+      "recording": {
+        "filename": "m.mp3",
+        "legacy_sounds_folder": "m ([m]e)"
+      }
+    },
+    {
+      "id": "n",
+      "type": "consonant",
+      "label": "/n/ as in net",
+      "ipa": {
+        "au": "n",
+        "uk": "n",
+        "us": "n"
+      },
+      "articulation": {
+        "place": "Alveolar",
+        "manner": "nasal",
+        "voiced": true
+      },
+      "examples": [
+        "net",
+        "in",
+        "knot",
+        "gnome"
+      ],
+      "recording": {
+        "filename": "n.mp3",
+        "legacy_sounds_folder": "n ([n]o)"
+      }
+    },
+    {
+      "id": "ng",
+      "type": "consonant",
+      "label": "/ng/ as in ring",
+      "ipa": {
+        "au": "ŋ",
+        "uk": "ŋ",
+        "us": "ŋ"
+      },
+      "articulation": {
+        "place": "Velar",
+        "manner": "nasal",
+        "voiced": true
+      },
+      "examples": [
+        "ring",
+        "sang",
+        "think"
+      ],
+      "recording": {
+        "filename": "ng.mp3",
+        "legacy_sounds_folder": "ŋ (si[ng])"
+      }
+    },
+    {
+      "id": "l",
+      "type": "consonant",
+      "label": "/l/ as in leg",
+      "ipa": {
+        "au": "l",
+        "uk": "l",
+        "us": "l"
+      },
+      "articulation": {
+        "place": "Alveolar",
+        "manner": "lateral",
+        "voiced": true
+      },
+      "examples": [
+        "leg",
+        "look",
+        "bell"
+      ],
+      "recording": {
+        "filename": "l.mp3",
+        "legacy_sounds_folder": "l ([l]ook)"
+      }
+    },
+    {
+      "id": "r",
+      "type": "consonant",
+      "label": "/r/ as in red",
+      "ipa": {
+        "au": "ɹ",
+        "uk": "ɹ",
+        "us": "ɹ"
+      },
+      "articulation": {
+        "place": "Post-alveolar",
+        "manner": "approximant",
+        "voiced": true
+      },
+      "examples": [
+        "red",
+        "rat",
+        "wrap",
+        "berry"
+      ],
+      "recording": {
+        "filename": "r.mp3",
+        "legacy_sounds_folder": "r ([r]ed)"
+      }
+    },
+    {
+      "id": "w",
+      "type": "consonant",
+      "label": "/w/ as in wet",
+      "ipa": {
+        "au": "w",
+        "uk": "w",
+        "us": "w"
+      },
+      "articulation": {
+        "place": "Bilabial",
+        "manner": "approximant",
+        "voiced": true
+      },
+      "examples": [
+        "wet",
+        "we",
+        "when"
+      ],
+      "notes": "wh in when = /w/ for AU/UK/most US; the historical /hw/ contrast survives only in some accents — treat wh as a grapheme for /w/.",
+      "recording": {
+        "filename": "w.mp3",
+        "legacy_sounds_folder": "w ([w]e)"
+      }
+    },
+    {
+      "id": "y",
+      "type": "consonant",
+      "label": "/y/ as in yes",
+      "ipa": {
+        "au": "j",
+        "uk": "j",
+        "us": "j"
+      },
+      "articulation": {
+        "place": "Palatal",
+        "manner": "approximant",
+        "voiced": true
+      },
+      "examples": [
+        "yes",
+        "yak",
+        "beyond"
+      ],
+      "recording": {
+        "filename": "y.mp3",
+        "legacy_sounds_folder": null
+      }
+    },
+    {
+      "id": "a",
+      "type": "vowel",
+      "subtype": "short",
+      "label": "/a/ as in cat",
+      "lexical_set": "TRAP",
+      "ipa": {
+        "au": "æ",
+        "uk": "æ",
+        "us": "æ"
+      },
+      "examples": [
+        "cat",
+        "at",
+        "apple"
+      ],
+      "recording": {
+        "filename": "a.mp3",
+        "legacy_sounds_folder": "æ (c[a]t)"
+      }
+    },
+    {
+      "id": "e",
+      "type": "vowel",
+      "subtype": "short",
+      "label": "/e/ as in bed",
+      "lexical_set": "DRESS",
+      "ipa": {
+        "au": "e",
+        "uk": "ɛ",
+        "us": "ɛ"
+      },
+      "examples": [
+        "bed",
+        "end",
+        "head",
+        "said"
+      ],
+      "recording": {
+        "filename": "e.mp3",
+        "legacy_sounds_folder": "e (b[e]d)"
+      }
+    },
+    {
+      "id": "i",
+      "type": "vowel",
+      "subtype": "short",
+      "label": "/i/ as in sit",
+      "lexical_set": "KIT",
+      "ipa": {
+        "au": "ɪ",
+        "uk": "ɪ",
+        "us": "ɪ"
+      },
+      "examples": [
+        "sit",
+        "in",
+        "gym"
+      ],
+      "recording": {
+        "filename": "i.mp3",
+        "legacy_sounds_folder": "ɪ (s[i]t)"
+      }
+    },
+    {
+      "id": "o",
+      "type": "vowel",
+      "subtype": "short",
+      "label": "/o/ as in hot",
+      "lexical_set": "LOT",
+      "ipa": {
+        "au": "ɔ",
+        "uk": "ɒ",
+        "us": "ɑ"
+      },
+      "examples": [
+        "hot",
+        "odd",
+        "want"
+      ],
+      "notes": "US LOT merges toward PALM — /ɑ/; AU/UK keep a rounded short o.",
+      "recording": {
+        "filename": "o.mp3",
+        "legacy_sounds_folder": "ɔ (h[o]t)"
+      }
+    },
+    {
+      "id": "u",
+      "type": "vowel",
+      "subtype": "short",
+      "label": "/u/ as in cup",
+      "lexical_set": "STRUT",
+      "ipa": {
+        "au": "ɐ",
+        "uk": "ʌ",
+        "us": "ʌ"
+      },
+      "examples": [
+        "cup",
+        "up",
+        "mum",
+        "come"
+      ],
+      "recording": {
+        "filename": "u.mp3",
+        "legacy_sounds_folder": "ɐ (c[u]t)"
+      }
+    },
+    {
+      "id": "oo_short",
+      "type": "vowel",
+      "subtype": "short",
+      "label": "/oo/ (short) as in book",
+      "lexical_set": "FOOT",
+      "ipa": {
+        "au": "ʊ",
+        "uk": "ʊ",
+        "us": "ʊ"
+      },
+      "examples": [
+        "book",
+        "put",
+        "could"
+      ],
+      "recording": {
+        "filename": "oo_short.mp3",
+        "legacy_sounds_folder": "ʊ (p[u]t)"
+      }
+    },
+    {
+      "id": "ay",
+      "type": "vowel",
+      "subtype": "long",
+      "label": "/ay/ as in play (long a)",
+      "lexical_set": "FACE",
+      "ipa": {
+        "au": "æɪ",
+        "uk": "eɪ",
+        "us": "eɪ"
+      },
+      "examples": [
+        "play",
+        "rain",
+        "cake",
+        "eight"
+      ],
+      "recording": {
+        "filename": "ay.mp3",
+        "legacy_sounds_folder": "eɪ (d[ay])"
+      }
+    },
+    {
+      "id": "ee",
+      "type": "vowel",
+      "subtype": "long",
+      "label": "/ee/ as in see (long e)",
+      "lexical_set": "FLEECE",
+      "ipa": {
+        "au": "iː",
+        "uk": "iː",
+        "us": "i"
+      },
+      "examples": [
+        "see",
+        "me",
+        "chief",
+        "happy"
+      ],
+      "recording": {
+        "filename": "ee.mp3",
+        "legacy_sounds_folder": "iː (s[ee])"
+      }
+    },
+    {
+      "id": "igh",
+      "type": "vowel",
+      "subtype": "long",
+      "label": "/igh/ as in light (long i)",
+      "lexical_set": "PRICE",
+      "ipa": {
+        "au": "ɑe",
+        "uk": "aɪ",
+        "us": "aɪ"
+      },
+      "examples": [
+        "light",
+        "my",
+        "pie",
+        "five"
+      ],
+      "recording": {
+        "filename": "igh.mp3",
+        "legacy_sounds_folder": "aɪ (m[y])"
+      }
+    },
+    {
+      "id": "oa",
+      "type": "vowel",
+      "subtype": "long",
+      "label": "/oa/ as in boat (long o)",
+      "lexical_set": "GOAT",
+      "ipa": {
+        "au": "əʉ",
+        "uk": "əʊ",
+        "us": "oʊ"
+      },
+      "examples": [
+        "boat",
+        "go",
+        "snow",
+        "though"
+      ],
+      "recording": {
+        "filename": "oa.mp3",
+        "legacy_sounds_folder": "əʉ (g[o])"
+      }
+    },
+    {
+      "id": "oo_long",
+      "type": "vowel",
+      "subtype": "long",
+      "label": "/oo/ (long) as in moon",
+      "lexical_set": "GOOSE",
+      "ipa": {
+        "au": "ʉː",
+        "uk": "uː",
+        "us": "u"
+      },
+      "examples": [
+        "moon",
+        "food",
+        "grew",
+        "fruit"
+      ],
+      "recording": {
+        "filename": "oo_long.mp3",
+        "legacy_sounds_folder": "ʉː (f[oo]d)"
+      }
+    },
+    {
+      "id": "ow",
+      "type": "vowel",
+      "subtype": "diphthong",
+      "label": "/ow/ as in cow",
+      "lexical_set": "MOUTH",
+      "ipa": {
+        "au": "æɔ",
+        "uk": "aʊ",
+        "us": "aʊ"
+      },
+      "examples": [
+        "cow",
+        "now",
+        "round",
+        "drought"
+      ],
+      "recording": {
+        "filename": "ow.mp3",
+        "legacy_sounds_folder": "aʊ (n[ow])"
+      }
+    },
+    {
+      "id": "oy",
+      "type": "vowel",
+      "subtype": "diphthong",
+      "label": "/oy/ as in boy",
+      "lexical_set": "CHOICE",
+      "ipa": {
+        "au": "oɪ",
+        "uk": "ɔɪ",
+        "us": "ɔɪ"
+      },
+      "examples": [
+        "boy",
+        "point",
+        "toys"
+      ],
+      "recording": {
+        "filename": "oy.mp3",
+        "legacy_sounds_folder": "ɔɪ (b[oy])"
+      }
+    },
+    {
+      "id": "ar",
+      "type": "vowel",
+      "subtype": "r_controlled",
+      "label": "/ar/ as in car",
+      "lexical_set": "START/PALM/BATH",
+      "ipa": {
+        "au": "aː",
+        "uk": "ɑː",
+        "us": "ɑɹ"
+      },
+      "examples": [
+        "car",
+        "park",
+        "father",
+        "grass (AU/UK)"
+      ],
+      "notes": "Rhotic in US (vowel+r), plain long vowel in AU/UK. AU/UK BATH words (grass, path, dance) take /ar/; US takes /a/ — word entries carry an accents override for these.",
+      "recording": {
+        "filename": "ar.mp3",
+        "legacy_sounds_folder": "aː (sp[a])"
+      }
+    },
+    {
+      "id": "or",
+      "type": "vowel",
+      "subtype": "r_controlled",
+      "label": "/or/ as in fork",
+      "lexical_set": "THOUGHT/NORTH/FORCE",
+      "ipa": {
+        "au": "oː",
+        "uk": "ɔː",
+        "us": "ɔɹ"
+      },
+      "examples": [
+        "fork",
+        "door",
+        "saw",
+        "thought",
+        "pour"
+      ],
+      "notes": "Covers or/aw/au/ough(t) — AU/UK merge THOUGHT and NORTH; US splits /ɔ/ (saw) from /ɔr/ (for): word entries carry accents overrides where the US has no r.",
+      "recording": {
+        "filename": "or.mp3",
+        "legacy_sounds_folder": "ɔː (d[oor])"
+      }
+    },
+    {
+      "id": "er",
+      "type": "vowel",
+      "subtype": "r_controlled",
+      "label": "/er/ as in her",
+      "lexical_set": "NURSE",
+      "ipa": {
+        "au": "ɜː",
+        "uk": "ɜː",
+        "us": "ɝ"
+      },
+      "examples": [
+        "her",
+        "first",
+        "nurse",
+        "works"
+      ],
+      "recording": {
+        "filename": "er.mp3",
+        "legacy_sounds_folder": "ɜː (h[er])"
+      }
+    },
+    {
+      "id": "air",
+      "type": "vowel",
+      "subtype": "r_controlled",
+      "label": "/air/ as in chair",
+      "lexical_set": "SQUARE",
+      "ipa": {
+        "au": "eː",
+        "uk": "ɛː",
+        "us": "ɛɹ"
+      },
+      "examples": [
+        "chair",
+        "square",
+        "bear",
+        "there"
+      ],
+      "recording": {
+        "filename": "air.mp3",
+        "legacy_sounds_folder": null
+      }
+    },
+    {
+      "id": "ear",
+      "type": "vowel",
+      "subtype": "r_controlled",
+      "label": "/ear/ as in near",
+      "lexical_set": "NEAR",
+      "ipa": {
+        "au": "ɪə",
+        "uk": "ɪə",
+        "us": "ɪɹ"
+      },
+      "examples": [
+        "near",
+        "here",
+        "deer",
+        "pier"
+      ],
+      "recording": {
+        "filename": "ear.mp3",
+        "legacy_sounds_folder": null
+      }
+    },
+    {
+      "id": "ure",
+      "type": "vowel",
+      "subtype": "r_controlled",
+      "label": "/ure/ as in cure",
+      "lexical_set": "CURE",
+      "ipa": {
+        "au": "ʊə",
+        "uk": "ʊə",
+        "us": "ʊɹ"
+      },
+      "examples": [
+        "cure",
+        "tour",
+        "sure"
+      ],
+      "notes": "Rare and unstable (many speakers merge with /or/); several programs omit it — sequences may skip this phoneme.",
+      "recording": {
+        "filename": "ure.mp3",
+        "legacy_sounds_folder": null
+      }
+    },
+    {
+      "id": "schwa",
+      "type": "vowel",
+      "subtype": "schwa",
+      "label": "/uh/ — schwa, as in about",
+      "lexical_set": "commA/lettER",
+      "ipa": {
+        "au": "ə",
+        "uk": "ə",
+        "us": "ə"
+      },
+      "examples": [
+        "about",
+        "the",
+        "doctor",
+        "famous"
+      ],
+      "notes": "Unstressed only. In US, letter-final -er/-or/-ar is r-coloured /ɚ/ — see teaching_units.schwa_r.",
+      "recording": {
+        "filename": "schwa.mp3",
+        "legacy_sounds_folder": "ə ([a]bout)"
+      }
+    },
+    {
+      "id": "yoo",
+      "type": "vowel",
+      "subtype": "long",
+      "label": "/yoo/ as in music (long u with a y-glide)",
+      "lexical_set": "GOOSE (with yod)",
+      "ipa": {
+        "au": "juː",
+        "uk": "juː",
+        "us": "juː"
+      },
+      "examples": [
+        "music",
+        "cute",
+        "unicorn",
+        "use"
+      ],
+      "notes": "A /j/ glide plus long oo — some programs (and some words, e.g. 'flute') use plain oo_long instead; sequences that explicitly teach the two apart should use this id.",
+      "recording": {
+        "filename": "yoo.mp3",
+        "legacy_sounds_folder": null
+      }
+    }
   ],
   "teaching_units": {
     "comment": "Not extra phonemes — common classroom units that bundle phonemes, so tasks and recordings can treat them as one chunk.",
-    "ks":   { "label": "/ks/ as in box (letter x)", "phonemes": ["k", "s"] },
-    "kw":   { "label": "/kw/ as in queen (qu)", "phonemes": ["k", "w"] },
-    "yoo":  { "label": "/yoo/ as in music (long u)", "phonemes": ["y", "oo_long"], "notes": "Yod-dropping: US says /oo_long/ after t d n s l (new, tune); AU/UK keep or coalesce the /y/." },
-    "schwa_r": { "label": "unstressed -er as in letter", "phonemes": ["schwa"], "ipa_override": {"us": "ɚ"}, "notes": "Same segmentation as schwa; US realisation is r-coloured. Record separately for US." }
+    "ks": {
+      "label": "/ks/ as in box (letter x)",
+      "phonemes": [
+        "k",
+        "s"
+      ]
+    },
+    "kw": {
+      "label": "/kw/ as in queen (qu)",
+      "phonemes": [
+        "k",
+        "w"
+      ]
+    },
+    "yoo": {
+      "label": "/yoo/ as in music (long u)",
+      "phonemes": [
+        "y",
+        "oo_long"
+      ],
+      "notes": "Yod-dropping: US says /oo_long/ after t d n s l (new, tune); AU/UK keep or coalesce the /y/."
+    },
+    "schwa_r": {
+      "label": "unstressed -er as in letter",
+      "phonemes": [
+        "schwa"
+      ],
+      "ipa_override": {
+        "us": "ɚ"
+      },
+      "notes": "Same segmentation as schwa; US realisation is r-coloured. Record separately for US."
+    }
   }
 }
