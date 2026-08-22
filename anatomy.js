@@ -161,7 +161,12 @@ window.Anatomy = (() => {
     fricative: "fricative", sibilant: "fricative"
   };
   // data.js says "stop", mouth.js says "plosive" — same gesture either way.
-  const mannerOf = (m) => MANNERS[String(m || "").toLowerCase()] || "fricative";
+  // Also accepts the ELC hub's compound labels ("Plosive / Stop") — without
+  // this every stop there silently animates as a fricative.
+  const mannerOf = (m) => {
+    const raw = String(m || "").toLowerCase().trim();
+    return MANNERS[raw] || MANNERS[raw.split("/")[0].trim()] || "fricative";
+  };
 
   /* how close the articulators end up, in viewBox units of daylight */
   const TARGET_GAP = { stop: .15, affricate: .15, nasal: .15, lateral: .2, approximant: 2.9, fricative: 2.2 };
@@ -538,7 +543,17 @@ window.Anatomy = (() => {
 
       /* --- tongue --- */
       if (tongue) {
-        if (place === "Dental") tongue.setAttribute("d", dentalTongue(.95 * g.c));
+        if (place === "Dental") {
+          tongue.setAttribute("d", dentalTongue(.95 * g.c));
+          // The protruding tip covers the lower tooth, so "between the teeth"
+          // reads as "under the top tooth". Lift the tooth in front of it
+          // while zoomed (dental only); it stays put everywhere else.
+          const lower = el.querySelector(".an-tooth-lower");
+          if (lower && lower.parentNode && lower.nextElementSibling !== null &&
+              lower.compareDocumentPosition(tongue) & Node.DOCUMENT_POSITION_FOLLOWING) {
+            lower.parentNode.appendChild(lower);
+          }
+        }
         else if (place === "Bilabial" && manner === "approximant")
           tongue.setAttribute("d", gestureTongue("Velar", mix(6, 3.2, g.c)));   // /w/ is labial AND velar
         else if (place === "Bilabial" || place === "Labio-dental" || place === "Glottal")
