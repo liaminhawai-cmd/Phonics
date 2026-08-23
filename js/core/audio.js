@@ -20,6 +20,27 @@ window.PhonicsAudio = (() => {
   let current = null;               // the Audio element now playing
   let soundsManifest = undefined;   // sounds/manifest.json cache (undefined = not tried)
 
+  // ---- clips that were cut off in export -------------------------------
+  // A truncated clip does not fail, it plays: a 50 ms fragment of someone
+  // saying "ay" is a click, and a child hears the app make a noise that
+  // isn't the sound they were asked for. That is worse than having no
+  // recording at all, because a missing file falls through to the next
+  // source and a click does not.
+  //
+  // recordings/clips.json is written by scripts/check_recordings.py and
+  // lists them by path. Loading it is fire-and-forget: until it arrives
+  // nothing is skipped, which is the same behaviour as before.
+  let tooShort = null;
+  (function loadClipReport() {
+    if (typeof fetch !== "function") return;
+    fetch(base + "recordings/clips.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => { tooShort = new Set((j && j.tooShort) || []); })
+      .catch(() => { tooShort = new Set(); });
+  })();
+
+  const truncated = (rel) => !!(tooShort && tooShort.has(rel));
+
   const accent = () => (window.PhonicsBank && PhonicsBank.accent) || "au";
   const LANG = { au: "en-AU", uk: "en-GB", us: "en-US" };
 
@@ -40,7 +61,14 @@ window.PhonicsAudio = (() => {
           resolve(false);
           return;
         }
-        const audio = new Audio(base + srcs[i++]);
+        const rel = srcs[i++];
+        // Treat a clipped recording exactly like a missing one. The check is
+        // synchronous against an already-loaded list on purpose: probing the
+        // real duration would mean calling play() after an await, and the
+        // browser's autoplay rules can refuse that once it is no longer in
+        // the same turn as the child's tap.
+        if (truncated(rel)) { tryNext(); return; }
+        const audio = new Audio(base + rel);
         audio.onerror = tryNext;
         current = audio;
         audio.play().then(() => resolve(true)).catch(tryNext);
@@ -151,6 +179,7 @@ window.PhonicsAudio = (() => {
   // composed letter+sound reading only when the pieces are really there.
   const haveCache = {};
   async function have(rel) {
+    if (truncated(rel)) return false;   // present, but not usable
     if (rel in haveCache) return haveCache[rel];
     try {
       const res = await fetch(base + rel, { method: "HEAD" });
@@ -202,5 +231,7 @@ window.PhonicsAudio = (() => {
   function setBase(b) { base = b || ""; }
 
   return { playPhoneme, playWord, playGpc, playLetter, playSequence,
-           playGraphemeReading, playPrompt, speak, stop, setBase };
+           playGraphemeReading, playPrompt, speak, stop, setBase,
+           // exposed so a page can show which recordings need redoing
+           truncated, clipReport: () => tooShort };
 })();
