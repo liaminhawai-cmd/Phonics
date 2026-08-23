@@ -215,7 +215,48 @@ Say has a mic button that offers the same opinion — but never marks the card.
 The child's Got it / Missed it is untouched, because an app that says "wrong"
 about a sound it cannot distinguish teaches a child to stop believing it.
 
-### 4c. Recordings that were cut off in export
+### 4c. Hand cues, and whose they are
+
+The app can show a hand cue beside a sound. It ships with **no cue
+content**: `data/cues/index.json` lists systems as *slots*, and the videos
+that fill one live under `cues/<system>/<accent>/<phoneme id>.mp4` on the
+machine of whoever recorded them.
+
+Every system carries a `publish` flag, because two things that look
+identical are not the same act:
+
+- Recording yourself performing a cue system to use with your own class —
+  which is what the training is for.
+- Publishing a complete free video reference of that system, in a public
+  repo, next to the books, posters and app its publisher sells.
+
+`publish: false` means the second one is off. `.gitignore` excludes
+`cues/*` and re-admits publishable systems by name — an allow-list, so a
+system added later is out until someone opts it in. `scripts/check_cues.py`
+is the backstop, because `.gitignore` is advice: it inspects what git is
+*actually tracking* and fails on anything restricted, which catches
+`git add -f` and files that were tracked before the rule existed. A test
+runs it.
+
+A restricted system must also record `rights.holder`, `rights.ask` and
+`rights.why`. The reason matters most: a future reader with a deadline
+will flip the flag unless the file says what breaks.
+
+**Cued Articulation (Jane Passy)** is the worked example. Content © Jane
+Passy, John Botham and Helen Botham; published by ACER Press, who also sell
+their own Cued Articulation app. `publish: false` until written permission
+exists, recorded in the `rights` block with date and scope.
+
+**Accents are not just a re-record.** Cues map to phonemes, so the cue set
+follows the phoneme inventory: AU and UK (SSB) are close but not identical,
+and US differs more — rhotic vowels, no BATH split, the cot-caught merger.
+And Cued Articulation is an AU/UK system; the US equivalents (Visual
+Phonics / See the Sound, or Cued Speech, which is a different thing again —
+Cornett's syllable-based system for deaf access, not articulation teaching)
+are separate systems with their own rights. A US slot is a different
+recording *and* a different permission conversation.
+
+### 4d. Recordings that were cut off in export
 
 A truncated clip is the failure mode that doesn't look like one: the file is
 there, it decodes, it plays. A missing file falls through the chain above; a

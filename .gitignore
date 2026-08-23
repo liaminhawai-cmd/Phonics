@@ -2,8 +2,6 @@ desktop.ini
 Thumbs.db
 .DS_Store
 __pycache__/
-Keira/book review/books/airbender comic 1.pdf
-Keira/book review/books/Unconfirmed 930461.crdownload
 PNG Language Program -20260822T094013Z-1-004.zip
 PNG Language Program/PNG Language Program/Morphology Games/Grade7MorphologyGame.pptx
 PNG Language Program/PNG Language Program/Phonemic Awareness Games/PALesson5Game.pptx
@@ -11,3 +9,13 @@ PNG Language Program/PNG Language Program/Phonics Games/Phonics Game 15.pptx
 PNG Language Program/PNG Language Program/Phonics Games/PhonicsGame5-1.pptx
 PNG Language Program/PNG Language Program/Phonics Games/PreKPhonicsGame4-1.pptx
 PNG Language Program/PNG Language Program/Phonics Games/PreKPhonicsGame6-1.pptx
+
+# ---- hand-cue videos ----------------------------------------------
+# Everything under cues/ is excluded by default, then re-admitted per
+# system. A system whose rights belong to someone else stays out of the
+# public repo no matter what lands in the folder; scripts/check_cues.py
+# is the backstop if one is force-added.
+cues/*
+!cues/README.md
+!cues/own/
+!cues/none/

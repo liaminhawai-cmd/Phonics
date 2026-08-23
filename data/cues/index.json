@@ -1,0 +1,42 @@
+{
+  "comment": "Hand-cue systems the app can show alongside a sound. The app ships with NO cue content: each system here is a slot, and the videos that fill it live under cues/<system>/<accent>/ on the machine of whoever recorded them. 'publish' decides whether that content may enter a public repo — see scripts/check_cues.py, which fails a commit that would leak a restricted system.",
+  "systems": [
+    {
+      "id": "none",
+      "name": "No hand cues",
+      "short": "Off",
+      "publish": true,
+      "builtin": true,
+      "note": "The default. The app's own mouth diagrams and close-ups carry the articulation on their own."
+    },
+    {
+      "id": "cued-articulation",
+      "name": "Cued Articulation (Jane Passy)",
+      "short": "Cued Articulation",
+      "accents": ["au", "uk"],
+      "publish": false,
+      "rights": {
+        "holder": "Jane Passy, John Botham and Helen Botham",
+        "publisher": "ACER Press",
+        "status": "third-party — permission required before anything is published",
+        "why": "ACER Press publishes the books, posters, cards and its own Cued Articulation app. A free public copy of the full cue set substitutes for products they sell, which is the case most likely to draw a takedown. Using the cues in your own classroom is what the training is for; publishing a complete reference of them is a different act.",
+        "ask": "ACER Press permissions — https://www.acer.org/au/author-guidelines/permissions-and-copyright",
+        "ifGranted": "Record the grant in this block (date, who, what it covers) and only then flip publish to true."
+      },
+      "note": "AU and UK share the system; the vowel set differs because the cues map to phonemes and the two accents do not have the same ones."
+    },
+    {
+      "id": "own",
+      "name": "My own cues",
+      "short": "My cues",
+      "accents": ["au", "uk", "us"],
+      "publish": true,
+      "rights": {
+        "holder": "the person who recorded them",
+        "status": "yours — publishable if you want them to be",
+        "why": "A cue set you devised yourself carries no one else's rights. This is the slot that can ship with the app."
+      },
+      "note": "Same slot mechanics as any other system: drop videos in cues/own/<accent>/<phoneme id>.mp4 and they appear."
+    }
+  ]
+}
