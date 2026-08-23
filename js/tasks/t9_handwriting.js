@@ -32,8 +32,33 @@ window.PhonicsTasks = window.PhonicsTasks || {
 (function () {
   "use strict";
 
-  const STYLE_FILE = "data/handwriting/letterforms-vic-modern-cursive.json";
-  const STYLE_ID = "vic-modern-cursive";
+  /* Which hand to teach. Australian classrooms use Victorian Modern
+     Cursive; England expects a joined hand with entry and exit strokes;
+     US infant classrooms teach upright manuscript print before cursive.
+     The accent already tells us which country we are in, so the default
+     follows it and a teacher can override. */
+  const STYLE_BY_ACCENT = { au: "vic-modern-cursive", uk: "uk-continuous-cursive",
+                            us: "us-manuscript" };
+  const STYLE_KEY = "phonics.handwritingStyle";
+
+  function styleId() {
+    try {
+      const saved = localStorage.getItem(STYLE_KEY);
+      if (saved && STYLE_BY_ACCENT[saved] === undefined && saved.indexOf("letterforms") === -1) {
+        return saved;                       // an explicit style id
+      }
+    } catch (e) {}
+    // Read the stored accent rather than PhonicsBank.accent: the bank sets
+    // that inside load(), and the handwriting task can ask for its style
+    // before that promise has settled — in which case the accent reads null
+    // and every country silently gets the Victorian hand.
+    let accent = null;
+    try { accent = localStorage.getItem("phonics-accent"); } catch (e) {}
+    if (!accent && window.PhonicsBank) accent = PhonicsBank.accent;
+    return STYLE_BY_ACCENT[accent] || STYLE_BY_ACCENT.au;
+  }
+
+  function styleFile() { return "data/handwriting/letterforms-" + styleId() + ".json"; }
 
   const N = 48;                 // resample points, model and attempt alike
   const PASS = 70;              // "good" band — the ladder's step-up line
@@ -120,7 +145,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
     const given = ctx && (ctx.letterforms || ctx.handwritingStyle);
     if (given && given.letters) return Promise.resolve(given);
     if (!stylePromise) {
-      stylePromise = fetch(STYLE_FILE).then((r) => {
+      stylePromise = fetch(styleFile()).then((r) => {
         if (!r.ok) throw new Error("letterforms failed to load (" + r.status + ")");
         return r.json();
       });
@@ -898,7 +923,9 @@ window.PhonicsTasks = window.PhonicsTasks || {
 
         try {
           Promise.resolve(ctx.tracker.record({
-            key: "letter:" + key + "|" + STYLE_ID,
+            // Mastery is per style: a child who can write <a> in Victorian
+            // cursive has not thereby shown they can write it as US print.
+            key: "letter:" + key + "|" + styleId(),
             correct: passed,
             latencyMs: dur,
             taskType: "t9",

@@ -355,7 +355,7 @@ if (typeof document !== "undefined") {
       renderRecent();
       syncDataControls(profile);
       els.printNote.textContent = "Printed " + new Date().toLocaleDateString("en-AU") +
-        " — Open Phonics teacher report for " + (profile.name || "Learner") + ".";
+        " — My Phonics teacher report for " + (profile.name || "Learner") + ".";
     }
 
     function updateHeader(p) {

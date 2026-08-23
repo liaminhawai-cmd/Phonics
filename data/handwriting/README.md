@@ -4,12 +4,28 @@ Stroke-level letter models that drive the handwriting task (trace → copy →
 from-memory) and its scoring: stroke count, order, direction, start point,
 shape ($P/DTW distance), and placement on the dotted thirds.
 
-One file per regional style: `letterforms-vic-modern-cursive.json` (first),
-then `nsw-foundation`, `qld-beginners`, `uk-print`, `uk-precursive`,
-`us-zaner-bloser`, `us-dnealian`. We own these stroke paths (drawn by hand
-against public exemplars) — display *fonts* have their own licences and are
-embedded only where permitted; rendering guides from these paths needs no
-font at all.
+One file per regional style. Three exist:
+
+| file | taught in | what makes it that style |
+|---|---|---|
+| `letterforms-vic-modern-cursive.json` | Australia (VIC) | unjoined cursive, exit strokes, `c` is the mother shape |
+| `letterforms-uk-continuous-cursive.json` | England | every letter leads in from the baseline and exits ready to join; only a dot or a crossbar lifts the pen |
+| `letterforms-us-manuscript.json` | United States | upright print, circles and straight lines, separate strokes, no entry or exit |
+
+`js/tasks/t9_handwriting.js` picks one from the learner's accent
+(`au`/`uk`/`us`), and mastery is keyed per style — writing `a` in Victorian
+cursive does not show you can write it as US print.
+
+**Whose letters these are.** Named school hands — Zaner-Bloser, D'Nealian,
+Letter-join, Nelson — are commercial products; their outlines and their
+names belong to their publishers. What is *not* ownable is the convention:
+that US manuscript is upright with separate strokes, that English
+continuous cursive leads in and exits. The two new files are drawn to those
+conventions from scratch by `scripts/build_letterforms.py`. No outline is
+traced and no product is named; a test fails if one ever is. Rendering
+guides from these paths needs no font at all.
+
+Later, if wanted: `nsw-foundation`, `qld-beginners`.
 
 ## Coordinate system
 

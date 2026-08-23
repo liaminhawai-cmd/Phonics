@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Letterform Preview — Vic Modern Cursive</title>
+<title>Letterform Preview</title>
 <link rel="icon" href="data:,">
 <style>
     :root {
@@ -69,9 +69,9 @@
 </head>
 <body>
 <div class="container">
-    <h1>Letterform preview — Victorian Modern Cursive</h1>
+    <h1 id="pageTitle">Letterform preview</h1>
     <p class="subtitle">
-        Renders every stroke path in <code>data/handwriting/letterforms-vic-modern-cursive.json</code> on the dotted
+        Renders every stroke path in <code>data/handwriting/letterforms-&lt;style&gt;.json</code> on the dotted
         thirds. Filter with <code>?letters=a,b,c</code>; zoom with <code>?size=760</code>;
         show start rectangles with <code>?zones=1</code>.
     </p>
@@ -239,6 +239,9 @@
     }
 
     function render(data) {
+      var pretty = (data.style || picked).replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+      document.title = 'Letterform Preview \u2014 ' + pretty;
+      document.getElementById('pageTitle').textContent = 'Letterform preview \u2014 ' + pretty;
         var letters = data.letters || {};
         var keys = filter.length ? filter : Object.keys(letters);
         var grid = document.getElementById('grid');
@@ -269,7 +272,22 @@
         toolbar(keys);
     }
 
-    fetch('../data/handwriting/letterforms-vic-modern-cursive.json', { cache: 'no-store' })
+    var STYLES = ['vic-modern-cursive', 'us-manuscript', 'uk-continuous-cursive'];
+    var picked = (location.hash || '').replace('#', '') || STYLES[0];
+    if (STYLES.indexOf(picked) === -1) picked = STYLES[0];
+    (function bar() {
+      var d = document.createElement('div');
+      d.style.cssText = 'display:flex;gap:8px;margin:0 0 14px;flex-wrap:wrap';
+      d.innerHTML = STYLES.map(function (s) {
+        return '<a href="#' + s + '" style="padding:7px 13px;border:1px solid #d8cfbb;' +
+          'border-radius:18px;text-decoration:none;font:700 13px system-ui;' +
+          (s === picked ? 'background:#a83232;color:#fff;border-color:#a83232' : 'color:#1f1f1f') +
+          '">' + s + '</a>';
+      }).join('');
+      document.body.insertBefore(d, document.body.firstChild.nextSibling);
+      window.addEventListener('hashchange', function () { location.reload(); });
+    })();
+    fetch('../data/handwriting/letterforms-' + picked + '.json', { cache: 'no-store' })
         .then(function (r) {
             if (!r.ok) { throw new Error('HTTP ' + r.status); }
             return r.json();

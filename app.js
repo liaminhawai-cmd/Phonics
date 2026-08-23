@@ -1,5 +1,5 @@
 // ============================================================
-// Open Phonics (unified)
+// My Phonics (unified)
 //
 // Flow: Practice mode -> View -> Code selection -> Drill -> Report
 //   Practice mode : "say"  (Look & Say)  | "write" (Listen & Write)
