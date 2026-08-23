@@ -26,6 +26,11 @@ function hear(who, what, phonemeId, opts) {
   return { features, result: L.grade(phonemeId, features, opts || {}) };
 }
 
+// The child's own vowel space, from the three corner sounds.
+function vowelCal(who) {
+  return L.calibrateVowels(["ee", "ah", "oo"].map((v) => ({ id: v, features: feat(who, v) })));
+}
+
 function feat(who, what) {
   const { buf, sampleRate } = S.say(who, what, 42);
   const loud = L.loudestFrame(buf, sampleRate, 2048);
@@ -404,6 +409,151 @@ module.exports = {
     const rows = L.describe(feat("child", "quiet"));
     assert.equal(rows.length, 1);
     assert.ok(rows[0].value.match(/too quiet/i));
+  },
+
+  // ---- 9. vowels: formants as a tongue position -------------------
+
+  "a vowel gets placed on the chart; a fricative does not"() {
+    for (const v of ["ee", "ah", "oo"]) {
+      const p = L.vowelPose(feat("child", v), { band: "child" });
+      assert.ok(p, `/${v}/ should get a position`);
+      assert.ok(p.x >= 0 && p.x <= 100 && p.y >= 0 && p.y <= 100, JSON.stringify(p));
+    }
+    // Placing a hiss on a vowel chart would be a fiction: there is no
+    // tongue position that /s/ "is", and the LPC peaks are the noise shape.
+    for (const c of ["s", "sh", "z"]) {
+      assert.equal(L.vowelPose(feat("child", c), { band: "child" }), null,
+        `/${c}/ must not be placed on the vowel chart`);
+    }
+    assert.equal(L.vowelPose(feat("child", "quiet"), { band: "child" }), null);
+  },
+
+  "an unvoiced sound is not placed, even when it isn't a hiss"() {
+    // Breath, a chair scrape, a mic bump: not fricative-flat, so the
+    // frication gate misses them, but LPC still returns peaks and those
+    // peaks are not a tongue. Voicing is the gate that catches these.
+    // (It also means a whispered vowel gets no placement — the safe
+    // trade: nothing shown beats a confident reading of room noise.)
+    const breathy = Object.assign({}, feat("child", "ah"), { clarity: 0.1, f0: 0 });
+    assert.equal(L.vowelPose(breathy, { band: "child" }), null);
+    assert.ok(L.CHECKS, "sanity");
+    // and the same features WITH voicing do get placed, so the test is
+    // pinning the voicing gate and not something incidental
+    assert.ok(L.vowelPose(feat("child", "ah"), { band: "child" }));
+  },
+
+  "the three corner vowels land on their own corners"() {
+    // /iː/ front and close, /aː/ open, /ʉː/ back and close. If these drift
+    // the whole chart is rotated and every piece of advice is wrong.
+    const p = (v) => L.vowelPose(feat("child", v), { band: "child" });
+    const ee = p("ee"), ah = p("ah"), oo = p("oo");
+    assert.ok(ee.x < 25, "/iː/ should be front, got x=" + ee.x);
+    assert.ok(ee.y < 25, "/iː/ should be close, got y=" + ee.y);
+    assert.ok(ah.y > 60, "/aː/ should be open, got y=" + ah.y);
+    assert.ok(oo.x > 60, "/ʉː/ should be back, got x=" + oo.x);
+    assert.ok(oo.y < 30, "/ʉː/ should be close, got y=" + oo.y);
+  },
+
+  "backness uses F2 minus F1, because raw F2 misreads open vowels"() {
+    // F1 climbs towards F2 as the mouth opens, so raw F2 put a textbook
+    // /aː/ 24 units too far forward and the app told a correct tongue to
+    // move. This is that regression, pinned.
+    const cal = { band: "child", vowelBox: vowelCal("child") };
+    const ah = L.vowelPose(feat("child", "ah"), { calibration: cal });
+    assert.ok(Math.abs(ah.x - 80) <= 15, "/aː/ backness x=" + ah.x + ", target 80");
+    assert.equal(L.vowelFeedback(ah, [80, 90]).close, true,
+      "a good /aː/ must not be corrected");
+  },
+
+  "a calibrated child's own corner vowels come back as correct"() {
+    const cal = { band: "child", vowelBox: vowelCal("child") };
+    const targets = { ee: [6, 6], ah: [80, 90], oo: [72, 8] };
+    for (const [v, target] of Object.entries(targets)) {
+      const pose = L.vowelPose(feat("child", v), { calibration: cal });
+      const fb = L.vowelFeedback(pose, target);
+      assert.equal(fb.close, true,
+        `/${v}/ at (${pose.x},${pose.y}) vs target (${target}) — distance ${fb.distance}: ${fb.tip}`);
+    }
+  },
+
+  "a child and an adult saying the same vowel land in the same place"() {
+    // The entire point of a personal reference. Raw formants differ by
+    // ~50%; the positions should not.
+    for (const v of ["ee", "ah", "oo"]) {
+      const kid = L.vowelPose(feat("child", v), { calibration: { vowelBox: vowelCal("child") } });
+      const grown = L.vowelPose(feat("adult", v), { calibration: { vowelBox: vowelCal("adult") } });
+      assert.ok(Math.abs(kid.x - grown.x) <= 15 && Math.abs(kid.y - grown.y) <= 15,
+        `${v}: child (${kid.x},${kid.y}) vs adult (${grown.x},${grown.y}) — ` +
+        `raw F1 ${kid.f1}/${grown.f1}, F2 ${kid.f2}/${grown.f2}`);
+    }
+  },
+
+  "an uncalibrated reading is offered with lower confidence"() {
+    const withBox = L.vowelPose(feat("child", "ah"), { calibration: { vowelBox: vowelCal("child") } });
+    const without = L.vowelPose(feat("child", "ah"), { band: "child" });
+    assert.equal(withBox.personal, true);
+    assert.equal(without.personal, false);
+    assert.ok(without.confidence < withBox.confidence,
+      `${without.confidence} should be under ${withBox.confidence}`);
+  },
+
+  "calibrateVowels refuses a box built from corners that aren't corners"() {
+    // Three readings of the same vowel describe no space. A box built from
+    // them would put every later vowel in the same wrong spot, confidently.
+    const same = feat("child", "ah");
+    assert.equal(L.calibrateVowels(
+      [{ id: "ee", features: same }, { id: "ah", features: same }, { id: "oo", features: same }]), null);
+    assert.equal(L.calibrateVowels([{ id: "ee", features: feat("child", "ee") }]), null,
+      "one corner is not a space");
+    assert.ok(L.calibrateVowels([
+      { id: "ee", features: feat("child", "ee") },
+      { id: "ah", features: feat("child", "ah") },
+      { id: "oo", features: feat("child", "oo") }]), "three real corners should work");
+  },
+
+  "calibrate() carries the vowel box alongside the sibilant split"() {
+    const cal = L.calibrate([
+      { id: "s", features: feat("child", "s") },
+      { id: "sh", features: feat("child", "sh") },
+      { id: "ee", features: feat("child", "ee") },
+      { id: "ah", features: feat("child", "ah") },
+      { id: "oo", features: feat("child", "oo") },
+    ]);
+    assert.ok(cal.split > 0, "sibilant split");
+    assert.ok(cal.vowelBox && cal.vowelBox.open > cal.vowelBox.close, "vowel box");
+    assert.equal(cal.band, "child");
+  },
+
+  "feedback names one axis, the one furthest out"() {
+    // A five-year-old told two things about their tongue at once has been
+    // told nothing.
+    const tooOpen = L.vowelFeedback({ x: 6, y: 60 }, [6, 6]);
+    assert.ok(/close your mouth/i.test(tooOpen.tip), tooOpen.tip);
+    const tooClosed = L.vowelFeedback({ x: 80, y: 30 }, [80, 90]);
+    assert.ok(/open your mouth/i.test(tooClosed.tip), tooClosed.tip);
+    const tooBack = L.vowelFeedback({ x: 80, y: 6 }, [6, 6]);
+    assert.ok(/tongue forward/i.test(tooBack.tip), tooBack.tip);
+    const tooFront = L.vowelFeedback({ x: 6, y: 8 }, [72, 8]);
+    assert.ok(/tongue back/i.test(tooFront.tip), tooFront.tip);
+    assert.equal(L.vowelFeedback({ x: 40, y: 40 }, [40, 40]).tip, "That's the shape.");
+  },
+
+  "the chart anchors agree with the diagram that draws them"() {
+    // listen.js restates where /iː/, /aː/ and /ʉː/ sit so it stays free of
+    // the UI. mouth.js's VOW table is what actually positions the tongue.
+    // If they drift, the app animates to one place and grades against
+    // another, and every correction is quietly wrong.
+    const src = require("fs").readFileSync(require("path").join(__dirname, "..", "mouth.js"), "utf8");
+    const row = (ipa) => {
+      const m = src.match(new RegExp('"' + ipa + '":\\["[^"]*",(\\d+),(\\d+)\\]'));
+      assert.ok(m, "no VOW entry for /" + ipa + "/ in mouth.js");
+      return [Number(m[1]), Number(m[2])];
+    };
+    const see = row("iː"), spa = row("aː"), food = row("ʉː");
+    assert.equal(L.ANCHOR.frontX, see[0], "frontX should be /iː/'s x");
+    assert.equal(L.ANCHOR.closeY, see[1], "closeY should be /iː/'s y");
+    assert.equal(L.ANCHOR.openY, spa[1], "openY should be /aː/'s y");
+    assert.equal(L.ANCHOR.backX, food[0], "backX should be /ʉː/'s x");
   },
 
   "CHECKS agrees with data/phonemes.json and cannot drift from it"() {

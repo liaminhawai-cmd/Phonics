@@ -421,6 +421,163 @@
     return out;
   }
 
+  /* ============================================================
+     VOWELS: turning formants into a tongue position
+     ============================================================
+     A vowel IS a tongue position, and the two things that give it
+     away are measurable:
+
+       F1  rises as the mouth opens and the tongue drops
+       F2  rises as the tongue comes forward
+
+     So (F1, F2) maps onto the vowel quadrilateral every phonetics
+     textbook draws, and the anatomy diagram already speaks that
+     coordinate system: pose(x, y) with x = back and y = open, both
+     0-100. That is the whole trick — no model, no training data,
+     just the two resonances of the tube the child is making.
+
+     What stops this being magic: absolute formant values are
+     meaningless across speakers. A five-year-old's /iː/ has a
+     higher F2 than an adult's /æ/. So a position is only ever
+     computed inside a REFERENCE SPACE — this child's own corners
+     where we have them (see calibrateVowels), and a rough age-band
+     box where we don't, which is flagged as approximate.
+
+     Reliability is honestly lower than the consonant cues. A child
+     at 260 Hz gives harmonics 260 Hz apart, so F1 near 500 Hz is
+     described by two of them; LPC has little to work with. Hence
+     vowelPose() returns a confidence, and the UI is expected to
+     draw a region rather than a pinpoint.
+     ============================================================ */
+
+  // The three corner vowels, and where they sit on the diagram. These
+  // numbers mirror the VOW table in mouth.js (which drives the drawing);
+  // they are restated here so this module stays free of the UI, and
+  // tests/listen.test.js fails if the two ever disagree.
+  //
+  //   /iː/ see   close and front
+  //   /aː/ spa   open
+  //   /ʉː/ food  close and back
+  const ANCHOR = { closeY: 6, openY: 90, frontX: 6, backX: 72 };
+
+  // Corner references in Hz for a speaker we have not calibrated.
+  // Adults from standard Australian English measurements; children
+  // scaled up, since a shorter tube resonates higher.
+  //
+  // close/open are F1. frontGap/backGap are F2 MINUS F1, not raw F2:
+  // as the mouth opens, F1 rises towards F2 and the two converge, so
+  // raw F2 badly under-reads backness on open vowels — a textbook /aː/
+  // came out 24 units too far forward. The gap between the formants
+  // stays honest across the whole space.
+  const VOWEL_BOX = {
+    adult: { close: 300, open: 850, frontGap: 1970, backGap: 600 },
+    child: { close: 450, open: 1250, frontGap: 2780, backGap: 650 },
+  };
+
+  function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function clampPose(v) { return Math.max(0, Math.min(100, v)); }
+
+  // Straight line through two known points: at f = a you are at chart
+  // position A, at f = b you are at B. Anything between interpolates,
+  // anything outside extrapolates and then gets clamped to the diagram.
+  //
+  // Fitting to the ANCHOR positions rather than to a 0-100 box matters:
+  // normalise /ʉː/ to "100% back" and a child who says a textbook-perfect
+  // /ʉː/ lands 28 units past its target, so the app tells them to move a
+  // tongue that was already right.
+  function axis(f, a, A, b, B) {
+    if (Math.abs(b - a) < 1) return (A + B) / 2;
+    return A + ((f - a) * (B - A)) / (b - a);
+  }
+
+  // Where the tongue was, in the anatomy's own pose coordinates.
+  // Returns null when there is nothing worth placing — no formants, or
+  // a sound that wasn't a steady voiced vowel in the first place.
+  function vowelPose(feat, opts) {
+    opts = opts || {};
+    const cal = opts.calibration || null;
+    const band = opts.band || (cal && cal.band) || "child";
+    if (!feat || feat.rms < 0.006) return null;
+    const f = feat.formants || [];
+    if (f.length < 2) return null;
+    // A vowel is voiced and open. Frication means they made a consonant,
+    // and placing that on a vowel chart would be a fiction.
+    if (voicedVerdict(feat) === false) return null;
+    if (MANNER_HINT.frication(feat)) return null;
+
+    const box = (cal && cal.vowelBox) || VOWEL_BOX[band] || VOWEL_BOX.child;
+    const f1 = f[0], f2 = f[1];
+    const y = clampPose(axis(f1, box.close, ANCHOR.closeY, box.open, ANCHOR.openY));
+    const x = clampPose(axis(f2 - f1, box.frontGap, ANCHOR.frontX, box.backGap, ANCHOR.backX));
+
+    // How much to trust it. Three things degrade the reading: a weak
+    // periodic signal, formants crowded together (the LPC envelope has
+    // merged two peaks), and a pitch so high the harmonics can't
+    // resolve F1 at all.
+    let conf = clamp01((feat.clarity - 0.4) / 0.4);
+    if (f2 - f1 < 200) conf *= 0.3;
+    if (feat.f0 > 0 && f1 / feat.f0 < 2.2) conf *= 0.5;
+    if (!cal || !cal.vowelBox) conf *= 0.7;      // no personal reference
+
+    return {
+      x: Math.round(x),
+      y: Math.round(y),
+      f1: Math.round(f1),
+      f2: Math.round(f2),
+      confidence: +conf.toFixed(2),
+      personal: !!(cal && cal.vowelBox),
+    };
+  }
+
+  // How far off the target they were, in the same 0-100 space, plus a
+  // child-facing nudge naming the ONE axis that is furthest out. Telling
+  // a five-year-old two things about their tongue at once is telling
+  // them nothing.
+  function vowelFeedback(pose, target) {
+    if (!pose || !target) return null;
+    const dx = pose.x - target[0];      // + = too far back
+    const dy = pose.y - target[1];      // + = too open
+    const dist = Math.round(Math.sqrt(dx * dx + dy * dy));
+    const out = { dx: Math.round(dx), dy: Math.round(dy), distance: dist, close: dist <= 18 };
+    if (out.close) { out.tip = "That's the shape."; return out; }
+    if (Math.abs(dx) >= Math.abs(dy)) {
+      out.tip = dx > 0 ? "Bring your tongue forward a bit."
+                       : "Pull your tongue back a bit.";
+    } else {
+      out.tip = dy > 0 ? "Close your mouth a little more."
+                       : "Open your mouth a little wider.";
+    }
+    return out;
+  }
+
+  // Build this child's own vowel box from the three corners of the
+  // space. /iː/ (see) is close and front, /aː/ (spa) is open, /ʉː/
+  // (food) is close and back — say those three and everything else
+  // falls inside. Returns null unless the corners actually came out
+  // distinct, because a box built from three identical readings would
+  // place every later vowel in the same wrong spot.
+  function calibrateVowels(samples) {
+    const at = {};
+    for (const s of samples || []) {
+      if (!s || !s.features) continue;
+      const f = s.features.formants || [];
+      if (f.length < 2) continue;
+      if (voicedVerdict(s.features) === false) continue;
+      at[s.id] = { f1: f[0], f2: f[1] };
+    }
+    const see = at.ee || at["iː"], spa = at.ah || at["aː"], food = at.oo || at["ʉː"];
+    if (!see || !spa) return null;
+    const close = Math.min(see.f1, food ? food.f1 : see.f1);
+    const open = spa.f1;
+    const frontGap = see.f2 - see.f1;
+    const backGap = food ? food.f2 - food.f1 : Math.min(spa.f2 - spa.f1, frontGap * 0.3);
+    // Corners that came out on top of each other describe no space at all,
+    // and a box built from them would put every later vowel in the same
+    // wrong place. Better to say we have no personal reference.
+    if (open - close < 120 || frontGap - backGap < 400) return null;
+    return { close, open, frontGap, backGap };
+  }
+
   // What the machine heard, in words, for the grown-up watching. This is
   // the panel that answers "is it good enough?" — it shows the reading
   // BEHIND a verdict so a teacher can see when the app is guessing.
@@ -510,6 +667,9 @@
       split: sCent.length && shCent.length && med(sCent) > med(shCent) * 1.25
         ? (med(sCent) + med(shCent)) / 2
         : null,
+      // Their own vowel corners, if they said them. Null falls back to the
+      // age-band table, at a lower confidence.
+      vowelBox: calibrateVowels(samples),
     };
   }
 
@@ -554,6 +714,7 @@
   }
 
   const api = { analyse, grade, describe, calibrate, record, loudestFrame,
+                vowelPose, vowelFeedback, calibrateVowels, VOWEL_BOX, ANCHOR,
                 rms, zeroCrossRate, spectrum, spectralCentroid, spectralFlatness,
                 highFraction, pitch, formants, CHECKS, SIB };
 
