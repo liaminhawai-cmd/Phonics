@@ -5,7 +5,7 @@ Two fully self-contained HTML files for offline use or distribution.
 ## Files
 
 ### `phonics-standalone.html`
-The complete **Aussie Phonics Trainer** in a single file.
+The complete **Open Phonics** in a single file.
 - Year Levels (Pre–Yr 4, grouped by sound type)
 - Bookmark Levels (14 colour-coded levels)
 - Both practice modes: Look & Say + Listen & Write

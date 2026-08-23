@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listening List — Aussie Phonics</title>
+    <title>Listening List — Open Phonics</title>
     <link rel="icon" href="data:,">
     <style>
         :root {
@@ -155,7 +155,7 @@
 </head>
 <body>
     <div class="container">
-        <a class="hub-link" href="index.html">&#8962; Aussie Phonics</a>
+        <a class="hub-link" href="index.html">&#8962; Open Phonics</a>
         <h1 id="pageTitle">Listening List</h1>
         <p class="subtitle" id="pageSubtitle">Tap a number to hear its word. Listen, then write it down. Tap again to hear it as many times as you like.</p>
 
@@ -242,7 +242,7 @@
         var customTitle = (params.get("title") || "").trim();
         if (customTitle) {
             el("pageTitle").textContent = customTitle;   // textContent: never inject HTML
-            document.title = customTitle + " — Aussie Phonics";
+            document.title = customTitle + " — Open Phonics";
         }
 
         // ---- accent (before any bank/audio loads) ----
