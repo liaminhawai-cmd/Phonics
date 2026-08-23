@@ -175,8 +175,10 @@ window.Mouth = (() => {
     if (d.kind === "d") rec.loop = Anatomy.loopGlide(ctl, d.from, d.to, { ms: 900, hold: 650 });
   }
 
-  // Tapping a cutaway replays it: a glide for diphthongs, a burst of
-  // airflow/voicing for consonants, a held position for vowels.
+  // Tapping a cutaway replays it: a glide for diphthongs, a held pose for
+  // vowels and approximants. Plosives/fricatives/affricates/nasals already
+  // animate continuously (CSS, keyed on data-manner) so tapping one just
+  // poses the tongue and moves on — the burst/hiss/buzz is already running.
   function play(id) {
     const rec = store[id];
     if (!rec || !rec.ctl) return;
@@ -189,11 +191,7 @@ window.Mouth = (() => {
       const p = parts[i++];
       if (p.kind === "d") { Anatomy.glide(ctl, p.from, p.to, 900, next); }
       else if (p.kind === "v") { ctl.set(p.at[0], p.at[1]); setTimeout(next, 800); }
-      else {
-        Anatomy.poseConsonant(ctl.el, p.place, p.manner);
-        ctl.el.classList.add("speaking");
-        setTimeout(() => { ctl.el.classList.remove("speaking"); next(); }, 750);
-      }
+      else { Anatomy.poseConsonant(ctl.el, p.place, p.manner); setTimeout(next, 750); }
     };
     next();
   }

@@ -68,7 +68,9 @@ window.Anatomy = (() => {
     const o = opts || {};
     const place = o.place || null;
     const label = o.label || (place ? place + " place of articulation" : "vocal tract");
-    return `<svg class="anatomy ${o.cls || ""}" viewBox="0 0 88 110" role="img"
+    /* margin on every side so the head doesn't run flush to the card edge —
+       a tight crop against the artwork's own bounds read as "zoomed in" */
+    return `<svg class="anatomy ${o.cls || ""}" viewBox="-7 -8 102 128" role="img"
       aria-label="${esc("Side view of the mouth: " + label)}"
       ${place ? `data-place="${esc(place)}"` : ""}
       ${o.manner ? `data-manner="${esc(o.manner)}"` : ""}
