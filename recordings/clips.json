@@ -96,7 +96,7 @@
   "recordings/au/words/thin.mp3": 0.114
  },
  "floors": {
-  "letters": 0.2,
+  "letters": 0.3,
   "phonemes": 0.15,
   "ui": 0.2,
   "words": 0.15,
@@ -105,11 +105,13 @@
  "tooShort": [
   "recordings/au/letters/a.mp3",
   "recordings/au/letters/e.mp3",
+  "recordings/au/letters/h.mp3",
   "recordings/au/letters/k.mp3",
   "recordings/au/letters/m.mp3",
   "recordings/au/letters/p.mp3",
   "recordings/au/letters/t.mp3",
   "recordings/au/letters/v.mp3",
+  "recordings/au/letters/x.mp3",
   "recordings/au/letters/z.mp3",
   "recordings/au/phonemes/dh.mp3",
   "recordings/au/phonemes/n.mp3",

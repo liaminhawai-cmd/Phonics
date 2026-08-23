@@ -24,7 +24,7 @@ REC = os.path.join(ROOT, "recordings")
 # own recordings actually separate, not from a guess. Sorting every clip by
 # length leaves an unmistakable gap in each folder:
 #
-#   letters   truncated 0.050-0.148 s | gap | healthy from 0.246 s
+#   letters   truncated 0.050-0.148 s | gap | 0.246, 0.250 | gap | 0.426+
 #   phonemes  truncated 0.054-0.104 s | gap | healthy from 0.233 s
 #   words     truncated 0.100-0.127 s | gap | healthy from 0.180 s
 #
@@ -32,10 +32,16 @@ REC = os.path.join(ROOT, "recordings")
 # 40-230% of its average peak when the file ends — cut off mid-sound rather
 # than allowed to decay. Two independent signals, same verdict.
 #
+# The letters floor sits at 0.30, above that middle pair: x (0.246) and h
+# (0.250) are the only two-part letter names in the alphabet — "ex" and
+# "aitch" — and listening to x confirmed it had lost its /ks/ and was just
+# saying "eh". Every letter name that survived intact runs 0.426 s or more,
+# so the middle cluster is clipped rather than merely brisk.
+#
 # The floors sit inside each gap, closer to the truncated side, because a
 # false positive costs a re-record and a false negative costs a child
-# hearing a click instead of a sound.
-FLOORS = {"letters": 0.20, "phonemes": 0.15, "ui": 0.20, "words": 0.15,
+# hearing the wrong sound.
+FLOORS = {"letters": 0.30, "phonemes": 0.15, "ui": 0.20, "words": 0.15,
           "words-segmented": 0.35}
 DEFAULT_FLOOR = 0.15
 

@@ -65,9 +65,37 @@ window.Mouth = (() => {
     approximant:"glide — the parts come close but never quite touch"
   };
 
-  const cDesc = (ipa) => ({ kind:"c", ipa, eg:CONS[ipa][0], place:CONS[ipa][1], manner:CONS[ipa][2], voiced:CONS[ipa][3] });
-  const vDesc = (ipa) => ({ kind:"v", ipa, eg:VOW[ipa][0], at:[VOW[ipa][1], VOW[ipa][2]] });
-  const dDesc = (ipa) => ({ kind:"d", ipa, eg:DIP[ipa][0], from:DIP[ipa][1], to:DIP[ipa][2] });
+  /* ---- which recording is this sound? --------------------------------
+     This file transcribes vowels the RP-ish way the diagrams were drawn
+     from; data/phonemes.json uses the broad Australian set (Mitchell /
+     Harrington) that the recordings are filed under. Same sounds, six
+     different letters — so a tile keyed on the IPA here finds nothing in
+     recordings/ and silently falls back to whoever narrated the old mp4s.
+     Every descriptor now carries the bank's id for its sound, and
+     tests/soundwall.test.js fails if any of them stops resolving. */
+  const BANK_ALIAS = {
+    "r": "r",     // bank writes the approximant ɹ
+    "ɔː": "or",   // door
+    "eɪ": "ay",   // day  — bank: æɪ
+    "aɪ": "igh",  // my   — bank: ɑe
+    "ɔɪ": "oy",   // boy  — bank: oɪ
+    "aʊ": "ow"    // now  — bank: æɔ
+  };
+  let bankByIpa = null;
+  function bankId(ipa) {
+    if (BANK_ALIAS[ipa]) return BANK_ALIAS[ipa];
+    if (!bankByIpa) {
+      const all = window.PhonicsBank && PhonicsBank.allPhonemes && PhonicsBank.allPhonemes();
+      if (!all || !all.length) return null;          // bank not loaded yet; try again next call
+      bankByIpa = {};
+      all.forEach((p) => { if (p.ipa && p.ipa.au) bankByIpa[p.ipa.au] = p.id; });
+    }
+    return bankByIpa[ipa] || null;
+  }
+
+  const cDesc = (ipa) => ({ kind:"c", ipa, phoneme:bankId(ipa), eg:CONS[ipa][0], place:CONS[ipa][1], manner:CONS[ipa][2], voiced:CONS[ipa][3] });
+  const vDesc = (ipa) => ({ kind:"v", ipa, phoneme:bankId(ipa), eg:VOW[ipa][0], at:[VOW[ipa][1], VOW[ipa][2]] });
+  const dDesc = (ipa) => ({ kind:"d", ipa, phoneme:bankId(ipa), eg:DIP[ipa][0], from:DIP[ipa][1], to:DIP[ipa][2] });
   const seq = (...parts) => ({ kind:"seq", ipa:parts.map((p) => p.ipa).join(""), parts });
 
   /* trainer sound label -> phoneme. Ambiguous labels resolve on the
@@ -224,5 +252,5 @@ window.Mouth = (() => {
   });
 
   return { html, figure, activate, play, reset, pauseAll, resumeAll,
-           inventory, ipaFor, descFor, howTo, hubLink, HUB_URL };
+           inventory, ipaFor, descFor, bankId, howTo, hubLink, HUB_URL };
 })();

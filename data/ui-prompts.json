@@ -1,23 +1,100 @@
 {
-  "comment": "Spoken interface prompts — the words the app says to a child who can't read yet. Recorded per accent as recordings/<accent>/ui/<id>.mp3 (see recordings/README.md); the app falls back to TTS/speechSynthesis until a file lands, exactly like phonemes and words. Keep them SHORT and warm; say them the way you'd say them across a table, not like a recording.",
-  "prompts": [
-    { "id": "write",        "text": "Write it",              "note": "handwriting task: start a trace/copy/memory attempt" },
-    { "id": "check",        "text": "Check",                 "note": "the Check button on any task" },
-    { "id": "trace",        "text": "Trace the letter",      "note": "handwriting scaffold level 1" },
-    { "id": "copy",         "text": "Now you copy it",       "note": "handwriting scaffold level 2" },
-    { "id": "from_memory",  "text": "Write it from memory",  "note": "handwriting scaffold level 3" },
-    { "id": "listen",       "text": "Listen",                "note": "before a word plays" },
-    { "id": "again",        "text": "Again",                 "note": "replay button" },
-    { "id": "your_turn",    "text": "Your turn",             "note": "hand over after a model" },
-    { "id": "say_it",       "text": "Say the sound",         "note": "grapheme trainer, say mode" },
-    { "id": "sound_it_out", "text": "Sound it out",          "note": "decoding prompt" },
-    { "id": "count_sounds", "text": "How many sounds?",      "note": "T3 beats & sounds" },
-    { "id": "clap_beats",   "text": "Clap the beats",        "note": "T3 syllable step" },
-    { "id": "build_word",   "text": "Build the word",        "note": "T4 / T6" },
-    { "id": "well_done",    "text": "Well done!",            "note": "correct, first try" },
-    { "id": "nearly",       "text": "So close — try again",  "note": "wrong, retry available" },
-    { "id": "lets_look",    "text": "Let's look together",   "note": "reveal after the second try" },
-    { "id": "next_one",     "text": "Next one",              "note": "advance" },
-    { "id": "all_done",     "text": "All done — great work!", "note": "session summary" }
-  ]
+ "comment": "Spoken interface prompts — the words the app says to a child who can't read yet. Recorded per accent as recordings/<accent>/ui/<id>.mp3 (see recordings/README.md); the app falls back to TTS/speechSynthesis until a file lands, exactly like phonemes and words. Keep them SHORT and warm; say them the way you'd say them across a table, not like a recording.",
+ "prompts": [
+  {
+   "id": "write",
+   "text": "Write it",
+   "note": "handwriting task: start a trace/copy/memory attempt"
+  },
+  {
+   "id": "check",
+   "text": "Check",
+   "note": "the Check button on any task"
+  },
+  {
+   "id": "trace",
+   "text": "Trace the letter",
+   "note": "handwriting scaffold level 1"
+  },
+  {
+   "id": "copy",
+   "text": "Now you copy it",
+   "note": "handwriting scaffold level 2"
+  },
+  {
+   "id": "from_memory",
+   "text": "Write it from memory",
+   "note": "handwriting scaffold level 3"
+  },
+  {
+   "id": "listen",
+   "text": "Listen",
+   "note": "before a word plays"
+  },
+  {
+   "id": "again",
+   "text": "Again",
+   "note": "replay button"
+  },
+  {
+   "id": "your_turn",
+   "text": "Your turn",
+   "note": "hand over after a model"
+  },
+  {
+   "id": "say_it",
+   "text": "Say the sound",
+   "note": "grapheme trainer, say mode"
+  },
+  {
+   "id": "sound_it_out",
+   "text": "Sound it out",
+   "note": "decoding prompt"
+  },
+  {
+   "id": "count_sounds",
+   "text": "How many sounds?",
+   "note": "T3 beats & sounds"
+  },
+  {
+   "id": "clap_beats",
+   "text": "Clap the beats",
+   "note": "T3 syllable step"
+  },
+  {
+   "id": "build_word",
+   "text": "Build the word",
+   "note": "T4 / T6"
+  },
+  {
+   "id": "well_done",
+   "text": "Well done!",
+   "note": "correct, first try"
+  },
+  {
+   "id": "nearly",
+   "text": "So close — try again",
+   "note": "wrong, retry available"
+  },
+  {
+   "id": "lets_look",
+   "text": "Let's look together",
+   "note": "reveal after the second try"
+  },
+  {
+   "id": "next_one",
+   "text": "Next one",
+   "note": "advance"
+  },
+  {
+   "id": "all_done",
+   "text": "All done — great work!",
+   "note": "session summary"
+  },
+  {
+   "id": "double",
+   "text": "double",
+   "note": "said before a repeated letter — \"double L\" in bell, miss, off (the FLOSS rule)"
+  }
+ ]
 }

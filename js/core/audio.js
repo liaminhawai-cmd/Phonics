@@ -130,21 +130,48 @@ window.PhonicsAudio = (() => {
 
   // A grapheme's sound: the GPC's phoneme recording; optional mp4Stem plays
   // the existing root-level mouth videos first (e.g. "Ai" -> Ai.mp4).
+  // Some graphemes are more than one phoneme: <qu> is /k/+/w/, <x> is
+  // /k/+/s/, <ing> is /i/+/ng/. 33 GPCs in the bank are like this, and
+  // taking phonemes[0] made every one of them play only its first sound —
+  // <qu> came out as /k/. If there is no single recording of the blend,
+  // the parts get played in order, close together so they read as one
+  // unit rather than as separate sounds.
+  const phonemesOf = (g) => (Array.isArray(g.phonemes) ? g.phonemes : [g.phonemes]).filter(Boolean);
+
+  /* How long to leave between the pieces of a spoken reading. <ow> should
+     come out as  "O · W  ——  /ow/  ——  /oa/": the letter names belong
+     together as the name of one code, then a clear break before the sounds
+     it makes, and a clear break between one sound and the next.
+       BLEND_GAP   inside one sound that is two phonemes (<qu> = /k/+/w/)
+       LETTER_GAP  between the letters of the code
+       SOUND_GAP   after the last letter, and between sounds            */
+  const BLEND_GAP = 90;
+  const LETTER_GAP = 200;
+  const SOUND_GAP = 620;
+
   async function playGpc(gpcOrId, opts = {}) {
     const g = typeof gpcOrId === "string" ? (window.PhonicsBank && PhonicsBank.gpc(gpcOrId)) : gpcOrId;
     const srcs = [];
     if (opts.mp4Stem) srcs.push(opts.mp4Stem + ".mp4");
-    if (g) {
-      const first = Array.isArray(g.phonemes) ? g.phonemes[0] : g.phonemes;
-      const a = accent();
-      srcs.push("recordings/" + a + "/phonemes/" + (Array.isArray(g.phonemes) ? g.phonemes.join("_") : g.phonemes) + ".mp3");
-      const legacy = await legacySrcFor(first);
-      if (legacy) srcs.push(legacy);
-      const p = window.PhonicsBank && PhonicsBank.phoneme(first);
-      const example = (g.examples && g.examples[0]) || (p && p.examples && p.examples[0]);
-      return playChain(srcs, () => { if (example) speak(example); });
+    if (!g) return playChain(srcs, null);
+
+    const phs = phonemesOf(g);
+    const first = phs[0];
+    const a = accent();
+    // A recording of the whole blend wins when one exists (k_w.mp3).
+    if (phs.length > 1) {
+      const joined = "recordings/" + a + "/phonemes/" + phs.join("_") + ".mp3";
+      if (!truncated(joined) && await have(joined)) return playChain([...srcs, joined], null);
+      if (srcs.length && await have(srcs[0])) return playChain(srcs, null);
+      return playSequence(phs.map((ph) => ({ phoneme: ph })), BLEND_GAP);
     }
-    return playChain(srcs, null);
+
+    srcs.push("recordings/" + a + "/phonemes/" + first + ".mp3");
+    const legacy = await legacySrcFor(first);
+    if (legacy) srcs.push(legacy);
+    const p = window.PhonicsBank && PhonicsBank.phoneme(first);
+    const example = (g.examples && g.examples[0]) || (p && p.examples && p.examples[0]);
+    return playChain(srcs, () => { if (example) speak(example); });
   }
 
   // A letter's NAME ("bee"), not its sound — recordings/<accent>/letters/<x>.mp3.
@@ -170,7 +197,8 @@ window.PhonicsAudio = (() => {
       else if (it.phoneme) await playPhoneme(it.phoneme);
       else if (it.word) await playWord(it.word);
       if (mine !== runToken) return false;
-      if (i < items.length - 1) await new Promise((r) => setTimeout(r, gapMs));
+      const gap = it.gapAfter != null ? it.gapAfter : gapMs;
+      if (i < items.length - 1) await new Promise((r) => setTimeout(r, gap));
     }
     return mine === runToken;
   }
@@ -194,20 +222,41 @@ window.PhonicsAudio = (() => {
   async function playGraphemeReading(grapheme, gpcIds, opts = {}) {
     const letters = String(grapheme || "").replace(/[^a-z]/gi, "").toLowerCase().split("");
     const a = accent();
-    const ok = letters.length && (await Promise.all(
-      letters.map((c) => have("recordings/" + a + "/letters/" + c + ".mp3"))
-    )).every(Boolean);
-    if (!ok) {
-      if (opts.mp4Stem) return playChain([opts.mp4Stem + ".mp4"], null);
-      return playGpc((gpcIds && gpcIds[0]) || null, opts);
-    }
-    const items = letters.map((c) => ({ letter: c }));
+
+    // Every sound this code makes, in the teacher's own voice. Inside one
+    // GPC the parts sit close together, so <qu> reads as one sound rather
+    // than as /k/ … /w/.
+    const soundItems = [];
     for (const id of (gpcIds || [])) {
       const g = window.PhonicsBank && PhonicsBank.gpc(id);
-      const ph = g && (Array.isArray(g.phonemes) ? g.phonemes[0] : g.phonemes);
-      if (ph) items.push({ phoneme: ph });
+      if (!g) continue;
+      const phs = phonemesOf(g);
+      phs.forEach((ph, i) => soundItems.push({
+        phoneme: ph,
+        gapAfter: i < phs.length - 1 ? BLEND_GAP : SOUND_GAP,
+      }));
     }
-    return playSequence(items, opts.gapMs);
+
+    const haveLetters = letters.length && (await Promise.all(
+      letters.map((c) => have("recordings/" + a + "/letters/" + c + ".mp3"))
+    )).every(Boolean);
+
+    const items = haveLetters
+      ? letters.map((c, i) => ({ letter: c, gapAfter: i < letters.length - 1 ? LETTER_GAP : SOUND_GAP }))
+      : [];
+    items.push(...soundItems);
+
+    if (items.length) {
+      delete items[items.length - 1].gapAfter;
+      return playSequence(items, opts.gapMs);
+    }
+    // Nothing of our own to play. The old narrated videos are the last
+    // resort, not the first: one missing letter-name clip used to send the
+    // whole reading to them, so <ti> played someone else's voice even
+    // though /sh/ was recorded. Re-record the letter names that
+    // scripts/check_recordings.py flags and the names come back.
+    if (opts.mp4Stem) return playChain([opts.mp4Stem + ".mp4"], null);
+    return playGpc((gpcIds && gpcIds[0]) || null, opts);
   }
 
   // Spoken interface prompts ("Write it", "Check") — the words the app says

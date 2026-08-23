@@ -30,8 +30,7 @@ window.SoundWall = (() => {
   };
 
   let built = false;
-  let RECORDINGS = null;    // ipa -> teacher recording url (if any)
-  let audioEl = null;
+
 
   // ---- level focus toggle -------------------------------------
   // "All 40+ sounds at once is scary" — so once a level is picked, sounds
@@ -229,48 +228,26 @@ window.SoundWall = (() => {
   }
 
   /* teacher recordings, if the deploy has built a manifest */
-  function loadRecordings() {
-    return fetch("sounds/manifest.json")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((m) => {
-        if (!m) return;
-        RECORDINGS = {};
-        Object.keys(m).forEach((folder) => {
-          const ipa = folder.split(" (")[0];
-          const file = m[folder].files && m[folder].files[0];
-          if (file) RECORDINGS[ipa] = "sounds/" + encodeURIComponent(folder) + "/" + encodeURIComponent(file);
-        });
-      })
-      .catch(() => {});
-  }
-
-  // A teacher recording of the sound itself beats a recording of a code
-  // that happens to spell it, so it wins when one exists.
-  function audioFor(ipa, codes) {
-    if (RECORDINGS && RECORDINGS[ipa]) return RECORDINGS[ipa];
-    if (typeof GRAPHEMES === "undefined") return null;
-    for (const c of codes || []) {
-      const g = GRAPHEMES.find((x) => x.grapheme === c);
-      if (g && g.audio) return g.audio + ".mp4";
-    }
-    return null;
-  }
-
-  function playSound(url, tile) {
-    if (!url) return;
-    if (audioEl) audioEl.pause();
-    audioEl = new Audio(url);
+  // Play the sound through PhonicsAudio like everything else does, so a
+  // tile gets the same chain: the teacher's own recording first, then the
+  // legacy folders, then a spoken example — and the same guard that skips
+  // a clip truncated in export.
+  //
+  // This used to resolve its own URL: the legacy sounds/ folders (now
+  // empty) and then <Grapheme>.mp4, which meant every tile played the
+  // narrator of the old mouth videos rather than the teacher who recorded
+  // the sound bank. A second audio path is how that drifted unnoticed.
+  function playSound(phoneme, tile) {
+    if (!phoneme || !window.PhonicsAudio) return;
     if (tile) {
       tile.classList.add("playing");
-      const off = () => tile.classList.remove("playing");
-      audioEl.addEventListener("ended", off);
-      audioEl.addEventListener("error", off);
+      setTimeout(() => tile.classList.remove("playing"), 900);
     }
-    audioEl.play().catch(() => {});
+    PhonicsAudio.playPhoneme(phoneme);
   }
 
   function tile(d, codes) {
-    const url = audioFor(d.ipa, codes);
+    const phoneme = d.phoneme || (window.Mouth && Mouth.bankId(d.ipa));
     // /p/ and /b/ are made in exactly the same place — the only difference is
     // whether the voice is switched on, and that can't be drawn, so say it.
     const voice = d.kind === "c"
@@ -279,7 +256,7 @@ window.SoundWall = (() => {
     const spelling = codeChips
       ? `<div class="sw-codes">${codeChips}</div>`
       : `<div class="sw-note">${NOTES[d.ipa] || "–"}</div>`;
-    return `<div class="sw-tile" data-ipa="${d.ipa}" ${url ? `data-audio="${url}"` : ""} tabindex="0"
+    return `<div class="sw-tile" data-ipa="${d.ipa}" ${phoneme ? `data-phoneme="${phoneme}"` : ""} tabindex="0"
                  role="button" aria-label="/${d.ipa}/ as in ${d.eg}">
       ${Mouth.figure(d, "sw-fig")}
       <div class="sw-ipa">/${d.ipa}/</div>
@@ -307,8 +284,7 @@ window.SoundWall = (() => {
 
   function open() {
     if (!built) {
-      // recordings first so tiles are built knowing what audio exists
-      loadRecordings().then(build);
+      build();
     } else {
       Mouth.resumeAll();
       // the active program may have changed since the wall was last open
@@ -318,7 +294,7 @@ window.SoundWall = (() => {
       applyFocus();
     }
   }
-  function close() { Mouth.pauseAll(); if (audioEl) audioEl.pause(); }
+  function close() { Mouth.pauseAll(); if (window.PhonicsAudio) PhonicsAudio.stop(); }
 
   document.addEventListener("click", (e) => {
     const chip = e.target.closest(".sw-level-chip");
@@ -328,7 +304,7 @@ window.SoundWall = (() => {
       return;
     }
     const t = e.target.closest(".sw-tile");
-    if (t && t.dataset.audio) playSound(t.dataset.audio, t);
+    if (t && t.dataset.phoneme) playSound(t.dataset.phoneme, t);
   });
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Enter" && e.key !== " ") return;
@@ -337,7 +313,7 @@ window.SoundWall = (() => {
     e.preventDefault();
     const fig = t.querySelector("[data-mouth]");
     if (fig) Mouth.play(fig.dataset.mouth);
-    if (t.dataset.audio) playSound(t.dataset.audio, t);
+    if (t.dataset.phoneme) playSound(t.dataset.phoneme, t);
   });
 
   return { open, close, build };
