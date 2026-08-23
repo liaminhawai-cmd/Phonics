@@ -52,7 +52,7 @@ is thrown away, everything gets absorbed.
 | Existing asset | Becomes |
 |---|---|
 | `app.js` grapheme trainer + bookmark levels | Task T1/T2 (§5) + the `elc-bookmarks` sequence, refactored to read `data/` |
-| `mika.js` + `mouth.js` + `anatomy.js` | The articulation engine, driven by `phonemes.json` articulation fields |
+| `mouth.js` + `anatomy.js` + `i18n.js` (mika.js absorbed — now `#seq=ufli-foundations&tri=1` on the main app) | The articulation engine, driven by `phonemes.json` articulation fields |
 | Root `*.mp4` mouth videos (70, all referenced) | Grapheme-level articulation clips, indexed by GPC |
 | `sounds/<ipa>/` AU recordings | Legacy phoneme recordings; mapped via `recording.legacy_sounds_folder`, superseded by `recordings/au/phonemes/` |
 | `soundwall.js` | The phoneme-first view of the active sequence |

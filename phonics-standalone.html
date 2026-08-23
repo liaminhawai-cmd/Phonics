@@ -65,6 +65,13 @@
         }
         .subtitle { color: var(--muted); text-align: center; margin: 6px 0 20px; font-size: 13px; }
 
+        /* ---- trilingual captions (i18n.js, #tri=1 only) ---- */
+        .tl-cn, .tl-yue { display: block; font-size: 0.74em; font-weight: 600; opacity: 0.82;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+        .tl-cn:empty, .tl-yue:empty { display: none; }
+        .tl-cn::before { content: "普 "; opacity: 0.6; font-size: 0.85em; }
+        .tl-yue::before { content: "粵 "; opacity: 0.6; font-size: 0.85em; }
+
         /* ---- Program picker (data-bank sequence switcher) ---- */
         .seq-picker-row { display: flex; align-items: center; justify-content: center; gap: 6px; margin: -10px 0 18px; }
         .seq-picker-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
@@ -356,6 +363,29 @@
         .sw-code { font-size: 11px; font-weight: 700; background: var(--bg); border: 1px solid var(--line-soft);
             border-radius: 5px; padding: 1px 5px; color: var(--ink); }
         .sw-note { font-size: 11px; color: var(--muted); line-height: 1.4; margin-top: 5px; }
+
+        /* ---- vowel chart: drag-to-bend synth (vowelchart.js) ---- */
+        .vc-wrap { position: relative; background: var(--paper); border: 1px solid var(--line);
+            border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 14px; overflow-x: auto; }
+        .vc-inner { position: relative; width: 100%; max-width: 620px; margin: 0 auto; min-width: 320px;
+            aspect-ratio: 1.35 / 1; touch-action: none; user-select: none; -webkit-user-select: none; }
+        .vc-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .vc-cavity { fill: var(--bg); opacity: .5; }
+        .vc-trap { fill: none; stroke: var(--muted); opacity: .5; stroke-width: 2; vector-effect: non-scaling-stroke; }
+        .vc-dpath { stroke: var(--accent); stroke-width: 2; fill: none; stroke-linecap: round;
+            opacity: 0; transition: opacity .2s; vector-effect: non-scaling-stroke; }
+        .vc-dpath.show { opacity: .55; }
+        .vc-chip { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column;
+            align-items: center; gap: 0; min-width: 46px; padding: 4px 7px; border: 1px solid var(--line);
+            border-radius: 9px; background: var(--paper); cursor: pointer; font: inherit; color: inherit; }
+        .vc-chip:hover { border-color: var(--accent); transform: translate(-50%, -50%) scale(1.06); }
+        .vc-chip .vc-sym { font-size: .92rem; font-weight: 800; }
+        .vc-chip .vc-eg { font-size: .62rem; color: var(--muted); }
+        .vc-dot { position: absolute; width: 15px; height: 15px; border-radius: 50%; background: var(--accent);
+            box-shadow: 0 0 12px var(--accent); transform: translate(-50%, -50%); pointer-events: none;
+            z-index: 6; display: none; }
+        .vc-axis { position: absolute; font-size: .68rem; color: var(--muted); }
+        .vc-axis-tl { top: 2px; left: 4px; } .vc-axis-br { bottom: 2px; right: 4px; }
         .sw-voice { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px;
             margin-top: 5px; }
         .sw-voice.on { color: var(--correct); }
@@ -1957,6 +1987,384 @@ window.Mouth = (() => {
 
   return { html, figure, activate, play, reset, pauseAll, resumeAll,
            inventory, ipaFor, descFor, bankId, howTo, hubLink, HUB_URL };
+})();
+
+</script>
+    <!-- i18n.js -->
+<script>
+// ============================================================
+// i18n.js — optional trilingual captions (English / Mandarin / Cantonese)
+//
+// Started life as a whole separate app (mika.js) forked from the main
+// trainer for one trilingual student, then drifted for months while the
+// main app kept moving — by the time anyone looked again it was 70-odd
+// commits behind. This is the fix for that shape of problem: no fork,
+// just a caption layer over the real app, on by URL flag.
+//
+//   index.html#seq=ufli-foundations&tri=1
+//
+// #seq= already picks the program (js/core/data.js); &tri=1 turns on
+// these captions. Every English label keeps its size and position — a
+// small Mandarin (with Hanyu Pinyin) and Cantonese (with Jyutping) line
+// is appended beneath it, same trick mika.js used with its tl/tl-cn/tl-yue
+// classes. Coverage matches what mika.js actually translated: screen
+// titles, buttons and hints — the static chrome, not live drill content
+// (mic verdicts, per-attempt feedback) generated after each attempt.
+// ============================================================
+
+window.I18n = (() => {
+
+  const T = {
+    subtitle:      { en:"Hear it or see it, say it or write it, then check.",
+                     cn:"听或看，说或写，然后检查。", cnP:"tīng huò kàn, shuō huò xiě",
+                     yue:"聽或者睇，講或者寫，然後檢查。", yueP:"teng1 waak6 tai2, gong2 waak6 se2" },
+    modeSayTitle:  { en:"Look & Say", cn:"看一看，说一说", cnP:"kàn yi kàn, shuō yi shuō",
+                     yue:"睇一睇，講一講", yueP:"tai2 jat1 tai2, gong2 jat1 gong2" },
+    modeSayDesc:   { en:"See the code, say the sound, then listen to check.",
+                     cn:"看字母，读出声音，再听录音检查。", cnP:"kàn zìmǔ, dú chū shēngyīn",
+                     yue:"睇字母，讀個音出嚟，再聽錄音檢查。", yueP:"tai2 zi6 mou5, duk6 go3 jam1" },
+    modeWriteTitle:{ en:"Listen & Write", cn:"听一听，写一写", cnP:"tīng yi tīng, xiě yi xiě",
+                     yue:"聽一聽，寫一寫", yueP:"teng1 jat1 teng1, se2 jat1 se2" },
+    modeWriteDesc: { en:"Hear the sound, then type or handwrite the code.",
+                     cn:"听声音，然后打字或手写字母。", cnP:"tīng shēngyīn, dǎzì huò shǒuxiě",
+                     yue:"聽個音，然後打字或者手寫字母。", yueP:"teng1 go3 jam1, daa2 zi6 waak6 sau2 se2" },
+    modeWallTitle: { en:"Sound Wall", cn:"声音墙", cnP:"shēngyīn qiáng",
+                     yue:"聲音牆", yueP:"sing1 jam1 coeng4" },
+
+    back:          { en:"← Back", cn:"返回", cnP:"fǎnhuí", yue:"返回", yueP:"faan1 wui4" },
+    selectAll:     { en:"Select all", cn:"全选", cnP:"quán xuǎn", yue:"全部揀", yueP:"cyun4 bou6 gaan2" },
+    clear:         { en:"Clear", cn:"清除", cnP:"qīngchú", yue:"清除", yueP:"cing1 ceoi4" },
+    start:         { en:"Start practising", cn:"开始练习", cnP:"kāishǐ liànxí",
+                     yue:"開始練習", yueP:"hoi1 ci2 lin6 zaap6" },
+    bookmarkTitle: { en:"Bookmark Levels", cn:"书签等级", cnP:"shūqiān děngjí",
+                     yue:"書籤等級", yueP:"syu1 cim1 dang2 kap1" },
+    yearTitle:     { en:"Year Levels", cn:"年级", cnP:"niánjí", yue:"年級", yueP:"nin4 kap1" },
+
+    exit:          { en:"Exit", cn:"退出", cnP:"tuìchū", yue:"退出", yueP:"teoi3 ceot1" },
+    sayHint:       { en:"Read this code and say its sound out loud.",
+                     cn:"读出这个字母的声音。", cnP:"dú chū zhège zìmǔ de shēngyīn",
+                     yue:"讀出呢個字母嘅聲。", yueP:"duk6 ceot1 ni1 go3 zi6 mou5 ge3 seng1" },
+    listenCheck:   { en:"Listen to check", cn:"听录音检查", cnP:"tīng lùyīn jiǎnchá",
+                     yue:"聽錄音檢查", yueP:"teng1 luk6 jam1 gim2 caa4" },
+    missed:        { en:"Missed it", cn:"答错了", cnP:"dá cuò le", yue:"答錯咗", yueP:"daap3 co3 zo2" },
+    gotIt:         { en:"Got it", cn:"答对了", cnP:"dá duì le", yue:"答啱咗", yueP:"daap3 ngaam1 zo2" },
+    playSound:     { en:"Play sound", cn:"播放声音", cnP:"bòfàng shēngyīn",
+                     yue:"播放聲音", yueP:"bo3 fong3 sing1 jam1" },
+    type:          { en:"Type", cn:"打字", cnP:"dǎzì", yue:"打字", yueP:"daa2 zi6" },
+    handwrite:     { en:"Handwrite", cn:"手写", cnP:"shǒuxiě", yue:"手寫", yueP:"sau2 se2" },
+    check:         { en:"Check", cn:"检查", cnP:"jiǎnchá", yue:"檢查", yueP:"gim2 caa4" },
+    showAnswer:    { en:"Show answer", cn:"显示答案", cnP:"xiǎnshì dá'àn",
+                     yue:"顯示答案", yueP:"hin2 si6 daap3 on3" },
+    again:         { en:"Again", cn:"再来一次", cnP:"zài lái yīcì", yue:"再嚟多次", yueP:"zoi3 lai4 do1 ci3" },
+    clearPlain:    { en:"clear", cn:"清除", cnP:"qīngchú", yue:"清除", yueP:"cing1 ceoi4" },
+    shelfEmpty:    { en:"Cards you get right appear here", cn:"答对的字母会出现在这里。", cnP:"dá duì de zìmǔ",
+                     yue:"答啱嘅字母會喺度出現。", yueP:"daap3 ngaam1 ge3 zi6 mou5" },
+
+    wellDone:      { en:"Well done!", cn:"做得好！", cnP:"zuò dé hǎo", yue:"做得好！", yueP:"zou6 dak1 hou2" },
+    printReport:   { en:"Save / print report", cn:"保存／打印报告", cnP:"bǎocún / dǎyìn",
+                     yue:"儲存／打印報告", yueP:"cou5 cyun4 / daa2 jan3" },
+    reviewMissed:  { en:"Review missed", cn:"复习错误", cnP:"fùxí cuòwù",
+                     yue:"溫習錯處", yueP:"wan1 zaap6 co3 cyu3" },
+    newSession:    { en:"New session", cn:"新的练习", cnP:"xīn de liànxí",
+                     yue:"新嘅練習", yueP:"san1 ge3 lin6 zaap6" },
+  };
+
+  // element id -> T key. Only static chrome — screens, buttons, hints —
+  // never anything generated fresh per attempt (mic verdicts, compare
+  // results): those stay English, same scope mika.js had.
+  const TARGETS = {
+    modeSayBtn: { title:"modeSayTitle", desc:"modeSayDesc" },
+    modeWriteBtn: { title:"modeWriteTitle", desc:"modeWriteDesc" },
+    modeWallBtn: { title:"modeWallTitle" },
+    viewBackBtn: { self:"back" }, selectBackBtn: { self:"back" },
+    selectAll: { self:"selectAll" }, selectNone: { self:"clear" },
+    startBtn: { self:"start" },
+    viewBookmarkBtn: { title:"bookmarkTitle" }, viewYearBtn: { title:"yearTitle" },
+    quitBtn: { self:"exit" },
+    sayCheckBtn: { self:"listenCheck" },
+    sayMissedBtn: { self:"missed" }, sayGotBtn: { self:"gotIt" },
+    listenBtn: { self:"playSound" },
+    modeType: { self:"type" }, modeWrite: { self:"handwrite" },
+    typeCheckBtn: { self:"check" }, writeRevealBtn: { self:"showAnswer" },
+    clearCanvas: { self:"clearPlain" },
+    againBtn: { self:"again" }, gotItBtn: { self:"gotIt" },
+    shelfEmpty: { self:"shelfEmpty" },
+    practiceSheetBtn: { self:"printReport" }, printBtn: { self:"printReport" },
+    reportReviewBtn: { self:"reviewMissed" }, reportRestartBtn: { self:"newSession" },
+  };
+
+  function block(t) {
+    if (!t) return "";
+    const cn = t.cn ? t.cn + (t.cnP ? " · " + t.cnP : "") : "";
+    const yue = t.yue ? t.yue + (t.yueP ? " · " + t.yueP : "") : "";
+    return '<span class="tl-cn">' + cn + '</span><span class="tl-yue">' + yue + '</span>';
+  }
+
+  // Split "Look & Say" out of an emoji-prefixed .ttl/.desc pair, or just
+  // append after plain text — either way this only ever ADDS the two
+  // caption lines; it never removes or reorders the English.
+  function caption(el, key) {
+    if (!el || el.dataset.tlDone) return;
+    const t = T[key];
+    if (!t) return;
+    el.insertAdjacentHTML("beforeend", block(t));
+    el.dataset.tlDone = "1";
+  }
+
+  function apply() {
+    if (!enabled()) return;
+    Object.keys(TARGETS).forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const spec = TARGETS[id];
+      if (spec.self) { caption(el, spec.self); return; }
+      if (spec.title) { const ttl = el.querySelector(".ttl"); if (ttl) caption(ttl, spec.title); }
+      if (spec.desc) { const d = el.querySelector(".desc"); if (d) caption(d, spec.desc); }
+    });
+    const sub = document.querySelector(".subtitle"); if (sub) caption(sub, "subtitle");
+    const rt = document.querySelector(".report-title"); if (rt) caption(rt, "wellDone");
+  }
+
+  function enabled() {
+    return /(?:^|[#&])tri=1(?:&|$)/.test(location.hash);
+  }
+
+  return { apply, enabled, T };
+})();
+
+</script>
+    <!-- vowelchart.js -->
+<script>
+// ============================================================
+// vowelchart.js — the vowel/diphthong trapezoid from the ELC
+// Pronunciation Hub, ported into the Sound Wall.
+//
+// The wall's vowel and diphthong tiles are fixed points — tap
+// one, hear that exact sound. This chart is the same vowel space
+// as a continuous surface: press and hold anywhere to synthesise
+// whatever sound sits at that spot, drag to glide between sounds
+// live, and the mouth (anatomy.js) tracks the same x/y position.
+// Tapping an actual vowel/diphthong chip still plays its real
+// recording when one exists (via Mouth/PhonicsAudio) — only the
+// hold-and-drag exploration is synthesised, because a recording
+// can't bend.
+// ============================================================
+
+window.VowelChart = (() => {
+
+  /* ---- formant synthesis (ported from the Pronunciation Hub) ----
+     Interpolated in the Bark auditory scale (Traunmüller 1990), not
+     linear Hz, and bilinearly across the trapezium's four corners so
+     F2 depends on y as well as x — the same reasoning as the hub's
+     own comment, reproduced here because the numbers must match. */
+  const hzToBark = (f) => 26.81 * f / (1960 + f) - 0.53;
+  const barkToHz = (z) => 1960 * (z + 0.53) / (26.81 - (z + 0.53));
+  const CORNER_HZ = {
+    closeFront: [280, 2250, 2950],
+    closeBack:  [310, 870, 2300],
+    openFront:  [750, 1700, 2550],
+    openBack:   [700, 1100, 2450]
+  };
+  const CORNER_BARK = {};
+  for (const k in CORNER_HZ) CORNER_BARK[k] = CORNER_HZ[k].map(hzToBark);
+
+  function formantsFor(x, y) {
+    const u = Math.min(1, Math.max(0, x / 100)), v = Math.min(1, Math.max(0, y / 100));
+    const { closeFront: Q11, closeBack: Q21, openFront: Q12, openBack: Q22 } = CORNER_BARK;
+    return Q11.map((_, i) => {
+      const bark = Q11[i] * (1 - u) * (1 - v) + Q21[i] * u * (1 - v) + Q12[i] * (1 - u) * v + Q22[i] * u * v;
+      return barkToHz(bark);
+    });
+  }
+
+  let AC = null;
+  function audioCtx() {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    if (AC.state === "suspended" && AC.resume) AC.resume().catch(() => {});
+    return AC;
+  }
+  function makeVoice() {
+    const c = audioCtx(), t = c.currentTime;
+    const src = c.createOscillator(); src.type = "sawtooth";
+    src.frequency.setValueAtTime(132, t);
+    src.frequency.linearRampToValueAtTime(112, t + .9);
+    const vib = c.createOscillator(); vib.frequency.value = 5.2;
+    const vibG = c.createGain(); vibG.gain.value = 4;
+    vib.connect(vibG); vibG.connect(src.frequency);
+    const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 4200;
+    const master = c.createGain(); master.gain.value = 0;
+    const bands = [[8, 1], [10, .5], [12, .22]].map(([q, g]) => {
+      const f = c.createBiquadFilter(); f.type = "bandpass"; f.Q.value = q;
+      const fg = c.createGain(); fg.gain.value = g;
+      src.connect(f); f.connect(fg); fg.connect(lp);
+      return f;
+    });
+    lp.connect(master); master.connect(c.destination);
+    src.start(); vib.start();
+    master.gain.linearRampToValueAtTime(.24, t + .05);
+    return {
+      set(x, y, tc = .045) {
+        const F = formantsFor(x, y), tt = c.currentTime;
+        bands.forEach((b, i) => b.frequency.setTargetAtTime(F[i], tt, tc));
+      },
+      stop() {
+        const tt = c.currentTime;
+        master.gain.cancelScheduledValues(tt);
+        master.gain.setTargetAtTime(0, tt, .07);
+        setTimeout(() => { try { src.stop(); vib.stop(); } catch (e) {} }, 500);
+      }
+    };
+  }
+
+  /* ---- layout: same trapezium mapping as the hub ---- */
+  const CHART_OFF = 44, CHART_SCALE = .54;
+  const cpx = (x) => CHART_OFF + x * CHART_SCALE;   // chart x (0-100) -> container %
+  const CX = (v) => (v * 1.35).toFixed(1);          // container % -> viewBox units (135 wide)
+
+  let inv = null;   // { vowels, diphthongs } from Mouth.inventory(), cached
+  function data() { return inv || (inv = Mouth.inventory()); }
+
+  function trapPoints() {
+    return `${CX(cpx(4))},4 ${CX(cpx(96))},4 ${CX(cpx(88))},96 ${CX(cpx(30))},96`;
+  }
+
+  function chipHTML(sym, x, y, eg) {
+    return `<button type="button" class="vc-chip" data-sym="${sym}"
+        style="left:${cpx(x)}%;top:${y}%">
+      <span class="vc-sym">/${sym}/</span><span class="vc-eg">${eg.split(",")[0]}</span>
+    </button>`;
+  }
+
+  function render() {
+    const v = data().vowels, d = data().diphthongs;
+    const dipPaths = d.map((dp, i) =>
+      `<path class="vc-dpath" id="vcdp${i}" d="M${CX(cpx(dp.from[0]))},${dp.from[1]} L${CX(cpx(dp.to[0]))},${dp.to[1]}"
+        pathLength="1" style="stroke-dasharray:1;stroke-dashoffset:1"/>`).join("");
+    return `
+      <div class="sw-section">
+        <h2 class="sw-title">Vowel chart</h2>
+        <p class="sw-blurb">Every vowel lives somewhere in here — front/back is where your tongue humps up, close/open is your jaw.
+          <b>Press and hold anywhere, then drag,</b> to glide the sound and watch the mouth follow. Tap a chip for its real sound.</p>
+        <div class="vc-wrap">
+          <div class="vc-inner" id="vcInner">
+            <svg class="anatomy vc-bg" viewBox="0 0 135 100" preserveAspectRatio="none" aria-hidden="true">
+              ${Anatomy.parts()}
+              <polygon class="vc-cavity" points="${trapPoints()}"/>
+              <polygon class="vc-trap" points="${trapPoints()}"/>
+              ${dipPaths}
+            </svg>
+            ${v.map((o) => chipHTML(o.ipa, o.at[0], o.at[1], o.eg)).join("")}
+            ${d.map((o) => chipHTML(o.ipa, o.from[0], o.from[1], o.eg)).join("")}
+            <div class="vc-dot" id="vcDot"></div>
+            <div class="vc-axis vc-axis-tl">close ↑ · front ←</div>
+            <div class="vc-axis vc-axis-br">→ back · ↓ open</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  /* ---- mouth + drag wiring ---- */
+  let faceCtl = null, dragVoice = null, downAt = null, t0 = 0, suppressClick = false;
+
+  function chartXY(el, clientX, clientY) {
+    const r = el.getBoundingClientRect();
+    const pct = (clientX - r.left) / r.width * 100;
+    return { x: Math.min(98, Math.max(2, (pct - CHART_OFF) / CHART_SCALE)),
+             y: Math.min(97, Math.max(3, (clientY - r.top) / r.height * 100)) };
+  }
+  function moveDot(el, x, y, show) {
+    const dot = document.getElementById("vcDot"); if (!dot) return;
+    dot.style.display = show ? "block" : "none";
+    if (show) { dot.style.left = cpx(x) + "%"; dot.style.top = y + "%"; }
+  }
+
+  function playChip(sym) {
+    const all = [...data().vowels, ...data().diphthongs];
+    const o = all.find((x) => x.ipa === sym);
+    if (!o) return;
+    if (o.phoneme && window.PhonicsAudio) { PhonicsAudio.playPhoneme(o.phoneme); }
+    if (o.from) { glideDot(o); if (faceCtl) { Anatomy.glide(faceCtl, o.from, o.to, 700, () => faceCtl.idle()); } if (!o.phoneme) playGlideSound(o); }
+    else { if (faceCtl) { faceCtl.set(o.at[0], o.at[1]); setTimeout(() => faceCtl.idle(), 650); } if (!o.phoneme) playHeldSound(o); }
+  }
+  function playHeldSound(o) {
+    const v = makeVoice(); v.set(o.at[0], o.at[1], .001);
+    setTimeout(() => v.stop(), 650);
+  }
+  function playGlideSound(o) {
+    const v = makeVoice(); v.set(o.from[0], o.from[1], .001);
+    const t0 = performance.now(), dur = 620;
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / dur);
+      v.set(o.from[0] + (o.to[0] - o.from[0]) * k, o.from[1] + (o.to[1] - o.from[1]) * k, .05);
+      if (k < 1) requestAnimationFrame(step); else setTimeout(() => v.stop(), 80);
+    };
+    requestAnimationFrame(step);
+  }
+  function glideDot(o) {
+    const idx = data().diphthongs.findIndex((x) => x.ipa === o.ipa);
+    const path = document.getElementById("vcdp" + idx);
+    document.querySelectorAll(".vc-dpath").forEach((p) => { p.classList.remove("show"); p.style.strokeDashoffset = 1; });
+    if (path) { path.classList.add("show"); }
+    const t0 = performance.now(), dur = 620;
+    const ease = (k) => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / dur), e = ease(k);
+      const px = o.from[0] + (o.to[0] - o.from[0]) * e, py = o.from[1] + (o.to[1] - o.from[1]) * e;
+      moveDot(null, px, py, true);
+      if (path) path.style.strokeDashoffset = 1 - e;
+      if (k < 1) requestAnimationFrame(step); else setTimeout(() => moveDot(null, 0, 0, false), 250);
+    };
+    requestAnimationFrame(step);
+  }
+
+  function wireDrag(root) {
+    const inner = root.querySelector("#vcInner");
+    const svg = inner.querySelector(".vc-bg");
+    faceCtl = Anatomy.makeCtl(svg);
+    inner.addEventListener("pointerdown", (e) => {
+      if (e.button !== undefined && e.button > 0) return;
+      const chip = e.target.closest(".vc-chip");
+      downAt = [e.clientX, e.clientY]; t0 = performance.now(); suppressClick = false;
+      const p = chartXY(inner, e.clientX, e.clientY);
+      dragVoice = { v: makeVoice(), id: e.pointerId };
+      dragVoice.v.set(p.x, p.y, .001);
+      moveDot(inner, p.x, p.y, true);
+      if (faceCtl) faceCtl.set(p.x, p.y);
+    });
+    window.addEventListener("pointermove", (e) => {
+      if (!dragVoice || e.pointerId !== dragVoice.id) return;
+      if (Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 6) suppressClick = true;
+      const p = chartXY(inner, e.clientX, e.clientY);
+      dragVoice.v.set(p.x, p.y); moveDot(inner, p.x, p.y, true);
+      if (faceCtl) faceCtl.set(p.x, p.y);
+    });
+    const end = (e) => {
+      if (!dragVoice || e.pointerId !== dragVoice.id) return;
+      const v = dragVoice.v, held = performance.now() - t0;
+      if (held < 300) setTimeout(() => v.stop(), 320 - held); else v.stop();
+      dragVoice = null;
+      moveDot(inner, 0, 0, false);
+      if (faceCtl) faceCtl.idle();
+    };
+    window.addEventListener("pointerup", end);
+    window.addEventListener("pointercancel", end);
+    inner.addEventListener("click", (e) => {
+      if (suppressClick) { suppressClick = false; return; }
+      const chip = e.target.closest(".vc-chip");
+      if (chip) playChip(chip.dataset.sym);
+    });
+  }
+
+  let built = false;
+  function build(root) {
+    root.insertAdjacentHTML("beforeend", render());
+    wireDrag(root);
+    built = true;
+  }
+  function ensure(root) { if (!built) build(root); }
+  function pause() { if (faceCtl) faceCtl.idle(); }
+
+  return { ensure, pause };
 })();
 
 </script>
@@ -4378,6 +4786,10 @@ function showScreen(name) {
   // the wall's diphthongs loop forever, so stop them when it goes out of view
   document.body.classList.toggle("wall-wide", name === "wall");
   if (window.SoundWall) { if (name === "wall") SoundWall.open(); else SoundWall.close(); }
+  // idempotent — caption() no-ops on an element it's already captioned,
+  // so re-running this on every screen transition is cheap and catches
+  // whatever the screen just built
+  if (window.I18n) I18n.apply();
 }
 
 function chooseMode(mode) { practiceMode = mode; showScreen("view"); }
@@ -5800,6 +6212,8 @@ function initUI() {
   $("practiceSheetBtn").addEventListener("click", openPracticeSheet);
   $("reportReviewBtn").addEventListener("click", reviewMissed);
   $("reportRestartBtn").addEventListener("click", () => showScreen("mode"));
+
+  if (window.I18n) I18n.apply();   // catches the mode screen, active before any showScreen() call
 }
 
 // ---- Boot: load the data bank, build today's runtime structures from the
@@ -6112,6 +6526,7 @@ window.SoundWall = (() => {
         <div class="sw-grid">${inv[sec.key].map((d) => tile(d, codes[d.ipa])).join("")}</div>
       </div>`).join("");
     Mouth.activate(root);
+    if (window.VowelChart) VowelChart.ensure(root);
     built = true;
     renderLevelBar();
     applyFocus();
@@ -6129,7 +6544,7 @@ window.SoundWall = (() => {
       applyFocus();
     }
   }
-  function close() { Mouth.pauseAll(); if (window.PhonicsAudio) PhonicsAudio.stop(); }
+  function close() { Mouth.pauseAll(); if (window.PhonicsAudio) PhonicsAudio.stop(); if (window.VowelChart) VowelChart.pause(); }
 
   document.addEventListener("click", (e) => {
     const chip = e.target.closest(".sw-level-chip");

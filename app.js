@@ -150,6 +150,10 @@ function showScreen(name) {
   // the wall's diphthongs loop forever, so stop them when it goes out of view
   document.body.classList.toggle("wall-wide", name === "wall");
   if (window.SoundWall) { if (name === "wall") SoundWall.open(); else SoundWall.close(); }
+  // idempotent — caption() no-ops on an element it's already captioned,
+  // so re-running this on every screen transition is cheap and catches
+  // whatever the screen just built
+  if (window.I18n) I18n.apply();
 }
 
 function chooseMode(mode) { practiceMode = mode; showScreen("view"); }
@@ -1572,6 +1576,8 @@ function initUI() {
   $("practiceSheetBtn").addEventListener("click", openPracticeSheet);
   $("reportReviewBtn").addEventListener("click", reviewMissed);
   $("reportRestartBtn").addEventListener("click", () => showScreen("mode"));
+
+  if (window.I18n) I18n.apply();   // catches the mode screen, active before any showScreen() call
 }
 
 // ---- Boot: load the data bank, build today's runtime structures from the

@@ -63,6 +63,13 @@
         }
         .subtitle { color: var(--muted); text-align: center; margin: 6px 0 20px; font-size: 13px; }
 
+        /* ---- trilingual captions (i18n.js, #tri=1 only) ---- */
+        .tl-cn, .tl-yue { display: block; font-size: 0.74em; font-weight: 600; opacity: 0.82;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+        .tl-cn:empty, .tl-yue:empty { display: none; }
+        .tl-cn::before { content: "普 "; opacity: 0.6; font-size: 0.85em; }
+        .tl-yue::before { content: "粵 "; opacity: 0.6; font-size: 0.85em; }
+
         /* ---- Program picker (data-bank sequence switcher) ---- */
         .seq-picker-row { display: flex; align-items: center; justify-content: center; gap: 6px; margin: -10px 0 18px; }
         .seq-picker-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
@@ -354,6 +361,29 @@
         .sw-code { font-size: 11px; font-weight: 700; background: var(--bg); border: 1px solid var(--line-soft);
             border-radius: 5px; padding: 1px 5px; color: var(--ink); }
         .sw-note { font-size: 11px; color: var(--muted); line-height: 1.4; margin-top: 5px; }
+
+        /* ---- vowel chart: drag-to-bend synth (vowelchart.js) ---- */
+        .vc-wrap { position: relative; background: var(--paper); border: 1px solid var(--line);
+            border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 14px; overflow-x: auto; }
+        .vc-inner { position: relative; width: 100%; max-width: 620px; margin: 0 auto; min-width: 320px;
+            aspect-ratio: 1.35 / 1; touch-action: none; user-select: none; -webkit-user-select: none; }
+        .vc-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .vc-cavity { fill: var(--bg); opacity: .5; }
+        .vc-trap { fill: none; stroke: var(--muted); opacity: .5; stroke-width: 2; vector-effect: non-scaling-stroke; }
+        .vc-dpath { stroke: var(--accent); stroke-width: 2; fill: none; stroke-linecap: round;
+            opacity: 0; transition: opacity .2s; vector-effect: non-scaling-stroke; }
+        .vc-dpath.show { opacity: .55; }
+        .vc-chip { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column;
+            align-items: center; gap: 0; min-width: 46px; padding: 4px 7px; border: 1px solid var(--line);
+            border-radius: 9px; background: var(--paper); cursor: pointer; font: inherit; color: inherit; }
+        .vc-chip:hover { border-color: var(--accent); transform: translate(-50%, -50%) scale(1.06); }
+        .vc-chip .vc-sym { font-size: .92rem; font-weight: 800; }
+        .vc-chip .vc-eg { font-size: .62rem; color: var(--muted); }
+        .vc-dot { position: absolute; width: 15px; height: 15px; border-radius: 50%; background: var(--accent);
+            box-shadow: 0 0 12px var(--accent); transform: translate(-50%, -50%); pointer-events: none;
+            z-index: 6; display: none; }
+        .vc-axis { position: absolute; font-size: .68rem; color: var(--muted); }
+        .vc-axis-tl { top: 2px; left: 4px; } .vc-axis-br { bottom: 2px; right: 4px; }
         .sw-voice { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px;
             margin-top: 5px; }
         .sw-voice.on { color: var(--correct); }
@@ -660,6 +690,8 @@
 
     <script src="anatomy.js"></script>
     <script src="mouth.js"></script>
+    <script src="i18n.js"></script>
+    <script src="vowelchart.js"></script>
     <script src="js/core/data.js"></script>
     <script src="js/core/audio.js"></script>
     <script src="js/core/bank-adapt.js"></script>

@@ -277,6 +277,7 @@ window.SoundWall = (() => {
         <div class="sw-grid">${inv[sec.key].map((d) => tile(d, codes[d.ipa])).join("")}</div>
       </div>`).join("");
     Mouth.activate(root);
+    if (window.VowelChart) VowelChart.ensure(root);
     built = true;
     renderLevelBar();
     applyFocus();
@@ -294,7 +295,7 @@ window.SoundWall = (() => {
       applyFocus();
     }
   }
-  function close() { Mouth.pauseAll(); if (window.PhonicsAudio) PhonicsAudio.stop(); }
+  function close() { Mouth.pauseAll(); if (window.PhonicsAudio) PhonicsAudio.stop(); if (window.VowelChart) VowelChart.pause(); }
 
   document.addEventListener("click", (e) => {
     const chip = e.target.closest(".sw-level-chip");
