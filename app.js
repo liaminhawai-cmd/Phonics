@@ -570,6 +570,81 @@ function micTargets() {
   return (window.PhonicsMic && current) ? PhonicsMic.phonemesForGpcs(current.gpcIds) : [];
 }
 
+// One box per sound, drawn from the card. Boxes stay blank until they are
+// filled: showing the answer defeats the point of asking.
+function buildSoundBoxes() {
+  const wrap = $("sayBoxes");
+  if (!wrap) return;
+  boxClaimed = [];
+  boxPending = null;
+  boxConfirm = null;
+  boxTargets = (window.PhonicsMic && current)
+    ? PhonicsMic.targetsFor(current.sounds, current.gpcIds) : [];
+  wrap.hidden = !usingBoxes();
+  if (!usingBoxes()) return;
+  $("sayBoxHint").innerHTML = "This code makes <b>" + boxTargets.length +
+    "</b> sounds. Say them in any order.";
+  const row = $("sayBoxRow");
+  row.innerHTML = "";
+  boxTargets.forEach((t) => {
+    const b = document.createElement("div");
+    b.className = "sb";
+    b.dataset.id = t.id;
+    b.innerHTML = '<span class="sb-mark">?</span><span class="sb-eg"></span>';
+    row.appendChild(b);
+  });
+}
+
+function boxFor(id) { return $("sayBoxRow").querySelector('[data-id="' + CSS.escape(id) + '"]'); }
+
+function fillBox(id) {
+  const t = boxTargets.find((x) => x.id === id);
+  const el = boxFor(id);
+  if (!t || !el) return;
+  if (boxClaimed.indexOf(id) === -1) boxClaimed.push(id);
+  el.className = "sb done";
+  el.querySelector(".sb-mark").textContent = t.label || "\u2713";
+  el.querySelector(".sb-eg").textContent = t.eg || "";
+  // Each box is its own GPC, so mastery lands where it belongs instead of
+  // all three sounds of <a> sharing one score.
+  if (window.PhonicsTracker && PhonicsTracker.record) {
+    try { PhonicsTracker.record(id + "|decode", { correct: true }); } catch (e) {}
+  }
+}
+
+// Two sounds the microphone cannot separate. Rather than pick one, mark
+// both and let the child say which they meant.
+//
+// The boxes are blank until they are filled — showing the answer defeats
+// the point of asking. But a choice between two blanks is not a choice, so
+// these two reveal their example word: "food" or "put" is something a
+// five-year-old can actually pick between.
+function offerChoice(ids) {
+  boxPending = ids.slice();
+  ids.forEach((id) => {
+    const t = boxTargets.find((x) => x.id === id);
+    const el = boxFor(id);
+    if (!el || !t || boxClaimed.indexOf(id) !== -1) return;
+    el.className = "sb maybe";
+    el.querySelector(".sb-mark").textContent = t.label || "?";
+    el.querySelector(".sb-eg").textContent = t.eg ? "as in " + t.eg : "tap if this";
+  });
+}
+
+function clearChoice() {
+  (boxPending || []).forEach((id) => {
+    const el = boxFor(id);
+    if (el && boxClaimed.indexOf(id) === -1) {
+      el.className = "sb";
+      el.querySelector(".sb-mark").textContent = "?";
+      el.querySelector(".sb-eg").textContent = "";
+    }
+  });
+  boxPending = null;
+}
+
+function boxesLeft() { return boxTargets.length - boxClaimed.length; }
+
 // The first sound on this card that is a vowel, with where it sits on the
 // diagram. A card like <a> carries three; the mouth shows the one being
 // practised first, and a child who says a different one still gets placed
@@ -588,11 +663,25 @@ function firstVowelTarget() {
 // mine" starts from the model's shape instead of snapping to neutral.
 let vowelCtl = null, vowelTarget = null, vowelPose = null, vowelCancel = null;
 
+/* ---- a grapheme that makes more than one sound ----------------------
+   <a> says three sounds, <ough> says six. One attempt graded against one
+   target either marks a right answer wrong or accepts anything, so each
+   sound gets a box — and the boxes fill in WHATEVER ORDER the child says
+   them. There is no correct order for the sounds a letter makes, and
+   grading position by position would punish something that isn't an
+   error. An attempt claims the box it best matches out of those still
+   empty; two sounds too alike to separate claim nothing and get asked
+   about, the same way /f/ and /th/ do.                                */
+let boxTargets = [], boxClaimed = [], boxPending = null, boxConfirm = null;
+
+function usingBoxes() { return boxTargets.length > 1; }
+
 function stopVowelAnim() { if (vowelCancel) { vowelCancel(); vowelCancel = null; } }
 
 function resetMicStrip() {
   const strip = $("sayMicResult");
   if (!strip) return;
+  buildSoundBoxes();
   strip.hidden = true;
   strip.className = "mic-result";
   $("sayMicAsk").hidden = true;
@@ -633,8 +722,9 @@ const MIC_TITLES = {
   ask: "I can't hear that one — you tell me",
 };
 
-function showMicResult(features) {
+function showMicResult(features, clip) {
   const strip = $("sayMicResult");
+  if (usingBoxes() && clip) { showBoxResult(clip); return; }
   if (!features) {
     strip.hidden = false;
     strip.className = "mic-result quiet";
@@ -750,9 +840,149 @@ function playVowel(which) {
   });
 }
 
+/* ---- grading against the boxes ------------------------------------- */
+
+function showBoxResult(clip) {
+  const strip = $("sayMicResult");
+  const cal = PhonicsMic.loadCal();
+  clearChoice();
+  const attempt = PhonicsMic.attemptFrom(clip, { calibration: cal });
+  strip.hidden = false;
+  strip.className = "mic-result";
+  $("sayMicAsk").hidden = true;
+  $("sayMicVowel").hidden = true;
+  $("sayMicConf").hidden = true;
+
+  if (!attempt) {
+    strip.className = "mic-result quiet";
+    $("sayMicVerdict").textContent = "I couldn't hear that";
+    $("sayMicWhy").textContent = "Hold the button down while you make the sound.";
+    return;
+  }
+
+  const m = PhonicsListen.matchSounds(boxTargets, attempt, { calibration: cal, claimed: boxClaimed });
+  const left = () => boxesLeft();
+
+  if (m.verdict === "claimed") {
+    fillBox(m.claimed);
+    showBoxMouth(m.scores[0] && m.scores[0].target, attempt);
+    strip.className = "mic-result heard";
+    $("sayMicVerdict").textContent = left() === 0 ? "All of them ✓" : "That's one of them ✓";
+    $("sayMicWhy").textContent = left() === 0
+      ? "You said every sound this code makes."
+      : left() + (left() === 1 ? " sound to go." : " sounds to go.");
+    return;
+  }
+
+  // Best match, but on cues that don't settle the sound — /θ/ beats /ð/ on
+  // voicing while still being indistinguishable from /f/. The box waits for
+  // the child's eyes before it fills.
+  if (m.verdict === "confirm") {
+    boxConfirm = m.confirm.id;
+    strip.className = "mic-result ask";
+    $("sayMicVerdict").textContent = "I can't hear that one — you tell me";
+    $("sayMicWhy").textContent =
+      "This sound and its partner look completely different but sound almost the same to a microphone.";
+    $("sayMicQ").textContent = (m.confirm.grade && m.confirm.grade.ask) || "Does your mouth look like the picture?";
+    drawMicPicture($("sayMicPic"), m.confirm.target.phoneme);
+    $("sayMicAsk").hidden = false;
+    boxFor(m.confirm.id).classList.add("near");
+    return;
+  }
+
+  if (m.verdict === "ambiguous") {
+    offerChoice(m.ambiguous);
+    strip.className = "mic-result ask";
+    $("sayMicVerdict").textContent = "Which one did you mean?";
+    $("sayMicWhy").textContent =
+      "Those two sounds are almost the same to a microphone — I'd be guessing. " +
+      "Tap the one you said.";
+    return;
+  }
+
+  if (m.verdict === "quiet") {
+    strip.className = "mic-result quiet";
+    $("sayMicVerdict").textContent = "Too quiet";
+    $("sayMicWhy").textContent = "Try again a bit louder.";
+    return;
+  }
+
+  strip.className = "mic-result close";
+  $("sayMicVerdict").textContent = "Nearly";
+  // Say what to change, not just that it was wrong. The nearest target
+  // still has grade()'s coaching attached — "pull your tongue forward" is
+  // worth more than "that isn't one of them".
+  const coach = m.nearest && m.nearest.grade && m.nearest.grade.why.length
+    ? m.nearest.grade.why.join(" ") : null;
+  $("sayMicWhy").textContent = coach || (left() === boxTargets.length
+    ? "That's not one of this code's sounds. Have another go — listen to it first if you want."
+    : "That's not one of the " + left() + " still to find.");
+  if (m.nearest) showBoxMouth(m.nearest.target, attempt);
+}
+
+// A vowel box still gets the mouth: their tongue against the shape of the
+// sound they were nearest to. The boxes say WHICH sounds; the mouth says
+// what their mouth actually did.
+function showBoxMouth(target, attempt) {
+  if (!target || (target.kind !== "v" && target.kind !== "d") || !attempt.pose) return;
+  vowelTarget = target.kind === "d"
+    ? { at: target.to, from: target.from, glide: true }
+    : { at: target.at };
+  vowelPose = attempt.pose;
+  $("sayMicVowel").hidden = false;
+  if (!vowelCtl) vowelCtl = PhonicsMic.mountVowelMouth($("sayMicMouth"));
+  const fb = PhonicsListen.vowelFeedback(vowelPose, vowelTarget.at);
+  $("sayMicVowelCap").textContent = "Your mouth vs " + (target.label || "the shape");
+  $("sayMicVowelTip").textContent = fb ? fb.tip : "";
+  $("sayMicShowMine").disabled = false;
+  $("sayMicShowTarget").disabled = false;
+  playVowel("both");
+}
+
+// The child settles what the microphone couldn't.
+function chooseBox(id) {
+  if (!boxPending || boxPending.indexOf(id) === -1) return;
+  const others = boxPending.filter((x) => x !== id);
+  boxPending = null;
+  fillBox(id);
+  others.forEach((o) => {
+    const el = boxFor(o);
+    if (el && boxClaimed.indexOf(o) === -1) {
+      el.className = "sb";
+      el.querySelector(".sb-mark").textContent = "?";
+      el.querySelector(".sb-eg").textContent = "";
+    }
+  });
+  const strip = $("sayMicResult");
+  strip.className = "mic-result heard";
+  $("sayMicVerdict").textContent = boxesLeft() === 0 ? "All of them ✓" : "Got it ✓";
+  $("sayMicWhy").textContent = boxesLeft() === 0
+    ? "You said every sound this code makes."
+    : boxesLeft() + (boxesLeft() === 1 ? " sound to go." : " sounds to go.");
+}
+
 function answerMicAsk(saidYes) {
   const strip = $("sayMicResult");
   $("sayMicAsk").hidden = true;
+  if (boxConfirm) {
+    const id = boxConfirm;
+    boxConfirm = null;
+    const el = boxFor(id);
+    if (el) el.classList.remove("near");
+    if (saidYes) {
+      fillBox(id);
+      strip.className = "mic-result heard";
+      $("sayMicVerdict").textContent = boxesLeft() === 0 ? "All of them ✓" : "Got it ✓";
+      $("sayMicWhy").textContent = boxesLeft() === 0
+        ? "You said every sound this code makes."
+        : boxesLeft() + (boxesLeft() === 1 ? " sound to go." : " sounds to go.");
+    } else {
+      strip.className = "mic-result close";
+      $("sayMicVerdict").textContent = "Have another go";
+      $("sayMicWhy").textContent = "Look at the picture, copy the mouth, then try it again.";
+    }
+    return;
+  }
   strip.className = "mic-result " + (saidYes ? "heard" : "close");
   $("sayMicVerdict").textContent = saidYes ? "Good — that's the one ✓" : "Have another go";
   $("sayMicWhy").textContent = saidYes
@@ -1203,6 +1433,10 @@ function initUI() {
     });
     $("sayMicYes").addEventListener("click", () => answerMicAsk(true));
     $("sayMicNo").addEventListener("click", () => answerMicAsk(false));
+    $("sayBoxRow").addEventListener("click", (e) => {
+      const b = e.target.closest(".sb.maybe");
+      if (b) chooseBox(b.dataset.id);
+    });
     $("sayMicShowTarget").addEventListener("click", () => playVowel("target"));
     $("sayMicShowMine").addEventListener("click", () => playVowel("mine"));
   }

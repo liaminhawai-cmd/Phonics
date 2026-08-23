@@ -26,6 +26,22 @@ function hear(who, what, phonemeId, opts) {
   return { features, result: L.grade(phonemeId, features, opts || {}) };
 }
 
+// One attempt at a sound: the track, the path it took, a steady pose and
+// the frame features — everything matchSounds() needs.
+let _cal = null;
+function childCal() {
+  if (!_cal) _cal = { band: "child", vowelBox: vowelCal("child") };
+  return _cal;
+}
+function attemptOf(what, who) {
+  const { buf, sampleRate } = S.say(who || "child", what, 42);
+  const cal = childCal();
+  const track = L.trackVowel(buf, sampleRate, { calibration: cal, fps: 30 });
+  const loud = L.loudestFrame(buf, sampleRate, 2048);
+  const features = L.analyse(buf, sampleRate, { from: loud.from, frame: 2048 });
+  return { track, path: L.pathOf(track), pose: L.vowelPose(features, { calibration: cal }), features };
+}
+
 // Several vowels said one after another, as one recording.
 function glide(names, who) {
   const parts = names.map((v) => S.say(who || "child", v, 42).buf);
@@ -706,6 +722,184 @@ module.exports = {
       assert.equal(a.x, b.x, "x at frame " + i);
       assert.equal(a.y, b.y, "y at frame " + i);
     }
+  },
+
+  // ---- 11. one grapheme, several sounds ---------------------------
+
+  "the boxes fill in whatever order the child says them"() {
+    // <a> says three sounds and there is no correct order for them.
+    // Grading position by position would mark a child wrong for something
+    // that is not an error, so this is a set match, not a sequence match.
+    const T = [{ id: "a.ee", kind: "v", at: [6, 6] },
+               { id: "a.ah", kind: "v", at: [80, 90] },
+               { id: "a.oo", kind: "v", at: [72, 8] }];
+    for (const order of [["ee", "ah", "oo"], ["oo", "ee", "ah"], ["ah", "oo", "ee"]]) {
+      const claimed = [];
+      for (const v of order) {
+        const m = L.matchSounds(T, attemptOf(v), { calibration: childCal(), claimed });
+        assert.equal(m.verdict, "claimed", `saying ${v} should fill a box, got ${m.verdict}`);
+        assert.equal(m.claimed, "a." + v, `${v} filled ${m.claimed}`);
+        claimed.push(m.claimed);
+      }
+      assert.equal(claimed.length, 3, "order " + order.join(",") + " left a box empty");
+    }
+  },
+
+  "a box that is already full is not filled twice"() {
+    const T = [{ id: "a.ee", kind: "v", at: [6, 6] }, { id: "a.ah", kind: "v", at: [80, 90] }];
+    const first = L.matchSounds(T, attemptOf("ee"), { calibration: childCal() });
+    assert.equal(first.claimed, "a.ee");
+    // saying it again finds nothing among the boxes still open
+    const again = L.matchSounds(T, attemptOf("ee"), { calibration: childCal(), claimed: ["a.ee"] });
+    assert.notEqual(again.verdict, "claimed");
+    // and the other sound still works afterwards
+    const other = L.matchSounds(T, attemptOf("ah"), { calibration: childCal(), claimed: ["a.ee"] });
+    assert.equal(other.claimed, "a.ah");
+  },
+
+  "two sounds too alike to separate are asked about, not guessed"() {
+    // <oo> says /ʉː/ and /ʊ/, which sit 15 apart on a chart whose honest
+    // tolerance is 18. Naming one would hand a child mastery of a sound
+    // they may never have said.
+    const OO = [{ id: "oo.long", kind: "v", at: [72, 8] },
+                { id: "oo.short", kind: "v", at: [78, 22] }];
+    const m = L.matchSounds(OO, attemptOf("oo"), { calibration: childCal() });
+    assert.equal(m.verdict, "ambiguous", "expected a refusal, got " + m.verdict + " " + m.claimed);
+    assert.equal(m.ambiguous.length, 2);
+    assert.equal(m.claimed, null);
+  },
+
+  "a diphthong is matched on its path, not where it lands"() {
+    // <ey> says /eɪ/ and /aɪ/. They finish in the same place and set off
+    // 65 apart — endpoint matching calls them identical.
+    const EY = [{ id: "ey.ay", kind: "d", from: [16, 42], to: [20, 18] },
+                { id: "ey.igh", kind: "d", from: [60, 90], to: [20, 18] }];
+    const ay = attemptOf("ay"), igh = attemptOf("igh");
+    // premise: the endpoints really are the same
+    assert.ok(Math.hypot(ay.path.to[0] - igh.path.to[0], ay.path.to[1] - igh.path.to[1]) < 12,
+      "premise: both should finish in the same place");
+    assert.ok(Math.hypot(ay.path.from[0] - igh.path.from[0], ay.path.from[1] - igh.path.from[1]) > 40,
+      "premise: they should set off far apart");
+    // and it is never confidently wrong about which is which
+    for (const [said, a] of [["ay", ay], ["igh", igh]]) {
+      const m = L.matchSounds(EY, a, { calibration: childCal() });
+      if (m.claimed) assert.equal(m.claimed, "ey." + said,
+        `saying ${said} claimed ${m.claimed}`);
+      else assert.ok(m.ambiguous.indexOf("ey." + said) !== -1,
+        `saying ${said} did not even list it as possible`);
+    }
+    assert.equal(L.matchSounds(EY, igh, { calibration: childCal() }).claimed, "ey.igh",
+      "/aɪ/ starts far enough from /eɪ/ to be called outright");
+  },
+
+  "a flattened diphthong is not accepted as the diphthong"() {
+    // Children flatten /aɪ/ into /ɑː/ — they set off from the right place
+    // and never make the journey. The start is what separates one
+    // diphthong from another, but the finish is what says they did it,
+    // so both count.
+    const T = [{ id: "x.igh", kind: "d", from: [60, 90], to: [20, 18] }];
+    const flat = attemptOf("ah");            // starts where /aɪ/ starts, goes nowhere
+    assert.ok(Math.hypot(flat.path.from[0] - 60, flat.path.from[1] - 90) < 20,
+      "premise: /ɑː/ sits on /aɪ/'s starting point");
+    assert.notEqual(L.matchSounds(T, flat, { calibration: childCal() }).verdict, "claimed",
+      "a vowel that never travelled is not the diphthong");
+    assert.equal(L.matchSounds(T, attemptOf("igh"), { calibration: childCal() }).claimed, "x.igh",
+      "...but the real one still is");
+  },
+
+  "two diphthongs that set off together are told apart by where they end"() {
+    // The mirror of the <ey> case. /aɪ/ (my) and /aʊ/ (now) both start at
+    // the open back corner and finish at opposite ends of the mouth — so
+    // the finish is what separates them, exactly where the start separated
+    // /eɪ/ from /aɪ/. Matching on either alone gets one of the two pairs
+    // wrong; <ow> and <ou> in the bank need both.
+    const OW = [{ id: "x.igh", kind: "d", from: [60, 90], to: [20, 18] },
+                { id: "x.ow", kind: "d", from: [45, 88], to: [78, 22] }];
+    const igh = attemptOf("igh"), ow = attemptOf("ow");
+    assert.ok(Math.hypot(igh.path.from[0] - ow.path.from[0], igh.path.from[1] - ow.path.from[1]) < 20,
+      "premise: both should set off from the same corner");
+    assert.ok(Math.hypot(igh.path.to[0] - ow.path.to[0], igh.path.to[1] - ow.path.to[1]) > 35,
+      "premise: they should finish far apart");
+    for (const [said, a] of [["igh", igh], ["ow", ow]]) {
+      const m = L.matchSounds(OW, a, { calibration: childCal() });
+      if (m.claimed) assert.equal(m.claimed, "x." + said, `saying ${said} claimed ${m.claimed}`);
+      else assert.ok(m.ambiguous.indexOf("x." + said) !== -1, `${said} was not even listed`);
+    }
+  },
+
+  "a best match that still needs the picture question does not fill a box"() {
+    // <th> says /θ/ and /ð/. A voiceless attempt beats /ð/ on voicing, but
+    // grade() still says "ask" because voiceless-weak-fricative is equally
+    // /f/. Claiming here would hand a child mastery of /θ/ on evidence the
+    // module has already called insufficient — the two refusals compose.
+    const TH = [{ id: "th.th", kind: "c", phoneme: "th" },
+                { id: "th.dh", kind: "c", phoneme: "dh" }];
+    const m = L.matchSounds(TH, { features: feat("child", "th") }, { band: "child" });
+    assert.equal(m.verdict, "confirm", "expected a picture question, got " + m.verdict);
+    assert.equal(m.claimed, null, "nothing may be claimed until the child confirms");
+    assert.equal(m.confirm.id, "th.th");
+    assert.ok(/tongue/i.test(m.confirm.grade.ask), m.confirm.grade.ask);
+    // a sound the cues DO settle still claims outright
+    const SZ = [{ id: "s.s", kind: "c", phoneme: "s" }, { id: "s.z", kind: "c", phoneme: "z" }];
+    assert.equal(L.matchSounds(SZ, { features: feat("child", "z") }, { band: "child" }).verdict, "claimed");
+  },
+
+  "a held vowel cannot fill a diphthong box"() {
+    // The mirror of the gate below, and the one that actually bit: /iː/
+    // sits near both ends of /eɪ/, so on distance alone a child holding
+    // "ee" filled the "ā" box on <a> and was told they were right.
+    const T = [{ id: "x.ay", kind: "d", from: [16, 42], to: [20, 18] }];
+    const held = attemptOf("ee");
+    assert.ok(held.path.moved < 12, "premise: a held vowel barely moves");
+    assert.notEqual(L.matchSounds(T, held, { calibration: childCal() }).verdict, "claimed",
+      "a tongue that stayed put did not make the journey");
+    assert.equal(L.matchSounds(T, attemptOf("ay"), { calibration: childCal() }).claimed, "x.ay",
+      "...but the real glide still fills it");
+  },
+
+  "a vowel that travelled cannot fill a held-vowel box"() {
+    // /aɪ/ sets off from exactly where /ɑː/ lives. Without a movement gate
+    // a child saying "igh" fills the "ah" box and is told they were right.
+    const held = [{ id: "x.ah", kind: "v", at: [73, 90] }];
+    const m = L.matchSounds(held, attemptOf("igh"), { calibration: childCal() });
+    assert.notEqual(m.verdict, "claimed", "a diphthong must not fill a monophthong box");
+    // ...and a real held vowel still fills it
+    assert.equal(L.matchSounds(held, attemptOf("ah"), { calibration: childCal() }).claimed, "x.ah");
+  },
+
+  "pathOf tells a glide from a hold"() {
+    assert.ok(attemptOf("ah").path.moved < 12, "a held vowel should barely move");
+    assert.ok(attemptOf("ee").path.moved < 12);
+    assert.ok(attemptOf("igh").path.moved > 40, "a diphthong should travel");
+    assert.ok(attemptOf("ay").path.moved > 25);
+  },
+
+  "the margin widens when the reading is less certain"() {
+    // Same two targets, same attempt: sure enough and it calls it, unsure
+    // and it asks. The alternative is a coin flip presented as a fact.
+    const T = [{ id: "a", kind: "v", at: [40, 40] }, { id: "b", kind: "v", at: [40, 62] }];
+    const near = { pose: { x: 40, y: 42, confidence: 1 }, path: { moved: 0 }, features: { rms: 0.1 } };
+    const unsure = { pose: { x: 40, y: 42, confidence: 0.2 }, path: { moved: 0 }, features: { rms: 0.1 } };
+    assert.equal(L.matchSounds(T, near).verdict, "claimed");
+    assert.equal(L.matchSounds(T, unsure).verdict, "ambiguous");
+  },
+
+  "a sound that belongs to none of the boxes is reported as such"() {
+    const T = [{ id: "a.ee", kind: "v", at: [6, 6] }];
+    const m = L.matchSounds(T, attemptOf("ah"), { calibration: childCal() });
+    assert.equal(m.verdict, "off");
+    assert.ok(m.nearest, "should still say what it was nearest to");
+  },
+
+  "consonant boxes are matched by their cues"() {
+    // <c> says /k/ and /s/; <s> says /s/ and /z/. Same machinery, scored
+    // through grade() rather than the vowel chart.
+    const C = [{ id: "c.k", kind: "c", phoneme: "k" }, { id: "c.s", kind: "c", phoneme: "s" }];
+    const m = L.matchSounds(C, attemptOf("s"), { band: "child" });
+    assert.equal(m.claimed, "c.s", "a hiss should fill the /s/ box, got " + JSON.stringify(m.scores));
+    const S2 = [{ id: "s.s", kind: "c", phoneme: "s" }, { id: "s.z", kind: "c", phoneme: "z" }];
+    assert.equal(L.matchSounds(S2, attemptOf("z"), { band: "child" }).claimed, "s.z",
+      "voicing should separate /s/ from /z/");
   },
 
   "the chart anchors agree with the diagram that draws them"() {

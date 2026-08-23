@@ -774,6 +774,165 @@
     return best;
   }
 
+  /* ============================================================
+     ONE GRAPHEME, SEVERAL SOUNDS
+     ============================================================
+     <a> says three sounds. <ough> says six. A card that asks for
+     "its sound" and grades one attempt against one target either
+     marks a right answer wrong or quietly accepts anything.
+
+     So each sound gets its own box — and the boxes fill in
+     WHATEVER ORDER the child says them. This is a set-matching
+     problem, not a sequence one: there is no correct order for
+     the sounds <a> makes, and grading position-by-position would
+     punish a child for something that isn't an error. An attempt
+     claims the box it best matches, out of the ones still empty.
+
+     Two sounds of the same grapheme can be too alike to separate
+     — /ʉː/ and /ʊ/ in <oo> sit 15 apart on a chart where the
+     honest tolerance is 18. When that happens the app claims
+     NOTHING and asks which one they meant, the same way it asks
+     about /f/ and /th/. Guessing would hand a child mastery of a
+     sound they may never have said.
+
+     Diphthongs are matched on their whole path, not where they
+     land. /eɪ/ and /aɪ/ in <ey> finish in the same place and
+     start 60 apart; endpoint matching calls them identical.
+     ============================================================ */
+
+  // The journey a track took: where it set off, where it ended up, and
+  // how far it moved. A diphthong moves; a monophthong sits still.
+  function pathOf(track) {
+    const placed = (track && track.samples || []).filter((p) => p.x != null);
+    if (placed.length < 3) return null;
+    const n = placed.length;
+    const grab = (from, to) => {
+      let sx = 0, sy = 0, k = 0;
+      for (let i = from; i < to; i++) { sx += placed[i].x; sy += placed[i].y; k++; }
+      return k ? [Math.round(sx / k), Math.round(sy / k)] : null;
+    };
+    const chunk = Math.max(1, Math.round(n * 0.25));
+    const from = grab(0, chunk);
+    const to = grab(n - chunk, n);
+    return { from, to, moved: Math.round(Math.hypot(to[0] - from[0], to[1] - from[1])),
+             frames: n, seconds: +(n / (track.fps || 30)).toFixed(2) };
+  }
+
+  const dist2 = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+
+  // How wrong an attempt was for one target, in chart units. Lower is
+  // better; null when this target can't be scored from what we heard.
+  function scoreTarget(target, attempt, opts, out) {
+    if (!target) return null;
+    opts = opts || {};
+
+    if (target.kind === "d") {                      // diphthong: the whole path
+      const path = attempt.path;
+      if (!path || !target.from || !target.to) return null;
+      // Weight the start a little higher: it is what separates two
+      // diphthongs that finish in the same place, and it is also the part
+      // a child drops when they flatten /aɪ/ into /ɑː/.
+      let d = 0.6 * dist2(path.from, target.from) + 0.4 * dist2(path.to, target.to);
+      // A diphthong is a journey. A tongue that stayed put did not make it,
+      // however near the route it happens to be parked — a held /iː/ sits
+      // close enough to both ends of /eɪ/ to score well without ever
+      // gliding. Require at least half the target's own travel.
+      const need = dist2(target.from, target.to) * 0.5;
+      if (path.moved < need) d += (need - path.moved) * 2;
+      return d;
+    }
+
+    if (target.kind === "v") {                      // monophthong: hold still
+      if (!attempt.pose) return null;
+      let d = dist2([attempt.pose.x, attempt.pose.y], target.at);
+      // A vowel that travelled is not a held vowel, however well the middle
+      // of it happens to land. /aɪ/ sets off from exactly where /ɑː/ lives,
+      // so without this a child saying "igh" fills the "ah" box. Measured:
+      // held vowels move 0-2 units on synthesis and maybe 10-20 from a real
+      // child; a diphthong moves 35-85. The ramp starts above the first
+      // range and is steep enough to put the second out of reach.
+      const moved = attempt.path ? attempt.path.moved : 0;
+      if (moved > 25) d += (moved - 25) * 2;
+      return d;
+    }
+
+    if (target.kind === "c") {                      // consonant: the cue table
+      if (!attempt.features || !target.phoneme) return null;
+      const r = grade(target.phoneme, attempt.features, opts);
+      if (out) out.grade = r;
+      if (r.verdict === "quiet") return null;
+      if (r.verdict === "heard") return 0;
+      // "ask" means every cue we could check passed but the deciding one is
+      // visual — real evidence, but weaker than a match. It has to sit well
+      // clear of "heard", because a lone stop burst returns "ask" for any
+      // voiceless sound and would otherwise tie with a hiss that actually
+      // matched: <c> would refuse to tell /s/ from /k/.
+      if (r.verdict === "ask") return 26;
+      return 55 + r.why.length * 8;                 // a cue actively failed
+    }
+    return null;
+  }
+
+  // Which box does this attempt fill? Only boxes still empty are in play,
+  // and a tie between two of them is reported rather than broken.
+  //
+  //   claimed      the target this attempt fills, or null
+  //   ambiguous    targets too close to each other to choose between
+  //   scores       every target's score, for a read-out
+  function matchSounds(targets, attempt, opts) {
+    opts = opts || {};
+    const done = opts.claimed || [];
+    // How far apart two targets must score before we call it. This tracks
+    // the same certainty ladder as toleranceFor(): with a child's own
+    // calibration you can just about separate /ʉː/ from /ʊ/, which sit 15
+    // apart; without one you cannot, and the honest answer is to ask.
+    const conf = attempt.pose ? attempt.pose.confidence : null;
+    const margin = opts.margin == null ? toleranceFor(conf) * 0.8 : opts.margin;
+    const accept = opts.accept == null ? Math.max(34, toleranceFor(conf) + 8) : opts.accept;
+
+    const scored = (targets || [])
+      .filter((t) => done.indexOf(t.id) === -1)
+      .map((t) => {
+        const row = { id: t.id, target: t, grade: null };
+        row.score = scoreTarget(t, attempt, opts, row);
+        return row;
+      })
+      .filter((r) => r.score != null)
+      .sort((a, b) => a.score - b.score);
+
+    const out = { claimed: null, ambiguous: [], scores: scored, verdict: "none" };
+    if (!scored.length) {
+      out.verdict = attempt.features && attempt.features.rms < 0.006 ? "quiet" : "none";
+      return out;
+    }
+
+    const best = scored[0], second = scored[1];
+    if (best.score > accept) { out.verdict = "off"; out.nearest = best; return out; }
+
+    if (second && second.score - best.score < margin) {
+      // Genuinely too alike. Naming one would hand them mastery of a sound
+      // they may not have said.
+      out.verdict = "ambiguous";
+      out.ambiguous = scored.filter((r) => r.score - best.score < margin).map((r) => r.id);
+      return out;
+    }
+
+    // The winner may only have won on cues that do not settle the sound.
+    // /θ/ and /ð/ differ by voicing, so a voiceless attempt beats /ð/ — but
+    // grade() still says "ask", because voiceless-weak-fricative is equally
+    // /f/. Claiming here would hand a child mastery of /θ/ on evidence the
+    // module has already declared insufficient. The two refusals compose:
+    // best match, still needs the picture question.
+    if (best.grade && best.grade.verdict === "ask") {
+      out.verdict = "confirm";
+      out.confirm = best;
+      return out;
+    }
+    out.claimed = best.id;
+    out.verdict = "claimed";
+    return out;
+  }
+
   // What the machine heard, in words, for the grown-up watching. This is
   // the panel that answers "is it good enough?" — it shows the reading
   // BEHIND a verdict so a teacher can see when the app is guessing.
@@ -911,7 +1070,7 @@
 
   const api = { analyse, grade, describe, calibrate, record, loudestFrame,
                 vowelPose, vowelFeedback, calibrateVowels, toleranceFor,
-                makeTracker, trackVowel, steadiest,
+                makeTracker, trackVowel, steadiest, pathOf, scoreTarget, matchSounds,
                 VOWEL_BOX, ANCHOR,
                 rms, zeroCrossRate, spectrum, dftSpectrum, fft, spectralCentroid, spectralFlatness,
                 highFraction, pitch, formants, CHECKS, SIB };

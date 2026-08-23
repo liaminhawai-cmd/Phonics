@@ -286,6 +286,49 @@ Both the window table and the diagram CSS are inlined into
 compare both against `anatomy.js` and fail on drift — a tuning pass that only
 lands in `anatomy.js` would otherwise leave that build with the old crops.
 
+### 4b-iv. One grapheme, several sounds
+
+`<a>` says three sounds; `<ough>` says six. 31 of the 124 graphemes in the
+bank say more than one. Grading one attempt against one target either marks
+a right answer wrong or accepts anything, so each sound gets its own box —
+and the boxes fill **in whatever order the child says them**.
+
+This is set matching, not sequence matching. There is no correct order for
+the sounds a letter makes, and grading position by position would punish a
+child for something that isn't an error. `matchSounds()` scores an attempt
+against every box still empty and claims the best one. Each box is its own
+GPC, so mastery lands where it belongs instead of three sounds sharing a
+score.
+
+**Three ways it refuses to guess:**
+
+- *Too alike.* `/ʉː/` and `/ʊ/` in `<oo>` sit 15 apart on a chart whose
+  honest tolerance is 18. When two boxes score within the margin, nothing is
+  claimed — both light up and the child taps the one they meant. Those two
+  boxes reveal their example word ("food" / "put"), because a choice between
+  two blanks is not a choice.
+- *Best match, weak evidence.* `<th>` says `/θ/` and `/ð/`. A voiceless
+  attempt beats `/ð/` on voicing, but `grade()` still says "ask" —
+  voiceless-weak-fricative is equally `/f/`. The box waits for the picture
+  question. The two refusals compose rather than one overriding the other.
+- *Not one of them.* The nearest target's coaching still shows: "pull your
+  tongue forward" beats "that isn't one of them".
+
+**Diphthongs are matched on the whole path.** `/eɪ/` and `/aɪ/` in `<ey>`
+finish in the same place and set off 65 apart; `/aɪ/` and `/aʊ/` in `<ow>`
+set off together and finish 58 apart. Either endpoint alone gets one of
+those pairs wrong, so both count — start weighted 0.6, finish 0.4.
+
+Two gates stop a vowel filling the wrong kind of box, and both were caught
+by tests rather than by reading:
+
+- A vowel that **travelled** can't fill a held-vowel box. `/aɪ/` sets off
+  from exactly where `/ɑː/` lives, so without this a child saying "igh"
+  fills the "ah" box and is told they were right.
+- A vowel that **stayed put** can't fill a diphthong box. A held `/iː/` sits
+  near both ends of `/eɪ/` and scored well enough to claim it. A diphthong
+  target now requires at least half its own travel.
+
 ### 4c. Hand cues, and whose they are
 
 The app can show a hand cue beside a sound. It ships with **no cue

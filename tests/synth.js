@@ -139,6 +139,45 @@ function vowel(opts) {
   return { buf: envelope(normalise(buf, o.peak || 0.3), sr), sampleRate: sr };
 }
 
+// A diphthong: one vowel sliding into another. The formants move, which
+// is the whole point — /eɪ/ and /aɪ/ finish in the same place and are
+// told apart only by where they set off.
+function diphthong(opts) {
+  const o = opts || {};
+  const sr = o.sampleRate || 44100;
+  const secs = o.secs || 0.6;
+  const a = o.from || [700, 1600, 2900];
+  const b = o.to || [400, 2200, 2900];
+  const hold = o.hold == null ? 0.25 : o.hold;      // fraction spent at each end
+  const src = glottis(secs, sr, o.f0 || 240, o.seed);
+  const n = src.length;
+  const out = new Float32Array(n);
+  // Resonators have state, so a moving filter has to be run sample by
+  // sample rather than as three passes over the buffer.
+  const nf = Math.min(a.length, b.length);
+  const st = [];
+  for (let k = 0; k < nf; k++) st.push({ y1: 0, y2: 0 });
+  const bw = o.bw || 90;
+  for (let i = 0; i < n; i++) {
+    let t = i / (n - 1);
+    // ease: sit at the start, glide, sit at the end
+    t = t < hold ? 0 : t > 1 - hold ? 1 : (t - hold) / (1 - 2 * hold);
+    t = t * t * (3 - 2 * t);
+    let x = src[i];
+    for (let k = 0; k < nf; k++) {
+      const hz = a[k] + (b[k] - a[k]) * t;
+      const r = Math.exp((-Math.PI * bw) / sr);
+      const theta = (2 * Math.PI * hz) / sr;
+      const bb = 2 * r * Math.cos(theta), cc = -r * r, aa = 1 - bb - cc;
+      const y = aa * x + bb * st[k].y1 + cc * st[k].y2;
+      st[k].y2 = st[k].y1; st[k].y1 = y;
+      x = y;
+    }
+    out[i] = x;
+  }
+  return { buf: envelope(normalise(lipRadiation(out), o.peak || 0.3), sr), sampleRate: sr };
+}
+
 // A fricative: hiss shaped to sit where that fricative's energy sits.
 //   /s/  narrow, very high     /sh/ lower, broad
 //   /f/ /th/  weak and diffuse — deliberately near-identical here,
@@ -197,6 +236,9 @@ const CHILD = {
   vowelOO: [430, 1050, 2900],
   sPeaks: [{ hz: 8200, bw: 2600 }],
   shPeaks: [{ hz: 3600, bw: 1600 }],
+  vowelE: [780, 2500, 3300],
+  vowelI: [520, 3000, 3700],
+  vowelAE: [1150, 2350, 3200],
 };
 const ADULT = {
   f0: 120,
@@ -205,6 +247,9 @@ const ADULT = {
   vowelOO: [300, 870, 2240],
   sPeaks: [{ hz: 6500, bw: 2400 }],
   shPeaks: [{ hz: 2600, bw: 1400 }],
+  vowelE: [530, 1840, 2480],
+  vowelI: [390, 2100, 2700],
+  vowelAE: [770, 1600, 2450],
 };
 
 function say(who, what, seed) {
@@ -223,7 +268,18 @@ function say(who, what, seed) {
     case "ee":  return vowel({ sampleRate: sr, formants: v.vowelEE, f0: v.f0, seed });
     case "ah":  return vowel({ sampleRate: sr, formants: v.vowelAH, f0: v.f0, seed });
     case "oo":  return vowel({ sampleRate: sr, formants: v.vowelOO, f0: v.f0, seed });
+    case "ae":  return vowel({ sampleRate: sr, formants: v.vowelAE, f0: v.f0, seed });
     case "m":   return vowel({ sampleRate: sr, formants: [280, 1100, 2100], bw: 250, f0: v.f0, peak: 0.2, seed });
+    // /eɪ/ (day) and /aɪ/ (my): both finish on /ɪ/, set off from opposite
+    // ends of the mouth. The pair that endpoint matching cannot tell apart.
+    case "ay":  return diphthong({ sampleRate: sr, f0: v.f0, seed,
+                  from: v.vowelE || [560, 2100, 2900], to: v.vowelI || [430, 2600, 3100] });
+    case "igh": return diphthong({ sampleRate: sr, f0: v.f0, seed,
+                  from: v.vowelAH, to: v.vowelI || [430, 2600, 3100] });
+    // /aʊ/ (now) sets off from the same place as /aɪ/ and finishes at the
+    // opposite end. The pair that start matching cannot tell apart.
+    case "ow":  return diphthong({ sampleRate: sr, f0: v.f0, seed,
+                  from: v.vowelAH, to: v.vowelOO });
     case "p":   return stop({ sampleRate: sr, peaks: [{ hz: 900, bw: 4000 }], seed });
     case "t":   return stop({ sampleRate: sr, peaks: [{ hz: 4000, bw: 3000 }], seed });
     case "quiet": return roomTone({ sampleRate: sr, seed });
@@ -233,5 +289,5 @@ function say(who, what, seed) {
 
 module.exports = { noiseGen, resonate, highpass, tilt, lipRadiation,
                    normalise, envelope, silence,
-                   glottis, hiss, vowel, fricative, stop, roomTone,
+                   glottis, hiss, vowel, diphthong, fricative, stop, roomTone,
                    say, CHILD, ADULT };

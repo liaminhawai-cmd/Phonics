@@ -357,8 +357,48 @@ window.PhonicsMic = (function () {
     return cleanup;
   }
 
+  // ---- a card that asks for more than one sound ------------------------
+
+  // Turn a grapheme card's sounds into match targets. Vowels and
+  // diphthongs come from mouth.js's own position table so the target and
+  // the drawing can never disagree; consonants fall through to the cue
+  // table in listen.js.
+  function targetsFor(sounds, gpcIds) {
+    var out = [];
+    (sounds || []).forEach(function (s, i) {
+      var id = (gpcIds && gpcIds[i]) || ("sound" + i);
+      var d = window.Mouth && Mouth.descFor(s.s, s.ex);
+      if (d && d.kind === "v") out.push({ id: id, kind: "v", at: d.at, label: s.s, eg: s.ex, ipa: d.ipa });
+      else if (d && d.kind === "d") out.push({ id: id, kind: "d", from: d.from, to: d.to, label: s.s, eg: s.ex, ipa: d.ipa });
+      else {
+        var g = window.PhonicsBank && PhonicsBank.gpc(id);
+        var ph = g && (Array.isArray(g.phonemes) ? g.phonemes[0] : g.phonemes);
+        if (ph) out.push({ id: id, kind: "c", phoneme: ph, label: s.s, eg: s.ex });
+      }
+    });
+    return out;
+  }
+
+  // Everything matchSounds() needs, from one recording.
+  function attemptFrom(clip, opts) {
+    if (!clip || !L) return null;
+    opts = opts || {};
+    var cal = opts.calibration || loadCal();
+    var features = measure(clip);
+    if (!features) return null;
+    var track = L.trackVowel(clip.buf, clip.sampleRate, { calibration: cal, fps: opts.fps || 30 });
+    var steady = L.steadiest(track, { ms: 120 });
+    var pose = L.vowelPose(features, { calibration: cal });
+    // Use the steady position where there is one — it is where the tongue
+    // stopped — but keep vowelPose's confidence, which knows about pitch
+    // and formant crowding.
+    if (steady && pose) steady = Object.assign({}, steady, { confidence: pose.confidence, personal: pose.personal });
+    return { track: track, path: L.pathOf(track), pose: steady || pose, features: features, clip: clip };
+  }
+
   return {
     loadCal: loadCal, saveCal: saveCal, clearCal: clearCal,
+    targetsFor: targetsFor, attemptFrom: attemptFrom,
     replayTongue: replayTongue,
     targetFor: targetFor, isVowelSound: isVowelSound,
     mountVowelMouth: mountVowelMouth, showTarget: showTarget, showAttempt: showAttempt,
