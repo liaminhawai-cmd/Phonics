@@ -448,6 +448,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
           </div>
           <div class="hw-actions" data-role="mainrow">
             <button type="button" class="hw-btn primary" data-role="check">Check</button>
+            <button type="button" class="hw-btn" data-role="undo" disabled>&#8630; Rub out</button>
             <button type="button" class="hw-btn" data-role="clear">Clear</button>
           </div>
           <div class="hw-actions hw-toolrow">
@@ -757,6 +758,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
         lastUpTs = Date.now();
         try { canvas.releasePointerCapture(e.pointerId); } catch (err) { /* ignore */ }
         redraw();       // repaint so the trace cue moves to the next stroke
+        syncUndo();
       }
 
       function wireCanvas() {
@@ -806,6 +808,27 @@ window.PhonicsTasks = window.PhonicsTasks || {
         if (next) next.classList.remove("primary");
       }
 
+      // Rub out the last stroke, not the whole letter. Getting the loop of
+      // a <b> wrong should not cost you the stem you had already got right —
+      // that is the difference between having another go and starting again.
+      function undoStroke() {
+        if (!strokes.length) return;
+        stopGhost();
+        strokes.pop();
+        if (checked) clearScore();
+        checked = false;
+        if (!strokes.length) { firstDownTs = 0; lastUpTs = 0; }
+        const note = $('[data-role="note"]');
+        if (note) { note.textContent = ""; note.className = "hw-note"; }
+        redraw();
+        syncUndo();
+      }
+
+      function syncUndo() {
+        const b = $('[data-role="undo"]');
+        if (b) b.disabled = !strokes.length;
+      }
+
       function resetAttempt(quiet) {
         stopGhost();
         strokes = [];
@@ -818,6 +841,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
           if (note) { note.textContent = ""; note.className = "hw-note"; }
         }
         redraw();
+        syncUndo();
       }
 
       function barLevel(v) { return v >= 85 ? "high" : (v >= PASS ? "mid" : "low"); }
@@ -975,6 +999,7 @@ window.PhonicsTasks = window.PhonicsTasks || {
         if (lvBtn) { setLevel(Number(lvBtn.dataset.level)); return; }
         if (e.target.closest('[data-role="back"]')) { renderPicker(); return; }
         if (e.target.closest('[data-role="check"]')) { onCheck(); return; }
+        if (e.target.closest('[data-role="undo"]')) { undoStroke(); return; }
         if (e.target.closest('[data-role="clear"]')) { resetAttempt(); return; }
         if (e.target.closest('[data-role="again"]')) { resetAttempt(); return; }
         if (e.target.closest('[data-role="ghost"]')) { replayGhost(); return; }

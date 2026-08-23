@@ -1,5 +1,5 @@
 {
- "comment": "Spoken interface prompts — the words the app says to a child who can't read yet. Recorded per accent as recordings/<accent>/ui/<id>.mp3 (see recordings/README.md); the app falls back to TTS/speechSynthesis until a file lands, exactly like phonemes and words. Keep them SHORT and warm; say them the way you'd say them across a table, not like a recording.",
+ "comment": "Everything the app says out loud to a child who cannot read it. A human recording in recordings/<accent>/ui/<id>.mp3 replaces the synthesised voice silently. The rule_* entries are sentence PIECES, not whole rules: the app builds \"<au> never comes at the end of a word, so we use <aw>, as in <saw>\" from them plus the grapheme and word recordings it already has, which is why 32 rules need 10 clips rather than 32.",
  "prompts": [
   {
    "id": "write",
@@ -95,6 +95,101 @@
    "id": "double",
    "text": "double",
    "note": "said before a repeated letter — \"double L\" in bell, miss, off (the FLOSS rule)"
+  },
+  {
+   "id": "look_and_say",
+   "text": "Look and say",
+   "note": "the Look & Say mode, announced"
+  },
+  {
+   "id": "listen_and_write",
+   "text": "Listen and write",
+   "note": "the Listen & Write mode, announced"
+  },
+  {
+   "id": "hold_and_say",
+   "text": "Hold the button and say it",
+   "note": "the microphone button in Look & Say"
+  },
+  {
+   "id": "same_or_not",
+   "text": "Do they sound the same?",
+   "note": "after the model and the child's own recording play back"
+  },
+  {
+   "id": "that_sounds_right",
+   "text": "That sounds right",
+   "note": "the child judged their attempt a match"
+  },
+  {
+   "id": "try_that_again",
+   "text": "Try that one again",
+   "note": "the child judged their attempt different"
+  },
+  {
+   "id": "rub_it_out",
+   "text": "Rub it out and try again",
+   "note": "the handwriting undo"
+  },
+  {
+   "id": "tap_the_sound",
+   "text": "Tap the sound you want to do",
+   "note": "choosing between a code's several sounds"
+  },
+  {
+   "id": "one_more",
+   "text": "One more to go",
+   "note": "multi-sound card, one box left"
+  },
+  {
+   "id": "rule_never_ends",
+   "text": "never comes at the end of a word",
+   "note": "rule frame: <code> + this"
+  },
+  {
+   "id": "rule_use_instead",
+   "text": "so we use",
+   "note": "rule frame: joins the wrong code to the right one"
+  },
+  {
+   "id": "rule_as_in",
+   "text": "as in",
+   "note": "rule frame: precedes an example word"
+  },
+  {
+   "id": "rule_say_another",
+   "text": "Can you think of another one?",
+   "note": "rule frame: invites a second example"
+  },
+  {
+   "id": "rule_at_the_start",
+   "text": "at the start of a word",
+   "note": "rule frame: position"
+  },
+  {
+   "id": "rule_at_the_end",
+   "text": "at the end of a word",
+   "note": "rule frame: position"
+  },
+  {
+   "id": "rule_in_the_middle",
+   "text": "in the middle of a word",
+   "note": "rule frame: position"
+  },
+  {
+   "id": "rule_after_short",
+   "text": "straight after a short vowel",
+   "note": "rule frame: the FLOSS / doubling condition"
+  },
+  {
+   "id": "rule_because",
+   "text": "because",
+   "note": "rule frame: joins a claim to its reason"
+  },
+  {
+   "id": "rule_watch_this",
+   "text": "Watch this one",
+   "note": "rule frame: flags an exception"
   }
  ]
 }

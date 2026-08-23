@@ -30,16 +30,27 @@ window.PhonicsAudio = (() => {
   // recordings/clips.json is written by scripts/check_recordings.py and
   // lists them by path. Loading it is fire-and-forget: until it arrives
   // nothing is skipped, which is the same behaviour as before.
+  // clips.json lists every recording we have, with its length. That makes
+  // it an index as well as a warning list: if a path is in it the file
+  // exists, if it isn't, it doesn't. Both facts save a round trip —
+  // have() stops issuing a HEAD per letter, and the legacy lookup stops
+  // fetching a manifest that only the Pronunciation Hub fills in.
   let tooShort = null;
+  let known = null;
   (function loadClipReport() {
     if (typeof fetch !== "function") return;
     fetch(base + "recordings/clips.json")
       .then((r) => (r.ok ? r.json() : null))
-      .then((j) => { tooShort = new Set((j && j.tooShort) || []); })
+      .then((j) => {
+        tooShort = new Set((j && j.tooShort) || []);
+        known = j && j.durations ? new Set(Object.keys(j.durations)) : null;
+      })
       .catch(() => { tooShort = new Set(); });
   })();
 
   const truncated = (rel) => !!(tooShort && tooShort.has(rel));
+  // true / false when the index can answer, null when it cannot
+  const indexed = (rel) => (known ? known.has(rel) : null);
 
   const accent = () => (window.PhonicsBank && PhonicsBank.accent) || "au";
   const LANG = { au: "en-AU", uk: "en-GB", us: "en-US" };
@@ -92,7 +103,10 @@ window.PhonicsAudio = (() => {
   async function legacySrcFor(phonemeId) {
     // Old AU recordings live in sounds/"<ipa (ex[a]mple)>"/ — the deploy
     // workflow writes sounds/manifest.json listing each folder's files.
+    // That folder is the Pronunciation Hub's drop box and is empty here,
+    // so don't go looking when we already have the sound ourselves.
     if (accent() !== "au" || !window.PhonicsBank) return null;
+    if (indexed("recordings/au/phonemes/" + phonemeId + ".mp3")) return null;
     const p = PhonicsBank.phoneme(phonemeId);
     const folder = p && p.recording && p.recording.legacy_sounds_folder;
     if (!folder) return null;
@@ -208,6 +222,8 @@ window.PhonicsAudio = (() => {
   const haveCache = {};
   async function have(rel) {
     if (truncated(rel)) return false;   // present, but not usable
+    const idx = indexed(rel);
+    if (idx !== null) return idx;       // the clip index already knows
     if (rel in haveCache) return haveCache[rel];
     try {
       const res = await fetch(base + rel, { method: "HEAD" });

@@ -253,6 +253,20 @@
         .sb.maybe { border-style: solid; border-color: var(--warn); background: var(--warn-bg); color: var(--warn-ink); cursor: pointer; }
         .sb.maybe .sb-mark { color: var(--warn-ink); }
         .sb.near { border-color: var(--accent); }
+        .sb.picked { border-style: solid; border-color: var(--accent); background: var(--paper); }
+        .sb.pickable { cursor: pointer; }
+        .sb.pickable:hover { border-color: var(--accent); }
+        /* ---- say it, hear both, you decide ---- */
+        .compare { margin-top: 14px; padding: 12px; border-radius: 10px;
+            border: 1px solid var(--line-soft); background: var(--bg); }
+        .cmp-head { font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+            color: var(--muted); font-weight: 700; }
+        .cmp-q { font-family: Georgia, serif; font-size: 17px; font-weight: 700; margin: 12px 0 2px; }
+        .cmp-row { display: flex; gap: 8px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
+        .cmp-row .btn { flex: 1; min-width: 120px; max-width: 210px; }
+        .cmp-play.playing { border-color: var(--accent); color: var(--accent); }
+        .cmp-yes:hover { border-color: var(--correct); color: var(--correct); }
+        .cmp-no:hover { border-color: var(--warn); color: var(--warn-ink); }
         /* ---- vowel mouth: the model shape, then the child's own ---- */
         .mic-vowel { display: flex; gap: 14px; align-items: center; justify-content: center;
             flex-wrap: wrap; margin-top: 10px; }
@@ -450,7 +464,7 @@
             <a class="seq-picker-label" href="report.html"      style="text-decoration:none;">📈 Report</a>
             <a class="seq-picker-label" href="sheets.html"      style="text-decoration:none;">🖨️ Sheets</a>
             <a class="seq-picker-label" href="handwriting.html" style="text-decoration:none;">✍️ Handwriting</a>
-            <a class="seq-picker-label" href="listen.html"      style="text-decoration:none;">🎤 Listen</a>
+            <a class="seq-picker-label" href="listen.html"      style="text-decoration:none;">🎤 Mic check</a>
         </nav>
 
         <!-- ===== SCREEN 1: practice mode ===== -->
@@ -547,6 +561,18 @@
                     <div class="sound-boxes" id="sayBoxes" hidden>
                         <div class="sb-hint" id="sayBoxHint"></div>
                         <div class="sb-row" id="sayBoxRow"></div>
+                    </div>
+                    <div class="compare" id="sayCompare" hidden>
+                        <div class="cmp-head" id="cmpHead">Listen to both</div>
+                        <div class="cmp-row">
+                            <button class="btn cmp-play" id="cmpModel">&#9654; The sound</button>
+                            <button class="btn cmp-play" id="cmpMine">&#9654; You</button>
+                        </div>
+                        <div class="cmp-q">Do they sound the same?</div>
+                        <div class="cmp-row">
+                            <button class="btn cmp-yes" id="cmpSame">Yes, the same</button>
+                            <button class="btn cmp-no" id="cmpDiff">Not quite</button>
+                        </div>
                     </div>
                     <div class="mic-result" id="sayMicResult" hidden>
                         <div class="mic-verdict" id="sayMicVerdict"></div>

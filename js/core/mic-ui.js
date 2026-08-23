@@ -396,8 +396,27 @@ window.PhonicsMic = (function () {
     return { track: track, path: L.pathOf(track), pose: steady || pose, features: features, clip: clip };
   }
 
+  // Play a recording back. Returns a promise that settles when it ends, so
+  // a caller can play the model and then the child's without them landing
+  // on top of each other.
+  function playClip(clip) {
+    return new Promise(function (done) {
+      if (!clip || !clip.buf || !clip.buf.length || !window.AudioContext) return done();
+      var ctx;
+      try { ctx = new AudioContext(); } catch (e) { return done(); }
+      var buf = ctx.createBuffer(1, clip.buf.length, clip.sampleRate);
+      buf.getChannelData(0).set(clip.buf);
+      var src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(ctx.destination);
+      src.onended = function () { try { ctx.close(); } catch (e) {} done(); };
+      src.start();
+    });
+  }
+
   return {
     loadCal: loadCal, saveCal: saveCal, clearCal: clearCal,
+    playClip: playClip,
     targetsFor: targetsFor, attemptFrom: attemptFrom,
     replayTongue: replayTongue,
     targetFor: targetFor, isVowelSound: isVowelSound,

@@ -1,6 +1,6 @@
 # Recording checklist — UK
 
-**0 / 1074 recorded.** Save files into `recordings/uk/phonemes/` and `recordings/uk/words/` — filename must match exactly. See recordings/README.md for tips.
+**0 / 1094 recorded.** Save files into `recordings/uk/phonemes/` and `recordings/uk/words/` — filename must match exactly. See recordings/README.md for tips.
 
 ## Phonemes & teaching units
 
@@ -76,6 +76,26 @@ Short and warm — the way you'd say it across a table.
 - [ ] `lets_look.mp3` — "Let's look together" — reveal after the second try
 - [ ] `next_one.mp3` — "Next one" — advance
 - [ ] `all_done.mp3` — "All done — great work!" — session summary
+- [ ] `double.mp3` — "double" — said before a repeated letter — "double L" in bell, miss, off (the FLOSS rule)
+- [ ] `look_and_say.mp3` — "Look and say" — the Look & Say mode, announced
+- [ ] `listen_and_write.mp3` — "Listen and write" — the Listen & Write mode, announced
+- [ ] `hold_and_say.mp3` — "Hold the button and say it" — the microphone button in Look & Say
+- [ ] `same_or_not.mp3` — "Do they sound the same?" — after the model and the child's own recording play back
+- [ ] `that_sounds_right.mp3` — "That sounds right" — the child judged their attempt a match
+- [ ] `try_that_again.mp3` — "Try that one again" — the child judged their attempt different
+- [ ] `rub_it_out.mp3` — "Rub it out and try again" — the handwriting undo
+- [ ] `tap_the_sound.mp3` — "Tap the sound you want to do" — choosing between a code's several sounds
+- [ ] `one_more.mp3` — "One more to go" — multi-sound card, one box left
+- [ ] `rule_never_ends.mp3` — "never comes at the end of a word" — rule frame: <code> + this
+- [ ] `rule_use_instead.mp3` — "so we use" — rule frame: joins the wrong code to the right one
+- [ ] `rule_as_in.mp3` — "as in" — rule frame: precedes an example word
+- [ ] `rule_say_another.mp3` — "Can you think of another one?" — rule frame: invites a second example
+- [ ] `rule_at_the_start.mp3` — "at the start of a word" — rule frame: position
+- [ ] `rule_at_the_end.mp3` — "at the end of a word" — rule frame: position
+- [ ] `rule_in_the_middle.mp3` — "in the middle of a word" — rule frame: position
+- [ ] `rule_after_short.mp3` — "straight after a short vowel" — rule frame: the FLOSS / doubling condition
+- [ ] `rule_because.mp3` — "because" — rule frame: joins a claim to its reason
+- [ ] `rule_watch_this.mp3` — "Watch this one" — rule frame: flags an exception
 
 ## Words (by tier)
 

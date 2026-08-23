@@ -255,6 +255,20 @@
         .sb.maybe { border-style: solid; border-color: var(--warn); background: var(--warn-bg); color: var(--warn-ink); cursor: pointer; }
         .sb.maybe .sb-mark { color: var(--warn-ink); }
         .sb.near { border-color: var(--accent); }
+        .sb.picked { border-style: solid; border-color: var(--accent); background: var(--paper); }
+        .sb.pickable { cursor: pointer; }
+        .sb.pickable:hover { border-color: var(--accent); }
+        /* ---- say it, hear both, you decide ---- */
+        .compare { margin-top: 14px; padding: 12px; border-radius: 10px;
+            border: 1px solid var(--line-soft); background: var(--bg); }
+        .cmp-head { font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+            color: var(--muted); font-weight: 700; }
+        .cmp-q { font-family: Georgia, serif; font-size: 17px; font-weight: 700; margin: 12px 0 2px; }
+        .cmp-row { display: flex; gap: 8px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
+        .cmp-row .btn { flex: 1; min-width: 120px; max-width: 210px; }
+        .cmp-play.playing { border-color: var(--accent); color: var(--accent); }
+        .cmp-yes:hover { border-color: var(--correct); color: var(--correct); }
+        .cmp-no:hover { border-color: var(--warn); color: var(--warn-ink); }
         /* ---- vowel mouth: the model shape, then the child's own ---- */
         .mic-vowel { display: flex; gap: 14px; align-items: center; justify-content: center;
             flex-wrap: wrap; margin-top: 10px; }
@@ -452,7 +466,7 @@
             <a class="seq-picker-label" href="report.html"      style="text-decoration:none;">📈 Report</a>
             <a class="seq-picker-label" href="sheets.html"      style="text-decoration:none;">🖨️ Sheets</a>
             <a class="seq-picker-label" href="handwriting.html" style="text-decoration:none;">✍️ Handwriting</a>
-            <a class="seq-picker-label" href="listen.html"      style="text-decoration:none;">🎤 Listen</a>
+            <a class="seq-picker-label" href="listen.html"      style="text-decoration:none;">🎤 Mic check</a>
         </nav>
 
         <!-- ===== SCREEN 1: practice mode ===== -->
@@ -549,6 +563,18 @@
                     <div class="sound-boxes" id="sayBoxes" hidden>
                         <div class="sb-hint" id="sayBoxHint"></div>
                         <div class="sb-row" id="sayBoxRow"></div>
+                    </div>
+                    <div class="compare" id="sayCompare" hidden>
+                        <div class="cmp-head" id="cmpHead">Listen to both</div>
+                        <div class="cmp-row">
+                            <button class="btn cmp-play" id="cmpModel">&#9654; The sound</button>
+                            <button class="btn cmp-play" id="cmpMine">&#9654; You</button>
+                        </div>
+                        <div class="cmp-q">Do they sound the same?</div>
+                        <div class="cmp-row">
+                            <button class="btn cmp-yes" id="cmpSame">Yes, the same</button>
+                            <button class="btn cmp-no" id="cmpDiff">Not quite</button>
+                        </div>
                     </div>
                     <div class="mic-result" id="sayMicResult" hidden>
                         <div class="mic-verdict" id="sayMicVerdict"></div>
@@ -2238,16 +2264,27 @@ window.PhonicsAudio = (() => {
   // recordings/clips.json is written by scripts/check_recordings.py and
   // lists them by path. Loading it is fire-and-forget: until it arrives
   // nothing is skipped, which is the same behaviour as before.
+  // clips.json lists every recording we have, with its length. That makes
+  // it an index as well as a warning list: if a path is in it the file
+  // exists, if it isn't, it doesn't. Both facts save a round trip —
+  // have() stops issuing a HEAD per letter, and the legacy lookup stops
+  // fetching a manifest that only the Pronunciation Hub fills in.
   let tooShort = null;
+  let known = null;
   (function loadClipReport() {
     if (typeof fetch !== "function") return;
     fetch(base + "recordings/clips.json")
       .then((r) => (r.ok ? r.json() : null))
-      .then((j) => { tooShort = new Set((j && j.tooShort) || []); })
+      .then((j) => {
+        tooShort = new Set((j && j.tooShort) || []);
+        known = j && j.durations ? new Set(Object.keys(j.durations)) : null;
+      })
       .catch(() => { tooShort = new Set(); });
   })();
 
   const truncated = (rel) => !!(tooShort && tooShort.has(rel));
+  // true / false when the index can answer, null when it cannot
+  const indexed = (rel) => (known ? known.has(rel) : null);
 
   const accent = () => (window.PhonicsBank && PhonicsBank.accent) || "au";
   const LANG = { au: "en-AU", uk: "en-GB", us: "en-US" };
@@ -2300,7 +2337,10 @@ window.PhonicsAudio = (() => {
   async function legacySrcFor(phonemeId) {
     // Old AU recordings live in sounds/"<ipa (ex[a]mple)>"/ — the deploy
     // workflow writes sounds/manifest.json listing each folder's files.
+    // That folder is the Pronunciation Hub's drop box and is empty here,
+    // so don't go looking when we already have the sound ourselves.
     if (accent() !== "au" || !window.PhonicsBank) return null;
+    if (indexed("recordings/au/phonemes/" + phonemeId + ".mp3")) return null;
     const p = PhonicsBank.phoneme(phonemeId);
     const folder = p && p.recording && p.recording.legacy_sounds_folder;
     if (!folder) return null;
@@ -2416,6 +2456,8 @@ window.PhonicsAudio = (() => {
   const haveCache = {};
   async function have(rel) {
     if (truncated(rel)) return false;   // present, but not usable
+    const idx = indexed(rel);
+    if (idx !== null) return idx;       // the clip index already knows
     if (rel in haveCache) return haveCache[rel];
     try {
       const res = await fetch(base + rel, { method: "HEAD" });
@@ -4149,8 +4191,27 @@ window.PhonicsMic = (function () {
     return { track: track, path: L.pathOf(track), pose: steady || pose, features: features, clip: clip };
   }
 
+  // Play a recording back. Returns a promise that settles when it ends, so
+  // a caller can play the model and then the child's without them landing
+  // on top of each other.
+  function playClip(clip) {
+    return new Promise(function (done) {
+      if (!clip || !clip.buf || !clip.buf.length || !window.AudioContext) return done();
+      var ctx;
+      try { ctx = new AudioContext(); } catch (e) { return done(); }
+      var buf = ctx.createBuffer(1, clip.buf.length, clip.sampleRate);
+      buf.getChannelData(0).set(clip.buf);
+      var src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(ctx.destination);
+      src.onended = function () { try { ctx.close(); } catch (e) {} done(); };
+      src.start();
+    });
+  }
+
   return {
     loadCal: loadCal, saveCal: saveCal, clearCal: clearCal,
+    playClip: playClip,
     targetsFor: targetsFor, attemptFrom: attemptFrom,
     replayTongue: replayTongue,
     targetFor: targetFor, isVowelSound: isVowelSound,
@@ -4745,12 +4806,15 @@ function buildSoundBoxes() {
   boxClaimed = [];
   boxPending = null;
   boxConfirm = null;
+  boxPicked = null;
+  lastClip = null;
+  if ($("sayCompare")) $("sayCompare").hidden = true;
   boxTargets = (window.PhonicsMic && current)
     ? PhonicsMic.targetsFor(current.sounds, current.gpcIds) : [];
   wrap.hidden = !usingBoxes();
   if (!usingBoxes()) return;
   $("sayBoxHint").innerHTML = "This code makes <b>" + boxTargets.length +
-    "</b> sounds. Say them in any order.";
+    "</b> sounds. Tap one, then say it.";
   const row = $("sayBoxRow");
   row.innerHTML = "";
   boxTargets.forEach((t) => {
@@ -4760,6 +4824,7 @@ function buildSoundBoxes() {
     b.innerHTML = '<span class="sb-mark">?</span><span class="sb-eg"></span>';
     row.appendChild(b);
   });
+  paintPicked();
 }
 
 function boxFor(id) { return $("sayBoxRow").querySelector('[data-id="' + CSS.escape(id) + '"]'); }
@@ -4769,6 +4834,7 @@ function fillBox(id) {
   const el = boxFor(id);
   if (!t || !el) return;
   if (boxClaimed.indexOf(id) === -1) boxClaimed.push(id);
+  el.classList.remove("pickable", "picked");
   el.className = "sb done";
   el.querySelector(".sb-mark").textContent = t.label || "\u2713";
   el.querySelector(".sb-eg").textContent = t.eg || "";
@@ -4840,6 +4906,21 @@ let vowelCtl = null, vowelTarget = null, vowelPose = null, vowelCancel = null;
    empty; two sounds too alike to separate claim nothing and get asked
    about, the same way /f/ and /th/ do.                                */
 let boxTargets = [], boxClaimed = [], boxPending = null, boxConfirm = null;
+let boxPicked = null;      // which sound this attempt is aimed at
+let lastClip = null;       // what the child just said, for playing back
+
+/* ---- say it, hear both, you decide ----------------------------------
+   The app used to hand down a verdict. It cannot honestly do that for
+   most sounds: 13 of the 24 consonants have no cue a microphone can
+   settle, and every vowel reading is meaningless until the speaker has
+   been calibrated — an uncalibrated adult gets measured against a
+   child's vowel space and is told an open /ɑː/ was a close vowel.
+
+   So the child hears the sound, hears themselves, and says whether they
+   match. That works for all 44 sounds, needs no calibration, and puts
+   the judgement where the evidence actually is. The measurements are
+   still there on listen.html, which exists to show what the microphone
+   can and cannot do.                                                  */
 
 function usingBoxes() { return boxTargets.length > 1; }
 
@@ -4891,7 +4972,8 @@ const MIC_TITLES = {
 
 function showMicResult(features, clip) {
   const strip = $("sayMicResult");
-  if (usingBoxes() && clip) { showBoxResult(clip); return; }
+  lastClip = clip || null;
+  if (clip && clip.buf && clip.buf.length > 2048) { showCompare(features); return; }
   if (!features) {
     strip.hidden = false;
     strip.className = "mic-result quiet";
@@ -5007,7 +5089,95 @@ function playVowel(which) {
   });
 }
 
-/* ---- grading against the boxes ------------------------------------- */
+/* ---- hear both, then decide ------------------------------------------ */
+
+function pickedTarget() {
+  if (!usingBoxes()) return boxTargets[0] || null;
+  if (boxPicked) {
+    const t = boxTargets.find((x) => x.id === boxPicked);
+    if (t && boxClaimed.indexOf(t.id) === -1) return t;
+  }
+  return boxTargets.find((t) => boxClaimed.indexOf(t.id) === -1) || null;
+}
+
+function paintPicked() {
+  if (!usingBoxes()) return;
+  const t = pickedTarget();
+  boxTargets.forEach((x) => {
+    const el = boxFor(x.id);
+    if (!el) return;
+    const done = boxClaimed.indexOf(x.id) !== -1;
+    el.classList.toggle("pickable", !done);
+    el.classList.toggle("picked", !done && !!t && x.id === t.id);
+  });
+}
+
+async function playModel() {
+  const t = pickedTarget();
+  if (!t || !window.PhonicsAudio) return;
+  $("cmpModel").classList.add("playing");
+  try { await PhonicsAudio.playGpc(t.id); } catch (e) {}
+  setTimeout(() => $("cmpModel").classList.remove("playing"), 500);
+}
+
+async function playMine() {
+  if (!lastClip) return;
+  $("cmpMine").classList.add("playing");
+  await PhonicsMic.playClip(lastClip);
+  $("cmpMine").classList.remove("playing");
+}
+
+function showCompare(features) {
+  const strip = $("sayMicResult");
+  const t = pickedTarget();
+  strip.hidden = false;
+  strip.className = "mic-result";
+  $("sayMicAsk").hidden = true;
+  $("sayMicVowel").hidden = true;
+  $("sayMicConf").hidden = true;
+  $("sayCompare").hidden = false;
+  $("sayMicVerdict").textContent = "Have a listen";
+  $("sayMicWhy").textContent = t && t.label
+    ? "The sound, then you saying it."
+    : "The sound, then you saying it.";
+  $("cmpHead").textContent = t && t.label
+    ? "This code's " + t.label + " sound" + (t.eg ? " (as in " + t.eg + ")" : "")
+    : "Listen to both";
+
+  // The vowel mouth still earns its place: it shows what their tongue did,
+  // which is a different question from whether the sound matched.
+  if (t && (t.kind === "v" || t.kind === "d") && features) {
+    const attempt = PhonicsMic.attemptFrom(lastClip, { calibration: PhonicsMic.loadCal() });
+    if (attempt && attempt.pose) showBoxMouth(t, attempt);
+  }
+
+  // Model first, then them, with a beat between so they are clearly two
+  // things rather than one long noise.
+  playModel().then(() => setTimeout(playMine, 420));
+}
+
+function judgeCompare(same) {
+  const t = pickedTarget();
+  const strip = $("sayMicResult");
+  $("sayCompare").hidden = true;
+  if (same && t) {
+    if (usingBoxes()) fillBox(t.id);
+    strip.className = "mic-result heard";
+    const left = usingBoxes() ? boxesLeft() : 0;
+    $("sayMicVerdict").textContent = left === 0 ? "That's it ✓" : "That's one ✓";
+    $("sayMicWhy").textContent = left === 0
+      ? "You matched every sound this code makes."
+      : left + (left === 1 ? " sound to go — tap it and have a go." : " sounds to go.");
+    boxPicked = null;
+    paintPicked();
+    return;
+  }
+  strip.className = "mic-result close";
+  $("sayMicVerdict").textContent = "Have another go";
+  $("sayMicWhy").textContent = "Play the sound again, listen to the shape of it, then try to copy it.";
+}
+
+/* ---- grading against the boxes (listen.html keeps this) -------------- */
 
 function showBoxResult(clip) {
   const strip = $("sayMicResult");
@@ -5601,9 +5771,15 @@ function initUI() {
     $("sayMicYes").addEventListener("click", () => answerMicAsk(true));
     $("sayMicNo").addEventListener("click", () => answerMicAsk(false));
     $("sayBoxRow").addEventListener("click", (e) => {
-      const b = e.target.closest(".sb.maybe");
-      if (b) chooseBox(b.dataset.id);
+      const maybe = e.target.closest(".sb.maybe");
+      if (maybe) { chooseBox(maybe.dataset.id); return; }
+      const pick = e.target.closest(".sb.pickable");
+      if (pick) { boxPicked = pick.dataset.id; paintPicked(); }
     });
+    $("cmpModel").addEventListener("click", playModel);
+    $("cmpMine").addEventListener("click", playMine);
+    $("cmpSame").addEventListener("click", () => judgeCompare(true));
+    $("cmpDiff").addEventListener("click", () => judgeCompare(false));
     $("sayMicShowTarget").addEventListener("click", () => playVowel("target"));
     $("sayMicShowMine").addEventListener("click", () => playVowel("mine"));
   }
