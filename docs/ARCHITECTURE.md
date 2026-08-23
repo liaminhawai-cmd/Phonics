@@ -215,6 +215,42 @@ Say has a mic button that offers the same opinion — but never marks the card.
 The child's Got it / Missed it is untouched, because an app that says "wrong"
 about a sound it cannot distinguish teaches a child to stop believing it.
 
+### 4b-ii. Watching the tongue move
+
+`vowelPose()` reads one moment; `trackVowel()` reads a whole utterance, so
+a child can watch their own tongue travel — live while they speak, and
+replayed with their own voice afterwards.
+
+The replay is the one that teaches. Live, a child is busy making the sound;
+on the replay they can actually watch. It plays **before** the model,
+deliberately: showing the target first tells them the answer before they
+have looked at what they did.
+
+Two things make a track more than a sequence of poses:
+
+- **Smoothing.** LPC picks a wrong peak now and then, and one bad frame
+  throws the tongue across the mouth. A median of three kills single-frame
+  outliers without lagging; an EMA after it turns the rest into movement
+  rather than jitter.
+- **Gaps are gaps.** Most of a recording is not a placeable vowel —
+  silence at the ends, a consonant in the middle. Those frames come back
+  as `null` and the UI *holds* the last position. A tongue that flies home
+  between every sound reads as a fault, not as a limit of what the mic
+  can see.
+
+`makeTracker()` is the rolling version for live audio and `trackVowel()`
+the offline one; a test drives the same buffer through both and fails if
+they disagree, because what a child watches live has to match what the
+replay shows them. `steadiest()` finds where the tongue stopped rather than
+where the sound was loudest — the loudest instant can be the attack,
+mid-glide.
+
+**This needed an FFT.** `spectrum()` was a naive DFT: 59 ms for one 2048
+frame, so a full `analyse()` capped out at 16 fps — fine once per attempt,
+hopeless for a tongue. The radix-2 FFT brings it to 2.8 ms (22×), and a
+test checks it against the old transform, which is kept as the oracle and
+as the fallback for a frame that isn't a power of two.
+
 ### 4c. Hand cues, and whose they are
 
 The app can show a hand cue beside a sound. It ships with **no cue

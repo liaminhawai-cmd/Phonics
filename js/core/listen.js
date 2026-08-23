@@ -65,13 +65,47 @@
     return w;
   }
 
-  // Naive DFT magnitude over a windowed frame. Slow but exact and
-  // dependency-free; frames are short (≤2048) and analysis is not
-  // per-sample, so this is affordable and keeps the module testable.
-  function spectrum(buf, from, n, sampleRate) {
-    const N = Math.min(n, buf.length - from);
-    if (N <= 8) return { mag: new Float32Array(0), binHz: 0 };
-    const w = hann(N);
+  // In-place iterative radix-2 FFT. Same answer as the textbook DFT below,
+  // in O(N log N) instead of O(N²) — 2048 points goes from ~59 ms to under
+  // a millisecond, which is the difference between analysing one frame per
+  // attempt and tracking a tongue 30 times a second.
+  // tests/listen.test.js checks it against the naive transform.
+  const isPow2 = (n) => n > 0 && (n & (n - 1)) === 0;
+
+  function fft(re, im) {
+    const n = re.length;
+    // bit-reversal permutation
+    for (let i = 1, j = 0; i < n; i++) {
+      let bit = n >> 1;
+      for (; j & bit; bit >>= 1) j ^= bit;
+      j ^= bit;
+      if (i < j) {
+        let t = re[i]; re[i] = re[j]; re[j] = t;
+        t = im[i]; im[i] = im[j]; im[j] = t;
+      }
+    }
+    for (let len = 2; len <= n; len <<= 1) {
+      const ang = (-2 * Math.PI) / len;
+      const wr = Math.cos(ang), wi = Math.sin(ang);
+      for (let i = 0; i < n; i += len) {
+        let cr = 1, ci = 0;
+        for (let k = 0; k < len / 2; k++) {
+          const ar = re[i + k], ai = im[i + k];
+          const br = re[i + k + len / 2], bi = im[i + k + len / 2];
+          const tr = br * cr - bi * ci, ti = br * ci + bi * cr;
+          re[i + k] = ar + tr; im[i + k] = ai + ti;
+          re[i + k + len / 2] = ar - tr; im[i + k + len / 2] = ai - ti;
+          const ncr = cr * wr - ci * wi;
+          ci = cr * wi + ci * wr; cr = ncr;
+        }
+      }
+    }
+  }
+
+  // The textbook transform, kept as the oracle the FFT is tested against
+  // and as the fallback for a frame that isn't a power of two (only ever
+  // the ragged end of a buffer).
+  function dftSpectrum(buf, from, N, w, sampleRate) {
     const bins = N >> 1;
     const mag = new Float32Array(bins);
     for (let k = 0; k < bins; k++) {
@@ -84,6 +118,21 @@
       }
       mag[k] = Math.sqrt(re * re + im * im) / N;
     }
+    return { mag, binHz: sampleRate / N };
+  }
+
+  // Magnitude spectrum of one windowed frame.
+  function spectrum(buf, from, n, sampleRate) {
+    const N = Math.min(n, buf.length - from);
+    if (N <= 8) return { mag: new Float32Array(0), binHz: 0 };
+    const w = hann(N);
+    if (!isPow2(N)) return dftSpectrum(buf, from, N, w, sampleRate);
+    const re = new Float64Array(N), im = new Float64Array(N);
+    for (let i = 0; i < N; i++) re[i] = buf[from + i] * w[i];
+    fft(re, im);
+    const bins = N >> 1;
+    const mag = new Float32Array(bins);
+    for (let k = 0; k < bins; k++) mag[k] = Math.sqrt(re[k] * re[k] + im[k] * im[k]) / N;
     return { mag, binHz: sampleRate / N };
   }
 
@@ -596,6 +645,135 @@
     return { close, open, frontGap, backGap };
   }
 
+  /* ============================================================
+     WATCHING THE TONGUE MOVE
+     ============================================================
+     vowelPose() reads one moment. These read a whole utterance, so a
+     child can watch their own tongue travel — live while they speak,
+     or replayed with their own voice afterwards.
+
+     Two things make a track different from a sequence of poses:
+
+     SMOOTHING. LPC picks the wrong peak now and then, and a single bad
+     frame makes the tongue jump across the mouth. A median of three
+     kills the one-frame outliers without lagging, and an EMA after it
+     turns the rest into movement rather than jitter.
+
+     GAPS. Most of a real recording is not a placeable vowel — silence
+     at the ends, a consonant in the middle. Those frames come back as
+     null and the UI HOLDS the last position rather than snapping to
+     neutral, because a tongue that flies home between every sound
+     reads as a fault rather than as a gap in what we can see.
+     ============================================================ */
+
+  function median3(a, b, c) {
+    return a > b ? (b > c ? b : (a > c ? c : a)) : (a > c ? a : (b > c ? c : b));
+  }
+
+  // Rolling tracker for live audio. Feed it chunks as they arrive; it
+  // returns a smoothed pose whenever it has enough new samples, or null
+  // when this moment isn't a vowel. Kept here rather than in the mic
+  // layer so it can be driven from a file in a test.
+  function makeTracker(sampleRate, opts) {
+    opts = opts || {};
+    const frame = opts.frame || 1024;
+    const hop = opts.hop || Math.round(sampleRate / (opts.fps || 30));
+    const alpha = opts.smoothing == null ? 0.35 : opts.smoothing;
+    const win = new Float32Array(frame);
+    const recent = [];                 // last raw poses, for the median
+    let pending = 0;
+    let sm = null;                     // the smoothed pose we hand out
+
+    function analyseWindow() {
+      const feat = analyse(win, sampleRate, { from: 0, frame });
+      const raw = vowelPose(feat, opts);
+      if (!raw) { recent.length = 0; return null; }
+      recent.push(raw);
+      if (recent.length > 3) recent.shift();
+      let x = raw.x, y = raw.y;
+      if (recent.length === 3) {
+        x = median3(recent[0].x, recent[1].x, recent[2].x);
+        y = median3(recent[0].y, recent[1].y, recent[2].y);
+      }
+      sm = sm ? { x: sm.x + (x - sm.x) * alpha, y: sm.y + (y - sm.y) * alpha }
+              : { x, y };
+      return {
+        x: Math.round(sm.x), y: Math.round(sm.y),
+        rawX: raw.x, rawY: raw.y,
+        f1: raw.f1, f2: raw.f2,
+        confidence: raw.confidence, personal: raw.personal,
+        rms: feat.rms,
+      };
+    }
+
+    return {
+      // Returns a pose, or null if this chunk didn't complete a frame or
+      // didn't contain a vowel.
+      push(chunk) {
+        const n = chunk.length;
+        if (n >= frame) {
+          win.set(chunk.subarray(n - frame));
+        } else {
+          win.copyWithin(0, n);
+          win.set(chunk, frame - n);
+        }
+        pending += n;
+        if (pending < hop) return null;
+        pending = 0;
+        return analyseWindow();
+      },
+      reset() { win.fill(0); recent.length = 0; sm = null; pending = 0; },
+      frame, hop,
+    };
+  }
+
+  // The whole utterance as a timeline, for replaying a recording in step
+  // with the audio it came from.
+  function trackVowel(buf, sampleRate, opts) {
+    opts = opts || {};
+    const fps = opts.fps || 30;
+    const tr = makeTracker(sampleRate, Object.assign({}, opts, { fps }));
+    const hop = tr.hop;
+    const out = [];
+    for (let at = 0; at + hop <= buf.length; at += hop) {
+      const pose = tr.push(buf.subarray(at, at + hop));
+      out.push(pose ? Object.assign({ t: at / sampleRate }, pose)
+                    : { t: at / sampleRate, x: null, y: null });
+    }
+    return { fps, sampleRate, duration: buf.length / sampleRate, samples: out };
+  }
+
+  // The steadiest stretch of a track — where the tongue stopped moving,
+  // which is the vowel the child meant. Better than the loudest instant
+  // for grading: the loudest moment can be the attack, mid-glide.
+  function steadiest(track, opts) {
+    opts = opts || {};
+    const span = Math.max(2, Math.round((opts.ms || 120) / 1000 * (track.fps || 30)));
+    const s = track.samples || [];
+    let best = null, bestSpread = Infinity;
+    for (let i = 0; i + span <= s.length; i++) {
+      const win = s.slice(i, i + span);
+      if (win.some((p) => p.x == null)) continue;
+      let minX = 100, maxX = 0, minY = 100, maxY = 0, sumX = 0, sumY = 0, conf = 0;
+      for (const p of win) {
+        minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x);
+        minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y);
+        sumX += p.x; sumY += p.y; conf += p.confidence || 0;
+      }
+      const spread = (maxX - minX) + (maxY - minY);
+      if (spread < bestSpread) {
+        bestSpread = spread;
+        best = {
+          x: Math.round(sumX / win.length), y: Math.round(sumY / win.length),
+          confidence: +(conf / win.length).toFixed(2),
+          from: win[0].t, to: win[win.length - 1].t,
+          steadiness: spread, personal: win[0].personal,
+        };
+      }
+    }
+    return best;
+  }
+
   // What the machine heard, in words, for the grown-up watching. This is
   // the panel that answers "is it good enough?" — it shows the reading
   // BEHIND a verdict so a teacher can see when the app is guessing.
@@ -733,8 +911,9 @@
 
   const api = { analyse, grade, describe, calibrate, record, loudestFrame,
                 vowelPose, vowelFeedback, calibrateVowels, toleranceFor,
+                makeTracker, trackVowel, steadiest,
                 VOWEL_BOX, ANCHOR,
-                rms, zeroCrossRate, spectrum, spectralCentroid, spectralFlatness,
+                rms, zeroCrossRate, spectrum, dftSpectrum, fft, spectralCentroid, spectralFlatness,
                 highFraction, pitch, formants, CHECKS, SIB };
 
   if (typeof window !== "undefined") window.PhonicsListen = api;

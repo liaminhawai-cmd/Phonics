@@ -26,6 +26,16 @@ function hear(who, what, phonemeId, opts) {
   return { features, result: L.grade(phonemeId, features, opts || {}) };
 }
 
+// Several vowels said one after another, as one recording.
+function glide(names, who) {
+  const parts = names.map((v) => S.say(who || "child", v, 42).buf);
+  const total = parts.reduce((n, p) => n + p.length, 0);
+  const buf = new Float32Array(total);
+  let at = 0;
+  for (const p of parts) { buf.set(p, at); at += p.length; }
+  return buf;
+}
+
 // The child's own vowel space, from the three corner sounds.
 function vowelCal(who) {
   return L.calibrateVowels(["ee", "ah", "oo"].map((v) => ({ id: v, features: feat(who, v) })));
@@ -568,6 +578,134 @@ module.exports = {
     const p = L.vowelPose(feat("child", "ah"), { calibration: cal });
     assert.ok(p.confidence >= 0.66, "own corners should read as sure, got " + p.confidence);
     assert.equal(L.vowelFeedback(p, [80, 90]).tolerance, 18);
+  },
+
+  // ---- 10. the FFT, and watching a tongue move --------------------
+
+  "the FFT gives the same answer as the textbook transform"() {
+    // The whole app's spectral analysis rides on this. A wrong FFT would
+    // shift every centroid and quietly rewrite every /s/-vs-/sh/ call, so
+    // it is checked against the slow transform it replaced rather than
+    // against itself.
+    const { buf, sampleRate } = S.say("child", "s", 42);
+    const w = (n) => { const a = new Float32Array(n);
+      for (let i = 0; i < n; i++) a[i] = 0.5 - 0.5 * Math.cos((2 * Math.PI * i) / (n - 1));
+      return a; };
+    for (const n of [256, 512, 1024, 2048]) {
+      const fast = L.spectrum(buf, 0, n, sampleRate);
+      const slow = L.dftSpectrum(buf, 0, n, w(n), sampleRate);
+      assert.equal(fast.mag.length, slow.mag.length, "bin count at N=" + n);
+      assert.equal(fast.binHz, slow.binHz, "bin width at N=" + n);
+      let peak = 0, worst = 0;
+      for (let k = 0; k < slow.mag.length; k++) {
+        peak = Math.max(peak, slow.mag[k]);
+        worst = Math.max(worst, Math.abs(fast.mag[k] - slow.mag[k]));
+      }
+      assert.ok(worst / peak < 1e-9, `N=${n}: relative error ${worst / peak}`);
+    }
+  },
+
+  "a frame that isn't a power of two still gets a spectrum"() {
+    // The ragged end of a buffer. It falls back to the slow path rather
+    // than silently returning nothing.
+    const { buf, sampleRate } = S.say("child", "s", 42);
+    const odd = L.spectrum(buf, 0, 1000, sampleRate);
+    assert.equal(odd.mag.length, 500);
+    assert.ok(odd.mag.some((v) => v > 0), "should not be empty");
+  },
+
+  "analysis is fast enough to run live"() {
+    // A tongue that updates 30 times a second needs a frame in well under
+    // 33 ms. With the naive transform one frame took ~60 ms, so this is
+    // the test that stops that coming back.
+    const { buf, sampleRate } = S.say("child", "ah", 42);
+    const t0 = Date.now();
+    for (let i = 0; i < 30; i++) L.analyse(buf, sampleRate, { from: 0, frame: 2048 });
+    const per = (Date.now() - t0) / 30;
+    assert.ok(per < 15, `analyse() takes ${per.toFixed(1)} ms/frame — too slow to track live`);
+  },
+
+  "a track follows the tongue from one vowel to the next"() {
+    // "ee-ah-oo" end to end: front-close, then open, then back-close.
+    // If the track were reading noise these would not come out in order.
+    const track = L.trackVowel(glide(["ee", "ah", "oo"]), 44100,
+      { calibration: { band: "child", vowelBox: vowelCal("child") }, fps: 30 });
+    const at = (frac) => {
+      const s = track.samples.filter((p) => p.x != null);
+      return s[Math.floor(s.length * frac)];
+    };
+    const ee = at(0.1), ah = at(0.5), oo = at(0.9);
+    assert.ok(ee.x < 25 && ee.y < 25, `start should be front-close, got (${ee.x},${ee.y})`);
+    assert.ok(ah.y > 60, `middle should be open, got (${ah.x},${ah.y})`);
+    assert.ok(oo.x > 55 && oo.y < 35, `end should be back-close, got (${oo.x},${oo.y})`);
+    assert.ok(track.samples.length > 30, "expected a frame every ~33 ms");
+  },
+
+  "smoothing removes a one-frame jump without erasing a real move"() {
+    // LPC picks a wrong peak now and then. Unsmoothed, one bad frame
+    // throws the tongue across the mouth and back — which reads as the
+    // app being broken, not as a measurement being hard.
+    const track = L.trackVowel(glide(["ee", "ah", "oo"]), 44100,
+      { calibration: { band: "child", vowelBox: vowelCal("child") }, fps: 30 });
+    const placed = track.samples.filter((p) => p.x != null);
+    let jumps = 0, rawJumps = 0;
+    for (let i = 1; i < placed.length; i++) {
+      const d = Math.abs(placed[i].x - placed[i - 1].x) + Math.abs(placed[i].y - placed[i - 1].y);
+      const r = Math.abs(placed[i].rawX - placed[i - 1].rawX) +
+                Math.abs(placed[i].rawY - placed[i - 1].rawY);
+      if (d > 45) jumps++;
+      if (r > 45) rawJumps++;
+    }
+    assert.ok(jumps <= rawJumps, "smoothing should not add jumps");
+    // and the real journey still happens
+    const xs = placed.map((p) => p.x);
+    assert.ok(Math.max(...xs) - Math.min(...xs) > 40,
+      "the tongue should still visibly travel front to back");
+  },
+
+  "a gap in the track is a gap, not a snap to neutral"() {
+    // Silence and consonants come back as null so the UI can hold the
+    // last position. A tongue that flies home between every sound reads
+    // as a fault rather than as a gap in what the mic can see.
+    const sr = 44100;
+    const v = S.say("child", "ah", 42).buf;
+    const quiet = new Float32Array(Math.round(sr * 0.4));
+    const buf = new Float32Array(v.length + quiet.length + v.length);
+    buf.set(v, 0); buf.set(v, v.length + quiet.length);
+    const track = L.trackVowel(buf, sr, { band: "child", fps: 30 });
+    assert.ok(track.samples.some((p) => p.x == null), "the silence should read as a gap");
+    assert.ok(track.samples.filter((p) => p.x != null).length > 10, "the vowels should not");
+  },
+
+  "steadiest() finds where the tongue stopped, not where it was loudest"() {
+    const track = L.trackVowel(glide(["ee", "ah"]), 44100,
+      { calibration: { band: "child", vowelBox: vowelCal("child") }, fps: 30 });
+    const held = L.steadiest(track, { ms: 120 });
+    assert.ok(held, "expected a steady stretch");
+    assert.ok(held.steadiness <= 12, "steadiness " + held.steadiness + " is not steady");
+    assert.ok(held.to > held.from, "should span time");
+  },
+
+  "the live tracker and the offline track agree"() {
+    // Same maths either way — the live path just gets the audio in
+    // pieces. If they drift, what a child watches live stops matching
+    // what the replay shows them.
+    const buf = glide(["ee", "ah"]);
+    const opts = { calibration: { band: "child", vowelBox: vowelCal("child") }, fps: 30 };
+    const offline = L.trackVowel(buf, 44100, opts);
+    const live = L.makeTracker(44100, opts);
+    const got = [];
+    for (let at = 0; at + live.hop <= buf.length; at += live.hop) {
+      got.push(live.push(buf.subarray(at, at + live.hop)));
+    }
+    assert.equal(got.length, offline.samples.length);
+    for (let i = 0; i < got.length; i++) {
+      const a = got[i], b = offline.samples[i];
+      if (b.x == null) { assert.equal(a, null, "frame " + i + " should be a gap"); continue; }
+      assert.ok(a, "frame " + i + " should be placed");
+      assert.equal(a.x, b.x, "x at frame " + i);
+      assert.equal(a.y, b.y, "y at frame " + i);
+    }
   },
 
   "the chart anchors agree with the diagram that draws them"() {

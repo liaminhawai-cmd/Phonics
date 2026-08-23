@@ -38,6 +38,7 @@ window.PhonicsMic = (function () {
     var chunks = [];
     var live = false;
     var peak = 0;
+    var chunkHook = null;      // set by holdToTalk to analyse as we go
 
     async function start(onLevel) {
       if (live) return true;
@@ -49,8 +50,9 @@ window.PhonicsMic = (function () {
       src = ctx.createMediaStreamSource(stream);
       node = ctx.createScriptProcessor(2048, 1, 1);
       node.onaudioprocess = function (e) {
-        var d = e.inputBuffer.getChannelData(0);
-        chunks.push(new Float32Array(d));
+        var d = new Float32Array(e.inputBuffer.getChannelData(0));
+        chunks.push(d);
+        if (chunkHook) chunkHook(d);
         if (!onLevel) return;
         var m = 0;
         for (var i = 0; i < d.length; i++) { var v = Math.abs(d[i]); if (v > m) m = v; }
@@ -72,6 +74,7 @@ window.PhonicsMic = (function () {
     function stop() {
       if (!live) return null;
       live = false;
+      chunkHook = null;
       try { node.disconnect(); src.disconnect(); mute.disconnect(); } catch (e) {}
       try { stream.getTracks().forEach(function (t) { t.stop(); }); } catch (e) {}
       var sr = ctx.sampleRate;
@@ -83,7 +86,12 @@ window.PhonicsMic = (function () {
       return { buf: buf, sampleRate: sr };
     }
 
-    return { start: start, stop: stop, isLive: function () { return live; } };
+    return {
+      start: start, stop: stop,
+      isLive: function () { return live; },
+      sampleRate: function () { return ctx ? ctx.sampleRate : 0; },
+      onChunk: function (fn) { chunkHook = fn; },
+    };
   }
 
   // Find the attempt inside the silence and measure it.
@@ -106,6 +114,24 @@ window.PhonicsMic = (function () {
 
     function level(v) { if (opts.onLevel) opts.onLevel(v); }
 
+    // Live tongue, if the caller wants one: the tracker rides the
+    // recording that is already happening rather than opening a second
+    // microphone. onPose fires per analysed frame; onGap fires when this
+    // moment is not a placeable vowel, so the caller can hold the last
+    // position instead of snapping the tongue home.
+    function attachTracker() {
+      if (!opts.onPose || !L) return;
+      var tracker = L.makeTracker(rec.sampleRate(), {
+        calibration: opts.calibration || loadCal(),
+        fps: opts.fps || 30,
+      });
+      rec.onChunk(function (chunk) {
+        var pose = tracker.push(chunk);
+        if (pose) opts.onPose(pose);
+        else if (opts.onGap) opts.onGap();
+      });
+    }
+
     async function down(e) {
       if (busy || rec.isLive()) return;
       if (e && e.cancelable) e.preventDefault();
@@ -113,6 +139,7 @@ window.PhonicsMic = (function () {
       heldAt = Date.now();
       try {
         await rec.start(level);
+        attachTracker();
         if (opts.onStart) opts.onStart();
       } catch (err) {
         busy = false;
@@ -270,8 +297,69 @@ window.PhonicsMic = (function () {
     return Anatomy.glide(ctl, from, [pose.x, pose.y], opts.ms || 650, opts.done);
   }
 
+  // ---- watching your own tongue -----------------------------------
+  // Two ways to see it: live while you speak, and replayed afterwards
+  // with your own voice. The replay is the one that teaches — live, a
+  // child is busy making the sound; on the replay they can watch.
+
+  // Replay a recording: the child's own voice, with the tongue moving in
+  // step with it. Returns a cancel fn.
+  function replayTongue(clip, ctl, opts) {
+    opts = opts || {};
+    if (!clip || !ctl || !window.PhonicsListen) return function () {};
+    var track = L.trackVowel(clip.buf, clip.sampleRate, {
+      calibration: opts.calibration || loadCal(),
+      fps: opts.fps || 30,
+    });
+
+    var ctx = null, srcNode = null, raf = 0, dead = false;
+    var startedAt = 0;
+
+    // Play their voice back through the same clock the animation reads,
+    // so the tongue and the sound cannot drift apart.
+    if (opts.sound !== false && window.AudioContext) {
+      try {
+        ctx = new AudioContext();
+        var abuf = ctx.createBuffer(1, clip.buf.length, clip.sampleRate);
+        abuf.getChannelData(0).set(clip.buf);
+        srcNode = ctx.createBufferSource();
+        srcNode.buffer = abuf;
+        srcNode.connect(ctx.destination);
+        srcNode.start();
+      } catch (e) { ctx = null; }
+    }
+
+    var t0 = (typeof performance !== "undefined" ? performance.now() : Date.now());
+    var last = null;
+    function step() {
+      if (dead) return;
+      var now = (typeof performance !== "undefined" ? performance.now() : Date.now());
+      var t = (now - t0) / 1000;
+      if (t > track.duration) {
+        if (opts.done) opts.done(track);
+        cleanup();
+        return;
+      }
+      var i = Math.min(track.samples.length - 1, Math.floor(t * track.fps));
+      var p = track.samples[i];
+      if (p && p.x != null) { ctl.pose(p.x, p.y); last = p; }
+      // a gap holds `last` — deliberately no else branch
+      if (opts.onFrame) opts.onFrame(p, t);
+      raf = requestAnimationFrame(step);
+    }
+    function cleanup() {
+      dead = true;
+      if (raf) cancelAnimationFrame(raf);
+      try { if (srcNode) srcNode.stop(); } catch (e) {}
+      try { if (ctx) ctx.close(); } catch (e) {}
+    }
+    raf = requestAnimationFrame(step);
+    return cleanup;
+  }
+
   return {
     loadCal: loadCal, saveCal: saveCal, clearCal: clearCal,
+    replayTongue: replayTongue,
     targetFor: targetFor, isVowelSound: isVowelSound,
     mountVowelMouth: mountVowelMouth, showTarget: showTarget, showAttempt: showAttempt,
     createRecorder: createRecorder, measure: measure, holdToTalk: holdToTalk,

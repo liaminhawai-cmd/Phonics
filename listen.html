@@ -56,6 +56,14 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
 .rec[disabled] { opacity:.55; cursor:default; }
 .rec.listening { background:var(--warn); border-color:var(--warn); color:var(--warn-ink); }
 .level { width:170px; height:8px; margin:10px auto 0; background:var(--line-soft); border-radius:4px; overflow:hidden; }
+.live-toggle { display:inline-flex; align-items:center; gap:6px; margin-top:10px;
+  font-size:12.5px; color:var(--muted); cursor:pointer; }
+.live-wrap { margin-bottom:8px; }
+.live-mouth svg { width:150px; height:188px; margin:0 auto; background:#fff;
+  border:1px solid var(--line); border-radius:10px; }
+.live-mouth.hearing svg { border-color:var(--correct); }
+.live-cap { font-size:12px; color:var(--muted); margin-top:4px; min-height:1.2em; }
+.live-cap b { color:var(--ink); }
 .level i { display:block; height:100%; width:0; background:var(--correct); transition:width .06s linear; }
 
 /* ---- verdict ---- */
@@ -156,9 +164,14 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
   <div id="sounds"></div>
 
   <div class="stage">
+    <div class="live-wrap" id="liveWrap" hidden>
+      <div class="live-mouth" id="liveMouth"></div>
+      <div class="live-cap" id="liveCap">Talk — your tongue moves with you</div>
+    </div>
     <div class="target" id="target">/s/</div>
     <div class="target-hint" id="targetHint">as in <b>sun</b></div>
     <button class="rec" id="recBtn">Hold to listen</button>
+    <label class="live-toggle"><input type="checkbox" id="liveToggle"> Watch my tongue while I talk</label>
     <div class="level"><i id="level"></i></div>
   </div>
 
@@ -170,8 +183,11 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
       <div class="ask-body">
         <div class="ask-q" id="vowelTip"></div>
         <div class="yesno">
+          <button id="vowelReplayBtn">▶ Watch mine</button>
           <button id="vowelTargetBtn">▶ The shape</button>
-          <button id="vowelMineBtn">▶ Mine</button>
+        </div>
+        <div class="yesno" style="margin-top:6px">
+          <button id="vowelMineBtn">Hold my shape</button>
         </div>
       </div>
     </div>
@@ -251,6 +267,8 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
   var ART = {};   // filled from data/phonemes.json, for the picture
 
   var current = "s";
+  var lastClip = null;          // their last recording, for replaying
+  var liveCtl = null, liveOn = false, liveIdle = 0;
   var currentVowel = null;      // set when the picked sound is a vowel
   var vowelCtl = null, vowelTarget = null, vowelPose = null, vowelCancel = null;
   var cal = null;
@@ -312,7 +330,7 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
   function select(id) {
     current = id;
     currentVowel = VOWEL_BY_ID[id] || null;
-    Array.prototype.forEach.call($("sounds").children, function (b) {
+    Array.prototype.forEach.call($("sounds").querySelectorAll(".sound-btn"), function (b) {
       b.setAttribute("aria-pressed", b.dataset.id === id ? "true" : "false");
     });
     if (currentVowel) {
@@ -333,6 +351,50 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
   }
 
   function stopVowelAnim() { if (vowelCancel) { vowelCancel(); vowelCancel = null; } }
+
+  /* ---- watching your tongue live ------------------------------------
+     The tongue follows the voice while the child talks. Gaps — silence,
+     a consonant, anything that isn't a placeable vowel — leave it where
+     it was rather than snapping home, because a tongue that flies back
+     to neutral between sounds reads as a fault instead of as a moment
+     the microphone cannot see. */
+  function setLive(on) {
+    liveOn = on;
+    $("liveWrap").hidden = !on;
+    if (on && !liveCtl) liveCtl = Mic.mountVowelMouth($("liveMouth"));
+    if (!on) $("liveMouth").classList.remove("hearing");
+  }
+
+  function livePose(pose) {
+    if (!liveCtl) return;
+    liveCtl.pose(pose.x, pose.y);
+    $("liveMouth").classList.add("hearing");
+    $("liveCap").innerHTML = "Tongue at <b>" + pose.x + ", " + pose.y + "</b>" +
+      " \u00b7 F1 " + pose.f1 + " Hz, F2 " + pose.f2 + " Hz";
+    liveIdle = 0;
+  }
+
+  function liveGap() {
+    if (!liveCtl) return;
+    if (++liveIdle === 4) {          // a few in a row means they stopped
+      $("liveMouth").classList.remove("hearing");
+      $("liveCap").textContent = "Not a vowel right now \u2014 holding the last shape";
+    }
+  }
+
+  /* ---- replaying what they said --------------------------------------
+     Their own voice, with the tongue moving in step. This is the one
+     that teaches: live, a child is busy making the sound; on the replay
+     they can actually watch. Deliberately played BEFORE the model, so
+     they see what they did rather than what they were aiming at. */
+  function replayMine(done) {
+    stopVowelAnim();
+    if (!lastClip || !vowelCtl) { if (done) done(); return; }
+    vowelCancel = Mic.replayTongue(lastClip, vowelCtl, {
+      calibration: cal,
+      done: function () { vowelCancel = null; if (done) done(); },
+    });
+  }
 
   function playVowel(which) {
     stopVowelAnim();
@@ -368,6 +430,7 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
         "you nothing than a confident reading of noise.";
       $("vowelTip").textContent = "This is the shape to aim for.";
       $("vowelMineBtn").disabled = true;
+      $("vowelReplayBtn").disabled = !lastClip;
       playVowel("target");
       record(current, "quiet", "not a readable vowel");
       return;
@@ -383,7 +446,12 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
                           : "Measured against a general table — calibrate above for a real reading.");
     $("vowelTip").textContent = fb.tip;
     $("vowelMineBtn").disabled = false;
-    playVowel("both");
+    $("vowelReplayBtn").disabled = !lastClip;
+    // Their own first, then the shape they were aiming at. Showing the
+    // model first tells them the answer before they have looked at what
+    // they actually did.
+    if (lastClip) replayMine(function () { setTimeout(function () { playVowel("target"); }, 500); });
+    else playVowel("both");
     record(current, fb.close ? "heard" : "close", fb.tip);
   }
 
@@ -430,12 +498,6 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
     } catch (e) {
       fail(Mic.micError(e));
     }
-  }
-
-  function stopListening() {
-    if (!listening) return null;
-    setListening(false);
-    return recorder.stop();
   }
 
   var measure = Mic.measure;
@@ -571,8 +633,9 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
 
   // ---- wiring ----------------------------------------------------------
 
-  function graded(f) {
+  function graded(f, clip) {
     lastFeatures = f;
+    lastClip = clip || null;
     if (!f) { fail("That was too short to read. Hold the button while they make the sound."); return; }
     show(L.grade(current, f, { calibration: cal }), f);
   }
@@ -594,10 +657,15 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
       onLevel: function (v) { $("level").style.width = (v * 100) + "%"; },
       onError: fail,
       onResult: graded,
+      get calibration() { return cal; },
+      onPose: function (p) { if (liveOn) livePose(p); },
+      onGap: function () { if (liveOn) liveGap(); },
     });
 
     $("vowelTargetBtn").addEventListener("click", function () { playVowel("target"); });
     $("vowelMineBtn").addEventListener("click", function () { playVowel("mine"); });
+    $("vowelReplayBtn").addEventListener("click", function () { replayMine(); });
+    $("liveToggle").addEventListener("change", function (e) { setLive(e.target.checked); });
     $("askYes").addEventListener("click", function () { answerAsk(true); });
     $("askNo").addEventListener("click", function () { answerAsk(false); });
     $("calBtn").addEventListener("click", runCalibration);
