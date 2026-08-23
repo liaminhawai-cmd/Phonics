@@ -57,6 +57,21 @@ module.exports = {
     }
   },
 
+  "the standalone build's close-up windows match anatomy.js"() {
+    // The window table is the difference between a close-up a child can
+    // read and a wall of pink. It is inlined into the standalone build, so
+    // a tuning pass that only lands in anatomy.js leaves that build behind.
+    const grab = (src) => {
+      const i = src.indexOf('const WINDOWS = {');
+      assert.ok(i !== -1, "no WINDOWS table");
+      const j = src.indexOf("};", i);
+      return src.slice(i, j).replace(/\/\*[\s\S]*?\*\//g, " ")
+                .replace(/\/\/[^\n]*/g, " ").replace(/\s+/g, " ").trim();
+    };
+    assert.equal(grab(read("phonics-standalone.html")), grab(read("anatomy.js")),
+      "phonics-standalone.html's inlined WINDOWS table has drifted from anatomy.js");
+  },
+
   "every page that draws a vocal tract loads something that styles it"() {
     for (const f of fs.readdirSync(ROOT).filter((f) => f.endsWith(".html"))) {
       const src = read(f);

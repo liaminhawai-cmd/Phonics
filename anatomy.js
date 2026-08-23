@@ -103,23 +103,91 @@ window.Anatomy = (() => {
        Dental / Alveolar / Post-alveolar -> tongue tip, ridge, teeth
        Palatal / Velar -> tongue body + hard palate / velum + uvula
        Glottal -> pharynx, epiglottis, larynx, vocal folds            */
+  /* Widened after looking at all 24 side by side in the tuner. The first
+     pass cropped so tight that /t/, /s/ and /k/ were a wall of tongue with
+     no landmark in frame — a child cannot orient in a picture whose only
+     content is the thing that moves. Each window now keeps at least two
+     fixed landmarks (teeth, the palate arc, the lip line) so the moving
+     part has something to move against, and sits a little higher so the
+     roof of the mouth stays in shot.
+
+     Wider is not automatically better: past about w=44 the contact dot
+     shrinks to a speck and the close-up stops being a close-up. */
   const WINDOWS = {
-    "Bilabial":      [14.5, 42.0, 28],
-    "Labio-dental":  [15.0, 41.5, 28],
-    "Dental":        [18.0, 41.5, 29],
-    "Alveolar":      [24.5, 39.5, 30],
-    "Post-alveolar": [31.0, 38.5, 32],
-    "Palatal":       [36.5, 38.5, 34],
-    "Velar":         [50.0, 39.0, 34],
-    "Glottal":       [64.0, 87.5, 30]
+    "Bilabial":      [16.0, 41.0, 34],
+    "Labio-dental":  [16.5, 40.5, 34],
+    "Dental":        [19.0, 40.0, 35],
+    "Alveolar":      [26.0, 37.0, 38],
+    "Post-alveolar": [31.0, 36.5, 40],
+    "Palatal":       [36.0, 36.5, 42],
+    "Velar":         [48.0, 36.0, 42]
+    // Glottal is deliberately absent, so /h/ shows the whole head. There
+    // is nothing to zoom in on: /h/ is the one consonant with no
+    // constriction in the mouth at all — just breath through an open
+    // tract. A close-up of a larynx tells a five-year-old nothing, and
+    // the useful picture is the wide one where they can see the air
+    // travelling all the way out.
   };
 
-  // [x, y, w, h] of the close-up for a place (the full head if unknown).
-  function windowFor(place) {
-    const wv = WINDOWS[place];
+  /* Per-phoneme overrides. Two sounds made in the same place can still
+     want different framing — /t/ and /s/ are both Alveolar, but a tap and
+     a sustained hiss don't read well at the same zoom. Anything absent
+     here falls back to its place's window above.
+
+     Tuned by eye in tools/closeup-tuner.html, which writes this table. */
+  const PHONEME_WINDOWS = {};
+
+  // [x, y, w, h] of the close-up. id (optional) picks up a per-phoneme
+  // override; otherwise the place's window, or the full head if unknown.
+  function windowFor(place, id) {
+    const wv = (id && PHONEME_WINDOWS[id]) || WINDOWS[place];
     if (!wv) return FULL_VB.slice();
     const w = wv[2], h = w * 1.25;
     return [wv[0] - w / 2, wv[1] - h / 2, w, h];
+  }
+
+  function hasWindow(place, id) {
+    return !!((id && PHONEME_WINDOWS[id]) || WINDOWS[place]);
+  }
+
+  // Let the tuner (and a page that has loaded saved values) set them.
+  function setPhonemeWindow(id, wv) {
+    if (wv) PHONEME_WINDOWS[id] = wv.slice(0, 3);
+    else delete PHONEME_WINDOWS[id];
+  }
+
+  /* ---- "you are here" ------------------------------------------------
+     A close-up of a mouth is only obvious if you already know what a
+     mouth looks like from the side. A child does not. This drops a small
+     whole-head silhouette into the corner with a box round the part
+     being shown — the same trick as an inset map — so the zoom stays
+     legible as a zoom instead of becoming an abstract shape.          */
+  const HEAD_SILHOUETTE =
+    "M38,2 C22,2 11,9 8,22 C7,26 8,29 3,32 C1,34 2,37 7,38 " +
+    "C5,40 5,43 8,45 C6,49 7,54 11,57 C8,63 11,71 18,77 C24,83 29,90 30,108 " +
+    "L79,108 C78,96 77,86 79,73 C82,57 87,42 85,26 C83,10 69,2 54,2 Z";
+
+  function drawLocator(el, box) {
+    let g = el.querySelector(".an-locator");
+    if (g) g.remove();
+    if (!box) return;
+    const [vx, vy, vw, vh] = box;
+    const scale = (vw * 0.30) / 88;              // inset is ~30% of the frame
+    const pad = vw * 0.05;
+    const ox = vx + vw - 88 * scale - pad;
+    const oy = vy + vh - 110 * scale - pad;
+    g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g.setAttribute("class", "an-locator");
+    g.setAttribute("transform", `translate(${f2(ox)} ${f2(oy)}) scale(${scale.toFixed(4)})`);
+    // A plate behind it, because the inset lands on whatever the close-up
+    // happens to be showing — usually the tongue — and a head silhouette
+    // drawn straight onto a tongue reads as more anatomy, not as a map.
+    g.innerHTML =
+      `<rect class="an-loc-plate" x="-6" y="-4" width="100" height="118" rx="6"/>` +
+      `<path class="an-loc-head" d="${HEAD_SILHOUETTE}"/>` +
+      `<rect class="an-loc-box" x="${f2(vx)}" y="${f2(vy)}" ` +
+      `width="${f2(vw)}" height="${f2(vh)}" rx="2"/>`;
+    el.appendChild(g);
   }
 
   /* Where the air goes once it is past the constriction. Point lists,
@@ -436,7 +504,7 @@ window.Anatomy = (() => {
     // "lateral" outright; mouth.js's older table just says "approximant".)
     if (manner === "approximant" && place === "Alveolar") manner = "lateral";
     const voiced = o.voiced != null ? !!o.voiced : el.getAttribute("data-voiced") === "1";
-    const zoom = o.zoom !== false && !!WINDOWS[place];
+    const zoom = o.zoom !== false && hasWindow(place, o.id);
     const still = o.animate === false || o.at != null || REDUCED();
     const frozen = o.at != null ? clamp01(o.at) : HOLD[manner];
 
@@ -448,8 +516,9 @@ window.Anatomy = (() => {
     const ring = q(".an-place-ring"), dot = q(".an-place");
     const fx = ensureFx(el).__g;
 
-    const win = zoom ? windowFor(place) : FULL_VB.slice();
+    const win = zoom ? windowFor(place, o.id) : FULL_VB.slice();
     const W = win[2], H = win[3];
+    if (o.locator && zoom) drawLocator(el, win);
     const beat = BEATS[manner], period = beat + PAUSE;
 
     const jetPts = manner === "lateral" ? LATERAL_JET : (JETS[place] || JETS.Alveolar);
@@ -714,6 +783,9 @@ window.Anatomy = (() => {
     if (restore) {
       el.classList.remove("an-zoom");
       el.setAttribute("viewBox", FULL_VB.join(" "));
+      // the "you are here" inset only means anything while zoomed
+      const loc = el.querySelector(".an-locator");
+      if (loc) loc.remove();
       const fx = el.querySelector(".an-fx");
       if (fx) fx.style.opacity = 0;
       const ring = el.querySelector(".an-place-ring"), dot = el.querySelector(".an-place");
@@ -748,14 +820,17 @@ window.Anatomy = (() => {
         if (velum) velum.setAttribute("d", "M58,31 Q61,38 59,46");
         if (uvula) { uvula.setAttribute("cx", "58.8"); uvula.setAttribute("cy", "47"); }
       }
-      if (o.zoom !== false && WINDOWS[place]) {
+      if (o.zoom !== false && hasWindow(place, o.id)) {
         el.classList.add("an-zoom");
-        el.setAttribute("viewBox", windowFor(place).map(f2).join(" "));
+        const box = windowFor(place, o.id);
+        el.setAttribute("viewBox", box.map(f2).join(" "));
+        if (o.locator) drawLocator(el, box);
       }
       return null;
     }
     return animateConsonant(el, {
-      place, manner, zoom: o.zoom, animate: o.animate, at: o.at, voiced: o.voiced
+      place, manner, zoom: o.zoom, animate: o.animate, at: o.at, voiced: o.voiced,
+      id: o.id, locator: o.locator
     });
   }
 
@@ -920,6 +995,14 @@ window.Anatomy = (() => {
 .an-fx-buzz-wave { fill: none; stroke: var(--an-contact, #a83232); stroke-linecap: round; }
 .anatomy.an-zoom .an-oral-air, .anatomy.an-zoom .an-nasal-air { opacity: 0 !important; animation: none !important; }
 .anatomy.an-zoom .an-place-ring { animation: none !important; }
+.an-locator { pointer-events: none; }
+.an-loc-plate { fill: #fff; stroke: var(--an-tissue-edge, #3c5f78); stroke-width: 1;
+  vector-effect: non-scaling-stroke; opacity: .92; }
+.an-loc-head { fill: var(--an-tissue, #e3ecf6); stroke: var(--an-tissue-edge, #3c5f78);
+  stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.an-loc-box { fill: var(--an-contact, #a83232); fill-opacity: .18;
+  stroke: var(--an-contact, #a83232); stroke-width: 1.8;
+  vector-effect: non-scaling-stroke; }
 .anatomy.an-zoom .an-tissue, .anatomy.an-zoom .an-cavity, .anatomy.an-zoom .an-tongue,
 .anatomy.an-zoom .an-lip, .anatomy.an-zoom .an-tooth, .anatomy.an-zoom .an-palate,
 .anatomy.an-zoom .an-velum, .anatomy.an-zoom .an-uvula, .anatomy.an-zoom .an-outline,
@@ -947,5 +1030,6 @@ window.Anatomy = (() => {
   })();
 
   return { svg, parts, makeCtl, poseConsonant, consonantTongue, glide, loopGlide, SPOTS, reduced: REDUCED,
-           animateConsonant, stopConsonant, windowFor, WINDOWS, mannerOf };
+           animateConsonant, stopConsonant, windowFor, hasWindow, WINDOWS,
+           PHONEME_WINDOWS, setPhonemeWindow, drawLocator, mannerOf };
 })();

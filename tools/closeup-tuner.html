@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Close-up tuner — Aussie Phonics</title>
+<link rel="icon" href="data:,">
+<style>
+:root { --bg:#f4efe6; --paper:#fbf7ee; --ink:#1f1f1f; --muted:#6b6256;
+  --line:#d8cfbb; --line-soft:#e8e0cd; --accent:#a83232; --correct:#2f6a3e; }
+* { margin:0; padding:0; box-sizing:border-box; }
+[hidden] { display:none !important; }
+body { font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:var(--bg);
+  color:var(--ink); padding:16px; }
+.wrap { max-width:1180px; margin:0 auto; }
+h1 { font-family:Georgia,serif; font-size:22px; }
+.lede { color:var(--muted); font-size:13.5px; line-height:1.6; margin:6px 0 14px; max-width:70ch; }
+.lede b { color:var(--ink); }
+.bar { position:sticky; top:0; z-index:5; background:var(--paper); border:1px solid var(--line);
+  border-radius:10px; padding:10px 12px; display:flex; gap:14px; align-items:center;
+  flex-wrap:wrap; margin-bottom:14px; }
+.bar label { font-size:13px; display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
+.btn { min-height:38px; padding:0 14px; border:1px solid var(--line); border-radius:19px;
+  background:var(--bg); font:inherit; font-size:13px; font-weight:700; cursor:pointer; color:var(--ink); }
+.btn:hover { border-color:var(--accent); color:var(--accent); }
+.btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(216px,1fr)); gap:12px; }
+.card { background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:10px; }
+.card.dirty { border-color:var(--correct); box-shadow:0 0 0 2px rgba(47,106,62,.13); }
+.card h2 { font-family:Georgia,serif; font-size:17px; display:flex; align-items:baseline; gap:7px; }
+.card h2 > span { white-space:nowrap; }
+.card h2 small { font-family:'Segoe UI',sans-serif; font-size:10px; font-weight:600;
+  text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+.pair { display:flex; gap:6px; margin:7px 0; }
+.pair figure { flex:1; min-width:0; }
+.pair figcaption { font-size:9.5px; text-transform:uppercase; letter-spacing:.05em;
+  color:var(--muted); text-align:center; margin-top:2px; }
+.pair svg { width:100%; height:auto; background:#fff; border:1px solid var(--line-soft);
+  border-radius:7px; display:block; }
+.sliders { display:grid; grid-template-columns:auto 1fr auto; gap:3px 7px; align-items:center;
+  font-size:11px; color:var(--muted); }
+.sliders input[type=range] { width:100%; }
+.sliders b { font-variant-numeric:tabular-nums; color:var(--ink); font-size:11px; min-width:2.6em;
+  text-align:right; }
+.card .reset { font-size:11px; background:none; border:0; color:var(--accent); cursor:pointer;
+  padding:2px 0; text-decoration:underline; }
+.out { margin-top:18px; }
+.out textarea { width:100%; min-height:150px; font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:12px; padding:10px; border:1px solid var(--line); border-radius:8px;
+  background:var(--paper); color:var(--ink); resize:vertical; }
+.note { font-size:12.5px; color:var(--muted); line-height:1.6; margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Close-up tuner</h1>
+  <p class="lede">Every consonant's close-up, side by side with the whole head, so you can see
+    what each crop throws away. Drag the sliders until it reads well to a five-year-old, then
+    <b>Copy</b> the table at the bottom into <code>anatomy.js</code>. Two sounds made in the same
+    place can want different framing — <b>/t/</b> and <b>/s/</b> are both alveolar but a tap and a
+    held hiss don't sit well at the same zoom — so each phoneme gets its own entry.</p>
+
+  <div class="bar">
+    <label><input type="checkbox" id="optLocator" checked> "You are here" inset</label>
+    <label><input type="checkbox" id="optAnimate"> Animate</label>
+    <label><input type="checkbox" id="optWhole" checked> Show whole head beside it</label>
+    <span style="flex:1"></span>
+    <button class="btn" id="resetAll">Reset all</button>
+    <button class="btn primary" id="copyBtn">Copy the table</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="out">
+    <h2 style="font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)">
+      Paste into anatomy.js — <code>const PHONEME_WINDOWS</code></h2>
+    <textarea id="out" readonly spellcheck="false"></textarea>
+    <p class="note">Only the ones you changed are listed. Anything absent keeps falling back to
+      its place's window, so this stays a short list of deliberate exceptions rather than a
+      duplicate of the whole table.</p>
+  </div>
+</div>
+
+<script src="../anatomy.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var EXAMPLE = { p:"pen", b:"bat", t:"tap", d:"dog", k:"cat", g:"got", ch:"chip", j:"jam",
+    f:"fish", v:"van", th:"thin", dh:"this", s:"sun", z:"zip", sh:"ship", zh:"treasure",
+    h:"hat", m:"map", n:"net", ng:"sing", l:"leg", r:"red", w:"win", y:"yes" };
+  var IPA = { sh:"ʃ", zh:"ʒ", ch:"tʃ", j:"dʒ", th:"θ", dh:"ð", ng:"ŋ", y:"j" };
+  var STORE = "phonics.closeupWindows";
+
+  var rows = [];            // { id, place, manner, voiced, base, cur, el… }
+  var opts = { locator: true, animate: false, whole: true };
+
+  function ipa(id) { return IPA[id] || id; }
+
+  function saved() {
+    try { return JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (e) { return {}; }
+  }
+  function save(map) {
+    try { localStorage.setItem(STORE, JSON.stringify(map)); } catch (e) {}
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c];
+    });
+  }
+
+  function build(phonemes) {
+    var store = saved();
+    var grid = $("grid");
+    phonemes.forEach(function (p) {
+      var a = p.articulation;
+      if (!a || !a.place) return;
+      // A place with no window shows the whole head on purpose — /h/ has
+      // no constriction to zoom in on. Still listed, so you can see that
+      // decision rather than wonder where the sound went, and so you can
+      // give it a window here if you disagree.
+      var wide = !Anatomy.WINDOWS[a.place];
+      var base = (Anatomy.WINDOWS[a.place] || [44, 55, 88]).slice();
+      var cur = (store[p.id] || base).slice();
+      if (!wide || store[p.id]) Anatomy.setPhonemeWindow(p.id, cur);
+
+      var card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML =
+        '<h2><span>/' + esc(ipa(p.id)) + '/</span> <small>' + esc(a.place) + ' &middot; ' +
+          esc(a.manner) + (EXAMPLE[p.id] ? " &middot; " + esc(EXAMPLE[p.id]) : "") + '</small></h2>' +
+        '<div class="pair">' +
+          '<figure class="close"><figcaption>close-up</figcaption></figure>' +
+          '<figure class="whole"><figcaption>whole head</figcaption></figure>' +
+        '</div>' +
+        '<div class="sliders">' +
+          '<span>x</span><input type="range" class="sx" min="2" max="86" step="0.5"><b class="vx"></b>' +
+          '<span>y</span><input type="range" class="sy" min="10" max="104" step="0.5"><b class="vy"></b>' +
+          '<span>size</span><input type="range" class="sw" min="14" max="88" step="0.5"><b class="vw"></b>' +
+        '</div>' +
+        '<button class="reset">' +
+          (wide ? "back to the whole head" : "back to the " + esc(a.place) + " default") +
+        '</button>';
+      grid.appendChild(card);
+
+      var row = { id: p.id, place: a.place, manner: a.manner, voiced: a.voiced,
+                  base: base, cur: cur, card: card, wide: wide,
+                  closeFig: card.querySelector(".close"), wholeFig: card.querySelector(".whole") };
+      rows.push(row);
+
+      ["x","y","w"].forEach(function (axis, i) {
+        var input = card.querySelector(".s" + axis);
+        input.value = cur[i];
+        input.addEventListener("input", function () {
+          row.cur[i] = parseFloat(input.value);
+          Anatomy.setPhonemeWindow(row.id, row.cur);
+          row.wide = false;             // they have chosen to crop it
+          paint(row);
+          persist();
+        });
+      });
+      card.querySelector(".reset").addEventListener("click", function () {
+        row.cur = row.base.slice();
+        Anatomy.setPhonemeWindow(row.id, row.wide ? null : row.cur);
+        syncSliders(row);
+        paint(row);
+        persist();
+      });
+      paint(row);
+    });
+    persist();
+  }
+
+  function syncSliders(row) {
+    ["x","y","w"].forEach(function (axis, i) {
+      row.card.querySelector(".s" + axis).value = row.cur[i];
+    });
+  }
+
+  function changed(row) {
+    return row.cur.some(function (v, i) { return Math.abs(v - row.base[i]) > 0.01; });
+  }
+
+  // A whole-head sound only counts as zoomed once you have moved a slider.
+  function zoomed(row) { return !row.wide || changed(row); }
+
+  function paint(row) {
+    // close-up
+    row.closeFig.querySelectorAll("svg").forEach(function (n) { n.remove(); });
+    var holder = document.createElement("div");
+    holder.innerHTML = Anatomy.svg({ place: row.place, manner: row.manner, voiced: row.voiced });
+    var svg = holder.querySelector("svg");
+    row.closeFig.insertBefore(svg, row.closeFig.firstChild);
+    Anatomy.poseConsonant(svg, row.place, row.manner, {
+      id: row.id, animate: opts.animate, voiced: row.voiced,
+      locator: opts.locator && zoomed(row),
+      zoom: zoomed(row),
+    });
+
+    // whole head for comparison, with the crop drawn on it
+    row.wholeFig.hidden = !opts.whole;
+    row.wholeFig.querySelectorAll("svg").forEach(function (n) { n.remove(); });
+    if (opts.whole) {
+      var h2 = document.createElement("div");
+      h2.innerHTML = Anatomy.svg({ place: row.place, manner: row.manner, voiced: row.voiced });
+      var full = h2.querySelector("svg");
+      row.wholeFig.insertBefore(full, row.wholeFig.firstChild);
+      Anatomy.poseConsonant(full, row.place, row.manner, {
+        id: row.id, animate: false, voiced: row.voiced, zoom: false,
+      });
+      if (!zoomed(row)) return;      // nothing is cropped, so no crop box
+      var box = Anatomy.windowFor(row.place, row.id);
+      var r = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      r.setAttribute("class", "an-loc-box");
+      r.setAttribute("x", box[0]); r.setAttribute("y", box[1]);
+      r.setAttribute("width", box[2]); r.setAttribute("height", box[3]);
+      r.setAttribute("rx", "1.5");
+      full.appendChild(r);
+    }
+
+    row.card.querySelector(".vx").textContent = row.cur[0].toFixed(1);
+    row.card.querySelector(".vy").textContent = row.cur[1].toFixed(1);
+    row.card.querySelector(".vw").textContent = row.cur[2].toFixed(1);
+    row.card.classList.toggle("dirty", changed(row));
+  }
+
+  function persist() {
+    var map = {};
+    rows.forEach(function (r) { if (changed(r)) map[r.id] = r.cur.slice(); });
+    save(map);
+    var lines = Object.keys(map).map(function (id) {
+      var v = map[id];
+      return '    "' + id + '": [' + v[0].toFixed(1) + ", " + v[1].toFixed(1) + ", " + v[2].toFixed(1) + "],";
+    });
+    $("out").value = lines.length
+      ? "  const PHONEME_WINDOWS = {\n" + lines.join("\n") + "\n  };"
+      : "  const PHONEME_WINDOWS = {};   // nothing overridden yet — every sound\n" +
+        "                                // still uses its place's window.";
+  }
+
+  function repaintAll() { rows.forEach(paint); }
+
+  $("optLocator").addEventListener("change", function (e) { opts.locator = e.target.checked; repaintAll(); });
+  $("optAnimate").addEventListener("change", function (e) { opts.animate = e.target.checked; repaintAll(); });
+  $("optWhole").addEventListener("change", function (e) { opts.whole = e.target.checked; repaintAll(); });
+  $("resetAll").addEventListener("click", function () {
+    rows.forEach(function (r) {
+      r.cur = r.base.slice();
+      r.wide = !Anatomy.WINDOWS[r.place];
+      Anatomy.setPhonemeWindow(r.id, r.wide ? null : r.cur);
+      syncSliders(r);
+    });
+    repaintAll(); persist();
+  });
+  $("copyBtn").addEventListener("click", function () {
+    $("out").select();
+    if (navigator.clipboard) navigator.clipboard.writeText($("out").value);
+    $("copyBtn").textContent = "Copied";
+    setTimeout(function () { $("copyBtn").textContent = "Copy the table"; }, 1400);
+  });
+
+  fetch("../data/phonemes.json").then(function (r) { return r.json(); }).then(function (j) {
+    build((j.phonemes || []).filter(function (p) { return p.type === "consonant"; }));
+  }).catch(function (e) {
+    $("grid").textContent = "Could not load data/phonemes.json — serve this over http, not file://";
+  });
+})();
+</script>
+</body>
+</html>
