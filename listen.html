@@ -29,6 +29,14 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
 
 /* ---- sound picker ---- */
 .sounds { display:flex; flex-wrap:wrap; gap:6px; }
+.sound-group { margin-bottom:10px; }
+.sound-group h3 { font-size:11px; text-transform:uppercase; letter-spacing:.06em;
+  color:var(--muted); font-weight:700; margin-bottom:5px; }
+.sound-group h3 span { text-transform:none; letter-spacing:0; font-weight:400; }
+/* The record button follows you down the picker — with 35 sounds to
+   choose from, the thing you press should never be off the bottom. */
+.stage { position:sticky; bottom:0; background:var(--paper); z-index:2;
+  padding-bottom:10px; border-top:1px solid var(--line-soft); padding-top:10px; }
 .sound-btn { min-width:52px; min-height:48px; padding:6px 10px; border:1px solid var(--line);
   border-radius:10px; background:var(--bg); font-family:Georgia,serif; font-size:18px; font-weight:700;
   cursor:pointer; color:var(--ink); line-height:1.1; }
@@ -67,6 +75,7 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
 /* ---- the honest picture question ---- */
 .ask-card { display:flex; gap:14px; align-items:center; justify-content:center; flex-wrap:wrap; margin-top:10px; }
 .ask-card svg { width:118px; height:148px; background:#fff; border:1px solid var(--line); border-radius:10px; }
+.yesno button[disabled] { opacity:.45; cursor:default; }
 .ask-body { text-align:left; max-width:280px; }
 .ask-q { font-size:16px; font-weight:700; line-height:1.35; }
 .yesno { display:flex; gap:8px; margin-top:10px; }
@@ -138,11 +147,13 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
     <button class="btn" id="calClear" hidden>Clear</button>
   </div>
   <p class="note" style="margin-top:8px">A five-year-old's mouth is about two-thirds the size of an
-    adult's, so every sound they make sits far higher up the scale. Three quick recordings — <b>sss</b>,
-    <b>shhh</b>, <b>ahh</b> — and the app judges them against themselves instead of a table.</p>
+    adult's, so every sound they make sits far higher up the scale. Five quick recordings —
+    <b>sss</b>, <b>shhh</b>, <b>eee</b>, <b>ahh</b>, <b>ooo</b> — and the app judges them against
+    themselves instead of a table. The last three are the corners of the vowel space: without them
+    a vowel can still be placed, but only roughly.</p>
 
   <h2>2 · Pick a sound</h2>
-  <div class="sounds" id="sounds"></div>
+  <div id="sounds"></div>
 
   <div class="stage">
     <div class="target" id="target">/s/</div>
@@ -154,6 +165,16 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
   <div class="verdict" id="verdict" hidden>
     <h3 id="verdictTitle"></h3>
     <p id="verdictWhy"></p>
+    <div class="ask-card" id="vowelCard" hidden>
+      <div id="vowelMouth"></div>
+      <div class="ask-body">
+        <div class="ask-q" id="vowelTip"></div>
+        <div class="yesno">
+          <button id="vowelTargetBtn">▶ The shape</button>
+          <button id="vowelMineBtn">▶ Mine</button>
+        </div>
+      </div>
+    </div>
     <div class="ask-card" id="askCard" hidden>
       <div id="askPic"></div>
       <div class="ask-body">
@@ -195,6 +216,7 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
 
 <script src="anatomy.js"></script>
 <script src="js/core/listen.js"></script>
+<script src="mouth.js"></script>
 <script src="js/core/mic-ui.js"></script>
 <script>
 (function () {
@@ -208,15 +230,29 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
   // should meet the contrasts it CAN hear before the ones it can't.
   var TIER_A = ["s", "z", "sh", "zh", "ch", "j", "l", "r", "w", "y", "h"];
   var TIER_B = ["f", "v", "th", "dh", "p", "b", "t", "d", "k", "g", "m", "n", "ng"];
+  // Vowels are graded a third way: not a cue table and not a picture
+  // question, but a measured tongue position on the diagram. Each entry is
+  // the trainer's short label plus an example word, which is what
+  // mouth.js keys its position table on.
+  var VOWELS = [
+    ["a", "\u0103", "cat"], ["e", "\u0115", "bed"], ["i", "\u012d", "sit"],
+    ["o", "\u014f", "hot"], ["u", "\u016d", "cut"], ["ee", "\u0113", "see"],
+    ["ar", "ar", "car"], ["or", "or", "door"], ["er", "er", "her"],
+    ["oo", "\u014d\u014d", "food"], ["uu", "\u014f\u014f", "put"]
+  ];
   var EXAMPLES = {
     s:"sun", z:"zip", sh:"ship", zh:"treasure", ch:"chip", j:"jam", l:"leg", r:"red",
     w:"win", y:"yes", h:"hat", f:"fish", v:"van", th:"thin", dh:"this", p:"pen", b:"bat",
     t:"tap", d:"dog", k:"cat", g:"got", m:"map", n:"net", ng:"sing"
   };
   var IPA = { sh:"ʃ", zh:"ʒ", ch:"tʃ", j:"dʒ", th:"θ", dh:"ð", ng:"ŋ", y:"j" };
+  var VOWEL_BY_ID = {};
+  VOWELS.forEach(function (v) { VOWEL_BY_ID[v[0]] = { label: v[1], eg: v[2] }; });
   var ART = {};   // filled from data/phonemes.json, for the picture
 
   var current = "s";
+  var currentVowel = null;      // set when the picked sound is a vowel
+  var vowelCtl = null, vowelTarget = null, vowelPose = null, vowelCancel = null;
   var cal = null;
   var listening = false;
   var tally = { heard: 0, close: 0, ask: 0, quiet: 0 };
@@ -226,10 +262,27 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
 
   // ---- build the picker -------------------------------------------
   function buildSounds() {
-    var wrap = $("sounds");
-    wrap.innerHTML = "";
-    [TIER_A, TIER_B].forEach(function (group, gi) {
-      group.forEach(function (id) {
+    var host = $("sounds");
+    host.innerHTML = "";
+    function group(title, note) {
+      var g = document.createElement("div");
+      g.className = "sound-group";
+      g.innerHTML = "<h3>" + title + " <span>" + note + "</span></h3>";
+      var row = document.createElement("div");
+      row.className = "sounds";
+      g.appendChild(row);
+      host.appendChild(g);
+      return row;
+    }
+    var rows = [
+      group("Measured", "\u2014 it can hear these"),
+      group("Asked", "\u2014 it shows the picture instead"),
+      group("Vowel shapes", "\u2014 it maps your tongue"),
+    ];
+    var wrap = rows[0];
+    [TIER_A, TIER_B].forEach(function (grp, gi) {
+      wrap = rows[gi];
+      grp.forEach(function (id) {
         var spec = L.CHECKS[id] || {};
         var b = document.createElement("button");
         b.className = "sound-btn";
@@ -242,17 +295,96 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
         wrap.appendChild(b);
       });
     });
+    wrap = rows[2];
+    VOWELS.forEach(function (v) {
+      var b = document.createElement("button");
+      b.className = "sound-btn";
+      b.type = "button";
+      b.dataset.id = v[0];
+      b.dataset.tier = "shape";
+      b.setAttribute("aria-pressed", "false");
+      b.innerHTML = v[1] + "<small>shape</small>";
+      b.addEventListener("click", function () { select(v[0]); });
+      wrap.appendChild(b);
+    });
   }
 
   function select(id) {
     current = id;
+    currentVowel = VOWEL_BY_ID[id] || null;
     Array.prototype.forEach.call($("sounds").children, function (b) {
       b.setAttribute("aria-pressed", b.dataset.id === id ? "true" : "false");
     });
-    $("target").textContent = "/" + ipa(id) + "/";
-    $("targetHint").innerHTML = EXAMPLES[id] ? "as in <b>" + EXAMPLES[id] + "</b>" : "";
+    if (currentVowel) {
+      vowelTarget = Mic.targetFor(currentVowel.label, currentVowel.eg);
+      $("target").textContent = currentVowel.label;
+      $("targetHint").innerHTML = "as in <b>" + currentVowel.eg + "</b>";
+    } else {
+      vowelTarget = null;
+      $("target").textContent = "/" + ipa(id) + "/";
+      $("targetHint").innerHTML = EXAMPLES[id] ? "as in <b>" + EXAMPLES[id] + "</b>" : "";
+    }
+    stopVowelAnim();
+    vowelCtl = null; vowelPose = null;
+    $("vowelCard").hidden = true;
+    $("vowelMouth").innerHTML = "";
     $("verdict").hidden = true;
     $("readout").hidden = true;
+  }
+
+  function stopVowelAnim() { if (vowelCancel) { vowelCancel(); vowelCancel = null; } }
+
+  function playVowel(which) {
+    stopVowelAnim();
+    if (!vowelCtl || !vowelTarget) return;
+    if (which === "target") { vowelCancel = Mic.showTarget(vowelCtl, vowelTarget, { ms: 800 }); return; }
+    if (which === "mine") { vowelCancel = Mic.showAttempt(vowelCtl, vowelTarget, vowelPose, { ms: 700 }); return; }
+    vowelCancel = Mic.showTarget(vowelCtl, vowelTarget, { ms: 800, done: function () {
+      var t = setTimeout(function () {
+        if (vowelPose) vowelCancel = Mic.showAttempt(vowelCtl, vowelTarget, vowelPose, { ms: 700 });
+      }, 650);
+      vowelCancel = function () { clearTimeout(t); };
+    } });
+  }
+
+  // A vowel is a shape, so it is graded as one: measured tongue position
+  // against the position this vowel lives at, on the diagram the child is
+  // looking at. Falls back to showing only the target when the recording
+  // was not a readable vowel.
+  function showVowel(features) {
+    var v = $("verdict");
+    v.hidden = false;
+    $("askCard").hidden = true;
+    $("vowelCard").hidden = false;
+    if (!vowelCtl) vowelCtl = Mic.mountVowelMouth($("vowelMouth"));
+    vowelPose = L.vowelPose(features, { calibration: cal });
+
+    if (!vowelPose) {
+      v.className = "verdict quiet";
+      $("verdictTitle").textContent = "I couldn't read that one";
+      $("verdictWhy").textContent =
+        "A vowel has to be voiced and held for me to measure it. Breath, a hiss or a bump " +
+        "still produce formant peaks, and those peaks are not a tongue — so I'd rather show " +
+        "you nothing than a confident reading of noise.";
+      $("vowelTip").textContent = "This is the shape to aim for.";
+      $("vowelMineBtn").disabled = true;
+      playVowel("target");
+      record(current, "quiet", "not a readable vowel");
+      return;
+    }
+
+    var fb = L.vowelFeedback(vowelPose, vowelTarget.at);
+    v.className = "verdict " + (fb.close ? "heard" : "close");
+    $("verdictTitle").textContent = fb.close ? "That's the shape ✓" : "Nearly — look at the tongue";
+    $("verdictWhy").textContent =
+      "Tongue at (" + vowelPose.x + ", " + vowelPose.y + ") on the vowel chart; this sound lives at (" +
+      vowelTarget.at[0] + ", " + vowelTarget.at[1] + "). " +
+      (vowelPose.personal ? "Measured against this child's own vowel corners."
+                          : "Measured against a general table — calibrate above for a real reading.");
+    $("vowelTip").textContent = fb.tip;
+    $("vowelMineBtn").disabled = false;
+    playVowel("both");
+    record(current, fb.close ? "heard" : "close", fb.tip);
   }
 
   // ---- articulation data, for the picture we show when we ask ------
@@ -317,6 +449,7 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
   };
 
   function show(result, features) {
+    if (currentVowel && vowelTarget) { showVowel(features); return; }
     var v = $("verdict");
     v.hidden = false;
     v.className = "verdict " + result.verdict;
@@ -324,6 +457,7 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
     $("verdictWhy").textContent = result.why.length ? result.why.join(" ")
       : "Every cue the microphone can check for this sound came back right.";
 
+    $("vowelCard").hidden = true;
     var askCard = $("askCard");
     if (result.verdict === "ask") {
       askCard.hidden = false;
@@ -362,7 +496,8 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
     var d = document.createElement("div");
     d.className = "v-" + verdict;
     var LOG_LABEL = { heard: "Heard it", close: "Nearly", quiet: "Too quiet", ask: "Asked" };
-    d.innerHTML = "<b>/" + esc(ipa(id)) + "/</b><span>" + esc(LOG_LABEL[verdict] || verdict) +
+    var shown = VOWEL_BY_ID[id] ? VOWEL_BY_ID[id].label : "/" + ipa(id) + "/";
+    d.innerHTML = "<b>" + esc(shown) + "</b><span>" + esc(LOG_LABEL[verdict] || verdict) +
                   (note ? " — " + esc(note) : "") + "</span><em>" +
                   new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) + "</em>";
     var log = $("log");
@@ -384,17 +519,25 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
   }
 
   // ---- calibration ----------------------------------------------------
+  // Five sounds, chosen because each one pins down a boundary:
+  //   /s/ /sh/   the two ends of the hiss scale
+  //   /iː/ /aː/ /ʉː/  the three corners of the vowel space
+  // Everything else the app judges sits between them. Miss the vowels and
+  // every vowel reading falls back to a general table at low confidence.
   var CAL_STEPS = [
-    { id: "s",  say: "Say a long sssssss (like a snake)" },
-    { id: "sh", say: "Now a long shhhhhh (like be quiet)" },
-    { id: "ah", say: "Now say ahhhh (like at the doctor)" }
+    { id: "s",  say: "Say a long sssssss — like a snake" },
+    { id: "sh", say: "Now a long shhhhhh — like \u201cbe quiet\u201d" },
+    { id: "ee", say: "Now eeeee — like the middle of \u201csee\u201d" },
+    { id: "ah", say: "Now ahhhh — like at the doctor" },
+    { id: "oo", say: "Last one: oooooo — like the middle of \u201cfood\u201d" }
   ];
 
   async function runCalibration() {
     var got = [];
     for (var i = 0; i < CAL_STEPS.length; i++) {
       var step = CAL_STEPS[i];
-      $("calState").textContent = (i + 1) + "/3 — " + step.say + " … hold on, listening for 2 seconds";
+      $("calState").textContent = (i + 1) + "/" + CAL_STEPS.length + " — " + step.say +
+        " … listening for 2 seconds";
       await startListening();
       if (!listening) { $("calState").textContent = "Calibration stopped."; return; }
       await new Promise(function (r) { setTimeout(r, 2000); });
@@ -412,13 +555,15 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
     $("calClear").hidden = !cal;
     if (!cal) { el.textContent = "Not calibrated — using the general child table."; return; }
     var bits = ["Voice: " + cal.band + (cal.f0 ? " (about " + Math.round(cal.f0) + " Hz)" : "")];
-    if (cal.split) {
-      bits.push("their /s/ and /sh/ split at " + Math.round(cal.split) + " Hz");
-    } else {
-      bits.push("their /s/ and /sh/ came out too alike to split — using the " +
-                (cal.band || "child") + " table, which is the honest fallback");
-    }
-    el.textContent = bits.join(" · ");
+    bits.push(cal.split
+      ? "hiss splits at " + Math.round(cal.split) + " Hz"
+      : "their /s/ and /sh/ came out too alike to split — using the " +
+        (cal.band || "child") + " table, which is the honest fallback");
+    bits.push(cal.vowelBox
+      ? "vowel space " + Math.round(cal.vowelBox.close) + "\u2013" + Math.round(cal.vowelBox.open) +
+        " Hz F1, " + Math.round(cal.vowelBox.backGap) + "\u2013" + Math.round(cal.vowelBox.frontGap) + " Hz F2\u2212F1"
+      : "no vowel corners yet — vowel shapes will read as approximate");
+    el.textContent = bits.join(" \u00b7 ");
   }
 
   function saveCal() { Mic.saveCal(cal); }
@@ -451,6 +596,8 @@ h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(-
       onResult: graded,
     });
 
+    $("vowelTargetBtn").addEventListener("click", function () { playVowel("target"); });
+    $("vowelMineBtn").addEventListener("click", function () { playVowel("mine"); });
     $("askYes").addEventListener("click", function () { answerAsk(true); });
     $("askNo").addEventListener("click", function () { answerAsk(false); });
     $("calBtn").addEventListener("click", runCalibration);

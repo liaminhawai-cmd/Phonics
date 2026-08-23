@@ -16,11 +16,25 @@
             --accent: #a83232;
             --correct: #2f6a3e;
             --wrong: #a83232;
+            /* Same palette the other pages use. An undefined custom property
+               invalidates the whole declaration that references it, so a
+               missing one here doesn't warn — it silently drops a colour. */
+            --warn: #c8992e;
+            --warn-ink: #6b5316;
+            --warn-bg: #f8f1de;
+            --good-bg: #ebf3ec;
+            --bad-bg: #f5eaea;
+            --ask-bg: #eceff6;
+            --ask-ink: #3a4a6b;
         }
         .hub-link { display: inline-block; font-size: 13px; font-weight: 700; color: var(--accent);
             text-decoration: none; margin-bottom: 4px; }
         .hub-link:hover { text-decoration: underline; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Any rule with a class selector outranks the browser's own
+           [hidden] rule, so a display: flex component stays visible when
+           hidden. Every other page in this repo already carries this. */
+        [hidden] { display: none !important; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--bg);
@@ -86,8 +100,6 @@
         }
         .level-btn:hover { border-color: var(--accent); color: var(--accent); }
         .level-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-        .level-btn.colour-chip { border-left: 4px solid var(--chip); }
-        .level-btn.colour-chip.active { background: var(--chip); border-color: var(--chip); }
         .level-btn.util { background: var(--bg); color: var(--muted); border-color: var(--line-soft); }
         .level-btn.util:hover { color: var(--ink); border-color: var(--ink); }
 
@@ -207,12 +219,12 @@
         .mic-result.heard { background: var(--good-bg); border-color: #bcd6c1; }
         .mic-result.close { background: var(--warn-bg); border-color: #e3d3a4; }
         .mic-result.quiet { background: var(--bad-bg); border-color: #e0c4c4; }
-        .mic-result.ask   { background: #eceff6; border-color: #c3ccdf; }
+        .mic-result.ask   { background: var(--ask-bg); border-color: #c3ccdf; }
         .mic-verdict { font-family: Georgia, serif; font-size: 17px; font-weight: 700; }
         .mic-result.heard .mic-verdict { color: var(--correct); }
         .mic-result.close .mic-verdict { color: var(--warn-ink); }
         .mic-result.quiet .mic-verdict { color: var(--wrong); }
-        .mic-result.ask   .mic-verdict { color: #3a4a6b; }
+        .mic-result.ask   .mic-verdict { color: var(--ask-ink); }
         .mic-why { font-size: 13.5px; line-height: 1.5; margin-top: 4px; color: var(--ink); }
         .mic-ask { display: flex; gap: 12px; align-items: center; justify-content: center;
             flex-wrap: wrap; margin-top: 10px; }
@@ -222,6 +234,22 @@
         .mic-ask-q { font-size: 15px; font-weight: 700; line-height: 1.35; }
         .mic-ask-row { display: flex; gap: 8px; margin-top: 8px; }
         .mic-ask-row .btn { flex: 1; min-width: 0; padding: 0 12px; font-size: 14px; }
+        /* ---- vowel mouth: the model shape, then the child's own ---- */
+        .mic-vowel { display: flex; gap: 14px; align-items: center; justify-content: center;
+            flex-wrap: wrap; margin-top: 10px; }
+        .mic-vowel-mouth svg { width: 116px; height: 145px; background: #fff;
+            border: 1px solid var(--line); border-radius: 8px; }
+        .mic-vowel-body { text-align: left; max-width: 260px; }
+        .mic-vowel-cap { font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+            color: var(--muted); font-weight: 700; }
+        .mic-vowel-tip { font-size: 15px; font-weight: 700; line-height: 1.35; margin-top: 3px; }
+        .mic-vowel-row { display: flex; gap: 8px; margin-top: 9px; flex-wrap: wrap; }
+        .mic-vowel-row .btn { flex: 1; min-width: 0; padding: 0 10px; font-size: 13px; }
+        .mic-vowel-row .btn[disabled] { opacity: .45; cursor: default; }
+        /* how sure the reading is — a wide bar is the app saying "roughly here" */
+        .mic-conf { margin-top: 8px; font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+        .mic-conf i { display: block; height: 5px; border-radius: 3px; margin-top: 3px;
+            background: linear-gradient(90deg, var(--warn) 0%, var(--correct) 100%); }
 
         .listen-btn { background: var(--ink); color: var(--paper); border: none; border-radius: 50px; padding: 16px 28px; font-size: 17px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
         .listen-btn:hover { background: #333; transform: scale(1.02); }
@@ -500,6 +528,18 @@
                     <div class="mic-result" id="sayMicResult" hidden>
                         <div class="mic-verdict" id="sayMicVerdict"></div>
                         <div class="mic-why" id="sayMicWhy"></div>
+                        <div class="mic-vowel" id="sayMicVowel" hidden>
+                            <div class="mic-vowel-mouth" id="sayMicMouth"></div>
+                            <div class="mic-vowel-body">
+                                <div class="mic-vowel-cap" id="sayMicVowelCap"></div>
+                                <div class="mic-vowel-tip" id="sayMicVowelTip"></div>
+                                <div class="mic-vowel-row">
+                                    <button class="btn" id="sayMicShowTarget">▶ The shape</button>
+                                    <button class="btn" id="sayMicShowMine">▶ Mine</button>
+                                </div>
+                                <div class="mic-conf" id="sayMicConf" hidden></div>
+                            </div>
+                        </div>
                         <div class="mic-ask" id="sayMicAsk" hidden>
                             <div class="mic-pic" id="sayMicPic"></div>
                             <div class="mic-ask-body">

@@ -517,7 +517,11 @@
     let conf = clamp01((feat.clarity - 0.4) / 0.4);
     if (f2 - f1 < 200) conf *= 0.3;
     if (feat.f0 > 0 && f1 / feat.f0 < 2.2) conf *= 0.5;
-    if (!cal || !cal.vowelBox) conf *= 0.7;      // no personal reference
+    // No personal reference is not a small penalty. Absolute formant values
+    // vary enormously between children of the same age, so an age-band table
+    // can place a textbook-perfect vowel 20+ units off. Cap it well below
+    // "sure" so the tolerance below stays wide enough not to correct them.
+    if (!cal || !cal.vowelBox) conf = Math.min(conf, 0.5);
 
     return {
       x: Math.round(x),
@@ -533,12 +537,26 @@
   // child-facing nudge naming the ONE axis that is furthest out. Telling
   // a five-year-old two things about their tongue at once is telling
   // them nothing.
+  //
+  // The tolerance widens as the reading gets less certain. Correcting a
+  // child on a measurement you have already labelled "a rough guess" is
+  // the worst thing this module could do: they moved a tongue that was
+  // right, on the app's say-so. Uncertain means quieter, not louder.
+  function toleranceFor(conf) {
+    if (conf == null) return 18;
+    if (conf >= 0.66) return 18;
+    if (conf >= 0.33) return 30;
+    return 45;
+  }
+
   function vowelFeedback(pose, target) {
     if (!pose || !target) return null;
     const dx = pose.x - target[0];      // + = too far back
     const dy = pose.y - target[1];      // + = too open
     const dist = Math.round(Math.sqrt(dx * dx + dy * dy));
-    const out = { dx: Math.round(dx), dy: Math.round(dy), distance: dist, close: dist <= 18 };
+    const tol = toleranceFor(pose.confidence);
+    const out = { dx: Math.round(dx), dy: Math.round(dy), distance: dist,
+                  tolerance: tol, close: dist <= tol };
     if (out.close) { out.tip = "That's the shape."; return out; }
     if (Math.abs(dx) >= Math.abs(dy)) {
       out.tip = dx > 0 ? "Bring your tongue forward a bit."
@@ -714,7 +732,8 @@
   }
 
   const api = { analyse, grade, describe, calibrate, record, loudestFrame,
-                vowelPose, vowelFeedback, calibrateVowels, VOWEL_BOX, ANCHOR,
+                vowelPose, vowelFeedback, calibrateVowels, toleranceFor,
+                VOWEL_BOX, ANCHOR,
                 rms, zeroCrossRate, spectrum, spectralCentroid, spectralFlatness,
                 highFraction, pitch, formants, CHECKS, SIB };
 

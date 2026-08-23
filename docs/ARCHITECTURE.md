@@ -143,7 +143,7 @@ hold-to-talk, calibration storage.
 | voicing (/s/–/z/, /f/–/v/, /p/–/b/) | **measured** | autocorrelation clarity + f0 |
 | is there frication at all | **measured** | spectral flatness |
 | sibilant place (/s/ vs /sh/) | **measured** | spectral centroid above 1500 Hz |
-| vowel quality | **measured, relative** | LPC formants vs the child's own space |
+| vowel quality | **measured, relative** | LPC formants vs the child's own space (§4b) |
 | /f/ vs /th/, /v/ vs /dh/ | **asked** | near-identical spectra; carried visually |
 | stop place (/p/ vs /t/ vs /k/) | **asked** | unreliable from a lone burst |
 
@@ -170,11 +170,70 @@ Verdicts are `heard` / `close` / `quiet` / `ask`. `ask` is not a failure mode
 about their own mouth ("Was your tongue poking out between your teeth?")
 next to the zoomed articulation cutaway.
 
+### 4b. Vowels are a tongue position, so the app draws one
+
+A vowel has no contact point to point at — it *is* a shape — so instead of
+a still picture it gets animated: the correct tongue movement first, then
+the child's own on the same diagram, so the difference is the thing that
+moves.
+
+F1 rises as the mouth opens; F2 rises as the tongue comes forward. That is
+the vowel quadrilateral, and `anatomy.js` already speaks it: `pose(x, y)`
+with x back, y open. `vowelPose()` maps one onto the other.
+
+Two things the numbers forced:
+
+- **Backness is F2 − F1, not F2.** As the mouth opens F1 climbs towards F2
+  and they converge, so raw F2 put a textbook `/aː/` 24 units too far
+  forward — the app would have corrected a correct tongue.
+- **The fit targets the diagram's own positions**, not a normalised 0–100
+  box. Normalising pins `/ʉː/` to "100% back" when it lives at 72, so a
+  perfect `/ʉː/` would draw a correction every time. `ANCHOR` restates
+  where `/iː/`, `/aː/` and `/ʉː/` sit; a test fails if it drifts from
+  `mouth.js`'s `VOW` table, since animating to one place while grading
+  against another makes every correction quietly wrong.
+
+**Certainty governs how loudly it speaks.** A child at 260 Hz gives
+harmonics 260 Hz apart, so F1 near 500 Hz is described by two of them and
+LPC has little to work with. `vowelPose()` returns a confidence that drops
+when formants crowd, when pitch is too high to resolve F1, and when there
+is no personal reference — and `vowelFeedback()` **widens its tolerance as
+confidence falls**. Correcting a child on a reading already labelled "a
+rough guess" is the worst thing this layer could do: they move a tongue
+that was right, on the app's say-so. Nothing voiceless or fricative is
+placed at all — breath and chair scrape still produce LPC peaks, and those
+peaks are not a tongue.
+
+Calibration therefore records five sounds, not three: `/s/` and `/ʃ/` for
+the hiss scale, and `/iː/ /aː/ /ʉː/` for the corners of the vowel space.
+Without the vowel corners a vowel can still be placed, but only roughly,
+and the UI says so.
+
 **Where it appears.** `listen.html` is the diagnostic page: point it at a real
 child and see every reading behind every verdict, with a running tally. Look &
 Say has a mic button that offers the same opinion — but never marks the card.
 The child's Got it / Missed it is untouched, because an app that says "wrong"
 about a sound it cannot distinguish teaches a child to stop believing it.
+
+### 4c. Recordings that were cut off in export
+
+A truncated clip is the failure mode that doesn't look like one: the file is
+there, it decodes, it plays. A missing file falls through the chain above; a
+50 ms fragment of someone saying "ay" does not — it plays, as a click.
+
+`scripts/check_recordings.py` finds them by parsing MPEG frame headers (no
+ffmpeg, no installs, runs in CI), reading the Xing/LAME tag for the encoder's
+frame count minus its delay and padding — which is what a browser actually
+plays. Walking frames alone overstates a short clip by ~60 ms of padding,
+enough to make a fragment look like a real sound. Validated against Chromium's
+decoder on all 93 clips, agreement within 0.1 ms.
+
+Floors come from where this repo's recordings actually separate, not a guess:
+sorted by length there is a clear gap per folder, and the clips below it are
+the same ones still at 40–230% of their average peak when the file ends.
+`recordings/clips.json` carries the durations and the flagged list; `audio.js`
+treats a flagged clip exactly like a missing one. A test re-runs the checker
+and fails if the report is stale.
 
 ---
 

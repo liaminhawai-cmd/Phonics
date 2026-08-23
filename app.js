@@ -570,6 +570,26 @@ function micTargets() {
   return (window.PhonicsMic && current) ? PhonicsMic.phonemesForGpcs(current.gpcIds) : [];
 }
 
+// The first sound on this card that is a vowel, with where it sits on the
+// diagram. A card like <a> carries three; the mouth shows the one being
+// practised first, and a child who says a different one still gets placed
+// — they just see how far that is from this card's shape.
+function firstVowelTarget() {
+  if (!window.PhonicsMic || !current || !current.sounds) return null;
+  for (const s of current.sounds) {
+    const t = PhonicsMic.targetFor(s.s, s.ex);
+    if (t) return t;
+  }
+  return null;
+}
+
+// The vowel diagram lives for as long as the card does: mounting it once
+// per card keeps the tongue where the last animation left it, so "show
+// mine" starts from the model's shape instead of snapping to neutral.
+let vowelCtl = null, vowelTarget = null, vowelPose = null, vowelCancel = null;
+
+function stopVowelAnim() { if (vowelCancel) { vowelCancel(); vowelCancel = null; } }
+
 function resetMicStrip() {
   const strip = $("sayMicResult");
   if (!strip) return;
@@ -577,6 +597,12 @@ function resetMicStrip() {
   strip.className = "mic-result";
   $("sayMicAsk").hidden = true;
   $("sayMicPic").innerHTML = "";
+  stopVowelAnim();
+  $("sayMicVowel").hidden = true;
+  $("sayMicConf").hidden = true;
+  $("sayMicMouth").innerHTML = "";
+  vowelCtl = null; vowelPose = null;
+  vowelTarget = firstVowelTarget();
   const lvl = $("sayMicLevel");
   if (lvl) { lvl.hidden = true; lvl.firstElementChild.style.width = "0"; }
   const btn = $("sayMicBtn");
@@ -624,6 +650,11 @@ function showMicResult(features) {
   strip.className = "mic-result " + result.verdict;
   $("sayMicVerdict").textContent = MIC_TITLES[result.verdict] || result.verdict;
 
+  // A vowel has no contact point to point at — it IS a tongue shape — so
+  // instead of a still picture it gets the shape animated, then the child's
+  // own shape on the same diagram.
+  if (vowelTarget) { showVowelResult(features); return; }
+
   if (result.verdict === "ask") {
     $("sayMicWhy").textContent =
       "This sound and its partner look completely different but sound almost the same to a microphone.";
@@ -637,6 +668,86 @@ function showMicResult(features) {
     : "Everything the microphone can check for this sound came back right.";
   // Heard it? Then hearing the model and self-marking is the next step,
   // exactly as before — the mic never marks the card on the child's behalf.
+}
+
+/* ---- vowels: show the shape, then show theirs ---------------------- */
+
+function showVowelResult(features) {
+  const strip = $("sayMicResult");
+  const cal = PhonicsMic.loadCal();
+  vowelPose = PhonicsListen.vowelPose(features, { calibration: cal });
+
+  strip.hidden = false;
+  $("sayMicAsk").hidden = true;
+  $("sayMicVowel").hidden = false;
+  if (!vowelCtl) vowelCtl = PhonicsMic.mountVowelMouth($("sayMicMouth"));
+
+  if (!vowelPose) {
+    // Nothing worth placing — a whisper, a consonant, or room noise. Say so
+    // and still show the shape they were going for, which is the useful half.
+    strip.className = "mic-result quiet";
+    $("sayMicVerdict").textContent = "I couldn't read that one";
+    $("sayMicWhy").textContent = "I need a clear, held vowel — try singing it out for a whole second.";
+    $("sayMicVowelCap").textContent = "The shape to aim for";
+    $("sayMicVowelTip").textContent = "Watch the tongue, then have another go.";
+    $("sayMicShowMine").disabled = true;
+    $("sayMicConf").hidden = true;
+    playVowel("target");
+    return;
+  }
+
+  const fb = PhonicsListen.vowelFeedback(vowelPose, vowelTarget.at);
+  strip.className = "mic-result " + (fb.close ? "heard" : "close");
+  $("sayMicVerdict").textContent = fb.close ? "That's the shape ✓" : "Nearly — look at the tongue";
+  $("sayMicWhy").textContent = fb.close
+    ? "Your tongue was where this sound lives."
+    : fb.tip;
+  $("sayMicVowelCap").textContent = "Your mouth vs the shape";
+  $("sayMicVowelTip").textContent = fb.tip;
+  $("sayMicShowMine").disabled = false;
+
+  // Show the model first, then theirs, so the difference is what moves.
+  playVowel("both");
+  paintConfidence(vowelPose);
+}
+
+// The app must not draw a pinpoint it hasn't earned. A child's high pitch
+// leaves LPC few harmonics to find F1 in, so the reading is a region — and
+// when it is weak the UI says which way to read it.
+function paintConfidence(pose) {
+  const bar = $("sayMicConf");
+  if (!bar) return;
+  bar.hidden = false;
+  const pct = Math.round(pose.confidence * 100);
+  const how = pose.confidence >= 0.66 ? "a clear read"
+            : pose.confidence >= 0.33 ? "roughly here" : "a rough guess";
+  bar.innerHTML = "How sure I am: <b>" + how + "</b> — " +
+    (pose.personal ? "measured against this child's own vowels"
+                   : "measured against a general table; calibrate on the Listen page for a real reading") +
+    '<i style="width:' + Math.max(6, pct) + '%"></i>';
+}
+
+function playVowel(which) {
+  stopVowelAnim();
+  if (!vowelCtl || !vowelTarget) return;
+  if (which === "target") {
+    vowelCancel = PhonicsMic.showTarget(vowelCtl, vowelTarget, { ms: 800 });
+    return;
+  }
+  if (which === "mine") {
+    vowelCancel = PhonicsMic.showAttempt(vowelCtl, vowelTarget, vowelPose, { ms: 700 });
+    return;
+  }
+  // both: the model, a beat to look at it, then theirs
+  vowelCancel = PhonicsMic.showTarget(vowelCtl, vowelTarget, {
+    ms: 800,
+    done() {
+      const t = setTimeout(() => {
+        if (vowelPose) vowelCancel = PhonicsMic.showAttempt(vowelCtl, vowelTarget, vowelPose, { ms: 700 });
+      }, 650);
+      vowelCancel = () => clearTimeout(t);
+    },
+  });
 }
 
 function answerMicAsk(saidYes) {
@@ -1092,6 +1203,8 @@ function initUI() {
     });
     $("sayMicYes").addEventListener("click", () => answerMicAsk(true));
     $("sayMicNo").addEventListener("click", () => answerMicAsk(false));
+    $("sayMicShowTarget").addEventListener("click", () => playVowel("target"));
+    $("sayMicShowMine").addEventListener("click", () => playVowel("mine"));
   }
 
   $("listenBtn").addEventListener("click", playCurrent);

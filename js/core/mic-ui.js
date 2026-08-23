@@ -217,8 +217,63 @@ window.PhonicsMic = (function () {
     return out;
   }
 
+  // ---- the vowel mouth ------------------------------------------------
+  // Show the child the correct tongue movement, then replay their own on
+  // the same diagram so the two are directly comparable. Consonants get a
+  // still close-up of the place of articulation; vowels get this, because
+  // a vowel has no contact point to point at — it IS the shape.
+
+  // The chart position the app is aiming for, via mouth.js's own table so
+  // the target and the drawing can never disagree.
+  function targetFor(shortSound, example) {
+    var d = window.Mouth && Mouth.descFor(shortSound, example);
+    if (!d) return null;
+    if (d.kind === "v") return { at: d.at, ipa: d.ipa, eg: d.eg };
+    // A diphthong is a journey, not a place. Grade it on where it lands:
+    // that is the part a child gets wrong ("ow" stopping halfway).
+    if (d.kind === "d") return { at: d.to, from: d.from, ipa: d.ipa, eg: d.eg, glide: true };
+    return null;
+  }
+
+  function isVowelSound(shortSound, example) {
+    return !!targetFor(shortSound, example);
+  }
+
+  // Draw the head (not a consonant close-up — a vowel needs the whole
+  // tongue visible) and hand back the animation control.
+  function mountVowelMouth(host) {
+    if (!host || !window.Anatomy) return null;
+    host.innerHTML = Anatomy.svg({ cls: "mouth-vowel", label: "vowel mouth shape" });
+    var svg = host.querySelector("svg");
+    return svg ? Anatomy.makeCtl(svg) : null;
+  }
+
+  // Play the model: glide into the shape and hold it, so the child sees
+  // the movement rather than a static picture appearing.
+  function showTarget(ctl, target, opts) {
+    if (!ctl || !target) return function () {};
+    opts = opts || {};
+    var ms = opts.ms || 700;
+    if (target.glide && target.from) {
+      return Anatomy.glide(ctl, target.from, target.at, ms, opts.done);
+    }
+    var rest = opts.from || [50, 42];
+    return Anatomy.glide(ctl, rest, target.at, ms, opts.done);
+  }
+
+  // Replay what the child actually did, starting from the model's shape so
+  // the difference is the thing that moves. Returns a cancel fn.
+  function showAttempt(ctl, target, pose, opts) {
+    if (!ctl || !pose) return function () {};
+    opts = opts || {};
+    var from = (target && target.at) || [50, 42];
+    return Anatomy.glide(ctl, from, [pose.x, pose.y], opts.ms || 650, opts.done);
+  }
+
   return {
     loadCal: loadCal, saveCal: saveCal, clearCal: clearCal,
+    targetFor: targetFor, isVowelSound: isVowelSound,
+    mountVowelMouth: mountVowelMouth, showTarget: showTarget, showAttempt: showAttempt,
     createRecorder: createRecorder, measure: measure, holdToTalk: holdToTalk,
     micError: micError, supported: supported,
     bestGrade: bestGrade, phonemesForGpcs: phonemesForGpcs,

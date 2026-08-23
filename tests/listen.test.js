@@ -538,6 +538,38 @@ module.exports = {
     assert.equal(L.vowelFeedback({ x: 40, y: 40 }, [40, 40]).tip, "That's the shape.");
   },
 
+  "an uncertain reading does not correct a child who was right"() {
+    // Without a personal reference an age-band table can place a perfect
+    // vowel 20+ units off. Correcting on a measurement already labelled
+    // "a rough guess" makes a child move a tongue that was right — so the
+    // tolerance widens as confidence drops.
+    const uncal = L.vowelPose(feat("child", "ah"), { band: "child" });
+    assert.ok(uncal.confidence <= 0.5, "uncalibrated should not read as sure");
+    const fb = L.vowelFeedback(uncal, [80, 90]);
+    assert.ok(fb.distance > 18, "premise: the table misplaces it by " + fb.distance);
+    assert.equal(fb.close, true, "a correct /aː/ must not be corrected at " +
+      fb.distance + " with tolerance " + fb.tolerance);
+
+    // ...but a genuinely wrong vowel is still called out, however unsure.
+    const wrong = L.vowelPose(feat("child", "ee"), { band: "child" });
+    assert.equal(L.vowelFeedback(wrong, [80, 90]).close, false,
+      "/iː/ for /aː/ is wrong at any confidence");
+  },
+
+  "tolerance widens as confidence falls, and never the other way"() {
+    const t = L.toleranceFor;
+    assert.ok(t(1) <= t(0.5), "surer should not be more forgiving");
+    assert.ok(t(0.5) <= t(0.1));
+    assert.equal(t(null), t(1), "no confidence given behaves like a sure reading");
+  },
+
+  "a calibrated reading is held to the tighter tolerance"() {
+    const cal = { band: "child", vowelBox: vowelCal("child") };
+    const p = L.vowelPose(feat("child", "ah"), { calibration: cal });
+    assert.ok(p.confidence >= 0.66, "own corners should read as sure, got " + p.confidence);
+    assert.equal(L.vowelFeedback(p, [80, 90]).tolerance, 18);
+  },
+
   "the chart anchors agree with the diagram that draws them"() {
     // listen.js restates where /iː/, /aː/ and /ʉː/ sit so it stays free of
     // the UI. mouth.js's VOW table is what actually positions the tongue.
