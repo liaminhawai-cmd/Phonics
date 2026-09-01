@@ -1068,6 +1068,14 @@
         "w"
       ]
     },
+    "hw": {
+      "label": "/hw/ as in when (the 'windy w')",
+      "phonemes": [
+        "h",
+        "w"
+      ],
+      "notes": "Voiceless /ʍ/ — the which/witch contrast. Not Australian, and gone from most of England and most of the US, but still taught by some programs. Played as a whispered h into the w unless a recording of the whole blend (h_w.mp3) exists."
+    },
     "yoo": {
       "label": "/yoo/ as in music (long u)",
       "phonemes": [

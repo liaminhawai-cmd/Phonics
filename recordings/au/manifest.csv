@@ -44,8 +44,9 @@ phoneme,ear,ear.mp3,yes,/ear/ as in near
 phoneme,ure,ure.mp3,yes,/ure/ as in cure
 phoneme,schwa,schwa.mp3,yes,"/uh/ — schwa, as in about"
 phoneme,yoo,yoo.mp3,yes,/yoo/ as in music (long u with a y-glide)
-teaching-unit,ks,ks.mp3,,/ks/ as in box (letter x)
-teaching-unit,kw,kw.mp3,,/kw/ as in queen (qu)
+teaching-unit,ks,k_s.mp3,,/ks/ as in box (letter x)
+teaching-unit,kw,k_w.mp3,,/kw/ as in queen (qu)
+teaching-unit,hw,h_w.mp3,,/hw/ as in when (the 'windy w')
 teaching-unit,yoo,yoo.mp3,yes,/yoo/ as in music (long u)
 teaching-unit,schwa_r,schwa_r.mp3,,unstressed -er as in letter
 ui-prompt,write,write.mp3,,"""Write it"" — handwriting task: start a trace/copy/memory attempt"

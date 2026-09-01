@@ -247,6 +247,15 @@ window.PhonicsAudio = (() => {
       const g = window.PhonicsBank && PhonicsBank.gpc(id);
       if (!g) continue;
       const phs = phonemesOf(g);
+      // A recording of the whole blend wins when one exists — playGpc has
+      // always preferred it, and a card reading that didn't would be the
+      // same sound played two different ways on two different screens.
+      // It matters most for <wh> as /hw/: the h clip and the w clip with a
+      // gap between them is "h, w", not the one voiceless w it stands for.
+      if (phs.length > 1 && await have("recordings/" + a + "/phonemes/" + phs.join("_") + ".mp3")) {
+        soundItems.push({ phoneme: phs.join("_"), gapAfter: SOUND_GAP });
+        continue;
+      }
       phs.forEach((ph, i) => soundItems.push({
         phoneme: ph,
         gapAfter: i < phs.length - 1 ? BLEND_GAP : SOUND_GAP,

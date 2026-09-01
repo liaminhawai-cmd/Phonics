@@ -24,7 +24,12 @@ const CLIPS = JSON.parse(fs.readFileSync(path.join(ROOT, "recordings", "clips.js
 // flagged short, and a log of everything it tried to play or say.
 function harness(opts) {
   opts = opts || {};
-  const exists = new Set(opts.exists || Object.keys(CLIPS.durations));
+  // opts.alsoRecorded: clips the teacher has since recorded. They have to go
+  // into the clip index, not just onto the server — audio.js treats
+  // recordings/clips.json as the complete list and never HEADs past it.
+  const clips = JSON.parse(JSON.stringify(CLIPS));
+  for (const f of opts.alsoRecorded || []) clips.durations[f] = 0.4;
+  const exists = new Set(opts.exists || Object.keys(clips.durations));
   const played = [], spoke = [], probed = [];
 
   const fakeAudio = function (src) {
@@ -39,7 +44,7 @@ function harness(opts) {
       return Promise.resolve({ ok: exists.has(url) });
     }
     if (url === "recordings/clips.json") {
-      return Promise.resolve({ ok: true, json: () => Promise.resolve(CLIPS) });
+      return Promise.resolve({ ok: true, json: () => Promise.resolve(clips) });
     }
     return Promise.resolve({ ok: false, json: () => Promise.resolve(null) });
   };
@@ -76,6 +81,28 @@ module.exports = {
     const phon = h.played.filter((p) => p.indexOf("phonemes/") !== -1);
     assert.deepEqual(phon, ["recordings/au/phonemes/k.mp3", "recordings/au/phonemes/w.mp3"],
       "<qu> should say /k/ then /w/, got " + JSON.stringify(h.played));
+  },
+
+  async "a recording of the whole blend beats playing the pieces"() {
+    // playGpc has always preferred k_w.mp3 over /k/ + /w/; the card reading
+    // expanded every GPC into single phonemes and never looked. Two paths,
+    // one preference — so the same sound came out two ways on two screens.
+    // <wh> as /hw/ is where it bites: the h clip and the w clip with a gap
+    // between them is "h, w", not the one voiceless w it stands for.
+    const blend = "recordings/au/phonemes/h_w.mp3";
+    const before = harness();
+    await settle(before);
+    await before.api.playGraphemeReading("wh", ["wh.hw"], { gapMs: 1 });
+    assert.deepEqual(before.played.filter((p) => p.indexOf("phonemes/") !== -1),
+      ["recordings/au/phonemes/h.mp3", "recordings/au/phonemes/w.mp3"],
+      "with no blend recorded, /hw/ is the h clip run into the w clip");
+
+    const after = harness({ alsoRecorded: [blend] });
+    await settle(after);
+    await after.api.playGraphemeReading("wh", ["wh.hw"], { gapMs: 1 });
+    assert.deepEqual(after.played.filter((p) => p.indexOf("phonemes/") !== -1), [blend],
+      "once h_w.mp3 exists it should play instead of the two pieces, got " +
+      JSON.stringify(after.played));
   },
 
   async "<x> says /k/ then /s/, not just /k/"() {

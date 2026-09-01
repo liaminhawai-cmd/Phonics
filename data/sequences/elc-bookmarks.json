@@ -46,9 +46,9 @@
       "review": [], "heart_words": [],
       "notes": "ou and ew are app.js multi-sound graphemes (round/shoulder/you/famous, grew/new) — all sounds included. app.js's 'ear' grapheme entry is unusual: its only listed sound is /er/ via the example 'early', not the far more common NEAR-vowel reading (hear/near) that most phonics programs teach for 'ear' — kept as-is for fidelity to app.js; see accuracy caveats." },
     { "n": 13, "label": "Level 13", "colour": "#97b5d7",
-      "teaches": ["dge.j","ui.oo_long","ui.yoo","ng.ng","ey.ay","ey.ee","ey.igh","ough.oa","ough.oo_long","ough.uf","ough.off","ough.or","ough.ow"],
+      "teaches": ["dge.j","ui.oo_long","ui.yoo","ng.ng","ey.ay","ey.ee","ough.oa","ough.oo_long","ough.uf","ough.off","ough.or","ough.ow"],
       "review": [], "heart_words": [],
-      "notes": "ough is an app.js multi-sound grapheme — all 6 sounds included. ough.uf (rough) and ough.off (cough) are composite ids standing for phoneme pairs [\"u\",\"f\"] and [\"o\",\"f\"] — see NEEDED_GPCS.md. ui and ey are also app.js multi-sound graphemes (fruit/nuisance; they/key/donkey) — all sounds included." },
+      "notes": "ough is an app.js multi-sound grapheme — all 6 sounds included. ough.uf (rough) and ough.off (cough) are composite ids standing for phoneme pairs [\"u\",\"f\"] and [\"o\",\"f\"] — see NEEDED_GPCS.md. ui and ey are also app.js multi-sound graphemes (fruit/nuisance; they/key) — all sounds included. app.js listed a third ey sound, /igh/, on the example 'donkey' — donkey ends in /ee/ like monkey, so that reading was wrong and has been dropped." },
     { "n": 14, "label": "Level 14", "colour": "#cacaca",
       "teaches": ["gu.g","ti.sh","si.sh","si.zh","ci.sh","gn.n"],
       "review": [], "heart_words": [], "notes": "si is an app.js multi-sound grapheme (session/vision) — both sounds included." }

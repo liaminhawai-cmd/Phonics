@@ -1458,22 +1458,6 @@
    "short": "ē"
   },
   {
-   "id": "ey.igh",
-   "grapheme": "ey",
-   "display": "ey",
-   "phonemes": "igh",
-   "positions": [
-    "final"
-   ],
-   "freq": "rare",
-   "examples": [
-    "donkey"
-   ],
-   "rule_refs": [],
-   "notes": "Non-standard/dialectal realisation of unstressed final -ey; most accents say /ee/ (see ey.ee) — kept only for this one classic teaching example.",
-   "short": "ī"
-  },
-  {
    "id": "gn.n",
    "grapheme": "gn",
    "display": "gn",
@@ -2234,8 +2218,49 @@
     "wheel"
    ],
    "rule_refs": [],
-   "notes": "wh says plain /w/ for AU/UK and most US speakers; the historic /hw/ contrast survives only in some accents.",
+   "notes": "wh says plain /w/ for AU/UK and most US speakers. The historic /hw/ contrast (see wh.hw) survives only in some accents and some programs still teach it.",
+   "short": "w"
+  },
+  {
+   "id": "wh.hw",
+   "grapheme": "wh",
+   "display": "wh",
+   "phonemes": [
+    "h",
+    "w"
+   ],
+   "positions": [
+    "initial"
+   ],
+   "freq": "rare",
+   "examples": [
+    "which",
+    "when",
+    "whale",
+    "whisper"
+   ],
+   "rule_refs": [],
+   "notes": "The 'windy w' — /w/ with the voice off, taught as a whispered h running straight into the w. Not an Australian sound, and gone from most of England and most of the US, but some programs still teach the which/witch contrast, so it is here for the sequences that want it. No sequence teaches it by default.",
    "short": "hw"
+  },
+  {
+   "id": "wh.h",
+   "grapheme": "wh",
+   "display": "wh",
+   "phonemes": "h",
+   "positions": [
+    "initial"
+   ],
+   "freq": "less-common",
+   "examples": [
+    "who",
+    "whose",
+    "whole",
+    "whom"
+   ],
+   "rule_refs": [],
+   "notes": "A short list, but words a child meets early: the w is silent and wh just says /h/.",
+   "short": "h"
   },
   {
    "id": "wor.er",

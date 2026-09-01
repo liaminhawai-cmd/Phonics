@@ -288,7 +288,7 @@ lands in `anatomy.js` would otherwise leave that build with the old crops.
 
 ### 4b-iv. One grapheme, several sounds
 
-`<a>` says three sounds; `<ough>` says six. 31 of the 124 graphemes in the
+`<a>` says three sounds; `<ough>` says six. 32 of the 124 graphemes in the
 bank say more than one. Grading one attempt against one target either marks
 a right answer wrong or accepts anything, so each sound gets its own box —
 and the boxes fill **in whatever order the child says them**.
@@ -314,7 +314,7 @@ score.
 - *Not one of them.* The nearest target's coaching still shows: "pull your
   tongue forward" beats "that isn't one of them".
 
-**Diphthongs are matched on the whole path.** `/eɪ/` and `/aɪ/` in `<ey>`
+**Diphthongs are matched on the whole path.** `/eɪ/` and `/aɪ/` in `<ei>`
 finish in the same place and set off 65 apart; `/aɪ/` and `/aʊ/` in `<ow>`
 set off together and finish 58 apart. Either endpoint alone gets one of
 those pairs wrong, so both count — start weighted 0.6, finish 0.4.
@@ -328,6 +328,28 @@ by tests rather than by reading:
 - A vowel that **stayed put** can't fill a diphthong box. A held `/iː/` sits
   near both ends of `/eɪ/` and scored well enough to claim it. A diphthong
   target now requires at least half its own travel.
+
+**A sound the grapheme doesn't make is worse than a missing one.** `<ey>`
+shipped with three boxes. The third was `/aɪ/`, on the example *donkey* —
+which ends in `/iː/`, like *monkey*. The word bank had always segmented it
+that way, so the two halves of the bank disagreed and nothing checked. A
+child who said "donkey" into that box would have been told they were wrong.
+`tests/gpc-data.test.js` now holds the two halves against each other: the
+example word a card displays has to be a word the word bank really reads
+that way, and the five graphemes with a genuine second analysis
+(`all`/`oll`/`ull` split as vowel + `ll`; *tune* is `/tjuːn/` here and
+`/tuːn/` in the US) each carry a written reason.
+
+**Sounds a program teaches and this accent doesn't.** `<wh>` says `/w/` in
+Australia — *which* and *witch* are the same word out loud. Some programs
+still teach the voiceless `/ʍ/`, so the bank carries it as `wh.hw`, but no
+sequence teaches it and it is not on the sound wall, which says on the tin
+that it shows the sounds of Australian English. A program that wants it adds
+`wh.hw` to a unit's `teaches`, the same way it would add any other GPC. It
+plays as the `/h/` clip run into the `/w/` clip until someone records
+`h_w.mp3`, which then wins — the same whole-blend preference `<qu>` gets, and
+it has to be honoured on both audio paths or the sound comes out one way on
+the card and another on the sound wall.
 
 ### 4c. Hand cues, and whose they are
 

@@ -1,6 +1,6 @@
 # Recording checklist — AU
 
-**68 / 1094 recorded.** Save files into `recordings/au/phonemes/` and `recordings/au/words/` — filename must match exactly. See recordings/README.md for tips.
+**68 / 1095 recorded.** Save files into `recordings/au/phonemes/` and `recordings/au/words/` — filename must match exactly. See recordings/README.md for tips.
 
 ## Phonemes & teaching units
 
@@ -49,8 +49,9 @@
 - [x] `ure.mp3` — /ure/ as in cure
 - [x] `schwa.mp3` — /uh/ — schwa, as in about
 - [x] `yoo.mp3` — /yoo/ as in music (long u with a y-glide)
-- [ ] `ks.mp3` — /ks/ as in box (letter x)
-- [ ] `kw.mp3` — /kw/ as in queen (qu)
+- [ ] `k_s.mp3` — /ks/ as in box (letter x)
+- [ ] `k_w.mp3` — /kw/ as in queen (qu)
+- [ ] `h_w.mp3` — /hw/ as in when (the 'windy w')
 - [x] `yoo.mp3` — /yoo/ as in music (long u)
 - [ ] `schwa_r.mp3` — unstressed -er as in letter
 

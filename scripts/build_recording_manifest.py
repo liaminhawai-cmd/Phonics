@@ -53,9 +53,20 @@ for accent in ACCENTS:
         if not exists and accent == "au" and stem in legacy:
             exists, note = True, f"{note} (legacy sounds/{legacy[stem]}/)"
         rows.append(("phoneme", stem, f"{stem}.mp3", exists, note))
+    # js/core/audio.js looks a blend up by its phonemes joined with an
+    # underscore (k_w.mp3), because that rule works for every multi-phoneme
+    # GPC, not just the ones that happen to have a teaching-unit id. So a
+    # checklist row saying kw.mp3 asked for a file nothing would ever play.
+    # Units whose id is itself a phoneme id (yoo) already have a recording
+    # under that name, and schwa_r is one phoneme deliberately recorded
+    # twice — neither is a blend, so both keep their own filename.
+    phoneme_ids = {p["id"] for p in phon["phonemes"]}
     for uid, u in unit_rows:
-        exists = has_audio(os.path.join(base, "phonemes"), uid)
-        rows.append(("teaching-unit", uid, f"{uid}.mp3", exists, u.get("label", "")))
+        parts = u.get("phonemes") or []
+        blend = len(parts) > 1 and uid not in phoneme_ids
+        stem = "_".join(parts) if blend else uid
+        exists = has_audio(os.path.join(base, "phonemes"), stem)
+        rows.append(("teaching-unit", uid, f"{stem}.mp3", exists, u.get("label", "")))
 
     for p in (ui or {}).get("prompts", []):
         exists = has_audio(os.path.join(base, "ui"), p["id"])
